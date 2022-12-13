@@ -1,0 +1,32 @@
+﻿.content_header {
+    background-color: skyblue;
+    border: 1px solid black;
+}
+
+.custom_bg_light {
+    background-color: rgba(214, 229, 250, 0.55);
+}
+
+.custom_alignment {
+    padding: 5px;
+    margin: auto;
+}
+
+.btn_center {
+    margin-top: 20px;
+    text-align: center;
+    padding: 5px;
+}
+
+.custom_bg_color {
+    background-color: #2095a1cc !important;
+}
+
+.custom_bg_color_header {
+    background-color: #68A7AD !important;
+}
+
+
+.custom_bg_replika{
+    background-color: #2095a17a !important;
+}
