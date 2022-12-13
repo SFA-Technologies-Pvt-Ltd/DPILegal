@@ -31,6 +31,7 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                 BindOfficeType();
                 HearingDatacolumn(); // Create Hearing Datatable Column.
                 BindRespondertype();
+                BindCasetype();
             }
         }
         else
@@ -44,7 +45,6 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
     {
         ViewState["UPAGETOKEN"] = Session["PAGETOKEN"];
     }
-
     protected void BindRespondertype()
     {
         try
@@ -72,7 +72,6 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
-
     protected void BindYear()
     {
         List<int> List = new List<int>();
@@ -85,7 +84,6 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
         }
         ddlWPCaseYear.Items.Insert(0, new ListItem("Select", "0"));
     }
-
     protected void CaseDisposeStatus() // Case Dispose By Default On NO condtiton
     {
         foreach (ListItem item in rdCaseDispose.Items)
@@ -123,8 +121,27 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
-
-
+    protected void BindCasetype()
+    {
+        try
+        {
+            ddlCasetype.Items.Clear();
+            ds = obj.ByProcedure("USP_Legal_GetCaseType", new string[] { "flag" }
+           , new string[] { "1" }, "dataset");
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            {
+                ddlCasetype.DataTextField = "Casetype_Name";
+                ddlCasetype.DataValueField = "Casetype_ID";
+                ddlCasetype.DataSource = ds;
+                ddlCasetype.DataBind();
+            }
+            ddlCasetype.Items.Insert(0, new ListItem("Select", "0"));
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
+        }
+    }
     protected void HearingDatacolumn()
     {
         DataTable dt = new DataTable();
@@ -137,7 +154,6 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
         }
         ViewState["HearingDt"] = dt;
     }
-
     protected void FieldClose()
     {
         Case_EditField.Visible = false;
@@ -146,7 +162,6 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
         FieldSet_ResponderDetail.Visible = false;
         Field_AddResponder.Visible = false;
     }
-
     // Office Type Bind.
     protected void BindOfficeType()
     {
@@ -169,7 +184,6 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
-
     protected void BindDetails()
     {
         try
@@ -236,7 +250,6 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
         finally { ds.Clear(); }
     }
 
-
     protected void GrdResponderDtl_RowCommand(object sender, GridViewCommandEventArgs e)  // Navigate on the Edit Case Detail Div.
     {
         try
@@ -291,7 +304,7 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                     Field_AddResponder.Visible = false;
                     Fieldset_CaseDispose.Visible = false;
                     Fieldset_HearingDtl.Visible = false;
-                    lblCaseNo.Text = ds.Tables[0].Rows[0]["CaseNo"].ToString();
+                    lblCaseRefNo.Text = ds.Tables[0].Rows[0]["CaseNo"].ToString();
                     txtPetitionerName.Text = ds.Tables[0].Rows[0]["Petitoner_Name"].ToString();
                     if (ds.Tables[0].Rows[0]["WPCaseNo"].ToString() != null)
                     {
@@ -299,7 +312,7 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                     }
                     if (ds.Tables[0].Rows[0]["CaseSubject"].ToString() != "")
                     {
-                        txtCaseSubject.Text = ds.Tables[0].Rows[0]["CaseSubject"].ToString();
+                        //txtCaseSubject.Text = ds.Tables[0].Rows[0]["CaseSubject"].ToString();
 
                     }
                     if (ds.Tables[0].Rows[0]["NodalOfficer_Name"].ToString() != "")
@@ -336,6 +349,17 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                         ViewDoc_CaseDipose.Visible = true;
                         hyPerlinkViewDisposeDoc.NavigateUrl = "UploadOrderDoc/" + ds.Tables[0].Rows[0]["CaseDispose_OrderDoc"].ToString();
                     }
+                    if (ds.Tables[0].Rows[0]["Casetype_ID"].ToString() != "")
+                    {
+                        ddlCasetype.ClearSelection();
+                        ddlCasetype.Items.FindByValue(ds.Tables[0].Rows[0]["Casetype_ID"].ToString()).Selected = true;
+                    }
+                    if (ds.Tables[0].Rows[0]["WPCaseYear"].ToString() != "")
+                    {
+                        ddlWPCaseYear.ClearSelection();
+                        ddlWPCaseYear.Items.FindByText(ds.Tables[0].Rows[0]["WPCaseYear"].ToString()).Selected = true;
+
+                    }
                     if (ds.Tables[0].Rows[0]["OfficeType_Id"].ToString() != "")
                     {
                         ddlOfficeType.ClearSelection();
@@ -367,8 +391,8 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                 lblMsg.Text = "";
                 if (btnUpdate.Text == "Update" && ViewState["ID"].ToString() != null && ViewState["ID"].ToString() != "")
                 {
-                    ds = obj.ByProcedure("USP_Update_LegalWPCaseReg", new string[] { "Petitoner_Name", "OfficeType_Id", "Office_Id", "CaseSubject", "WPCaseNo", "WPCaseYear", "NodalOfficer_Name", "NodalOfficerMobileNo", "OICName", "OICMobileNo", "LastupdatedBy", "LastupdatedByIp", "Case_ID", "Action_TakenByDistrict" }
-                        , new string[] { txtPetitionerName.Text.Trim(), ddlOfficeType.SelectedValue, ddlOfficeName.SelectedValue, txtCaseSubject.Text.Trim(), txtWPCaseNo.Text.Trim(), ddlWPCaseYear.SelectedItem.Text, txtNOdalOfficerName.Text.Trim(), txtNodalOfficerMobileNo.Text.Trim(), txtOicName.Text.Trim(), txtOicMobileNO.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ViewState["ID"].ToString(), txtActionByDistrict.Text.Trim() }, "dataset");
+                    ds = obj.ByProcedure("USP_Update_LegalWPCaseReg", new string[] { "Casetype_ID", "Petitoner_Name", "OfficeType_Id", "Office_Id", "CaseSubject", "WPCaseNo", "WPCaseYear", "NodalOfficer_Name", "NodalOfficerMobileNo", "OICName", "OICMobileNo", "LastupdatedBy", "LastupdatedByIp", "Case_ID", "Action_TakenByDistrict" }
+                        , new string[] { ddlOfficeType.SelectedValue,txtPetitionerName.Text.Trim(), ddlOfficeType.SelectedValue, ddlOfficeName.SelectedValue, ddlCaseSubject.SelectedValue, txtWPCaseNo.Text.Trim(), ddlWPCaseYear.SelectedItem.Text, txtNOdalOfficerName.Text.Trim(), txtNodalOfficerMobileNo.Text.Trim(), txtOicName.Text.Trim(), txtOicMobileNO.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ViewState["ID"].ToString(), txtActionByDistrict.Text.Trim() }, "dataset");
 
                 }
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
@@ -379,7 +403,8 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                         lblMsg.Text = obj.Alert("fa-ban", "alert-success", "Thanks !", ErrMsg);
                         txtPetitionerName.Text = "";
                         ddlOfficeName.ClearSelection();
-                        txtCaseSubject.Text = "";
+                        ddlOfficeType.ClearSelection();
+                        ddlCaseSubject.ClearSelection();
                         txtWPCaseNo.Text = "";
                         ddlWPCaseYear.ClearSelection();
                         txtNOdalOfficerName.Text = "";
@@ -436,12 +461,12 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                 if (btnAddResponder.Text == "Add" && ViewState["ID"].ToString() != null && ViewState["ID"].ToString() != "")
                 {
                     ds = obj.ByProcedure("USP_Legal_Insert_ResponderName", new string[] { "Case_ID", "Respondertype_ID", "Respondent_Name", "RespondentNo", "Address", "Department", "CreatedBy", "CreatedByIP" }
-                        , new string[] { ViewState["ID"].ToString(),ddlResponderType.SelectedValue, txtAddResponderName.Text.Trim(), txtAddResponderNo.Text.Trim(), txtAddResponderAddress.Text.Trim(), txtAddResponderDepartment.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
+                        , new string[] { ViewState["ID"].ToString(), ddlResponderType.SelectedValue, txtAddResponderName.Text.Trim(), txtAddResponderNo.Text.Trim(), txtAddResponderAddress.Text.Trim(), txtAddResponderDepartment.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
                 }
                 else if (btnAddResponder.Text == "Update" && ViewState["ResponderID"].ToString() != null && ViewState["ResponderID"].ToString() != "")
                 {
                     ds = obj.ByProcedure("USP_Legal_Update_ResponderDtl", new string[] { "Respondent_ID", "Respondertype_ID", "Case_ID", "Respondent_Name", "RespondentNo", "Address", "Department", "LastupdatedBy", "LastupdatedByIp" }
-                        , new string[] { ViewState["ResponderID"].ToString(),ddlEditRespondertype.SelectedValue, ViewState["ID"].ToString(), txtResponderName.Text.Trim(), txtResponderNo.Text.Trim(), txtAddress.Text.Trim(), txtDepartment.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
+                        , new string[] { ViewState["ResponderID"].ToString(), ddlEditRespondertype.SelectedValue, ViewState["ID"].ToString(), txtResponderName.Text.Trim(), txtResponderNo.Text.Trim(), txtAddress.Text.Trim(), txtDepartment.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
                 }
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
@@ -655,7 +680,7 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                 OrderBy1.Visible = true;
                 OrderBy2.Visible = true;
                 HearingDtl_CaseDispose.Visible = true;
-
+                DivOrderTimeline.Visible = true;
             }
             else
             {
@@ -715,75 +740,75 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
         {
             //if (Page.IsValid)
             //{
-                lblMsg.Text = "";
-                ViewState["HearingDOC"] = "";
-                int DocFailedCntExt = 0;
-                int DocFailedCntSize = 0;
-                string strFileName = "";
-                string strExtension = "";
-                string strTimeStamp = "";
-                if (fileUpload_HearingDoc.HasFile)     // CHECK IF ANY FILE HAS BEEN SELECTED.
+            lblMsg.Text = "";
+            ViewState["HearingDOC"] = "";
+            int DocFailedCntExt = 0;
+            int DocFailedCntSize = 0;
+            string strFileName = "";
+            string strExtension = "";
+            string strTimeStamp = "";
+            if (fileUpload_HearingDoc.HasFile)     // CHECK IF ANY FILE HAS BEEN SELECTED.
+            {
+
+                string fileExt = System.IO.Path.GetExtension(fileUpload_HearingDoc.FileName).Substring(1);
+                string[] supportedTypes = { "PDF", "pdf" };
+                if (!supportedTypes.Contains(fileExt))
                 {
-
-                    string fileExt = System.IO.Path.GetExtension(fileUpload_HearingDoc.FileName).Substring(1);
-                    string[] supportedTypes = { "PDF", "pdf" };
-                    if (!supportedTypes.Contains(fileExt))
-                    {
-                        DocFailedCntExt += 1;
-                    }
-                    else if (fileUpload_HearingDoc.PostedFile.ContentLength > 204800) // 500 KB = 1024 * 500
-                    {
-                        DocFailedCntSize += 1;
-                    }
-                    else
-                    {
-
-                        strFileName = fileUpload_HearingDoc.FileName.ToString();
-                        strExtension = Path.GetExtension(strFileName);
-                        strTimeStamp = DateTime.Now.ToString();
-                        strTimeStamp = strTimeStamp.Replace("/", "-");
-                        strTimeStamp = strTimeStamp.Replace(" ", "-");
-                        strTimeStamp = strTimeStamp.Replace(":", "-");
-                        string strName = Path.GetFileNameWithoutExtension(strFileName);
-                        strFileName = strName + "-WPHearing-" + strTimeStamp + strExtension;
-                        string path = Path.Combine(Server.MapPath("../Legal/HearingDoc/"), strFileName);
-                        fileUpload_HearingDoc.SaveAs(path);
-
-                        ViewState["HearingDOC"] = strFileName;
-                        path = "";
-                        strFileName = "";
-                        strName = "";
-                    }
-
+                    DocFailedCntExt += 1;
                 }
-                string errormsg = "";
-                if (DocFailedCntExt > 0) { errormsg += "Only upload Document in( PDF) Formate.\\n"; }
-                if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 200 KB \\n"; }
-
-                if (errormsg == "")
+                else if (fileUpload_HearingDoc.PostedFile.ContentLength > 204800) // 500 KB = 1024 * 500
                 {
-                    DataTable dt1 = (DataTable)ViewState["HearingDt"];
-                    if (dt1.Columns.Count > 0)
-                    {
-                        dt1.Rows.Add(Convert.ToDateTime(txtHearingDate.Text, cult).ToString("yyyy/MM/dd"), txtHearingDtl.Text.Trim(), ViewState["HearingDOC"].ToString());
-                    }
-                    ds.Tables.Add(dt1);
-                    if (ds != null && ds.Tables[0].Rows.Count > 0)
-                    {
-                        FieldSet_SaveHeringDtl.Visible = true;
-                        btnSaveHearingDtl.Visible = true;
-                        txtHearingDtl.Text = "";
-                        txtHearingDate.Text = "";
-                        ViewState["HearingDOC"] = "";
-                        GrdHearingDetail.DataSource = dt1;
-                        GrdHearingDetail.DataBind();
-                        ViewState["HearingDt"] = dt1;
-                    }
+                    DocFailedCntSize += 1;
                 }
                 else
                 {
-                    ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "alertMessage", "alert('Please Select \\n " + errormsg + "')", true);
+
+                    strFileName = fileUpload_HearingDoc.FileName.ToString();
+                    strExtension = Path.GetExtension(strFileName);
+                    strTimeStamp = DateTime.Now.ToString();
+                    strTimeStamp = strTimeStamp.Replace("/", "-");
+                    strTimeStamp = strTimeStamp.Replace(" ", "-");
+                    strTimeStamp = strTimeStamp.Replace(":", "-");
+                    string strName = Path.GetFileNameWithoutExtension(strFileName);
+                    strFileName = strName + "-WPHearing-" + strTimeStamp + strExtension;
+                    string path = Path.Combine(Server.MapPath("../Legal/HearingDoc/"), strFileName);
+                    fileUpload_HearingDoc.SaveAs(path);
+
+                    ViewState["HearingDOC"] = strFileName;
+                    path = "";
+                    strFileName = "";
+                    strName = "";
                 }
+
+            }
+            string errormsg = "";
+            if (DocFailedCntExt > 0) { errormsg += "Only upload Document in( PDF) Formate.\\n"; }
+            if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 200 KB \\n"; }
+
+            if (errormsg == "")
+            {
+                DataTable dt1 = (DataTable)ViewState["HearingDt"];
+                if (dt1.Columns.Count > 0)
+                {
+                    dt1.Rows.Add(Convert.ToDateTime(txtHearingDate.Text, cult).ToString("yyyy/MM/dd"), txtHearingDtl.Text.Trim(), ViewState["HearingDOC"].ToString());
+                }
+                ds.Tables.Add(dt1);
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
+                {
+                    FieldSet_SaveHeringDtl.Visible = true;
+                    btnSaveHearingDtl.Visible = true;
+                    txtHearingDtl.Text = "";
+                    txtHearingDate.Text = "";
+                    ViewState["HearingDOC"] = "";
+                    GrdHearingDetail.DataSource = dt1;
+                    GrdHearingDetail.DataBind();
+                    ViewState["HearingDt"] = dt1;
+                }
+            }
+            else
+            {
+                ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "alertMessage", "alert('Please Select \\n " + errormsg + "')", true);
+            }
             //}
         }
         catch (Exception ex)
@@ -954,8 +979,8 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
 
                     if (errormsg == "")
                     {
-                        ds = obj.ByProcedure("USP_Legal_CaseDispose", new string[] { "Case_ID", "CaseDisposeType_Id", "CaseDispose_Status","CaseDispose_Date", "CaseDispose_OrderNo", "CaseDispose_OrderDoc", "LastupdatedBy", "LastupdatedByIp" }
-                            , new string[] { ViewState["ID"].ToString(), ddlDisponsType.SelectedValue, rdCaseDispose.SelectedItem.Text.Trim(),Convert.ToDateTime(txtCaseDisposeDate.Text, cult).ToString("yyyy/MM/dd"), txtCaseDispose_OrderNo.Text.Trim(), ViewState["FileOrderDOC"].ToString(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
+                        ds = obj.ByProcedure("USP_Legal_CaseDispose", new string[] { "Case_ID", "CaseDisposeType_Id", "CaseDispose_Status", "CaseDispose_Date", "CaseDispose_OrderNo", "CaseDispose_OrderDoc", "LastupdatedBy", "LastupdatedByIp" }
+                            , new string[] { ViewState["ID"].ToString(), ddlDisponsType.SelectedValue, rdCaseDispose.SelectedItem.Text.Trim(), Convert.ToDateTime(txtCaseDisposeDate.Text, cult).ToString("yyyy/MM/dd"), txtCaseDispose_OrderNo.Text.Trim(), ViewState["FileOrderDOC"].ToString(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
 
                         if (ds != null && ds.Tables[0].Rows.Count > 0)
                         {

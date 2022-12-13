@@ -88,7 +88,15 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             {
                 lblWACase.Text = ds.Tables[0].Rows[0]["WACaseCount"].ToString() + " No's";
             }
-            else { lblWACase.Text = "00 No's"; }
+            // Contempt case
+            //if (ds.Tables[0].Rows[0]["ContemptCaseCount"].ToString() != "")
+            //{
+            //    lblConTempt.Text = ds.Tables[0].Rows[0]["ContemptCaseCount"].ToString() + " No's";
+            //}
+            //else { 
+            lblConTempt.Text = "00 No's";
+        //}
+
             // WP Case Count
             if (ds.Tables[0].Rows[0]["WPCaseCount"].ToString() != "")
             {
@@ -147,7 +155,8 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             if (btnJabalpur.Text == "View Detail")
             {
                 string ID = "2";
-                Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID));
+                string CaseType = "Jabalpur Court Case";
+                Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
             }
         }
         catch (Exception ex)
@@ -163,7 +172,8 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             if (btnIndoreCases.Text == "View Detail")
             {
                 string ID = "3";
-                Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID));
+                string CaseType = "Indore Court Case";
+                Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
             }
         }
         catch (Exception ex)
@@ -179,7 +189,8 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             if (btnGwalior.Text == "View Detail")
             {
                 string ID = "4";
-                Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID));
+                string CaseType = "Gwalior Court Case";
+                Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
             }
         }
         catch (Exception ex)
@@ -225,7 +236,94 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             lblMsg.Text = "";
             if (btnPPCase.Text == "View Detail")
             {
-                Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?WAID=WACase");
+                string ID = "1";
+                string CaseType = "PP Case";
+                Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
+            }
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
+        }
+    }
+    protected void btnDPICase_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            lblMsg.Text = "";
+            if (btnDPICase.Text == "View Detail")
+            {
+                string ID = "2";
+                string CaseType = "DPI Case";
+                Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
+            }
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
+        }
+    }
+    protected void btnJDCases_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            lblMsg.Text = "";
+            if (btnJDCases.Text == "View Detail")
+            {
+                string ID = "3";
+                string CaseType = "JD Case";
+                Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
+            }
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
+        }
+    }
+    protected void btnDEOCases_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            lblMsg.Text = "";
+            if (btnDEOCases.Text == "View Detail")
+            {
+                string ID = "4";
+                string CaseType = "DEO Case";
+                Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
+            }
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
+        }
+    }
+    protected void btnRskCases_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            lblMsg.Text = "";
+            if (btnRskCases.Text == "View Detail")
+            {
+                string ID = "5";
+                string CaseType = "RSK Case";
+                Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
+            }
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
+        }
+    }
+    protected void btnTBCCases_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            lblMsg.Text = "";
+            if (btnTBCCases.Text == "View Detail")
+            {
+                string ID = "6";
+                string CaseType = "TBC Case";
+                Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
             }
         }
         catch (Exception ex)

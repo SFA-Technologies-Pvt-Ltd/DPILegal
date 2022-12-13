@@ -25,8 +25,10 @@
             /*width: 66%;*/
             width: 100%;
             border-top-right-radius: 34px;
-            border-top-left-radius: 44px;
-            border-bottom-left-radius: 44px;
+            /*border-top-left-radius: 44px;
+            border-bottom-left-radius: 44px;*/
+             border-top-left-radius: 55px;
+            border-bottom-left-radius: 55px;
             border-radius: -50px 0px;
             opacity: 1;
         }
@@ -54,6 +56,7 @@
             font-family: sans-serif;
             line-height: 1;
             padding-top: 10px;
+           
         }
 
         .lableBox {
@@ -127,14 +130,14 @@
                     </div>
                     <div class="card-body" style="opacity: 1;">
                         <div class="">
-                            <%-- backgRound image remove from here on date 12/12/22 --%>
+                            <%-- backgRound image remove from here on date 12/12/22 
                             <div class="row">
                                 <div class="col-md-5"></div>
                                 <div class="col-md-3">
                                     <img src="../image/Libra.png" class="Libraimage" />
                                 </div>
-                            </div>
-                            <div class="row margin">
+                            </div>--%>
+                            <div class="row">
                                 <div class="col-md-12 ">
                                     <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">UPCOMING HEARING :</span>
 
@@ -223,7 +226,22 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4"></div>
+                                <div class="col-md-4 col-6">
+                                     <div class="boxshape" style="background-color: #9d9d26; border: 2px solid red;">
+                                        <div class="circle">
+                                            <div class="insideBox" style="border: 2px solid red;">
+                                                <span>CONT<br />EMPT<br />
+                                                    CASES</span>
+                                            </div>
+                                        </div>
+                                        <div class="lableBox" style="margin: 0 3px 0px 0px;">
+                                            <asp:Label ID="lblConTempt" runat="server"></asp:Label>
+                                        </div>
+                                        <div class="buttonDiv">
+                                            <asp:Button ID="btnContempt" runat="server" CssClass="Buttons" Text="View Detail"  />
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-6 col-md-4">
                                     <div class="boxshape" style="background-color: green; border: 2px solid red;">
                                         <div class="circle">
@@ -241,12 +259,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row Space">
+                            <%--<div class="row Space">
                                 <div class="col-md-12">
                                     <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">OFFICE WISE :</span>
                                 </div>
+                            </div>--%>
+                             <div class="row Space">
+                                <div class="col-md-12">
+                                    <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">RESPONDENT WISE DETAILS :</span>
+                                </div>
                             </div>
-
                             <div class="row Space">
                                 <div class="col-6 col-md-4">
                                     <div class="boxshape" style="background-color: #1fa6ad; border: 2px solid #cd7a32;">
@@ -277,7 +299,7 @@
                                             <asp:Label ID="lblDPICase" runat="server"></asp:Label>
                                         </div>
                                         <div class="buttonDiv">
-                                            <asp:Button ID="btnDPICase" runat="server" CssClass="Buttons" Text="View Detail" OnClientClick="SetTarget();" />
+                                            <asp:Button ID="btnDPICase" runat="server" CssClass="Buttons" Text="View Detail" OnClientClick="SetTarget();" OnClick="btnDPICase_Click" />
                                         </div>
                                     </div>
                                 </div>
@@ -293,16 +315,12 @@
                                             <asp:Label ID="lblJDCases" runat="server"></asp:Label>
                                         </div>
                                         <div class="buttonDiv">
-                                            <asp:Button ID="btnJDCases" runat="server" CssClass="Buttons" Text="View Detail" />
+                                            <asp:Button ID="btnJDCases" runat="server" CssClass="Buttons" Text="View Detail" OnClientClick="SetTarget();" OnClick="btnJDCases_Click" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row Space">
-                                <div class="col-md-12">
-                                    <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">RESPONDER WISE DETAILS :</span>
-                                </div>
-                            </div>
+                           
 
                             <div class="row Space">
                                 <div class="col-6 col-md-4">
@@ -317,7 +335,7 @@
                                             <asp:Label ID="lblDEOCases" runat="server"></asp:Label>
                                         </div>
                                         <div class="buttonDiv">
-                                            <asp:Button ID="btnDEOCases" runat="server" CssClass="Buttons" Text="View Detail" OnClientClick="SetTarget();" />
+                                            <asp:Button ID="btnDEOCases" runat="server" CssClass="Buttons" Text="View Detail" OnClientClick="SetTarget();" OnClick="btnDEOCases_Click" />
                                         </div>
                                     </div>
                                 </div>
@@ -333,7 +351,7 @@
                                             <asp:Label ID="lblRskCases" runat="server"></asp:Label>
                                         </div>
                                         <div class="buttonDiv">
-                                            <asp:Button ID="btnRskCases" runat="server" CssClass="Buttons" Text="View Detail" />
+                                            <asp:Button ID="btnRskCases" runat="server" CssClass="Buttons" Text="View Detail" OnClientClick="SetTarget();" OnClick="btnRskCases_Click"/>
                                         </div>
                                     </div>
                                 </div>
@@ -349,7 +367,7 @@
                                             <asp:Label ID="lblTBCCases" runat="server">22</asp:Label>
                                         </div>
                                         <div class="buttonDiv">
-                                            <asp:Button ID="btnTBCCases" runat="server" CssClass="Buttons" Text="View Detail" OnClientClick="SetTarget();" />
+                                            <asp:Button ID="btnTBCCases" runat="server" CssClass="Buttons" Text="View Detail" OnClientClick="SetTarget();" OnClick="btnTBCCases_Click" />
                                         </div>
                                     </div>
                                 </div>
