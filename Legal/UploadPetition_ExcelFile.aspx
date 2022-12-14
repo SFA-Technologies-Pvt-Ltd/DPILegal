@@ -1,6 +1,12 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="UploadPetition_ExcelFile.aspx.cs" Inherits="Legal_UploadPetition_ExcelFile" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+      <style>
+        label
+        {
+            font-size:14px;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" Runat="Server">
     <div class="content-wrapper">

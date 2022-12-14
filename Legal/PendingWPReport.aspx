@@ -14,6 +14,11 @@
             font-weight: 400;
         }
     </style>--%>
+    <style>
+        label {
+            font-size: 15px;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
     <asp:ValidationSummary ID="VDS" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Save" />
@@ -39,7 +44,7 @@
                                                 ControlToValidate="txtFromdate" Display="Dynamic" runat="server">
                                             </asp:RequiredFieldValidator><br />
                                             प्रारंभिक तिथि</label>
-                                        <asp:TextBox ID="txtFromdate" runat="server" CssClass="form-control disableFuturedate"  data-provide="datepicker" data-date-autoclose="true" data-date-format="dd/mm/yyyy" placeholder="DD/MM/YYYY" AutoComplete="off"></asp:TextBox>
+                                        <asp:TextBox ID="txtFromdate" runat="server" CssClass="form-control disableFuturedate" data-provide="datepicker" data-date-autoclose="true" data-date-format="dd/mm/yyyy" placeholder="DD/MM/YYYY" AutoComplete="off"></asp:TextBox>
                                     </div>
 
                                 </div>

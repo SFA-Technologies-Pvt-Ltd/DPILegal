@@ -1,7 +1,12 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="WPCaseList.aspx.cs" Inherits="Legal_WPCaseList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
-    
+    <style>
+        label
+        {
+            font-size: 15px;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" Runat="Server">
     <asp:ValidationSummary ID="VDS" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Save" />

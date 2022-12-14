@@ -106,6 +106,7 @@
         .Heading {
             font-size: 18px;
             font-weight: bold;
+            color:blue;
         }
 
         .Space {
@@ -125,8 +126,8 @@
             <div class="container-fluid">
                 <asp:Label ID="lblMsg" runat="server"></asp:Label>
                 <div class="card">
-                    <div class="card-header">
-                        Legal Dashboard
+                    <div class="card-header" style="text-align:center;"> 
+                     <span style="font-size:18px; color:#e5e5e5">Dashboard</span>    
                     </div>
                     <div class="card-body" style="opacity: 1;">
                         <div class="">
@@ -148,7 +149,8 @@
                             </div>
                             <div class="row Space">
                                 <div class="col-md-12">
-                                    <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">COURT WISE :</span>
+                                    <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">COURT WISE (TOTAL CASE):</span>
+                                    <asp:Label ID="lblTotalCaseCourtwise" runat="server"></asp:Label>
                                 </div>
                             </div>
 

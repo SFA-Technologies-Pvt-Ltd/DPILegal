@@ -31,7 +31,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                    // FillOICDropdown();
                     FillAdvocateDropdown();
                     FillDistrict();
-                    ddlDistrict.Enabled = false;
+                   // ddlDistrict.Enabled = false;
                     if (Request.QueryString["Case_ID"] != null)
                     {
                         ViewState["Case_ID"] = objdb.Decrypt(Request.QueryString["Case_ID"].ToString());
@@ -117,15 +117,15 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
         try
         {
             lblMsg.Text = "";
-            txtAdvocateName.Text = "";
-            txtAdvocateEmail.Text = "";
-            txtAdvocateAddress.Text = "";
-            txtAdvocateMobileNo.Text = "";
-            ds = objdb.ByProcedure("SpLegalAdvocateRegistration", new string[] { "flag" }, new string[] { "7" }, "dataset");
-            ddlAdvocate.DataSource = ds.Tables[0];
-            ddlAdvocate.DataTextField = "Advocate_Name";
-            ddlAdvocate.DataValueField = "Advocate_ID";
-            ddlAdvocate.DataBind();
+            //txtAdvocateName.Text = "";
+            //txtAdvocateEmail.Text = "";
+            //txtAdvocateAddress.Text = "";
+            //txtAdvocateMobileNo.Text = "";
+            //ds = objdb.ByProcedure("SpLegalAdvocateRegistration", new string[] { "flag" }, new string[] { "7" }, "dataset");
+            //ddlAdvocate.DataSource = ds.Tables[0];
+            //ddlAdvocate.DataTextField = "Advocate_Name";
+            //ddlAdvocate.DataValueField = "Advocate_ID";
+            //ddlAdvocate.DataBind();
             ddlAdvocate.Items.Insert(0, new ListItem("Select", "0"));
 
         }
@@ -974,18 +974,18 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
     {
         try
         {
-            if(ddlCourtType.SelectedIndex > 0)
-            {
-                if(ddlCourtType.SelectedItem.Text == "District Court")
-                {
-                    ddlDistrict.Enabled = true;
-                }
-                else
-                {
-                    ddlDistrict.Enabled = false;
-                    ddlDistrict.ClearSelection();
-                }
-            }
+            //if(ddlCourtType.SelectedIndex > 0)
+            //{
+            //    if(ddlCourtType.SelectedItem.Text == "District Court")
+            //    {
+            //        ddlDistrict.Enabled = true;
+            //    }
+            //    else
+            //    {
+            //        ddlDistrict.Enabled = false;
+            //        ddlDistrict.ClearSelection();
+            //    }
+            //}
         }
         catch (Exception ex)
         {

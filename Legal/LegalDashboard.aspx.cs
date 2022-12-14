@@ -41,6 +41,8 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
     {
         ds = objdb.ByProcedure("USP_GetUpcoming_HearingDate", new string[] { }, new string[] { }, "dataset");
         string Marquee = "";
+        string space = "<span style='color:black; font-weight:bold;font-size:18px;'>,</span>";
+        
         if (ds.Tables[0].Rows.Count > 0)
         {
             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
@@ -51,7 +53,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
                 }
                 else
                 {
-                    Marquee += ", " + ds.Tables[0].Rows[i]["HearingDate"].ToString();
+                    Marquee += space + "&nbsp;&nbsp;&nbsp;  " + ds.Tables[0].Rows[i]["HearingDate"].ToString();
                 }
 
             }

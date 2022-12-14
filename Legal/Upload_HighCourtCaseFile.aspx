@@ -6,6 +6,10 @@
             margin-left: 10px;
             margin-right: 1px;
         }
+
+        label{
+            font-size:15px;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
