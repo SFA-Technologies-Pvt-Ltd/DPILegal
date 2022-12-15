@@ -444,19 +444,19 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="../../Prapatra/Prapatra5.aspx" class="nav-link custom_bg_color">
+                                    <a href="../Legal/RespondentWiseCaseRpt.aspx" class="nav-link custom_bg_color">
                                         <i class="far fa-circle nav-icon text-light"></i>
                                         <p class="text-light">Respondent Wise Case Detail</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="../../Prapatra/Prapatra5.aspx" class="nav-link custom_bg_color">
+                                    <a href="../Legal/AdvocateWiseCaseRpt.aspx" class="nav-link custom_bg_color">
                                         <i class="far fa-circle nav-icon text-light"></i>
                                         <p class="text-light">Advocate Wise Case Detail</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="../../Prapatra/Prapatra5.aspx" class="nav-link custom_bg_color">
+                                    <a href="../Legal/CourtWiseCaseRpt.aspx" class="nav-link custom_bg_color">
                                         <i class="far fa-circle nav-icon text-light"></i>
                                         <p class="text-light">Court Wise Case Detail</p>
                                     </a>
@@ -468,7 +468,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="../../Prapatra/Prapatra5.aspx" class="nav-link custom_bg_color">
+                                    <a href="../Legal/WeekelyHearingCaseRpt.aspx" class="nav-link custom_bg_color">
                                         <i class="far fa-circle nav-icon text-light"></i>
                                         <p class="text-light">Weekely Hearing Detail</p>
                                     </a>
@@ -480,7 +480,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="../../Prapatra/Prapatra5.aspx" class="nav-link custom_bg_color">
+                                    <a href="../Legal/DisposeCaseRpt.aspx" class="nav-link custom_bg_color">
                                         <i class="far fa-circle nav-icon text-light"></i>
                                         <p class="text-light">Dispose Case Detail</p>
                                     </a>
@@ -510,7 +510,7 @@
                                     </a>
                                 </li>
                                  <li class="nav-item">
-                                    <a href="../../Prapatra/Prapatra5.aspx" class="nav-link custom_bg_color">
+                                    <a href="../Legal/LongPendingCaseRpt.aspx" class="nav-link custom_bg_color">
                                         <i class="far fa-circle nav-icon text-light"></i>
                                         <p class="text-light">Long Pending Case Detail</p>
                                     </a>

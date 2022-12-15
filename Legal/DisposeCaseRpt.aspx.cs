@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 
-public partial class Legal_SubjectWiseCaseDtl : System.Web.UI.Page
+public partial class Legal_DisposeCaseRpt : System.Web.UI.Page
 {
     APIProcedure obj = new APIProcedure();
     DataSet ds = new DataSet();
@@ -36,7 +36,8 @@ public partial class Legal_SubjectWiseCaseDtl : System.Web.UI.Page
                 dtcol.Columns.Add("AdvocateMobileNo", typeof(string));
                 dtcol.Columns.Add("AdvocateEmailID", typeof(string));
                 dtcol.Columns.Add("CaseDetail", typeof(string));
-
+                dtcol.Columns.Add("CaseStatus", typeof(string));
+                dtcol.Columns.Add("CaseDisposeType", typeof(string));
                 ViewState["dtCol"] = dtcol;
             }
         }
@@ -58,8 +59,16 @@ public partial class Legal_SubjectWiseCaseDtl : System.Web.UI.Page
 
                 if (dt.Columns.Count > 0)
                 {
-                    dt.Rows.Add("1", "DPI Case", rbWPCOnt.SelectedItem.Text, ddlCaseSubject.SelectedItem.Text, "Ct001202", "Jabalpur High Court", "Mohan Lal Singh", "Gouri Shanker", "8952232325", "gourishanker46@gmail.com", "Srikant Parte", "7895641563", "Srikantp8955@gmail.com", "15/12/2022", "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
-                    dt.Rows.Add("2", "PP Case", rbWPCOnt.SelectedItem.Text, ddlCaseSubject.SelectedItem.Text, "Ct001995", "Gwalior High Court", "Sharman Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Mohan Parte", "8895641563", "Mohantp8955@gmail.com", "15/12/2022", "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
+                    if (ddlDisposetype.SelectedItem.Text == "Normal")
+                    {
+                        dt.Rows.Add("1", "DPI Case", rbWPCOnt.SelectedItem.Text, "स्थानांतरण", "Ct001202", "Jabalpur High Court", "Mohan Lal Singh", "Gouri Shanker", "8952232325", "gourishanker46@gmail.com", "Srikant Parte", "7895641563", "Srikantp8955@gmail.com", DateTime.Now.ToString("dd/MM/yyyy"), "Narendra Rao", "6589744512", "Narendrrao8745@gmail.com", "Case In Progress", "Dispose", ddlDisposetype.SelectedItem.Text);
+                        dt.Rows.Add("2", "PP Case", rbWPCOnt.SelectedItem.Text, "वेतन वृद्धि", "Ct001995", "Bench Gwalior Court", "Sharman Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Mohan Parte", "8895641563", "Mohantp8955@gmail.com", DateTime.Now.AddDays(-3).ToString("dd/MM/yyyy"), "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress", "Dispose", ddlDisposetype.SelectedItem.Text);
+                    }
+                    else if (ddlDisposetype.SelectedItem.Text == "By Order")
+                    {
+                        dt.Rows.Add("3", "JD Case", rbWPCOnt.SelectedItem.Text, "स्थानांतरण", "Ct001878", "Bench Indore Court", "Gopal Singh", "Raman Mehra", "8952232325", "Raman46@gmail.com", "Roshan Kumar", "7895641563", "Roshan8955@gmail.com", DateTime.Now.AddDays(-6).ToString("dd/MM/yyyy"), "Narendra Rao", "6589744512", "Narendrrao8745@gmail.com", "Case In Progress", "Dispose", ddlDisposetype.SelectedItem.Text);
+                        dt.Rows.Add("4", "DEO Case", rbWPCOnt.SelectedItem.Text, "नियुक्ति", "Ct0002022", "Bench Gwalior Court", "Manohar Singh", "Shailendra Rao", "6652232325", "Shailendra46@gmail.com", "Golu Verma", "8895641563", "VermaGolu8955@gmail.com", DateTime.Now.AddDays(-9).ToString("dd/MM/yyyy"), "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress", "Dispose", ddlDisposetype.SelectedItem.Text);
+                    }
                 }
                 ds.Tables.Add(dt);
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
@@ -99,6 +108,7 @@ public partial class Legal_SubjectWiseCaseDtl : System.Web.UI.Page
             Label lblCourtName = (Label)row.FindControl("lblCourtName");
             Label lblCaseDetail = (Label)row.FindControl("lblCaseDetail");
             Label lblCasetype = (Label)row.FindControl("lblCasetype");
+            Label lblCaseDisposeType = (Label)row.FindControl("lblCaseDisposeType");
 
             txtCaseno.Text = lblCaseNO.Text;
             txtCourtName.Text = lblCourtName.Text;
@@ -120,6 +130,7 @@ public partial class Legal_SubjectWiseCaseDtl : System.Web.UI.Page
             txtCasesubject.Text = lblCaseSubject.Text;
             txtCaseDtl.Text = lblCaseDetail.Text;
             txtCasetype.Text = lblCasetype.Text;
+            txtCaseDispostype.Text = lblCaseDisposeType.Text;
             Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "myModal()", true);
         }
     }
