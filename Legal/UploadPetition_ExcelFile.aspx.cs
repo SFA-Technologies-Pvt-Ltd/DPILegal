@@ -30,7 +30,7 @@ public partial class Legal_UploadPetition_ExcelFile : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("~/Legal/Dpi_Login.aspx");
+            Response.Redirect("../Login.aspx");
         }
     }
     protected void btnUpload_Click(object sender, EventArgs e)

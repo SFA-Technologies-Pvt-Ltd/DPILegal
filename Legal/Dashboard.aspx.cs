@@ -19,7 +19,7 @@ public partial class Legal_Dashboard : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("~/Legal/Dpi_Login.aspx");
+            Response.Redirect("../Login.aspx");
         }
     }
 }

@@ -13,30 +13,69 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
         crossorigin="anonymous"></script>
+    <style>
+        .bgleft_login {
+            display: block;
+        }
+
+        .bgleft_login {
+            background: url(../image/eCases.jpg) no-repeat center center;
+            min-height: 100vh;
+            background-size: 120%;
+        }
+
+        .bgright_login {
+            min-height: 100vh;
+            padding: 30px;
+            border-left: 1px solid #2e0303;
+        }
+
+        .btn-warning1 {
+            background: #ff8830;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background-color: #ff8830c2;
+            border-color: #ff8830;
+        }
+
+        .form-control {
+            border: 1px solid #2e0303 !important;
+        }
+    </style>
 
 </head>
 <body>
 
     <form runat="server">
         <div class="vh-100 d-flex justify-content-center align-items-center ">
-            <div class="col-md-5 p-5 shadow-sm border rounded-5 border-primary bg-white">
-                <h2 class="text-center mb-4 text-primary">
-                    <img runat="server" src="../image/logo/ssmsLogo.png" alt="" /></h2>
-                <h5 style="text-align: center;">Legal Login</h5>
-                <div class="mb-5">
-                    <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">User Name</label>
-                    <asp:TextBox ID="txtUserName" runat="server" CssClass="form-control border-primary" MaxLength="50"></asp:TextBox>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Password</label>
-                    <asp:TextBox runat="server" class="form-control border border-primary" ID="txtPassword" AutoComplete="off" TextMode="Password" MaxLength="7" onpaste="return false"></asp:TextBox>
-                </div>
-                <%-- <p class="small"><a class="text-primary" href="forget-password.html">Forgot password?</a></p>--%>
-                <div class="d-grid pt-3">
-                    <asp:Button ID="btnLogin" runat="server" CssClass="btn btn-primary" OnClientClick="return ValidatePage();" Text="Login" OnClick="btnLogin_Click" />
+            <div class="col-lg-8 bgleft_login">
+            </div>
+            <div class="col-lg-4 bgright_login">
+                <div class="row">
+                    <div class="col-lg-12 p-5 shadow-sm border rounded-5 border-primary bg-white" style="border: none !important">
+                        <h2 class="text-center mb-4 text-primary" style="margin-top: -12px;">
+                            <img runat="server" src="../image/logo/ssmsLogo.png" alt="" style="width: 80px;" /></h2>
+                        <h5 style="text-align: center; color: #2e0303; font-size: 21px; font-weight: bold">Legal Cases Monitoring System</h5>
+                        <div class="mb-5">
+                            <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" style="color: #2e0303; font-weight: bold">User Name</label>
+                            <asp:TextBox ID="txtUserName" runat="server" CssClass="form-control border-primary" MaxLength="50"></asp:TextBox>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" style="color: #2e0303; font-weight: bold">Password</label>
+                            <asp:TextBox runat="server" class="form-control border border-primary" ID="txtPassword" AutoComplete="off" TextMode="Password" MaxLength="7" onpaste="return false"></asp:TextBox>
+                        </div>
+                        <%-- <p class="small"><a class="text-primary" href="forget-password.html">Forgot password?</a></p>--%>
+                        <div class="d-grid pt-3">
+                            <div style="text-align:center;">
+                                <asp:Button ID="btnLogin" runat="server" CssClass="btn btn-warning1 col-lg-8" OnClientClick="return ValidatePage();" Text="Login" OnClick="btnLogin_Click" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

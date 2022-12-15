@@ -73,7 +73,7 @@ public partial class Legal_Dashboard_ViewCaseDetail : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("Login.aspx");
+            Response.Redirect("../Login.aspx");
         }
     }
 

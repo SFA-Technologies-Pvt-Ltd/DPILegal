@@ -24,7 +24,7 @@ public partial class Legal_MainMaster : System.Web.UI.MasterPage
         else
         {
             //Response.Redirect("~/Login.aspx");
-            Response.Redirect("~/Legal/Login.aspx");
+            Response.Redirect("../Login.aspx");
         }
 
     }
@@ -32,6 +32,6 @@ public partial class Legal_MainMaster : System.Web.UI.MasterPage
     {
 
         // Response.Redirect("~/Login.aspx");
-        Response.Redirect("~/Legal/Login.aspx");
+        Response.Redirect("../Login.aspx");
     }
 }

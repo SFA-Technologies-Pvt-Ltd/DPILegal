@@ -48,7 +48,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
             }
             else
             {
-                Response.Redirect("~/Legal/Dpi_Login.aspx");
+                Response.Redirect("../Login.aspx");
             }
         }
         catch (Exception ex)

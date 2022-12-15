@@ -31,7 +31,7 @@ public partial class Legal_Upload_HighCourtCaseFile : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("~/Legal/Login.aspx");
+            Response.Redirect("../Login.aspx");
         }
     }
 

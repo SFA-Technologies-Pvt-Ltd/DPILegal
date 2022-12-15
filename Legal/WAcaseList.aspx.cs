@@ -27,7 +27,7 @@ public partial class Legal_WAcaseList : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("~/Legal/Login.aspx");
+            Response.Redirect("../Login.aspx");
         }
     }
     protected void btnSearch_Click(object sender, EventArgs e)
