@@ -3,12 +3,13 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
+    <asp:ValidationSummary ID="vds" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Save" />
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div style="display: table; height: 100%; width: 100%;">
             <div class="modal-dialog" style="width: 80%; display: table-cell; vertical-align: middle;">
                 <div class="modal-content" style="width: inherit; height: inherit; margin: 0 auto;">
                     <div class="modal-header" style="background-color: #D9D9D9;">
-                        <span class="modal-title" style="float: left" id="myModalLabel">Responder Details</span>
+                        <span class="modal-title" style="float: left" id="myModalLabel">View Case Detail</span>
                         <button type="button" class="close" data-dismiss="modal">
                             <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                         </button>
@@ -16,7 +17,7 @@
                     <div class="clearfix"></div>
                     <div class="modal-body">
                         <fieldset>
-                            <legend>Edit Respondent</legend>
+                            <legend>Case Detail</legend>
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
@@ -173,44 +174,59 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>OIC Name</label><span style="color: red;"><b> *</b></span>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="Save"
+                                            ErrorMessage="Select OIC Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="ddlOicName" Display="Dynamic" runat="server" InitialValue="0">
+                                        </asp:RequiredFieldValidator>
                                         <asp:DropDownList ID="ddlOicName" runat="server" CssClass="form-control">
-                                            <asp:ListItem>Select</asp:ListItem>
-                                            <asp:ListItem>Srikant Parte</asp:ListItem>
-                                            <asp:ListItem>Mohan Parte</asp:ListItem>
-                                            <asp:ListItem>Ajay Mishra</asp:ListItem>
-                                            <asp:ListItem>Varun Diwvedi</asp:ListItem>
+                                            <asp:ListItem Value="0">Select</asp:ListItem>
+                                            <asp:ListItem Value="1">Srikant Parte</asp:ListItem>
+                                            <asp:ListItem Value="2">Mohan Parte</asp:ListItem>
+                                            <asp:ListItem Value="3">Ajay Mishra</asp:ListItem>
+                                            <asp:ListItem Value="4">Varun Diwvedi</asp:ListItem>
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                 <div class="col-md-3">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Case Type</label><span style="color: red;"><b> *</b></span>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ValidationGroup="Save"
+                                            ErrorMessage="Select Case Type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="rbWPCOnt" Display="Dynamic" runat="server">
+                                        </asp:RequiredFieldValidator>
                                         <asp:RadioButtonList ID="rbWPCOnt" runat="server" RepeatDirection="Horizontal" CssClass="form-control">
                                             <asp:ListItem Value="1">&nbsp;WP/Contempt &nbsp;&nbsp;&nbsp;</asp:ListItem>
                                             <asp:ListItem Value="2">&nbsp;WA/RP</asp:ListItem>
                                         </asp:RadioButtonList>
                                     </div>
                                 </div>
-                                  <div class="col-md-3" style="margin-top: 3%;">
-                                    <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary" Text="Search" OnClick="btnSearch_Click"/>
+                                <div class="col-md-3" style="margin-top: 3%;">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary btn-block" ValidationGroup="Save" Text="Search" OnClick="btnSearch_Click" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a href="OICWiseCaseDtl.aspx" class="btn btn-default btn-block">Clear</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </fieldset>
-                         <fieldset>
+                        <fieldset>
                             <legend>Report</legend>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
-                                        <asp:GridView ID="grdOICWiseCasedtl" runat="server" CssClass="table table-bordered" AutoGenerateColumns="false" OnRowCommand="grdOICWiseCasedtl_RowCommand" DataKeyNames="ID" >
+                                        <asp:GridView ID="grdOICWiseCasedtl" runat="server" CssClass="table table-bordered" AutoGenerateColumns="false" OnRowCommand="grdOICWiseCasedtl_RowCommand" DataKeyNames="ID">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="S.No.">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex +1 %>'></asp:Label>                                                      
+                                                        <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex +1 %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Case Subject">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblCaseSubject" runat="server" Text='<%# Eval("CaseSubject") %>' ></asp:Label>
+                                                        <asp:Label ID="lblCaseSubject" runat="server" Text='<%# Eval("CaseSubject") %>'></asp:Label>
                                                         <asp:Label ID="LabelOICName" runat="server" Text='<%# Eval("OICName") %>' Visible="false"></asp:Label>
                                                         <asp:Label ID="LabelOICMObile" runat="server" Text='<%# Eval("OICMobileNo") %>' Visible="false"></asp:Label>
                                                         <asp:Label ID="LabelOICEmail" runat="server" Text='<%# Eval("OICEmailID") %>' Visible="false"></asp:Label>
@@ -220,8 +236,8 @@
                                                         <asp:Label ID="LabelAdvocateName" runat="server" Text='<%# Eval("AdvocateName") %>' Visible="false"></asp:Label>
                                                         <asp:Label ID="LabelAdvocateMobile" runat="server" Text='<%# Eval("AdvocateMobileNo") %>' Visible="false"></asp:Label>
                                                         <asp:Label ID="LabelAdvocateEmail" runat="server" Text='<%# Eval("AdvocateEmailID") %>' Visible="false"></asp:Label>
-                                                        <asp:Label ID="LabelHearingDate" runat="server" Text='<%# Eval("NextHearingDate") %>' Visible="false"></asp:Label> 
-                                                         <asp:Label ID="LabelRespondertype" runat="server" Text='<%# Eval("Respondertype") %>' Visible="false"></asp:Label>
+                                                        <asp:Label ID="LabelHearingDate" runat="server" Text='<%# Eval("NextHearingDate") %>' Visible="false"></asp:Label>
+                                                        <asp:Label ID="LabelRespondertype" runat="server" Text='<%# Eval("Respondertype") %>' Visible="false"></asp:Label>
                                                         <asp:Label ID="lblCaseDetail" runat="server" Text='<%# Eval("CaseDetail") %>' Visible="false"></asp:Label>
                                                         <asp:Label ID="lblCasetype" runat="server" Text='<%# Eval("CaseType") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
@@ -241,7 +257,7 @@
                                                         <asp:Label ID="lblCourtName" runat="server" Text='<%# Eval("CourtName") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                
+
                                                 <asp:TemplateField HeaderText="Action">
                                                     <ItemTemplate>
                                                         <asp:LinkButton ID="btnView" runat="server" CssClass="btn btn-primary" CommandName="ViewDtl" CommandArgument='<%# Eval("ID") %>' ToolTip="View"><i class="fa fa-eye"></i></asp:LinkButton>

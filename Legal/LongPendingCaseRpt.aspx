@@ -159,13 +159,14 @@
             </div>
         </div>
     </div>
+    <asp:ValidationSummary ID="VDS" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Save" />
     <div class="content-wrapper">
         <section class="content">
             <div class="container-fluid">
                 <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
                 <div class="card">
                     <div class="card-header">
-                        Subject Wise Case Detail
+                        Long Pending Case Detail
                     </div>
                     <div class="card-body">
                         <fieldset>
@@ -200,7 +201,15 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3" style="margin-top: 3%;">
-                                    <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary" ValidationGroup="Save" Text="Search" OnClick="btnSearch_Click" />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary btn-block" ValidationGroup="Save" Text="Search" OnClick="btnSearch_Click" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a href="LongPendingCaseRpt.aspx" class="btn btn-default btn-block">Clear</a>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
                             </div>
                         </fieldset>

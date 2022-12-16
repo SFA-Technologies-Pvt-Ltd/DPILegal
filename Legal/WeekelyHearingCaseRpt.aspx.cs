@@ -49,32 +49,35 @@ public partial class Legal_WeekelyHearingCaseRpt : System.Web.UI.Page
     {
         try
         {
-            grdSubjectWiseCasedtl.DataSource = null;
-            grdSubjectWiseCasedtl.DataBind();
-
-            DataTable dt = (DataTable)ViewState["dtCol"];
-
-            if (dt.Columns.Count > 0)
+            if (Page.IsValid)
             {
-                if (ddlWeek.SelectedItem.Text == "Current Week")
-                {
-                    dt.Rows.Add("1", "DPI Case", rbWPCOnt.SelectedItem.Text, "स्थानांतरण", "Ct001202", "Jabalpur High Court", "Mohan Lal Singh", "Gouri Shanker", "8952232325", "gourishanker46@gmail.com", "Srikant Parte", "7895641563", "Srikantp8955@gmail.com", DateTime.Now.AddDays(1).ToString("dd/MM/yyyy"), "Narendra Rao", "6589744512", "Narendrrao8745@gmail.com", "Case In Progress");
-                    dt.Rows.Add("2", "PP Case", rbWPCOnt.SelectedItem.Text, "वेतन वृद्धि", "Ct001995", "Gwalior High Court", "Sharman Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Mohan Parte", "8895641563", "Mohantp8955@gmail.com", DateTime.Now.AddDays(3).ToString("dd/MM/yyyy"), "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
-                   
-                }
-                else if (ddlWeek.SelectedItem.Text == "Comming Week")
-                {
-                    dt.Rows.Add("3", "DPI Case", rbWPCOnt.SelectedItem.Text, "स्थानांतरण", "Ct001202", "Jabalpur High Court", "Mohan Lal Singh", "Gouri Shanker", "8952232325", "gourishanker46@gmail.com", "Srikant Parte", "7895641563", "Srikantp8955@gmail.com", DateTime.Now.AddDays(6).ToString("dd/MM/yyyy"), "Narendra Rao", "6589744512", "Narendrrao8745@gmail.com", "Case In Progress");
-                    dt.Rows.Add("4", "PP Case", rbWPCOnt.SelectedItem.Text, "वेतन वृद्धि", "Ct001995", "Gwalior High Court", "Sharman Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Mohan Parte", "8895641563", "Mohantp8955@gmail.com", DateTime.Now.AddDays(9).ToString("dd/MM/yyyy"), "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
-                   
-                }
-            }
-            ds.Tables.Add(dt);
-            if (ds != null && ds.Tables[0].Rows.Count > 0)
-            {
-                grdSubjectWiseCasedtl.DataSource = ds;
+                grdSubjectWiseCasedtl.DataSource = null;
                 grdSubjectWiseCasedtl.DataBind();
-                dt.Clear();
+
+                DataTable dt = (DataTable)ViewState["dtCol"];
+
+                if (dt.Columns.Count > 0)
+                {
+                    if (ddlWeek.SelectedItem.Text == "Current Week")
+                    {
+                        dt.Rows.Add("1", "DPI Case", rbWPCOnt.SelectedItem.Text, "स्थानांतरण", "Ct001202", "Jabalpur High Court", "Mohan Lal Singh", "Gouri Shanker", "8952232325", "gourishanker46@gmail.com", "Srikant Parte", "7895641563", "Srikantp8955@gmail.com", DateTime.Now.AddDays(1).ToString("dd/MM/yyyy"), "Narendra Rao", "6589744512", "Narendrrao8745@gmail.com", "Case In Progress");
+                        dt.Rows.Add("2", "PP Case", rbWPCOnt.SelectedItem.Text, "वेतन वृद्धि", "Ct001995", "Gwalior High Court", "Sharman Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Mohan Parte", "8895641563", "Mohantp8955@gmail.com", DateTime.Now.AddDays(3).ToString("dd/MM/yyyy"), "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
+
+                    }
+                    else if (ddlWeek.SelectedItem.Text == "Comming Week")
+                    {
+                        dt.Rows.Add("3", "DPI Case", rbWPCOnt.SelectedItem.Text, "स्थानांतरण", "Ct001202", "Jabalpur High Court", "Mohan Lal Singh", "Gouri Shanker", "8952232325", "gourishanker46@gmail.com", "Srikant Parte", "7895641563", "Srikantp8955@gmail.com", DateTime.Now.AddDays(6).ToString("dd/MM/yyyy"), "Narendra Rao", "6589744512", "Narendrrao8745@gmail.com", "Case In Progress");
+                        dt.Rows.Add("4", "PP Case", rbWPCOnt.SelectedItem.Text, "वेतन वृद्धि", "Ct001995", "Gwalior High Court", "Sharman Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Mohan Parte", "8895641563", "Mohantp8955@gmail.com", DateTime.Now.AddDays(9).ToString("dd/MM/yyyy"), "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
+
+                    }
+                }
+                ds.Tables.Add(dt);
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
+                {
+                    grdSubjectWiseCasedtl.DataSource = ds;
+                    grdSubjectWiseCasedtl.DataBind();
+                    dt.Clear();
+                }
             }
         }
         catch (Exception ex)

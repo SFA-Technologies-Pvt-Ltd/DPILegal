@@ -52,27 +52,30 @@ public partial class Legal_TodayHearingDtl : System.Web.UI.Page
     {
         try
         {
-            grdTodayHearingdtl.DataSource = null;
-            grdTodayHearingdtl.DataBind();
-
-            DataTable dt = (DataTable)ViewState["dtCol"];
-
-            if (dt.Columns.Count > 0)
+            if (Page.IsValid)
             {
-                string sdate = DateTime.Now.ToString("dd/MM/yyyy");
-                string sd = sdate.Replace("-", "/");
-                txtNextHearingDate.Text = sd;
-
-                dt.Rows.Add("1", "DPI Case", rbWPCOnt.SelectedItem.Text, "स्थानांतरण", "Ct001202", "Jabalpur High Court", "Mohan Lal Singh", "Gouri Shanker", "8952232325", "gourishanker46@gmail.com", "Srikant Parte", "7895641563", "Srikantp8955@gmail.com", txtNextHearingDate.Text, "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
-                dt.Rows.Add("2", "PP Case", rbWPCOnt.SelectedItem.Text, "नियूक्ति", "Ct001995", "Gwalior High Court", "Sharman Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Mohan Parte", "8895641563", "Mohantp8955@gmail.com", txtNextHearingDate.Text, "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
-                dt.Rows.Add("2", "JD Case", rbWPCOnt.SelectedItem.Text, "प्रतिनियुक्ति", "Ct001995", "Indore High Court", "Sharman Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Ajay Mishra", "8895641563", "Mohantp8955@gmail.com", txtNextHearingDate.Text, "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
-            }
-            ds.Tables.Add(dt);
-            if (ds != null && ds.Tables[0].Rows.Count > 0)
-            {
-                grdTodayHearingdtl.DataSource = ds;
+                grdTodayHearingdtl.DataSource = null;
                 grdTodayHearingdtl.DataBind();
-                dt.Clear();
+
+                DataTable dt = (DataTable)ViewState["dtCol"];
+
+                if (dt.Columns.Count > 0)
+                {
+                    string sdate = DateTime.Now.ToString("dd/MM/yyyy");
+                    string sd = sdate.Replace("-", "/");
+                    txtNextHearingDate.Text = sd;
+
+                    dt.Rows.Add("1", "DPI Case", rbWPCOnt.SelectedItem.Text, "स्थानांतरण", "Ct001202", "Jabalpur High Court", "Mohan Lal Singh", "Gouri Shanker", "8952232325", "gourishanker46@gmail.com", "Srikant Parte", "7895641563", "Srikantp8955@gmail.com", txtNextHearingDate.Text, "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
+                    dt.Rows.Add("2", "PP Case", rbWPCOnt.SelectedItem.Text, "नियूक्ति", "Ct001995", "Gwalior High Court", "Sharman Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Mohan Parte", "8895641563", "Mohantp8955@gmail.com", txtNextHearingDate.Text, "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
+                    dt.Rows.Add("2", "JD Case", rbWPCOnt.SelectedItem.Text, "प्रतिनियुक्ति", "Ct001995", "Indore High Court", "Sharman Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Ajay Mishra", "8895641563", "Mohantp8955@gmail.com", txtNextHearingDate.Text, "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
+                }
+                ds.Tables.Add(dt);
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
+                {
+                    grdTodayHearingdtl.DataSource = ds;
+                    grdTodayHearingdtl.DataBind();
+                    dt.Clear();
+                }
             }
         }
         catch (Exception ex)

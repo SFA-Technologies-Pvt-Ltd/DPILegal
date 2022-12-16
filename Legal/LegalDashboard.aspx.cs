@@ -22,11 +22,12 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
                 {
                     BIndWACaseCount();
                     UpComingHearing();
+                    //CourtTypeCase();
                 }
             }
             else
             {
-                Response.Redirect("~/Legal/Login.aspx");
+                Response.Redirect("~/Login.aspx");
             }
         }
 
@@ -37,12 +38,48 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
 
     }
 
+    protected void CourtTypeCase()
+    {
+        try
+        {
+            StringBuilder Sb = new StringBuilder();           
+            Sb.Append("<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>");
+            Sb.Append("<script type='text/javascript'>");
+            Sb.Append(" google.charts.load(");
+            Sb.Append("'current', { 'packages': ['corechart'] });");
+            Sb.Append("google.charts.setOnLoadCallback(drawChart);");
+            Sb.Append("function drawChart()");
+            Sb.Append("{");
+            Sb.Append("var data = google.visualization.arrayToDataTable([");
+            Sb.Append(" ['Court', 'Case No.'],");
+            Sb.Append(" ['Jabalpur Court Cases', 11],");
+            Sb.Append(" ['Indore Court Cases', 2],");
+            Sb.Append(" ['Gwalior Court Cases', 2],");
+            Sb.Append(" ['Other Court Cases', 2]");
+            //Sb.Append(" ['Sleep', 7]");
+            Sb.Append("]);");
+            Sb.Append("var options = {");
+            Sb.Append("title: 'My Daily Activities'");
+            Sb.Append("};");
+            Sb.Append("var chart = new google.visualization.PieChart(document.getElementById('piechart'));");
+            Sb.Append("chart.draw(data, options);");
+            Sb.Append("}");
+            Sb.Append("</script>");
+            Sb.Append("<div id='piechart' style='width: 500px; height: 400px;'></div>");
+            //sbid.InnerHtml = Sb.ToString();
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
+        }
+    }
+
     protected void UpComingHearing()
     {
         ds = objdb.ByProcedure("USP_GetUpcoming_HearingDate", new string[] { }, new string[] { }, "dataset");
         string Marquee = "";
         string space = "<span style='color:black; font-weight:bold;font-size:18px;'>,</span>";
-        
+
         if (ds.Tables[0].Rows.Count > 0)
         {
             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
@@ -97,7 +134,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             //}
             //else { 
             lblConTempt.Text = "00 No's";
-        //}
+            //}
 
             // WP Case Count
             if (ds.Tables[0].Rows[0]["WPCaseCount"].ToString() != "")

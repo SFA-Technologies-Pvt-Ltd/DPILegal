@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="DisposeCaseRpt.aspx.cs" Inherits="Legal_DisposeCaseRpt" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -140,7 +140,7 @@
                                         <asp:TextBox ID="txtAdvocateEmailID" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="70"></asp:TextBox>
                                     </div>
                                 </div>
-                                  <div class="col-md-3">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Case Dispose Type</label>
                                         <asp:TextBox ID="txtCaseDispostype" runat="server" CssClass="form-control"></asp:TextBox>
@@ -164,14 +164,14 @@
             </div>
         </div>
     </div>
-     <asp:ValidationSummary ID="VDS" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Save" />
+    <asp:ValidationSummary ID="VDS" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Save" />
     <div class="content-wrapper">
         <section class="content">
             <div class="container-fluid">
                 <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
                 <div class="card">
                     <div class="card-header">
-                        Subject Wise Case Detail
+                        Dispose Case Detail
                     </div>
                     <div class="card-body">
                         <fieldset>
@@ -179,9 +179,9 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Dispose Type</label><span style="color: red;"><b> *</b></span>
-                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="Save"
-                                            ErrorMessage="Select Dispose type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                        <label>Case Dispose Type</label><span style="color: red;"><b> *</b></span>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="Save"
+                                            ErrorMessage="Select Case Dispose type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="ddlDisposetype" Display="Dynamic" runat="server" InitialValue="0">
                                         </asp:RequiredFieldValidator>
                                         <asp:DropDownList ID="ddlDisposetype" runat="server" CssClass="form-control">
@@ -194,7 +194,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Case Type</label><span style="color: red;"><b> *</b></span>
-                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ValidationGroup="Save"
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ValidationGroup="Save"
                                             ErrorMessage="Select Case type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="rbWPCOnt" Display="Dynamic" runat="server">
                                         </asp:RequiredFieldValidator>
@@ -205,7 +205,14 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3" style="margin-top: 3%;">
-                                    <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary" Text="Search" ValidationGroup="Save" OnClick="btnSearch_Click" />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary btn-block" Text="Search" ValidationGroup="Save" OnClick="btnSearch_Click" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a href="DisposeCaseRpt.aspx" class="btn btn-default btn-block">Clear</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </fieldset>
@@ -254,7 +261,7 @@
                                                         <asp:Label ID="lblCourtName" runat="server" Text='<%# Eval("CourtName") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                 <asp:TemplateField HeaderText="Case Dispose Type">
+                                                <asp:TemplateField HeaderText="Case Dispose Type">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblCaseDisposeType" runat="server" Text='<%# Eval("CaseDisposeType") %>'></asp:Label>
                                                     </ItemTemplate>
@@ -281,6 +288,6 @@
         </section>
     </div>
 </asp:Content>
-<asp:Content ID="Content3" ContentPlaceHolderID="Fotter" Runat="Server">
+<asp:Content ID="Content3" ContentPlaceHolderID="Fotter" runat="Server">
 </asp:Content>
 

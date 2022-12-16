@@ -51,28 +51,31 @@ public partial class Legal_CaseTypeWiseDtl : System.Web.UI.Page
     {
         try
         {
-            grdCaseTypedtl.DataSource = null;
-            grdCaseTypedtl.DataBind();
-
-            DataTable dt = (DataTable)ViewState["dtCol"];
-
-            if (dt.Columns.Count > 0)
+            if (Page.IsValid)
             {
-                string sdate = DateTime.Now.ToString("dd/MM/yyyy");
-                string sd = sdate.Replace("-", "/");
-                txtNextHearingDate.Text = sd;
-
-                dt.Rows.Add("1", "DPI Case", "Contempt", "स्थानांतरण", "Ct001202", "Jabalpur High Court", "Mohan Lal Singh", "Gouri Shanker", "8952232325", "gourishanker46@gmail.com", "Srikant Parte", "7895641563", "Srikantp8955@gmail.com", txtNextHearingDate.Text, "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress","Pending");
-                dt.Rows.Add("2", "PP Case", "WP", "नियूक्ति", "Ct001995", "Gwalior High Court", "Sharman Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Mohan Parte", "8895641563", "Mohantp8955@gmail.com", txtNextHearingDate.Text, "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress", "Pending");
-                dt.Rows.Add("3", "JD Case", "WA", "प्रतिनियुक्ति", "Ct001995", "Indore High Court", "Sharman Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Ajay Mishra", "8895641563", "Mohantp8955@gmail.com", txtNextHearingDate.Text, "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress", "Dispose");
-                dt.Rows.Add("4", "DO Case", "WA", "प्रतिनियुक्ति", "Ct001995", "Indore High Court", "Sharman Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Ajay Mishra", "8895641563", "Mohantp8955@gmail.com", txtNextHearingDate.Text, "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress", "Dispose");
-            }
-            ds.Tables.Add(dt);
-            if (ds != null && ds.Tables[0].Rows.Count > 0)
-            {
-                grdCaseTypedtl.DataSource = ds;
+                grdCaseTypedtl.DataSource = null;
                 grdCaseTypedtl.DataBind();
-                dt.Clear();
+
+                DataTable dt = (DataTable)ViewState["dtCol"];
+
+                if (dt.Columns.Count > 0)
+                {
+                    string sdate = DateTime.Now.ToString("dd/MM/yyyy");
+                    string sd = sdate.Replace("-", "/");
+                    txtNextHearingDate.Text = sd;
+
+                    dt.Rows.Add("1", "DPI Case",ddlCaseType.SelectedItem.Text, "स्थानांतरण", "Ct001202", "Jabalpur High Court", "Mohan Lal Singh", "Gouri Shanker", "8952232325", "gourishanker46@gmail.com", "Srikant Parte", "7895641563", "Srikantp8955@gmail.com", DateTime.Now.AddDays(5).ToString("dd/MM/yyyy"), "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress", "Pending");
+                    dt.Rows.Add("2", "PP Case", ddlCaseType.SelectedItem.Text, "नियूक्ति", "Ct001995", "Gwalior High Court", "Sharman Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Mohan Parte", "8895641563", "Mohantp8955@gmail.com", DateTime.Now.AddDays(7).ToString("dd/MM/yyyy"), "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress", "Pending");
+                    dt.Rows.Add("3", "JD Case", ddlCaseType.SelectedItem.Text, "प्रतिनियुक्ति", "Ct001995", "Indore High Court", "Sharman Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Ajay Mishra", "8895641563", "Mohantp8955@gmail.com", "", "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress", "Dispose");
+                    dt.Rows.Add("4", "DO Case", ddlCaseType.SelectedItem.Text, "वेतन वृद्धि", "Ct001995", "Indore High Court", "Sharman Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Ajay Mishra", "8895641563", "Mohantp8955@gmail.com", "", "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress", "Dispose");
+                }
+                ds.Tables.Add(dt);
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
+                {
+                    grdCaseTypedtl.DataSource = ds;
+                    grdCaseTypedtl.DataBind();
+                    dt.Clear();
+                }
             }
         }
         catch (Exception ex)

@@ -3,12 +3,13 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
+    <asp:ValidationSummary ID="VDS" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Save" />
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div style="display: table; height: 100%; width: 100%;">
             <div class="modal-dialog" style="width: 80%; display: table-cell; vertical-align: middle;">
                 <div class="modal-content" style="width: inherit; height: inherit; margin: 0 auto;">
                     <div class="modal-header" style="background-color: #D9D9D9;">
-                        <span class="modal-title" style="float: left" id="myModalLabel">Responder Details</span>
+                        <span class="modal-title" style="float: left" id="myModalLabel">View Case Detail</span>
                         <button type="button" class="close" data-dismiss="modal">
                             <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                         </button>
@@ -16,7 +17,7 @@
                     <div class="clearfix"></div>
                     <div class="modal-body">
                         <fieldset>
-                            <legend>Edit Respondent</legend>
+                            <legend>Case Detail</legend>
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
@@ -173,6 +174,10 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Month</label><span style="color: red;"><b> *</b></span>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="Save"
+                                            ErrorMessage="Select Month Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="ddlMonth" Display="Dynamic" runat="server" InitialValue="0">
+                                        </asp:RequiredFieldValidator>
                                         <asp:DropDownList ID="ddlMonth" runat="server" CssClass="form-control">
                                             <asp:ListItem Value="0">Select</asp:ListItem>
                                             <asp:ListItem Value="1">January</asp:ListItem>
@@ -193,18 +198,26 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Year</label><span style="color: red;"><b> *</b></span>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ValidationGroup="Save"
+                                            ErrorMessage="Select Year." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="ddlYear" Display="Dynamic" runat="server" InitialValue="0">
+                                        </asp:RequiredFieldValidator>
                                         <asp:DropDownList ID="ddlYear" runat="server" CssClass="form-control">
-                                            <asp:ListItem>Select</asp:ListItem>
-                                            <asp:ListItem>2022</asp:ListItem>
-                                            <asp:ListItem>2023</asp:ListItem>
-                                            <asp:ListItem>2024</asp:ListItem>
-                                            <asp:ListItem>2025</asp:ListItem>
+                                            <asp:ListItem Value="0">Select</asp:ListItem>
+                                            <asp:ListItem Value="1">2022</asp:ListItem>
+                                            <asp:ListItem Value="2">2023</asp:ListItem>
+                                            <asp:ListItem Value="3">2024</asp:ListItem>
+                                            <asp:ListItem Value="4">2025</asp:ListItem>
                                         </asp:DropDownList>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Case Type</label><span style="color: red;"><b> *</b></span>
+                                           <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ValidationGroup="Save"
+                                            ErrorMessage="Select Case Type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="rbWPCOnt" Display="Dynamic" runat="server">
+                                        </asp:RequiredFieldValidator>
                                         <asp:RadioButtonList ID="rbWPCOnt" runat="server" RepeatDirection="Horizontal" CssClass="form-control">
                                             <asp:ListItem Value="1">&nbsp;WP/Contempt &nbsp;&nbsp;&nbsp;</asp:ListItem>
                                             <asp:ListItem Value="2">&nbsp;WA/RP</asp:ListItem>
@@ -212,7 +225,15 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3" style="margin-top: 3%;">
-                                    <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary" Text="Search" OnClick="btnSearch_Click"/>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary btn-block" ValidationGroup="Save" Text="Search" OnClick="btnSearch_Click" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a href="MonthlyHearingDtl.aspx" class="btn btn-block btn-default">Clear</a>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
                             </div>
                         </fieldset>

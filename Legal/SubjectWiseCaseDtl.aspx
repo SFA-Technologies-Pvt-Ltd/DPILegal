@@ -3,6 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
+    <asp:ValidationSummary ID="vds" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Save" />
      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div style="display: table; height: 100%; width: 100%;">
             <div class="modal-dialog" style="width: 80%; display: table-cell; vertical-align: middle;">
@@ -178,12 +179,12 @@
                                             ControlToValidate="ddlCaseSubject" Display="Dynamic" runat="server" InitialValue="0">
                                         </asp:RequiredFieldValidator>
                                         <asp:DropDownList ID="ddlCaseSubject" runat="server" CssClass="form-control">
-                                            <asp:ListItem>Select</asp:ListItem>
-                                            <asp:ListItem>स्थानांतरण</asp:ListItem>
-                                            <asp:ListItem>नियूक्ति</asp:ListItem>
-                                            <asp:ListItem>प्रतिनियुक्ति</asp:ListItem>
-                                            <asp:ListItem>पदोन्नति</asp:ListItem>
-                                            <asp:ListItem>वेतन बृद्धि</asp:ListItem>
+                                            <asp:ListItem Value="0">Select</asp:ListItem>
+                                            <asp:ListItem Value="1">स्थानांतरण</asp:ListItem>
+                                            <asp:ListItem Value="2">नियूक्ति</asp:ListItem>
+                                            <asp:ListItem Value="3">प्रतिनियुक्ति</asp:ListItem>
+                                            <asp:ListItem Value="4">पदोन्नति</asp:ListItem>
+                                            <asp:ListItem Value="5">वेतन बृद्धि</asp:ListItem>
                                         </asp:DropDownList>
                                     </div>
                                 </div>
@@ -201,7 +202,15 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3" style="margin-top: 3%;">
-                                    <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary" Text="Search" OnClick="btnSearch_Click" />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                             <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary btn-block" Text="Search" OnClick="btnSearch_Click" ValidationGroup="Save" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a href="SubjectWiseCaseDtl.aspx" class="btn btn-default btn-block">Clear</a>
+                                        </div>
+                                    </div>
+                                   
                                 </div>
                             </div>
                         </fieldset>

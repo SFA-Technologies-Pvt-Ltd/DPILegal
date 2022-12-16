@@ -8,7 +8,7 @@
             <div class="modal-dialog" style="width: 80%; display: table-cell; vertical-align: middle;">
                 <div class="modal-content" style="width: inherit; height: inherit; margin: 0 auto;">
                     <div class="modal-header" style="background-color: #D9D9D9;">
-                        <span class="modal-title" style="float: left" id="myModalLabel">Responder Details</span>
+                        <span class="modal-title" style="float: left" id="myModalLabel">View Case Detail</span>
                         <button type="button" class="close" data-dismiss="modal">
                             <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                         </button>
@@ -16,7 +16,7 @@
                     <div class="clearfix"></div>
                     <div class="modal-body">
                         <fieldset>
-                            <legend>Edit Respondent</legend>
+                            <legend>Case Details</legend>
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
@@ -158,6 +158,7 @@
             </div>
         </div>
     </div>
+     <asp:ValidationSummary ID="VDS" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Save" />
     <div class="content-wrapper">
         <section class="content">
             <div class="container-fluid">
@@ -173,6 +174,10 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Case Type</label><span style="color: red;"><b> *</b></span>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="Save"
+                                            ErrorMessage="Select Case type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="ddlCaseType" Display="Dynamic" runat="server" InitialValue="0">
+                                        </asp:RequiredFieldValidator>
                                         <asp:DropDownList ID="ddlCaseType" runat="server" CssClass="form-control">
                                             <asp:ListItem Value="0">Select</asp:ListItem>
                                             <asp:ListItem Value="1">Contempt</asp:ListItem>
@@ -183,7 +188,15 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3" style="margin-top: 3%;">
-                                    <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary" Text="Search" OnClick="btnSearch_Click" />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                             <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary btn-block" ValidationGroup="Save" Text="Search" OnClick="btnSearch_Click" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a href="CaseTypeWiseDtl.aspx" class="btn btn-default btn-block">Clear</a>
+                                        </div>
+                                    </div>
+                                   
                                 </div>
                             </div>
                         </fieldset>

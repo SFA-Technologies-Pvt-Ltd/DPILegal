@@ -3,6 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
+    <asp:ValidationSummary ID="VDS" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Save" />
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div style="display: table; height: 100%; width: 100%;">
             <div class="modal-dialog" style="width: 80%; display: table-cell; vertical-align: middle;">
@@ -173,16 +174,24 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Week List</label><span style="color: red;"><b> *</b></span>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="Save"
+                                            ErrorMessage="Select Week." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="ddlWeek" Display="Dynamic" runat="server" InitialValue="0">
+                                        </asp:RequiredFieldValidator>
                                         <asp:DropDownList ID="ddlWeek" runat="server" CssClass="form-control">
-                                            <asp:ListItem>Select</asp:ListItem>
-                                            <asp:ListItem>Current Week</asp:ListItem>
-                                            <asp:ListItem>Comming Week</asp:ListItem>
+                                            <asp:ListItem Value="0">Select</asp:ListItem>
+                                            <asp:ListItem Value="1">Current Week</asp:ListItem>
+                                            <asp:ListItem Value="2">Comming Week</asp:ListItem>
                                         </asp:DropDownList>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Case Type</label><span style="color: red;"><b> *</b></span>
+                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ValidationGroup="Save"
+                                            ErrorMessage="Select Case Type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="rbWPCOnt" Display="Dynamic" runat="server">
+                                        </asp:RequiredFieldValidator>
                                         <asp:RadioButtonList ID="rbWPCOnt" runat="server" RepeatDirection="Horizontal" CssClass="form-control">
                                             <asp:ListItem Value="1">&nbsp;WP/Contempt &nbsp;&nbsp;&nbsp;</asp:ListItem>
                                             <asp:ListItem Value="2">&nbsp;WA/RP</asp:ListItem>
@@ -190,7 +199,15 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3" style="margin-top: 3%;">
-                                    <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary" Text="Search" OnClick="btnSearch_Click" />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary btn-block" Text="Search" ValidationGroup="Save" OnClick="btnSearch_Click" />
+                                        </div>
+                                         <div class="col-md-6">
+                                             <a href="WeekelyHearingCaseRpt.aspx" class="btn btn-default btn-block">Clear</a>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
                             </div>
                         </fieldset>

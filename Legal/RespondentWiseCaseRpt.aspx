@@ -3,12 +3,13 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
+    <asp:ValidationSummary ID="vds" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Save" />
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div style="display: table; height: 100%; width: 100%;">
             <div class="modal-dialog" style="width: 80%; display: table-cell; vertical-align: middle;">
                 <div class="modal-content" style="width: inherit; height: inherit; margin: 0 auto;">
                     <div class="modal-header" style="background-color: #D9D9D9;">
-                        <span class="modal-title" style="float: left" id="myModalLabel">Responder Details</span>
+                        <span class="modal-title" style="float: left" id="myModalLabel">View Case Detail</span>
                         <button type="button" class="close" data-dismiss="modal">
                             <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                         </button>
@@ -164,7 +165,7 @@
                 <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
                 <div class="card">
                     <div class="card-header">
-                        Subject Wise Case Detail
+                        Respondent Wise Case Detail
                     </div>
                     <div class="card-body">
                         <fieldset>
@@ -173,20 +174,28 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Repondent Type</label><span style="color: red;"><b> *</b></span>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="Save"
+                                            ErrorMessage="Select Respondent Type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="ddlRespondentType" Display="Dynamic" runat="server" InitialValue="0">
+                                        </asp:RequiredFieldValidator>
                                         <asp:DropDownList ID="ddlRespondentType" runat="server" CssClass="form-control">
-                                            <asp:ListItem>Select</asp:ListItem>
-                                            <asp:ListItem>PP Case</asp:ListItem>
-                                            <asp:ListItem>DPI Case</asp:ListItem>
-                                            <asp:ListItem>JD Case</asp:ListItem>
-                                            <asp:ListItem>DEO Case</asp:ListItem>
-                                            <asp:ListItem>RSK Case</asp:ListItem>
-                                            <asp:ListItem>TBC Case</asp:ListItem>
+                                            <asp:ListItem Value="0">Select</asp:ListItem>
+                                            <asp:ListItem Value="1">PP Case</asp:ListItem>
+                                            <asp:ListItem Value="2">DPI Case</asp:ListItem>
+                                            <asp:ListItem Value="3">JD Case</asp:ListItem>
+                                            <asp:ListItem Value="4">DEO Case</asp:ListItem>
+                                            <asp:ListItem Value="5">RSK Case</asp:ListItem>
+                                            <asp:ListItem Value="6">TBC Case</asp:ListItem>
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                 <div class="col-md-3">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Case Type</label><span style="color: red;"><b> *</b></span>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ValidationGroup="Save"
+                                            ErrorMessage="Select Case Type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="rbWPCOnt" Display="Dynamic" runat="server">
+                                        </asp:RequiredFieldValidator>
                                         <asp:RadioButtonList ID="rbWPCOnt" runat="server" RepeatDirection="Horizontal" CssClass="form-control">
                                             <asp:ListItem Value="1">&nbsp;WP/Contempt &nbsp;&nbsp;&nbsp;</asp:ListItem>
                                             <asp:ListItem Value="2">&nbsp;WA/RP</asp:ListItem>
@@ -194,7 +203,15 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3" style="margin-top: 3%;">
-                                    <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary" Text="Search" OnClick="btnSearch_Click" />
+                                    <div class="row ">
+                                        <div class="col-md-6">
+                                            <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary btn-block" ValidationGroup="Save" Text="Search" OnClick="btnSearch_Click" />
+                                        </div>
+                                         <div class="col-md-6">
+                                             <a href="RespondentWiseCaseRpt.aspx" class="btn btn-default btn-block">Clear</a>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
                             </div>
                         </fieldset>

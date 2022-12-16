@@ -50,23 +50,26 @@ public partial class Legal_MonthlyHearingDtl : System.Web.UI.Page
     {
         try
         {
-            grdMonthlyHearingdtl.DataSource = null;
-            grdMonthlyHearingdtl.DataBind();
-
-            DataTable dt = (DataTable)ViewState["dtCol"];
-
-            if (dt.Columns.Count > 0)
+            if (Page.IsValid)
             {
-                dt.Rows.Add("1", "DPI Case", rbWPCOnt.SelectedItem.Text, "स्थानांतरण", "Ct001202", "Jabalpur High Court", "Mohan Lal Singh", "Gouri Shanker", "8952232325", "gourishanker46@gmail.com", "Srikant Parte", "7895641563", "Srikantp8955@gmail.com", 16 +"/"+ ddlMonth.SelectedValue + "/"+ddlYear.SelectedItem.Text, "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
-                dt.Rows.Add("2", "PP Case", rbWPCOnt.SelectedItem.Text, "नियूक्ति", "Ct001995", "Gwalior High Court", "Sharman Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Mohan Parte", "8895641563", "Mohantp8955@gmail.com", 17 + "/" + ddlMonth.SelectedValue + "/" + ddlYear.SelectedItem.Text, "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
-                dt.Rows.Add("2", "JD Case", rbWPCOnt.SelectedItem.Text, "प्रतिनियुक्ति", "Ct001995", "Indore High Court", "Sharman Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Ajay Mishra", "8895641563", "Mohantp8955@gmail.com", 18 + "/" + ddlMonth.SelectedValue + "/" + ddlYear.SelectedItem.Text, "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
-            }
-            ds.Tables.Add(dt);
-            if (ds != null && ds.Tables[0].Rows.Count > 0)
-            {
-                grdMonthlyHearingdtl.DataSource = ds;
+                grdMonthlyHearingdtl.DataSource = null;
                 grdMonthlyHearingdtl.DataBind();
-                dt.Clear();
+
+                DataTable dt = (DataTable)ViewState["dtCol"];
+
+                if (dt.Columns.Count > 0)
+                {
+                    dt.Rows.Add("1", "DPI Case", rbWPCOnt.SelectedItem.Text, "स्थानांतरण", "Ct001202", "Jabalpur High Court", "Mohan Lal Singh", "Gouri Shanker", "8952232325", "gourishanker46@gmail.com", "Srikant Parte", "7895641563", "Srikantp8955@gmail.com", 22 + "/" + ddlMonth.SelectedValue + "/" + ddlYear.SelectedItem.Text, "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
+                    dt.Rows.Add("2", "PP Case", rbWPCOnt.SelectedItem.Text, "नियूक्ति", "Ct001995", "Gwalior High Court", "Sharman Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Mohan Parte", "8895641563", "Mohantp8955@gmail.com", 26 + "/" + ddlMonth.SelectedValue + "/" + ddlYear.SelectedItem.Text, "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
+                    dt.Rows.Add("3", "JD Case", rbWPCOnt.SelectedItem.Text, "प्रतिनियुक्ति", "Ct001995", "Indore High Court", "Sharman Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Ajay Mishra", "8895641563", "Mohantp8955@gmail.com", 30 + "/" + ddlMonth.SelectedValue + "/" + ddlYear.SelectedItem.Text, "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
+                }
+                ds.Tables.Add(dt);
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
+                {
+                    grdMonthlyHearingdtl.DataSource = ds;
+                    grdMonthlyHearingdtl.DataBind();
+                    dt.Clear();
+                }
             }
         }
         catch (Exception ex)
