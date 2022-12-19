@@ -22,7 +22,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
                 {
                     BIndWACaseCount();
                     UpComingHearing();
-                    //CourtTypeCase();
+                    CourtTypeCase();
                 }
             }
             else
@@ -42,7 +42,9 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
     {
         try
         {
-            StringBuilder Sb = new StringBuilder();           
+            DataSet dsCase = new DataSet();
+            dsCase = objdb.ByProcedure("USP_Legal_getCourtCaseCountForgraph", new string[] { }, new string[] { }, "dataset");
+            StringBuilder Sb = new StringBuilder();
             Sb.Append("<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>");
             Sb.Append("<script type='text/javascript'>");
             Sb.Append(" google.charts.load(");
@@ -52,21 +54,33 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             Sb.Append("{");
             Sb.Append("var data = google.visualization.arrayToDataTable([");
             Sb.Append(" ['Court', 'Case No.'],");
-            Sb.Append(" ['Jabalpur Court Cases', 11],");
-            Sb.Append(" ['Indore Court Cases', 2],");
-            Sb.Append(" ['Gwalior Court Cases', 2],");
-            Sb.Append(" ['Other Court Cases', 2]");
-            //Sb.Append(" ['Sleep', 7]");
+            for (int i = 0; i < dsCase.Tables[0].Rows.Count; i++)
+            {
+                Sb.Append(" ['" + dsCase.Tables[0].Rows[i]["CourtTypeName"].ToString() + "', " + dsCase.Tables[0].Rows[i]["Case_ID"].ToString() + " ],");
+            }
+
             Sb.Append("]);");
+            //Sb.Append("var formatShort = new google.visualization.NumberFormat({");
+            //Sb.Append("pattern: 'short'");
+            //Sb.Append("});");
+            //Sb.Append("formatShort.format(data, 1);");
             Sb.Append("var options = {");
-            Sb.Append("title: 'My Daily Activities'");
+            Sb.Append(" 'title':  'COURT WISE CASE No.',");
+           
+            Sb.Append("pieSliceText: 'value',");
+            //Sb.Append("pieSliceText: 'label',");
+            Sb.Append(" 'is3D':   false,");
+            Sb.Append("tooltip: {");
+            Sb.Append(" text: 'value'");
+
+            Sb.Append(" }");
             Sb.Append("};");
             Sb.Append("var chart = new google.visualization.PieChart(document.getElementById('piechart'));");
             Sb.Append("chart.draw(data, options);");
             Sb.Append("}");
             Sb.Append("</script>");
-            Sb.Append("<div id='piechart' style='width: 500px; height: 400px;'></div>");
-            //sbid.InnerHtml = Sb.ToString();
+            Sb.Append("<div id='piechart' style='width: 600px; height: 500px;'></div>");
+            sbid.InnerHtml = Sb.ToString();
         }
         catch (Exception ex)
         {
@@ -107,6 +121,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             // Indore Court Case Count
             if (ds.Tables[0].Rows[0]["IndoreCase"].ToString() != "")
             {
+
                 lblIndoreCases.Text = ds.Tables[0].Rows[0]["IndoreCase"].ToString() + " No's";
             }
             else { lblIndoreCases.Text = "00 No's"; }

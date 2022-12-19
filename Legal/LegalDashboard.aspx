@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="LegalDashboard.aspx.cs" Inherits="mis_Legal_LegalDashboard" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-     
+
     <style>
         .LegalImage {
             background-image: url("../image/Legal%203.png");
@@ -126,6 +126,8 @@
             document.forms[0].target = "_blank";
         }
     </script>
+
+
 
 
     <%-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -314,9 +316,9 @@
                         <div class="row Space">
                             <%-- <div class="col-md-1"></div>--%>
                             <div class="col-md-6">
-                                <img src="../image/Courtwise.png"  class="NewCaseCourtImage"/>
-                              <%-- <div id="sbid" runat="server"></div>--%>
+                               <%-- <img src="../image/Courtwise.png" class="NewCaseCourtImage" />--%>
                                 
+                                 <div id="sbid" runat="server"></div>
                             </div>
 
                             <%-- <div class="col-md-1"></div>--%>
