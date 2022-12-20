@@ -126,39 +126,85 @@
             document.forms[0].target = "_blank";
         }
     </script>
-
-
-
-
-    <%-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                                <script type="text/javascript">
-                                    google.charts.load('current', { 'packages': ['corechart'] });
-                                    google.charts.setOnLoadCallback(drawChart);
-
-                                    function drawChart() {
-
-                                        var data = google.visualization.arrayToDataTable([
-                                          ['Task', 'Hours per Day'],
-                                          ['Work', 11],
-                                          ['Eat', 2],
-                                          ['Commute', 2],
-                                          ['Watch TV', 2],
-                                          ['Sleep', 7]
-                                        ]);
-
-                                        var options = {
-                                            title: 'My Daily Activities'
-                                        };
-
-                                        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-                                        chart.draw(data, options);
-                                    }
-                                </script>
-
-          graph                      <div id="piechart" style="width: 900px; height: 500px;"></div>--%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div style="display: table; height: 100%; width: 80%; position:absolute; left:10%;">
+            <div class="modal-dialog" style="width: 80%; display: table-cell; vertical-align: middle;">
+                <div class="modal-content" style="width: inherit; height: inherit; margin: 0 auto;">
+                    <div class="modal-header" style="background-color: #D9D9D9;">
+                        <span class="modal-title" style="float: left" id="myModalLabel">High Priority Case Details</span>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <fieldset>
+                                <legend>High Priority Case</legend>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="table-responsive">
+                                            <asp:GridView ID="GrdHighpriorityCase" runat="server" CssClass="table table-bordered" AutoGenerateColumns="false">
+                                                <Columns>
+                                                    <asp:TemplateField HeaderText="S.No.">
+                                                        <ItemTemplate>
+                                                            <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex +1 %>'></asp:Label>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField HeaderText="Case Subject">
+                                                        <ItemTemplate>
+                                                            <asp:Label ID="lblCaseSubject" runat="server" Text='<%# Eval("CaseSubject") %>'></asp:Label>
+                                                            <asp:Label ID="LabelOICName" runat="server" Text='<%# Eval("OICName") %>' Visible="false"></asp:Label>
+                                                            <asp:Label ID="LabelOICMObile" runat="server" Text='<%# Eval("OICMobileNo") %>' Visible="false"></asp:Label>
+                                                            <asp:Label ID="LabelOICEmail" runat="server" Text='<%# Eval("OICEmailID") %>' Visible="false"></asp:Label>
+                                                            <asp:Label ID="LabelNodalName" runat="server" Text='<%# Eval("NodalName") %>' Visible="false"></asp:Label>
+                                                            <asp:Label ID="LabelNodalMobile" runat="server" Text='<%# Eval("NodalMobileNo") %>' Visible="false"></asp:Label>
+                                                            <asp:Label ID="LabelNodalEmail" runat="server" Text='<%# Eval("NodalEmailID") %>' Visible="false"></asp:Label>
+                                                            <asp:Label ID="LabelAdvocateName" runat="server" Text='<%# Eval("AdvocateName") %>' Visible="false"></asp:Label>
+                                                            <asp:Label ID="LabelAdvocateMobile" runat="server" Text='<%# Eval("AdvocateMobileNo") %>' Visible="false"></asp:Label>
+                                                            <asp:Label ID="LabelAdvocateEmail" runat="server" Text='<%# Eval("AdvocateEmailID") %>' Visible="false"></asp:Label>
+                                                            <asp:Label ID="LabelHearingDate" runat="server" Text='<%# Eval("NextHearingDate") %>' Visible="false"></asp:Label>
+                                                            <asp:Label ID="LabelRespondertype" runat="server" Text='<%# Eval("Respondertype") %>' Visible="false"></asp:Label>
+                                                            <asp:Label ID="lblCaseDetail" runat="server" Text='<%# Eval("CaseDetail") %>' Visible="false"></asp:Label>
+                                                            <asp:Label ID="lblCasetype" runat="server" Text='<%# Eval("CaseType") %>' Visible="false"></asp:Label>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField HeaderText="Case No.">
+                                                        <ItemTemplate>
+                                                            <asp:Label ID="lblCaseNO" runat="server" Text='<%# Eval("CaseNo") %>'></asp:Label>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField HeaderText="Petitioner Name">
+                                                        <ItemTemplate>
+                                                            <asp:Label ID="lblPetitionerName" runat="server" Text='<%# Eval("PetitionerName") %>'></asp:Label>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField HeaderText="Court Name">
+                                                        <ItemTemplate>
+                                                            <asp:Label ID="lblCourtName" runat="server" Text='<%# Eval("CourtName") %>'></asp:Label>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:BoundField HeaderText="High Priority Case" DataField="CaseType" />
+                                                </Columns>
+                                            </asp:GridView>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <%--  <asp:Button ID="btnUpdate" runat="server" Text="Update" CssClass="btn btn-primary" />--%>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="content-wrapper">
         <section class="content-header">
             <div class="container-fluid">
@@ -176,6 +222,12 @@
                                     <img src="../image/Libra.png" class="Libraimage" />
                                 </div>
                             </div>--%>
+                        <div class="row Space">
+                            <div class="col-md-12">
+                                <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">HIGH PRIORITY CASE :</span>
+                                <asp:LinkButton ID="btnHighPriorityCase" runat="server" CssClass="btn-sm label label-warning " OnClick="btnHighPriorityCase_Click">TOTAL Case 5 No's</asp:LinkButton>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-12 ">
                                 <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">UPCOMING HEARING :</span>
@@ -310,20 +362,17 @@
                                 <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">COURT WISE :</span>
                             </div>
                             <div class="col-md-6">
-                                <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">CASE WISE :(TOTAL CASE : 75 No's)</span>
+                                <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">CASE WISE :(TOTAL CASE : <span id="CasetypeCountno" runat="server" class="Heading"></span> No's)</span>
                             </div>
                         </div>
                         <div class="row Space">
-                            <%-- <div class="col-md-1"></div>--%>
                             <div class="col-md-6">
-                               <%-- <img src="../image/Courtwise.png" class="NewCaseCourtImage" />--%>
-                                
-                                 <div id="sbid" runat="server"></div>
+                               <%-- <img src="../image/New1.png" class="NewCaseCourtImage" />--%>
+                                <div id="sbid" runat="server"></div>
                             </div>
-
-                            <%-- <div class="col-md-1"></div>--%>
                             <div class="col-md-6">
-                                <img src="../image/CaseWise.png" class="NewCaseCourtImage" />
+                                <%--<img src="../image/New2.png" class="NewCaseCourtImage" />--%>
+                                <div id="CasetypeCountID" runat="server"></div>
                             </div>
                         </div>
 

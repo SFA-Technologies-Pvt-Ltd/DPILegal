@@ -22,7 +22,9 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
                 {
                     BIndWACaseCount();
                     UpComingHearing();
+                    BindDataColoumn();
                     CourtTypeCase();
+                    BindCaseTypeCount();
                 }
             }
             else
@@ -31,6 +33,72 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             }
         }
 
+        catch (Exception ex)
+        {
+            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
+        }
+
+    }
+
+    protected void BindCaseTypeCount()
+    {
+        try
+        {
+
+            DataSet dsCasecount = new DataSet();
+            dsCasecount = objdb.ByProcedure("USP_Legal_GetCasetypeCount_ForGraph", new string[] { }, new string[] { }, "dataset");
+            StringBuilder SbCount = new StringBuilder();
+            SbCount.Append("<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>");
+            SbCount.Append("<script type='text/javascript'>");
+            SbCount.Append(" google.charts.load(");
+            SbCount.Append("'current', { 'packages': ['corechart'] });");
+            SbCount.Append("google.charts.setOnLoadCallback(drawChart);");
+            SbCount.Append("function drawChart()");
+            SbCount.Append("{");
+            SbCount.Append("var data = google.visualization.arrayToDataTable([");
+            SbCount.Append(" ['Court', 'Case No.'],");
+            for (int i = 0; i < dsCasecount.Tables[0].Rows.Count; i++)
+            {
+                SbCount.Append(" ['" + dsCasecount.Tables[0].Rows[i]["Casetype_Name"].ToString() + "', " + dsCasecount.Tables[0].Rows[i]["CaseID"].ToString() + " ],");
+            }
+            SbCount.Append("]);");
+            SbCount.Append("var options = {");
+            SbCount.Append(" 'title':  'CASE TYPE CASE COUNT.',");
+           //  SbCount.Append("colors: ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],"); // Using To Apply Chart Colors .
+            //SbCount.Append("backgroundColor: 'transparent',"); // to remove &change backcolor.
+            SbCount.Append("chartArea: {");
+            SbCount.Append("height: '100%',");
+            SbCount.Append("width: '100%',");
+            SbCount.Append("top: 12,");
+            SbCount.Append("left: 12,");
+            SbCount.Append("right: 12,");
+            SbCount.Append("bottom: 12");
+            SbCount.Append("},");
+            SbCount.Append(" height: 250,");
+            SbCount.Append(" 'is3D': false,pieHole: 0.03,pieSliceTextStyle: {bold:true,fontSize: 12}, "); // Piehole using For Create Circle Into Center.
+            SbCount.Append("legend: {");
+            SbCount.Append("position: 'labeled',");
+            SbCount.Append("   textStyle: {");
+            SbCount.Append("fontSize: 13, bold:true");
+            SbCount.Append("},");
+            SbCount.Append("labeledValueText: 'none'"); // thise line For Remove Percentage From Legend
+            SbCount.Append("},");
+            SbCount.Append("pieSliceText: 'value',"); // thise line For Show value in Chart
+            SbCount.Append("tooltip: {");
+            SbCount.Append(" text: 'value'"); // thise line For Remove Percentage From tooltip
+            SbCount.Append(" }");
+            SbCount.Append("};");
+            SbCount.Append("var chart = new google.visualization.PieChart(document.getElementById('piechart'));");
+            SbCount.Append("chart.draw(data, options);");
+            SbCount.Append("}");
+            SbCount.Append("</script>");
+            SbCount.Append("<div id='piechart' style='width: 500px;'></div>");
+            CasetypeCountID.InnerHtml = SbCount.ToString();
+            if (dsCasecount != null && dsCasecount.Tables[1].Rows[0]["TotalCase"].ToString() != "")
+            {
+                CasetypeCountno.InnerHtml = dsCasecount.Tables[1].Rows[0]["TotalCase"].ToString();
+            }
+        }
         catch (Exception ex)
         {
             lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
@@ -60,32 +128,68 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             }
 
             Sb.Append("]);");
-            //Sb.Append("var formatShort = new google.visualization.NumberFormat({");
-            //Sb.Append("pattern: 'short'");
-            //Sb.Append("});");
-            //Sb.Append("formatShort.format(data, 1);");
             Sb.Append("var options = {");
             Sb.Append(" 'title':  'COURT WISE CASE No.',");
-           
-            Sb.Append("pieSliceText: 'value',");
-            //Sb.Append("pieSliceText: 'label',");
-            Sb.Append(" 'is3D':   false,");
+            //Sb.Append("colors: ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],"); // Using To Apply Chart Colors .
+            Sb.Append("chartArea: {");
+            Sb.Append("height: '100%',");
+            Sb.Append("width: '100%',");
+            Sb.Append("top: 12,");
+            Sb.Append("left: 12,");
+            Sb.Append("right: 12,");
+            Sb.Append("bottom: 12");
+            Sb.Append("},");
+            Sb.Append(" height: 250,");
+            Sb.Append(" 'is3D': false, pieHole: 0.03, pieSliceTextStyle: {fontSize: 12,bold:true },");// Piehole using For Create Circle Into Center.
+            Sb.Append("legend: {");
+            Sb.Append("position: 'labeled',");
+            Sb.Append("textStyle: {");
+            Sb.Append("fontSize: 13, bold:true");
+            Sb.Append("}, ");
+            Sb.Append("labeledValueText: 'none'"); // thise line For Remove Percentage From Legend
+            Sb.Append("},");
+            Sb.Append("pieSliceText: 'value',"); // thise line For Show value in Chart
             Sb.Append("tooltip: {");
-            Sb.Append(" text: 'value'");
-
+            Sb.Append(" text: 'value'"); // thise line For Remove Percentage From tooltip
             Sb.Append(" }");
             Sb.Append("};");
-            Sb.Append("var chart = new google.visualization.PieChart(document.getElementById('piechart'));");
+            Sb.Append("var chart = new google.visualization.PieChart(document.getElementById('piechartNew'));");
             Sb.Append("chart.draw(data, options);");
             Sb.Append("}");
             Sb.Append("</script>");
-            Sb.Append("<div id='piechart' style='width: 600px; height: 500px;'></div>");
+            Sb.Append("<div id='piechartNew' style='width: 500px;'></div>");
             sbid.InnerHtml = Sb.ToString();
         }
         catch (Exception ex)
         {
             lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
         }
+
+    }
+
+    protected void BindDataColoumn()
+    {
+        DataTable dtcol = new DataTable();
+        dtcol.Columns.Add("ID", typeof(int));
+        dtcol.Columns.Add("Respondertype", typeof(string));
+        dtcol.Columns.Add("CaseType", typeof(string));
+        dtcol.Columns.Add("CaseSubject", typeof(string));
+        dtcol.Columns.Add("CaseNo", typeof(string));
+        dtcol.Columns.Add("CourtName", typeof(string));
+        dtcol.Columns.Add("PetitionerName", typeof(string));
+        dtcol.Columns.Add("NodalName", typeof(string));
+        dtcol.Columns.Add("NodalMobileNo", typeof(string));
+        dtcol.Columns.Add("NodalEmailID", typeof(string));
+        dtcol.Columns.Add("OICName", typeof(string));
+        dtcol.Columns.Add("OICMobileNo", typeof(string));
+        dtcol.Columns.Add("OICEmailID", typeof(string));
+        dtcol.Columns.Add("NextHearingDate", typeof(string));
+        dtcol.Columns.Add("AdvocateName", typeof(string));
+        dtcol.Columns.Add("AdvocateMobileNo", typeof(string));
+        dtcol.Columns.Add("AdvocateEmailID", typeof(string));
+        dtcol.Columns.Add("CaseDetail", typeof(string));
+
+        ViewState["dtCol"] = dtcol;
     }
 
     protected void UpComingHearing()
@@ -383,6 +487,40 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
         catch (Exception ex)
         {
             lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
+        }
+    }
+    protected void btnHighPriorityCase_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (Page.IsValid)
+            {
+                GrdHighpriorityCase.DataSource = null;
+                GrdHighpriorityCase.DataBind();
+
+                DataTable dt = (DataTable)ViewState["dtCol"];
+
+                if (dt.Columns.Count > 0)
+                {
+                    dt.Rows.Add("1", "DPI Case", "Yes", "स्थानांतरण", "Ct001202", "Jabalpur High Court", "Mohan Lal Singh", "Gouri Shanker", "8952232325", "gourishanker46@gmail.com", "Srikant Parte", "7895641563", "Srikantp8955@gmail.com", DateTime.Now.AddDays(1).ToString("dd/MM/yyyy"), "Narendra Rao", "6589744512", "Narendrrao8745@gmail.com", "Case In Progress");
+                    dt.Rows.Add("2", "PP Case", "Yes", "वेतन वृद्धि", "Ct001995", "Gwalior High Court", "Gurmeet Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Mohan Parte", "8895641563", "Mohantp8955@gmail.com", DateTime.Now.AddDays(3).ToString("dd/MM/yyyy"), "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
+                    dt.Rows.Add("3", "DPI Case", "Yes", "स्थानांतरण", "Ct001202", "Jabalpur High Court", "Durgesh Kahar", "Gouri Shanker", "8952232325", "gourishanker46@gmail.com", "Srikant Parte", "7895641563", "Srikantp8955@gmail.com", DateTime.Now.AddDays(6).ToString("dd/MM/yyyy"), "Narendra Rao", "6589744512", "Narendrrao8745@gmail.com", "Case In Progress");
+                    dt.Rows.Add("4", "PP Case", "Yes", "वेतन वृद्धि", "Ct001995589", "Gwalior High Court", "Sharman Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Mohan Parte", "8895641563", "Mohantp8955@gmail.com", DateTime.Now.AddDays(11).ToString("dd/MM/yyyy"), "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
+                    dt.Rows.Add("4", "PP Case", "Yes", "पदोन्नती", "Ct0019910010", "Indore High Court", "kailash Verma", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Mohan Parte", "8895641563", "Mohantp8955@gmail.com", DateTime.Now.AddDays(9).ToString("dd/MM/yyyy"), "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
+                }
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    GrdHighpriorityCase.DataSource = dt;
+                    GrdHighpriorityCase.DataBind();
+                    dt.Clear();
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "myModal()", true);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
 }

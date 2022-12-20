@@ -16,7 +16,7 @@ public partial class Legal_EditWACaseDetails : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Request.QueryString["ID"].ToString() != null && Request.QueryString["ID"].ToString() != "")
+       if (Request.QueryString["ID"].ToString() != null && Request.QueryString["ID"].ToString() != "")
         {
             if (Session["Emp_Id"].ToString() != null && Session["Emp_Id"].ToString() != "")
             {
