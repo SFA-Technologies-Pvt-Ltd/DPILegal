@@ -456,6 +456,8 @@
                             <legend>Hearing Detail</legend>
                             <div class="row float-right" style="margin: -2% 0 0 0;">
                                 <asp:LinkButton ID="lnkbtnAddNewHering" runat="server" CssClass="btn-sm label label-success" OnClick="lnkbtnAddNewHering_Click">Add Hearing</asp:LinkButton>
+                                &nbsp;&nbsp;
+                                <asp:LinkButton ID="btnHearingBack" runat="server" CssClass="btn-sm label label-danger" OnClick="btnHearingBack_Click">Back</asp:LinkButton>
                             </div>
                             <div class="" id="AddNewHearing" runat="server" visible="false">
                                 <div class="row">

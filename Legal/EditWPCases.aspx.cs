@@ -491,6 +491,7 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                     lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ds.Tables[0].Rows[0]["ErrMsg"].ToString());
                 }
                 BindDetails();
+                btnAddResponder.Text = "Add";
             }
         }
         catch (Exception ex)
@@ -1034,6 +1035,27 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                 btnSaveHearingDtl.Text = "Update";
                 Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "$('#ModalEditHearingDtl').modal('show')", true);
             }
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+        }
+    }
+    protected void btnHearingBack_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            lblMsg.Text = "";
+            Field_AddResponder.Visible = false;
+            Case_EditField.Visible = false;
+            FieldSet_CaseDetail.Visible = true; ;
+            FieldSet_DocumentDetail.Visible = true;
+            FieldSet_ResponderDetail.Visible = true;
+            Fieldset_HearingDtl.Visible = true;
+
+            AddNewHearing.Visible = false;
+            FiledSet_HearingDBDtl.Visible = true;
+            BindDetails();
         }
         catch (Exception ex)
         {

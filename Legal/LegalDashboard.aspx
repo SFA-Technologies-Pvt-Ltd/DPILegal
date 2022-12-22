@@ -482,7 +482,7 @@
                                         </div>
                                     </div>
                                     <div class="lableBox">
-                                        <asp:Label ID="lblTBCCases" runat="server">22</asp:Label>
+                                        <asp:Label ID="lblTBCCases" runat="server"></asp:Label>
                                     </div>
                                     <div class="buttonDiv">
                                         <asp:Button ID="btnTBCCases" runat="server" CssClass="Buttons" Text="View Detail" OnClientClick="SetTarget();" OnClick="btnTBCCases_Click" />

@@ -45,7 +45,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Respondent Mobile No.</label>
-                                        <asp:TextBox ID="txtResponderNo" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="70"></asp:TextBox>
+                                        <asp:TextBox ID="txtResponderNo" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="10"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -59,7 +59,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>OIC Mobile No.</label>
-                                        <asp:TextBox ID="txtEditRepondentOICMObile" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="70"></asp:TextBox>
+                                        <asp:TextBox ID="txtEditRepondentOICMObile" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="10"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -451,6 +451,8 @@
                             <legend>Hearing Detail</legend>
                             <div class="row float-right" style="margin: -2% 0 0 0;">
                                 <asp:LinkButton ID="lnkbtnAddNewHering" runat="server" CssClass="btn-sm label label-success" OnClick="lnkbtnAddNewHering_Click">Add Hearing</asp:LinkButton>
+                            &nbsp;&nbsp;
+                                <asp:LinkButton ID="btnHearingBack" runat="server" CssClass="btn-sm label label-danger" Text="Back" OnClick="btnHearingBack_Click"></asp:LinkButton>
                             </div>
                             <div class="" id="AddNewHearing" runat="server" visible="false">
                                 <div class="row">

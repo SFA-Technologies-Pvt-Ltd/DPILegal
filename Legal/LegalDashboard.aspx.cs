@@ -44,7 +44,6 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
     {
         try
         {
-
             DataSet dsCasecount = new DataSet();
             dsCasecount = objdb.ByProcedure("USP_Legal_GetCasetypeCount_ForGraph", new string[] { }, new string[] { }, "dataset");
             StringBuilder SbCount = new StringBuilder();
@@ -64,7 +63,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             SbCount.Append("]);");
             SbCount.Append("var options = {");
             SbCount.Append(" 'title':  'CASE TYPE CASE COUNT.',");
-           //  SbCount.Append("colors: ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],"); // Using To Apply Chart Colors .
+            SbCount.Append("colors: ['#4BB160', '#104C9C', '#EC5D92', '#f3b49f'],");// thise is tempreory coloer shown in chart.
             //SbCount.Append("backgroundColor: 'transparent',"); // to remove &change backcolor.
             SbCount.Append("chartArea: {");
             SbCount.Append("height: '100%',");
@@ -222,83 +221,123 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
         {
             ds = objdb.ByProcedure("USP_Get_WACaseCount", new string[] { }, new string[] { }, "dataset");
 
-            // Indore Court Case Count
-            if (ds.Tables[0].Rows[0]["IndoreCase"].ToString() != "")
-            {
+            //// Indore Court Case Count
+            //if (ds.Tables[0].Rows[0]["IndoreCase"].ToString() != "")
+            //{
 
-                lblIndoreCases.Text = ds.Tables[0].Rows[0]["IndoreCase"].ToString() + " No's";
-            }
-            else { lblIndoreCases.Text = "00 No's"; }
-            // Jabalpur Court Case Count
-            if (ds.Tables[0].Rows[0]["JabalpurCase"].ToString() != "")
-            {
-                lblJabalpur.Text = ds.Tables[0].Rows[0]["JabalpurCase"].ToString() + " No's";
-            }
-            else { lblJabalpur.Text = "00 No's"; }
-            // Gwalior Court Case Count
-            if (ds.Tables[0].Rows[0]["GwaliorCase"].ToString() != "")
-            {
-                lblGwalior.Text = ds.Tables[0].Rows[0]["GwaliorCase"].ToString() + " No's";
-            }
-            else { lblGwalior.Text = "00 No's"; }
-            // WA Case Count
-            if (ds.Tables[0].Rows[0]["WACaseCount"].ToString() != "")
-            {
-                lblWACase.Text = ds.Tables[0].Rows[0]["WACaseCount"].ToString() + " No's";
-            }
+            //    lblIndoreCases.Text = ds.Tables[0].Rows[0]["IndoreCase"].ToString() + " No's";
+            //}
+            //else { lblIndoreCases.Text = "00 No's"; }
+            //// Jabalpur Court Case Count
+            //if (ds.Tables[0].Rows[0]["JabalpurCase"].ToString() != "")
+            //{
+            //    lblJabalpur.Text = ds.Tables[0].Rows[0]["JabalpurCase"].ToString() + " No's";
+            //}
+            //else { lblJabalpur.Text = "00 No's"; }
+            //// Gwalior Court Case Count
+            //if (ds.Tables[0].Rows[0]["GwaliorCase"].ToString() != "")
+            //{
+            //    lblGwalior.Text = ds.Tables[0].Rows[0]["GwaliorCase"].ToString() + " No's";
+            //}
+            //else { lblGwalior.Text = "00 No's"; }
+            //// WA Case Count
+            //if (ds.Tables[0].Rows[0]["WACaseCount"].ToString() != "")
+            //{
+            //    lblWACase.Text = ds.Tables[0].Rows[0]["WACaseCount"].ToString() + " No's";
+            //}
             // Contempt case
             //if (ds.Tables[0].Rows[0]["ContemptCaseCount"].ToString() != "")
             //{
             //    lblConTempt.Text = ds.Tables[0].Rows[0]["ContemptCaseCount"].ToString() + " No's";
             //}
             //else { 
-            lblConTempt.Text = "00 No's";
+            //  lblConTempt.Text = "00 No's";
             //}
 
             // WP Case Count
-            if (ds.Tables[0].Rows[0]["WPCaseCount"].ToString() != "")
-            {
-                lblWPCase.Text = ds.Tables[0].Rows[0]["WPCaseCount"].ToString() + " No's";
-            }
-            else { lblWPCase.Text = "00 No's"; }
-            // PP Case
-            if (ds.Tables[0].Rows[0]["PPCase"].ToString() != "")
-            {
-                lblPPCase.Text = ds.Tables[0].Rows[0]["PPCase"].ToString() + " No's";
-            }
-            else { lblPPCase.Text = "00 No's"; }
+            //if (ds.Tables[0].Rows[0]["WPCaseCount"].ToString() != "")
+            //{
+            //    lblWPCase.Text = ds.Tables[0].Rows[0]["WPCaseCount"].ToString() + " No's";
+            //}
+            //else { lblWPCase.Text = "00 No's"; }
+            //// PP Case
+            //if (ds.Tables[0].Rows[0]["PPCase"].ToString() != "")
+            //{
+            //    lblPPCase.Text = ds.Tables[0].Rows[0]["PPCase"].ToString() + " No's";
+            //}
+            //else { lblPPCase.Text = "00 No's"; }
 
-            // DPI Case
-            if (ds.Tables[0].Rows[0]["DPICase"].ToString() != "")
-            {
-                lblDPICase.Text = ds.Tables[0].Rows[0]["DPICase"].ToString() + " No's";
-            }
-            else { lblDPICase.Text = "00 No's"; }
-            // JD Case
-            if (ds.Tables[0].Rows[0]["JDCase"].ToString() != "")
-            {
-                lblJDCases.Text = ds.Tables[0].Rows[0]["JDCase"].ToString() + " No's";
-            }
-            else { lblJDCases.Text = "00 No's"; }
-            // DEO Case
-            if (ds.Tables[0].Rows[0]["DEOCase"].ToString() != "")
-            {
-                lblDEOCases.Text = ds.Tables[0].Rows[0]["DEOCase"].ToString() + " No's";
-            }
-            else { lblDEOCases.Text = "00 No's"; }
-            // RSK Case
-            if (ds.Tables[0].Rows[0]["RSKCase"].ToString() != "")
-            {
-                lblRskCases.Text = ds.Tables[0].Rows[0]["RSKCase"].ToString() + " No's";
-            }
-            else { lblRskCases.Text = "00 No's"; }
-            // TBC Case
-            if (ds.Tables[0].Rows[0]["TBCCase"].ToString() != "")
-            {
-                lblTBCCases.Text = ds.Tables[0].Rows[0]["TBCCase"].ToString() + " No's";
-            }
-            else { lblTBCCases.Text = "00 No's"; }
+            //// DPI Case
+            //if (ds.Tables[0].Rows[0]["DPICase"].ToString() != "")
+            //{
+            //    lblDPICase.Text = ds.Tables[0].Rows[0]["DPICase"].ToString() + " No's";
+            //}
+            //else { lblDPICase.Text = "00 No's"; }
+            //// JD Case
+            //if (ds.Tables[0].Rows[0]["JDCase"].ToString() != "")
+            //{
+            //    lblJDCases.Text = ds.Tables[0].Rows[0]["JDCase"].ToString() + " No's";
+            //}
+            //else { lblJDCases.Text = "00 No's"; }
+            //// DEO Case
+            //if (ds.Tables[0].Rows[0]["DEOCase"].ToString() != "")
+            //{
+            //    lblDEOCases.Text = ds.Tables[0].Rows[0]["DEOCase"].ToString() + " No's";
+            //}
+            //else { lblDEOCases.Text = "00 No's"; }
+            //// RSK Case
+            //if (ds.Tables[0].Rows[0]["RSKCase"].ToString() != "")
+            //{
+            //    lblRskCases.Text = ds.Tables[0].Rows[0]["RSKCase"].ToString() + " No's";
+            //}
+            //else { lblRskCases.Text = "00 No's"; }
+            //// TBC Case
+            //if (ds.Tables[0].Rows[0]["TBCCase"].ToString() != "")
+            //{
+            //    lblTBCCases.Text = ds.Tables[0].Rows[0]["TBCCase"].ToString() + " No's";
+            //}
+            //else { lblTBCCases.Text = "00 No's"; }
 
+
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "PP Cases")
+                {
+                    lblPPCase.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
+                }
+                if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "DPI Cases")
+                {
+                    lblDPICase.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
+                }
+                if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "JD Cases")
+                {
+                    lblJDCases.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
+                }
+                if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "DEO Cases")
+                {
+                    lblDEOCases.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
+                }               
+                if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "RSK Cases")
+                {
+                    lblRskCases.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
+                }               
+                if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "TBC Cases")
+                {
+                    lblTBCCases.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
+                }               
+            }
+            if (lblPPCase.Text == "")
+            { lblPPCase.Text = "00 No's"; }
+            if (lblDPICase.Text == "")
+            { lblDPICase.Text = "00 No's"; }
+            if (lblJDCases.Text == "")
+            { lblJDCases.Text = "00 No's"; }
+            if (lblDEOCases.Text == "")
+            { lblDEOCases.Text = "00 No's"; }
+            if (lblRskCases.Text == "")
+            { lblRskCases.Text = "00 No's"; }
+            if (lblTBCCases.Text == "")
+            { lblTBCCases.Text = "00 No's"; }
         }
         catch (Exception ex)
         {

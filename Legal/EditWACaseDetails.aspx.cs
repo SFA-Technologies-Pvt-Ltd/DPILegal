@@ -1086,7 +1086,7 @@ public partial class Legal_EditWACaseDetails : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-
+            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
     protected void btnCaseDispose_Click(object sender, EventArgs e)
@@ -1174,6 +1174,27 @@ public partial class Legal_EditWACaseDetails : System.Web.UI.Page
                     }
                 }
             }
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+        }
+    }
+    protected void btnHearingBack_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            lblMsg.Text = "";
+            Field_AddResponder.Visible = false;
+            Case_EditField.Visible = false;
+            FieldSet_CaseDetail.Visible = true; ;
+            FieldSet_DocumentDetail.Visible = true;
+            FieldSet_ResponderDetail.Visible = true;
+            Fieldset_HearingDtl.Visible = true;
+            BindDetails();
+
+            AddNewHearing.Visible = false;
+            FiledSet_HearingDBDtl.Visible = true;
         }
         catch (Exception ex)
         {
