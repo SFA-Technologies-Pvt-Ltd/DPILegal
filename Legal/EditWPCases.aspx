@@ -781,7 +781,7 @@
                                         <asp:DropDownList ID="ddlOfficeName" runat="server" CssClass="form-control"></asp:DropDownList>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>WP Case No</label>
                                         <span style="color: red;"><b>*</b></span>
@@ -820,11 +820,11 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Nodal Officer Mobile No.</label>
-                                        <span style="color: red;"><b>*</b></span>
-                                        <asp:RequiredFieldValidator ID="RfvNodalOfficerMobileNo" ValidationGroup="CaseDtl"
+                                       
+                                      <%--  <asp:RequiredFieldValidator ID="RfvNodalOfficerMobileNo" ValidationGroup="CaseDtl"
                                             ErrorMessage="Enter Nodal Officer Mobile No.." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="txtNodalOfficerMobileNo" Display="Dynamic" runat="server">
-                                        </asp:RequiredFieldValidator>
+                                        </asp:RequiredFieldValidator>--%>
                                         <asp:RegularExpressionValidator ID="RexNodalOfficerMobileNo" ValidationGroup="CaseDtl" runat="server" Display="Dynamic" ControlToValidate="txtNodalOfficerMobileNo"
                                             ErrorMessage="Invalid Mobile No." SetFocusOnError="true"
                                             ForeColor="Red" ValidationExpression="^([6-9]{1}[0-9]{9})$"></asp:RegularExpressionValidator>
@@ -834,11 +834,11 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Nodal Officer Email-ID</label>
-                                        <span style="color: red;"><b>*</b></span>
-                                        <asp:RequiredFieldValidator ID="RfvNodalEmailID" ValidationGroup="CaseDtl"
+                                       
+                                     <%--   <asp:RequiredFieldValidator ID="RfvNodalEmailID" ValidationGroup="CaseDtl"
                                             ErrorMessage="Enter Nodal Officer Email-ID" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="txtNodalOfficerEmailID" Display="Dynamic" runat="server">
-                                        </asp:RequiredFieldValidator>
+                                        </asp:RequiredFieldValidator>--%>
                                         <asp:TextBox ID="txtNodalOfficerEmailID" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="60"></asp:TextBox>
                                     </div>
                                 </div>
@@ -857,11 +857,11 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Advocate Mobile No.</label><span style="color: red;"><b>*</b></span>
-                                        <asp:RequiredFieldValidator ID="RfvOicMobileNO" ValidationGroup="CaseDtl"
+                                        <label>Advocate Mobile No.</label>
+                                      <%--  <asp:RequiredFieldValidator ID="RfvOicMobileNO" ValidationGroup="CaseDtl"
                                             ErrorMessage="Enter OIC Mobile No." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="txtOicMobileNO" Display="Dynamic" runat="server">
-                                        </asp:RequiredFieldValidator>
+                                        </asp:RequiredFieldValidator>--%>
                                         <asp:RegularExpressionValidator ID="revOICMobileNo" ValidationGroup="CaseDtl" runat="server" Display="Dynamic" ControlToValidate="txtOicMobileNO"
                                             ErrorMessage="Invalid Mobile No." SetFocusOnError="true"
                                             ForeColor="Red" ValidationExpression="^([6-9]{1}[0-9]{9})$"></asp:RegularExpressionValidator>
@@ -870,13 +870,13 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Advocate Email-ID</label><span style="color: red;"><b>*</b></span>
-                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ValidationGroup="CaseDtl"
+                                        <label>Advocate Email-ID</label>
+                                       <%-- <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ValidationGroup="CaseDtl"
                                             ErrorMessage="Enter OIC Mobile No." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="txtAdvocateEmaild" Display="Dynamic" runat="server">
-                                        </asp:RequiredFieldValidator>
+                                        </asp:RequiredFieldValidator>--%>
 
-                                        <asp:TextBox ID="txtAdvocateEmaild" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="10"></asp:TextBox>
+                                        <asp:TextBox ID="txtAdvocateEmaild" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="70"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -905,11 +905,7 @@
                                         </asp:RequiredFieldValidator>
                                         <asp:DropDownList ID="ddlCaseSubject" runat="server" CssClass="form-control">
                                             <asp:ListItem Value="0">Select</asp:ListItem>
-                                            <asp:ListItem Value="1">स्थानांतरण</asp:ListItem>
-                                            <asp:ListItem Value="2">नियूक्ति</asp:ListItem>
-                                            <asp:ListItem Value="3">प्रतिनियुक्ति</asp:ListItem>
-                                            <asp:ListItem Value="4">पदोन्नति</asp:ListItem>
-                                            <asp:ListItem Value="5">वेतन बृद्धि</asp:ListItem>
+                                          
                                         </asp:DropDownList>
                                     </div>
                                 </div>

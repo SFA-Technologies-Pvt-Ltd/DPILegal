@@ -35,8 +35,6 @@ public partial class Legal_Upload_HighCourtCaseFile : System.Web.UI.Page
         }
     }
 
-
-
     protected void BindCourtType()
     {
         try
@@ -58,7 +56,6 @@ public partial class Legal_Upload_HighCourtCaseFile : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
-
 
     protected void btnUpload_Click(object sender, EventArgs e)
     {

@@ -22,7 +22,6 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
                 {
                     BIndWACaseCount();
                     UpComingHearing();
-                    BindDataColoumn();
                     CourtTypeCase();
                     BindCaseTypeCount();
                 }
@@ -165,32 +164,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
         }
 
     }
-
-    protected void BindDataColoumn()
-    {
-        DataTable dtcol = new DataTable();
-        dtcol.Columns.Add("ID", typeof(int));
-        dtcol.Columns.Add("Respondertype", typeof(string));
-        dtcol.Columns.Add("CaseType", typeof(string));
-        dtcol.Columns.Add("CaseSubject", typeof(string));
-        dtcol.Columns.Add("CaseNo", typeof(string));
-        dtcol.Columns.Add("CourtName", typeof(string));
-        dtcol.Columns.Add("PetitionerName", typeof(string));
-        dtcol.Columns.Add("NodalName", typeof(string));
-        dtcol.Columns.Add("NodalMobileNo", typeof(string));
-        dtcol.Columns.Add("NodalEmailID", typeof(string));
-        dtcol.Columns.Add("OICName", typeof(string));
-        dtcol.Columns.Add("OICMobileNo", typeof(string));
-        dtcol.Columns.Add("OICEmailID", typeof(string));
-        dtcol.Columns.Add("NextHearingDate", typeof(string));
-        dtcol.Columns.Add("AdvocateName", typeof(string));
-        dtcol.Columns.Add("AdvocateMobileNo", typeof(string));
-        dtcol.Columns.Add("AdvocateEmailID", typeof(string));
-        dtcol.Columns.Add("CaseDetail", typeof(string));
-
-        ViewState["dtCol"] = dtcol;
-    }
-
+  
     protected void UpComingHearing()
     {
         ds = objdb.ByProcedure("USP_GetUpcoming_HearingDate", new string[] { }, new string[] { }, "dataset");
@@ -221,110 +195,43 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
         {
             ds = objdb.ByProcedure("USP_Get_WACaseCount", new string[] { }, new string[] { }, "dataset");
 
-            //// Indore Court Case Count
-            //if (ds.Tables[0].Rows[0]["IndoreCase"].ToString() != "")
-            //{
-
-            //    lblIndoreCases.Text = ds.Tables[0].Rows[0]["IndoreCase"].ToString() + " No's";
-            //}
-            //else { lblIndoreCases.Text = "00 No's"; }
-            //// Jabalpur Court Case Count
-            //if (ds.Tables[0].Rows[0]["JabalpurCase"].ToString() != "")
-            //{
-            //    lblJabalpur.Text = ds.Tables[0].Rows[0]["JabalpurCase"].ToString() + " No's";
-            //}
-            //else { lblJabalpur.Text = "00 No's"; }
-            //// Gwalior Court Case Count
-            //if (ds.Tables[0].Rows[0]["GwaliorCase"].ToString() != "")
-            //{
-            //    lblGwalior.Text = ds.Tables[0].Rows[0]["GwaliorCase"].ToString() + " No's";
-            //}
-            //else { lblGwalior.Text = "00 No's"; }
-            //// WA Case Count
-            //if (ds.Tables[0].Rows[0]["WACaseCount"].ToString() != "")
-            //{
-            //    lblWACase.Text = ds.Tables[0].Rows[0]["WACaseCount"].ToString() + " No's";
-            //}
-            // Contempt case
-            //if (ds.Tables[0].Rows[0]["ContemptCaseCount"].ToString() != "")
-            //{
-            //    lblConTempt.Text = ds.Tables[0].Rows[0]["ContemptCaseCount"].ToString() + " No's";
-            //}
-            //else { 
-            //  lblConTempt.Text = "00 No's";
-            //}
-
-            // WP Case Count
-            //if (ds.Tables[0].Rows[0]["WPCaseCount"].ToString() != "")
-            //{
-            //    lblWPCase.Text = ds.Tables[0].Rows[0]["WPCaseCount"].ToString() + " No's";
-            //}
-            //else { lblWPCase.Text = "00 No's"; }
-            //// PP Case
-            //if (ds.Tables[0].Rows[0]["PPCase"].ToString() != "")
-            //{
-            //    lblPPCase.Text = ds.Tables[0].Rows[0]["PPCase"].ToString() + " No's";
-            //}
-            //else { lblPPCase.Text = "00 No's"; }
-
-            //// DPI Case
-            //if (ds.Tables[0].Rows[0]["DPICase"].ToString() != "")
-            //{
-            //    lblDPICase.Text = ds.Tables[0].Rows[0]["DPICase"].ToString() + " No's";
-            //}
-            //else { lblDPICase.Text = "00 No's"; }
-            //// JD Case
-            //if (ds.Tables[0].Rows[0]["JDCase"].ToString() != "")
-            //{
-            //    lblJDCases.Text = ds.Tables[0].Rows[0]["JDCase"].ToString() + " No's";
-            //}
-            //else { lblJDCases.Text = "00 No's"; }
-            //// DEO Case
-            //if (ds.Tables[0].Rows[0]["DEOCase"].ToString() != "")
-            //{
-            //    lblDEOCases.Text = ds.Tables[0].Rows[0]["DEOCase"].ToString() + " No's";
-            //}
-            //else { lblDEOCases.Text = "00 No's"; }
-            //// RSK Case
-            //if (ds.Tables[0].Rows[0]["RSKCase"].ToString() != "")
-            //{
-            //    lblRskCases.Text = ds.Tables[0].Rows[0]["RSKCase"].ToString() + " No's";
-            //}
-            //else { lblRskCases.Text = "00 No's"; }
-            //// TBC Case
-            //if (ds.Tables[0].Rows[0]["TBCCase"].ToString() != "")
-            //{
-            //    lblTBCCases.Text = ds.Tables[0].Rows[0]["TBCCase"].ToString() + " No's";
-            //}
-            //else { lblTBCCases.Text = "00 No's"; }
-
-
-            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
             {
-                if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "PP Cases")
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
-                    lblPPCase.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
+                    if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "PP Cases")
+                    {
+                        lblPPCase.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
+                    }
+                    if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "DPI Cases")
+                    {
+                        lblDPICase.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
+                    }
+                    if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "JD Cases")
+                    {
+                        lblJDCases.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
+                    }
+                    if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "DEO Cases")
+                    {
+                        lblDEOCases.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
+                    }
+                    if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "RSK Cases")
+                    {
+                        lblRskCases.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
+                    }
+                    if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "TBC Cases")
+                    {
+                        lblTBCCases.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
+                    }
                 }
-                if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "DPI Cases")
-                {
-                    lblDPICase.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
-                }
-                if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "JD Cases")
-                {
-                    lblJDCases.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
-                }
-                if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "DEO Cases")
-                {
-                    lblDEOCases.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
-                }               
-                if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "RSK Cases")
-                {
-                    lblRskCases.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
-                }               
-                if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "TBC Cases")
-                {
-                    lblTBCCases.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
-                }               
+            }
+            if (ds.Tables[1].Rows[0]["HIghPriorityCase"].ToString() != "")
+            {
+                spnhighpriorityCase.InnerHtml = "&nbsp;" +  ds.Tables[1].Rows[0]["HIghPriorityCase"].ToString() + " No's";
+            }
+            else
+            {
+                spnhighpriorityCase.InnerHtml = "00 No's";
             }
             if (lblPPCase.Text == "")
             { lblPPCase.Text = "00 No's"; }
@@ -537,22 +444,11 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
                 GrdHighpriorityCase.DataSource = null;
                 GrdHighpriorityCase.DataBind();
 
-                DataTable dt = (DataTable)ViewState["dtCol"];
-
-                if (dt.Columns.Count > 0)
+                ds = objdb.ByProcedure("USP_Legal_GetHighPriorityCase", new string[] { }, new string[] { }, "dataset");
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
-                    dt.Rows.Add("1", "DPI Case", "Yes", "स्थानांतरण", "Ct001202", "Jabalpur High Court", "Mohan Lal Singh", "Gouri Shanker", "8952232325", "gourishanker46@gmail.com", "Srikant Parte", "7895641563", "Srikantp8955@gmail.com", DateTime.Now.AddDays(1).ToString("dd/MM/yyyy"), "Narendra Rao", "6589744512", "Narendrrao8745@gmail.com", "Case In Progress");
-                    dt.Rows.Add("2", "PP Case", "Yes", "वेतन वृद्धि", "Ct001995", "Gwalior High Court", "Gurmeet Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Mohan Parte", "8895641563", "Mohantp8955@gmail.com", DateTime.Now.AddDays(3).ToString("dd/MM/yyyy"), "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
-                    dt.Rows.Add("3", "DPI Case", "Yes", "स्थानांतरण", "Ct001202", "Jabalpur High Court", "Durgesh Kahar", "Gouri Shanker", "8952232325", "gourishanker46@gmail.com", "Srikant Parte", "7895641563", "Srikantp8955@gmail.com", DateTime.Now.AddDays(6).ToString("dd/MM/yyyy"), "Narendra Rao", "6589744512", "Narendrrao8745@gmail.com", "Case In Progress");
-                    dt.Rows.Add("4", "PP Case", "Yes", "वेतन वृद्धि", "Ct001995589", "Gwalior High Court", "Sharman Singh", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Mohan Parte", "8895641563", "Mohantp8955@gmail.com", DateTime.Now.AddDays(11).ToString("dd/MM/yyyy"), "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
-                    dt.Rows.Add("4", "PP Case", "Yes", "पदोन्नती", "Ct0019910010", "Indore High Court", "kailash Verma", "Narendra Rao", "6652232325", "narendra46@gmail.com", "Mohan Parte", "8895641563", "Mohantp8955@gmail.com", DateTime.Now.AddDays(9).ToString("dd/MM/yyyy"), "Vishal Verma", "6589744512", "VermaVisl8745@gmail.com", "Case In Progress");
-                }
-
-                if (dt != null && dt.Rows.Count > 0)
-                {
-                    GrdHighpriorityCase.DataSource = dt;
+                    GrdHighpriorityCase.DataSource = ds;
                     GrdHighpriorityCase.DataBind();
-                    dt.Clear();
                     Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "myModal()", true);
                 }
             }
