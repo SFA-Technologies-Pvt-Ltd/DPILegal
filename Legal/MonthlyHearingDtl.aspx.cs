@@ -132,7 +132,7 @@ public partial class Legal_MonthlyHearingDtl : System.Web.UI.Page
             //txtAdvocatename.Text = lblAdvocateName.Text;
             //txtAdvocatemobile.Text = lblAdvocateMobile.Text;
             //txtAdvocateEmailID.Text = lblAdvocateEmail.Text;
-            // txtNextHearingDate.Text = lblHearingDate.Text;
+             txtNextHearingDate.Text = lblHearingDate.Text;
             txtPetitionerName.Text = lblPetitionerName.Text;
             txtCasesubject.Text = lblCaseSubject.Text;
             txtCaseDtl.Text = lblCaseDetail.Text;

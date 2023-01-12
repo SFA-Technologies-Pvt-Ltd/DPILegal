@@ -1,6 +1,67 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="CourtWiseCaseRpt.aspx.cs" Inherits="Legal_CourtWiseCaseRpt" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+    <link href="../Main_plugins/bootstrap/css/bootstrap-multiselect.css" rel="stylesheet" />
+    <style>
+        .multiselect-native-select .multiselect {
+            text-align: left !important;
+        }
+
+        ​ .multiselect-native-select .multiselect-selected-text {
+            width: 100% !important;
+        }
+
+        ​ .multiselect-native-select .checkbox, .multiselect-native-select .dropdown-menu {
+            width: 100% !important;
+            transform: translate3d(0px, 0px, 0px) !important;
+            padding: 2px !important;
+            max-height: 18em !important;
+            overflow-y: auto !important;
+            /*#ec8712*/
+        }
+
+        ​ .multiselect-native-select .btn .caret {
+            float: right !important;
+            vertical-align: middle !important;
+            margin-top: 8px;
+            border-top: 6px dashed;
+        }
+
+        ​ .form-controlSearchBox {
+            display: block;
+            width: 100%;
+            height: calc(2.25rem + 2px);
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            /*border-radius: 0.25rem;*/
+            box-shadow: inset 0 0 0 transparent;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+
+        ​ .multiselect-native-select button {
+            border-radius: 0.5em; 
+            border-color: #579fbb !important;
+        }
+
+        ​ .dropdown-item {
+            display: block !important;
+            width: 100% !important;
+            padding: 0.25rem !important;
+            clear: both !important;
+            font-weight: 400 !important;
+            color: #212529 !important;
+            text-align: inherit !important;
+            white-space: nowrap !important;
+            background-color: transparent;
+            border: 0;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -122,24 +183,6 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <%--  <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Justice Name</label>
-                                        <asp:TextBox ID="txtAdvocatename" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="70"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Justice Mobile No</label>
-                                        <asp:TextBox ID="txtAdvocatemobile" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="70"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Justice Email-Id</label>
-                                        <asp:TextBox ID="txtAdvocateEmailID" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="70"></asp:TextBox>
-                                    </div>
-                                </div>--%>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Case Detail</label>
@@ -150,7 +193,6 @@
                         </fieldset>
                     </div>
                     <div class="modal-footer">
-                        <%-- <asp:Button runat="server" CssClass="btn btn-success" Text="OK" ID="btnYes" Style="margin-top: 20px; width: 80px;" />--%>
                         <asp:Button ID="btnNo" ValidationGroup="no" runat="server" CssClass="btn btn-danger" Text="Close" data-dismiss="modal" Style="margin-top: 20px; width: 60px;" />
                     </div>
                     <div class="clearfix"></div>
@@ -171,19 +213,14 @@
                         <fieldset>
                             <legend>Search</legend>
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-5">
                                     <div class="form-group">
                                         <label>Court Name</label><span style="color: red;"><b> *</b></span>
                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="Save"
                                             ErrorMessage="Select Court Type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
-                                            ControlToValidate="ddlCourtType" Display="Dynamic" runat="server" InitialValue="0">
+                                            ControlToValidate="ddlCourtType" Display="Dynamic" runat="server">
                                         </asp:RequiredFieldValidator>
-                                        <asp:DropDownList ID="ddlCourtType" runat="server" CssClass="form-control">
-                                            <%--  <asp:ListItem Value="0">Select</asp:ListItem>
-                                            <asp:ListItem Value="1">Jabalpur High Court</asp:ListItem>
-                                            <asp:ListItem Value="2">Indore High Court</asp:ListItem>
-                                            <asp:ListItem Value="3">Gwalior High Court</asp:ListItem>--%>
-                                        </asp:DropDownList>
+                                        <asp:ListBox ID="ddlCourtType" runat="server" ClientIDMode="Static" SelectionMode="Multiple" CssClass="form-control"></asp:ListBox>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -194,10 +231,6 @@
                                             ControlToValidate="ddlCaseType" Display="Dynamic" runat="server" InitialValue="0">
                                         </asp:RequiredFieldValidator>
                                         <asp:DropDownList ID="ddlCaseType" runat="server" CssClass="form-control"></asp:DropDownList>
-                                        <%--<asp:RadioButtonList ID="rbWPCOnt" runat="server" RepeatDirection="Horizontal" CssClass="form-control">
-                                            <asp:ListItem Value="1">&nbsp;WP/Contempt &nbsp;&nbsp;&nbsp;</asp:ListItem>
-                                            <asp:ListItem Value="2">&nbsp;WA/RP</asp:ListItem>
-                                        </asp:RadioButtonList>--%>
                                     </div>
                                 </div>
                                 <div class="col-md-3" style="padding: 3.5% 0 0 0">
@@ -217,7 +250,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
-                                        <asp:GridView ID="grdSubjectWiseCasedtl" runat="server" CssClass="table table-bordered" AutoGenerateColumns="false" OnRowCommand="grdSubjectWiseCasedtl_RowCommand" DataKeyNames="Case_ID" EmptyDataText="NO RECORD FOUND" AllowPaging="true" PageSize="10" OnPageIndexChanging="grdSubjectWiseCasedtl_PageIndexChanging">
+                                        <asp:GridView ID="grdSubjectWiseCasedtl" runat="server" CssClass="table table-bordered" AutoGenerateColumns="false" OnRowCommand="grdSubjectWiseCasedtl_RowCommand" DataKeyNames="Case_ID" EmptyDataText="NO RECORD FOUND" AllowPaging="true" OnPageIndexChanging="grdSubjectWiseCasedtl_PageIndexChanging">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="S.No.">
                                                     <ItemTemplate>
@@ -278,5 +311,12 @@
     </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Fotter" runat="Server">
+    <script src="../Main_plugins/bootstrap/js/bootstrap-multiselect.js"></script>
+    <script type="text/javascript">
+        $('[id*=ddlCourtType]').multiselect({
+            includeSelectAllOption: true,
+            buttonWidth: '100%',
+        });
+    </script>
 </asp:Content>
 

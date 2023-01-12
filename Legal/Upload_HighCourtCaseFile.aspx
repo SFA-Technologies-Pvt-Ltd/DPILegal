@@ -7,8 +7,8 @@
             margin-right: 1px;
         }
 
-        label{
-            font-size:15px;
+        label {
+            font-size: 15px;
         }
     </style>
 </asp:Content>
@@ -34,6 +34,15 @@
                                         </asp:DropDownList>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            Case Type<span style="color: red;"><b> *</b></span><br />
+                                            प्रकरण का प्रकार</label>
+                                        <asp:DropDownList ID="ddlCaseType" runat="server" class="form-control">
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
                                 <div class="col-md-4 col-sm">
                                     <div class="form-group">
                                         <label>
@@ -42,7 +51,7 @@
                                         <asp:FileUpload ID="fileUploadExcel" runat="server" CssClass="form-control" />
                                     </div>
                                 </div>
-                                <div class="col-md-3 mt-5">
+                                <div class="col-md-3 mt-1">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <asp:Button ID="btnUpload" runat="server" CssClass="btn btn-primary btn-block" Text="Upload" OnClick="btnUpload_Click" />

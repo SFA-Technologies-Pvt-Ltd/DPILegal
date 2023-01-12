@@ -34,3 +34,62 @@
 .custom_bg_replika{
     background-color: #2095a17a !important;
 }
+
+.multiselect-native-select .multiselect {
+    text-align: left !important;
+}
+
+.multiselect-native-select .multiselect-selected-text {
+    width: 100% !important;
+}
+
+.multiselect-native-select .checkbox, .multiselect-native-select .dropdown-menu {
+    width: 100% !important;
+    transform: translate3d(0px, 0px, 0px) !important;
+    padding: 2px !important;
+    max-height: 18em !important;
+    overflow-y: auto !important;
+    /*#ec8712*/
+}
+
+.multiselect-native-select .btn .caret {
+    float: right !important;
+    vertical-align: middle !important;
+    margin-top: 8px;
+    border-top: 6px dashed;
+}
+
+.form-controlSearchBox {
+    display: block;
+    width: 100%;
+    height: calc(2.25rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    /*border-radius: 0.25rem;*/
+    box-shadow: inset 0 0 0 transparent;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.multiselect-native-select button {
+    border-radius: 0.5em;
+    border-color: #579fbb !important;
+}
+
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.25rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+}

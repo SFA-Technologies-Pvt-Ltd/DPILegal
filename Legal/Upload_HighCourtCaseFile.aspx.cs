@@ -27,6 +27,7 @@ public partial class Legal_Upload_HighCourtCaseFile : System.Web.UI.Page
                 ViewState["Emp_Id"] = Session["Emp_Id"].ToString();
                 ViewState["Office_Id"] = Session["Office_Id"].ToString();
                 BindCourtType();
+                FillCaseType();
             }
         }
         else
@@ -35,8 +36,30 @@ public partial class Legal_Upload_HighCourtCaseFile : System.Web.UI.Page
         }
     }
 
+    #region Fill CaseType
+    protected void FillCaseType()
+    {
+        try
+        {
+            ddlCaseType.Items.Clear();
+            ds = obj.ByProcedure("USP_Legal_Select_CaseType", new string[] { }, new string[] { }, "dataset");
 
-
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            {
+                ddlCaseType.DataTextField = "Casetype_Name";
+                ddlCaseType.DataValueField = "Casetype_ID";
+                ddlCaseType.DataSource = ds;
+                ddlCaseType.DataBind();
+            }
+            ddlCaseType.Items.Insert(0, new ListItem("Select", "0"));
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+        }
+    }
+    #endregion
+    #region Fill CourtName
     protected void BindCourtType()
     {
         try
@@ -58,8 +81,9 @@ public partial class Legal_Upload_HighCourtCaseFile : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+    #endregion
 
-
+    #region Upload Button
     protected void btnUpload_Click(object sender, EventArgs e)
     {
         try
@@ -98,7 +122,9 @@ public partial class Legal_Upload_HighCourtCaseFile : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+    #endregion
 
+    #region Upload Function
     private void Import_To_Grid2(string FilePath, string Extension, string isHDR)
     {
 
@@ -119,106 +145,93 @@ public partial class Legal_Upload_HighCourtCaseFile : System.Web.UI.Page
             DataTable dtMain = new DataTable();
             dtMain = ExcelConn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
             SheetName = dtMain.Rows[0]["Table_Name"].ToString();
-            ExcelCmd.CommandText = "SELECT * FROM [" + SheetName + "] order by 1 asc ,2 desc";
+            ExcelCmd.CommandText = "SELECT * FROM [" + SheetName + "]";
             Ada.SelectCommand = ExcelCmd;
             Ada.Fill(dt);
             ExcelConn.Close();
-
-            DataTable DtFiliNo = new DataTable(); // Main table To case file.
-            DtFiliNo.Columns.Add("Filing No", typeof(string));
-            DtFiliNo.Columns.Add("Petitioner Name", typeof(string));
-            DtFiliNo.Columns.Add("Status", typeof(string));
-
-            DataTable DtResponder = new DataTable();  // Responder table of the case.
-            DtResponder.Columns.Add("Respondent Name", typeof(string));
-            DtResponder.Columns.Add("Responder No", typeof(string));
-            DtResponder.Columns.Add("Address", typeof(string));
-            DtResponder.Columns.Add("Department", typeof(string));
-
-            // Here Comment Doc Datatable order by mohini maam due to Excel Format.
-            //DataTable dtDoc = new DataTable();
-            //dtDoc.Columns.Add("Documents", typeof(string));
-
-            int rowCount = dt.Rows.Count;
-
-            for (int i = 0; i < rowCount; i++)
+            if (dt.Rows.Count > 0)
             {
-                if (i == 0) //Step1. for the First time insert data.
+                DataTable DtFiliNo = new DataTable(); // Main table To case file.
+                DtFiliNo.Columns.Add("Filing No", typeof(string));
+                DtFiliNo.Columns.Add("Petitioner Name", typeof(string));
+                DtFiliNo.Columns.Add("Status", typeof(string));
+
+                DataTable DtResponder = new DataTable();  // Responder table of the case.
+                DtResponder.Columns.Add("Respondent Name", typeof(string));
+                DtResponder.Columns.Add("Responder No", typeof(string));
+                DtResponder.Columns.Add("Address", typeof(string));
+                DtResponder.Columns.Add("Department", typeof(string));
+
+                int rowCount = dt.Rows.Count;
+                for (int i = 0; i < rowCount; i++)
                 {
-                    if (dt.Rows[i]["Filing No"].ToString() != null && dt.Rows[i]["Filing No"].ToString() != "")
+                    if (i == 0) //Step1. for the First time insert data.
                     {
-                        DtFiliNo.Rows.Add(dt.Rows[i]["Filing No"].ToString(), dt.Rows[i]["Petitioner Name"].ToString(), dt.Rows[i]["Status"].ToString());
-                        DtResponder.Rows.Add(dt.Rows[i]["Respondent Name"].ToString(), dt.Rows[i]["Responder No"].ToString(), dt.Rows[i]["Address"].ToString(), dt.Rows[i]["Department"].ToString());
-                        //dtDoc.Rows.Add(dt.Rows[i]["Documents"].ToString()); // Here Comment Doc Datatable order by mohini maam due to Excel Format.
-                    }
-                }
-                else if (FileNo == dt.Rows[i]["Filing No"].ToString()) //Staep2. to Check comman name and file no.(Repeat Data).
-                {
-                    if (dt.Rows[i]["Filing No"].ToString() != null && dt.Rows[i]["Filing No"].ToString() != "")
-                    {
-                        if (ResponDerName != dt.Rows[i]["Respondent Name"].ToString())
+                        if (dt.Rows[i]["Filing No"].ToString() != null && dt.Rows[i]["Filing No"].ToString() != "")
                         {
+                            DtFiliNo.Rows.Add(dt.Rows[i]["Filing No"].ToString(), dt.Rows[i]["Petitioner Name"].ToString(), dt.Rows[i]["Status"].ToString());
                             DtResponder.Rows.Add(dt.Rows[i]["Respondent Name"].ToString(), dt.Rows[i]["Responder No"].ToString(), dt.Rows[i]["Address"].ToString(), dt.Rows[i]["Department"].ToString());
                         }
-
-                        // Here Comment Doc Datatable order by mohini maam due to Excel Format.
-                        //if (dt.Rows[i]["Documents"].ToString() != null && dt.Rows[i]["Documents"].ToString() != "")
-                        //{
-                        //    dtDoc.Rows.Add(dt.Rows[i]["Documents"].ToString());
-                        //}
                     }
-                }
-                else //Step3. If no record same so run these Lines and Insert into datatabse.
-                {       //Remove Here  Doc Datatable order by mohini maam due to Excel Format.                                      
-                    ds = obj.ByProcedure("USP_LegalCaseRegistration", new string[] { "CourtType_Id", "CreatedBy", "CreatedByIP" }, new string[] { ddlCourtType.SelectedValue, ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }
-                        , new string[] { "type_LegalCaseRegistration", "type_LegalCaseResponderDetails" }, new DataTable[] { DtFiliNo, DtResponder }, "dataset");
-                    if (ds != null && ds.Tables[0].Rows.Count > 0)
+                    else if (FileNo == dt.Rows[i]["Filing No"].ToString()) //Staep2. to Check comman name and file no.(Repeat Data).
                     {
+                        if (dt.Rows[i]["Filing No"].ToString() != null && dt.Rows[i]["Filing No"].ToString() != "")
+                        {
+                            if (ResponDerName != dt.Rows[i]["Respondent Name"].ToString())
+                            {
+                                DtResponder.Rows.Add(dt.Rows[i]["Respondent Name"].ToString(), dt.Rows[i]["Responder No"].ToString(), dt.Rows[i]["Address"].ToString(), dt.Rows[i]["Department"].ToString());
+                            }
+                        }
+                    }
+                    else //Step3. If no record same so run these Lines and Insert into datatabse.
+                    {
+                        ds = obj.ByProcedure("USP_LegalCaseRegistration", new string[] { "Casetype_ID", "CourtType_Id", "CreatedBy", "CreatedByIP" }, new string[] { ddlCaseType.SelectedValue, ddlCourtType.SelectedValue, ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }
+                            , new string[] { "type_LegalCaseRegistration", "type_LegalCaseResponderDetails" }, new DataTable[] { DtFiliNo, DtResponder }, "dataset");
+                        if (ds != null && ds.Tables[0].Rows.Count > 0)
+                        {
+                            DtFiliNo.Clear();
+                            DtResponder.Clear();
+                        }
+                        if (dt.Rows[i]["Filing No"].ToString() != null && dt.Rows[i]["Filing No"].ToString() != "")
+                        {
+                            DtFiliNo.Rows.Add(dt.Rows[i]["Filing No"].ToString(), dt.Rows[i]["Petitioner Name"].ToString(), dt.Rows[i]["Status"].ToString());
+                            DtResponder.Rows.Add(dt.Rows[i]["Respondent Name"].ToString(), dt.Rows[i]["Responder No"].ToString(), dt.Rows[i]["Address"].ToString(), dt.Rows[i]["Department"].ToString());
+                        }
+                    }
+                    FileNo = dt.Rows[i]["Filing No"].ToString();
+                    ResponDerName = dt.Rows[i]["Respondent Name"].ToString();
+
+                }
+                // thise procedure used when loop end for the last row of loop.                    
+                ds = obj.ByProcedure("USP_LegalCaseRegistration", new string[] { "Casetype_ID", "CourtType_Id", "CreatedBy", "CreatedByIP" }
+                    , new string[] { ddlCaseType.SelectedValue, ddlCourtType.SelectedValue, ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }
+                             , new string[] { "type_LegalCaseRegistration", "type_LegalCaseResponderDetails" }, new DataTable[] { DtFiliNo, DtResponder }, "dataset");
+
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
+                    if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
+                    {
+                        lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                         DtFiliNo.Clear();
                         DtResponder.Clear();
-                        //dtDoc.Clear();
                     }
-                    if (dt.Rows[i]["Filing No"].ToString() != null && dt.Rows[i]["Filing No"].ToString() != "")
+                    else
                     {
-                        DtFiliNo.Rows.Add(dt.Rows[i]["Filing No"].ToString(), dt.Rows[i]["Petitioner Name"].ToString(), dt.Rows[i]["Status"].ToString());
-                        DtResponder.Rows.Add(dt.Rows[i]["Respondent Name"].ToString(), dt.Rows[i]["Responder No"].ToString(), dt.Rows[i]["Address"].ToString(), dt.Rows[i]["Department"].ToString());
-                        // dtDoc.Rows.Add(dt.Rows[i]["Documents"].ToString());  // Here Comment Doc Datatable order by mohini maam due to Excel Format.
+                        lblMsg.Text = obj.Alert("fa-check", "alert-warning", "Warning !", ErrMsg);
                     }
-                }
-                FileNo = dt.Rows[i]["Filing No"].ToString();
-                ResponDerName = dt.Rows[i]["Respondent Name"].ToString();
-
-            }
-            // thise procedure used when loop end for the last row of loop.
-            // Here Comment Doc Datatable order by mohini maam due to Excel Format.         
-            ds = obj.ByProcedure("USP_LegalCaseRegistration", new string[] { "CourtType_Id", "CreatedBy", "CreatedByIP" }
-                , new string[] { ddlCourtType.SelectedValue, ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }
-                         , new string[] { "type_LegalCaseRegistration", "type_LegalCaseResponderDetails" }, new DataTable[] { DtFiliNo, DtResponder }, "dataset");
-
-            if (ds != null && ds.Tables[0].Rows.Count > 0)
-            {
-                string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
-                if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
-                {
-                    lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
-                    DtFiliNo.Clear();
-                    DtResponder.Clear();
-                    // dtDoc.Clear();
                 }
                 else
                 {
-                    lblMsg.Text = obj.Alert("fa-check", "alert-warning", "Warning !", ErrMsg);
+                    lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ds.Tables[0].Rows[0]["ErrMsg"].ToString());
                 }
             }
-            else
-            {
-                lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ds.Tables[0].Rows[0]["ErrMsg"].ToString());
-            }
-
+            else { }
         }
         catch (Exception ex)
         {
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+    #endregion
 }

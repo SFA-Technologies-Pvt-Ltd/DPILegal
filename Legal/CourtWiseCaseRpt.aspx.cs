@@ -17,7 +17,7 @@ public partial class Legal_CourtWiseCaseRpt : System.Web.UI.Page
         {
             if (!IsPostBack)
             {
-                GetAdvocateName();
+                FillCourtName();
                 GetCaseType();
             }
         }
@@ -26,24 +26,25 @@ public partial class Legal_CourtWiseCaseRpt : System.Web.UI.Page
             Response.Redirect("/Login.aspx");
         }
     }
-    private void GetAdvocateName()
+
+    #region Fill CourtName
+    private void FillCourtName()
     {
         try
         {
-            ds = obj.ByDataSet("Select * from tbl_LegalCourtType");
+            ds = obj.ByProcedure("Sp_CourtType", new string[] { "flag" }, new string[] { "2" }, "dataset");
             if (ds.Tables[0].Rows.Count > 0)
             {
                 ddlCourtType.DataSource = ds.Tables[0];
                 ddlCourtType.DataTextField = "CourtTypeName";
                 ddlCourtType.DataValueField = "CourtType_ID";
                 ddlCourtType.DataBind();
-                ddlCourtType.Items.Insert(0, new ListItem("Select", "0"));
+
             }
             else
             {
                 ddlCourtType.DataSource = null;
                 ddlCourtType.DataBind();
-                ddlCourtType.Items.Insert(0, new ListItem("Select", "0"));
             }
         }
         catch (Exception ex)
@@ -52,12 +53,15 @@ public partial class Legal_CourtWiseCaseRpt : System.Web.UI.Page
         }
 
     }
+    #endregion
+
+    #region Fill CaseType
     private void GetCaseType()
     {
         try
         {
             ds = new DataSet();
-            ds = obj.ByDataSet("select * from tbl_Legal_Casetype");
+            ds = obj.ByProcedure("USP_Legal_Select_CaseType", new string[] { }, new string[] { }, "dataset");
             if (ds.Tables[0].Rows.Count > 0)
             {
                 ddlCaseType.DataSource = ds.Tables[0];
@@ -79,11 +83,26 @@ public partial class Legal_CourtWiseCaseRpt : System.Web.UI.Page
         }
 
     }
+    #endregion
+
+    #region Fill GridView
     protected void BindGrid()
     {
         try
         {
-            ds = obj.ByProcedure("USP_Legal_CaseRpt", new string[] { "flag", "Casetype_ID", "CourtType_ID" }, new string[] { "5", ddlCaseType.SelectedItem.Value, ddlCourtType.SelectedItem.Value }, "dataset");
+            string Value = "";
+            string TotalSelectValue = "";
+            int Count = Convert.ToInt32(ddlCourtType.SelectedValue);
+            foreach (ListItem item in ddlCourtType.Items)
+            {
+                if (item.Selected)
+                {
+                    Value += item.Value + ",";
+                }
+            }
+            TotalSelectValue = Value.TrimEnd(',');
+            ds = obj.ByProcedure("USP_Legal_CaseRpt", new string[] { "flag", "Casetype_ID", "CourtType" },
+                new string[] { "5", ddlCaseType.SelectedValue, TotalSelectValue }, "dataset");
             if (ds.Tables[0].Rows.Count > 0)
             {
                 grdSubjectWiseCasedtl.DataSource = ds;
@@ -100,6 +119,9 @@ public partial class Legal_CourtWiseCaseRpt : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+    #endregion
+
+    #region Search Record
     protected void btnSearch_Click(object sender, EventArgs e)
     {
         try
@@ -114,6 +136,9 @@ public partial class Legal_CourtWiseCaseRpt : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+    #endregion
+
+    #region RowCommand
     protected void grdSubjectWiseCasedtl_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         lblMsg.Text = "";
@@ -163,6 +188,9 @@ public partial class Legal_CourtWiseCaseRpt : System.Web.UI.Page
             Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "myModal()", true);
         }
     }
+    #endregion
+
+    #region PageIndexing
     protected void grdSubjectWiseCasedtl_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         try
@@ -176,4 +204,5 @@ public partial class Legal_CourtWiseCaseRpt : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+    #endregion
 }
