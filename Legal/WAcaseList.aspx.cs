@@ -34,8 +34,8 @@ public partial class Legal_WAcaseList : System.Web.UI.Page
     {
         try
         {
-            if (Page.IsValid)
-            {
+            //if (Page.IsValid)
+            //{
                 lblMsg.Text = "";
                 GrdCaseDetails.DataSource = null;
                 GrdCaseDetails.DataBind();
@@ -52,7 +52,7 @@ public partial class Legal_WAcaseList : System.Web.UI.Page
                     GrdCaseDetails.DataSource = null;
                     GrdCaseDetails.DataBind();
                 }
-            }
+            //}
         }
         catch (Exception ex)
         {
@@ -67,6 +67,19 @@ public partial class Legal_WAcaseList : System.Web.UI.Page
             GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
             string ID = e.CommandArgument.ToString();
             Response.Redirect("../Legal/EditWACaseDetails.aspx?ID=" + Server.UrlEncode(ID));
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
+        }
+    }
+    protected void GrdCaseDetails_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            GrdCaseDetails.PageIndex = e.NewPageIndex;
+            btnSearch_Click(sender, e);
+            GrdCaseDetails.DataBind();
         }
         catch (Exception ex)
         {

@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Globalization;
 
-public partial class Legal_HighCourtCaseList : System.Web.UI.Page
+public partial class Legal_CaseReport : System.Web.UI.Page
 {
     APIProcedure obj = new APIProcedure();
     DataSet ds = new DataSet();
@@ -27,7 +27,7 @@ public partial class Legal_HighCourtCaseList : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("~/Legal/Dpi_Login.aspx");
+            Response.Redirect("../Login.aspx");
         }
     }
 

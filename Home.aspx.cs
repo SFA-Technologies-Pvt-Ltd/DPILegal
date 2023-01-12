@@ -24,7 +24,7 @@ public partial class Home : System.Web.UI.Page
             }
             else
             {
-                Response.Redirect("~/Legal/Login.aspx");
+                Response.Redirect("~/Legal/Dpi_Login.aspx");
             }
         }
         catch (Exception ex)

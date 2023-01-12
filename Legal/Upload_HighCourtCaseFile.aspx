@@ -34,7 +34,7 @@
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4 col-sm">
                                     <div class="form-group">
                                         <label>
                                             Upload Case List<br />
@@ -42,7 +42,7 @@
                                         <asp:FileUpload ID="fileUploadExcel" runat="server" CssClass="form-control" />
                                     </div>
                                 </div>
-                                <div class="col-md-3" style="padding-top: 5%;">
+                                <div class="col-md-3 mt-5">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <asp:Button ID="btnUpload" runat="server" CssClass="btn btn-primary btn-block" Text="Upload" OnClick="btnUpload_Click" />

@@ -17,16 +17,6 @@
         td {
             padding: 18px;
         }
-
-
-        .Statics {
-            border: 1.5px solid #dddddd;
-            width: 100%;
-            text-align: center;
-            margin-bottom: 0px;
-            background-color: #838583;
-            color: white;
-        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
@@ -119,41 +109,6 @@
                                 </table>
                             </div>
                         </div>
-                        <fieldset>
-                            <legend>WA/RP/SLP Case Report</legend>
-                            <p class="Statics">प्रपत्र-5 अपील के प्रकरणों की जानकारी</p>
-                            <p class="Statics">WA/RP/SLP की जानकारी</p>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="table-responsive">
-                                        <asp:GridView ID="GrdPrapartaFive" runat="server" CssClass="table table-bordered" AutoGenerateColumns="false" >
-                                            <Columns>
-                                                <asp:TemplateField HeaderText="सं.कं">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:BoundField HeaderText="कुल" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="प्रत्यावर्तन प्रस्तुत" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="प्रत्यावर्तन शेष" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="कुल" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="पालन प्रतिवेदन" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="शेष" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="कुल" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="पालन" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="पालन हेतु शेष" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="WA" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="RP" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="SLP" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="जिला संभाग" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="शासन/संचानालय स्तर" DataField="Petitoner_Name" />
-
-                                            </Columns>
-                                        </asp:GridView>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
                     </div>
                 </div>
             </div>

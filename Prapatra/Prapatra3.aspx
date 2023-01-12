@@ -1,7 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="Prapatra3.aspx.cs" Inherits="Prapatra_Prapatra3" %>
-
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-    <style>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+     <style>
         table {
             border-collapse: collapse;
             width: 100%;
@@ -10,27 +9,19 @@
         td, th {
             border: 1px solid #dddddd;
             text-align: center;
-            padding: 8px;
-            font-weight: 200;
-        }
+            padding: 8px;   
+            font-weight:200;
+           
 
-        td {
-            padding: 18px;
-            width: 15px;
         }
-
-        .Statics {
-            border: 1.5px solid #dddddd;
-            width: 100%;
-            text-align: center;
-            margin-bottom: 0px;
-            background-color: #838583;
-            color: white;
+        td{
+            padding:18px;
+            width:15px;
         }
     </style>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
-    <%-- <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>--%>
+<asp:Content ID="Content2" ContentPlaceHolderID="body" Runat="Server">
+       <%-- <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>--%>
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <%-- <section class="content-header">
@@ -42,45 +33,109 @@
                 <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
                 <div class="card">
                     <div class="card-header">
-                        Prapatra - 3 WP Report
+                        प्रपत्र - 3 लंबित डब्ल्यू पी प्रकरण
                     </div>
                     <div class="card-body">
-                        <fieldset>
-                            <legend>WP Case Detail</legend>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <p class="Statics">प्रपत्र -3 लंबित डव्ल्यू पी प्रकरण </p>
-                                    <p class="Statics"><span style="text-align: center;">जिला....... &nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="text-align: center;">दिनांक....... की स्तिथि में</span></p>
-                                    <div class="table-responsive">
-                                        <asp:GridView ID="GrdPrapatraThree" runat="server" CssClass="table table-bordered" AutoGenerateColumns="false">
-                                            <Columns>
-                                                <asp:TemplateField HeaderText="सं.कं">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:BoundField HeaderText="याचिका क्रमांक एवं वर्ष" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="आवेदक का नाम एवं पद" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="प्रकरण का विषय" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="प्रत्यावर्तन प्रस्तुत हाँ/नहीं" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="यदि हाँ तो पप्रत्यावर्तन प्रस्तुत करने की दिनांक" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="यदि नहीं तो कारण" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="ओआईसी का नाम तथा मो. नं." DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="मूल प्रकरण नीतिगत है अथवा नहीं" DataField="Petitoner_Name" />
-                                            </Columns>
-                                        </asp:GridView>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
+                        <div class="row">
+                <div class="col-md-12">
+                    <table>
+                        <tr>
+                            <th colspan="15"> <h4>प्रपत्र - 3 लंबित डब्ल्यू पी प्रकरण</h4>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="15"><h4>जिला:-............................... दिनांक की स्थिति में </h4>
+                            </th>
+                        </tr>
+                     
+                        <tr>
+                            <th>सoक्रo</th>
+                            <th>याचिका क्रमांक एवं वर्ष</th>
+                            <th>आवेदक का नाम एवं पद</th>
+                            <th>प्रकरण का विषय</th>
+                            <th>प्रत्यावर्तन प्रस्तुत हाँ / नहीं</th>
+                          
+                            <th>यदि हाँ तो,प्रत्यावर्तन प्रस्तुत करने का दिनांक</th>
+                            <th>यदि नही तो कारण</th>
+                            <th>ओ. आईसी का नाम तथा मो.न.</th>
+                            <th>मूल प्रकरण नीतिगत है अथवा नहीं</th>
+                           
+                            
+                        </tr>
+                         <tr>
+                         
+                             <th>1</th>
+                             <th>2</th>
+                             <th>3</th>
+                             <th>4</th>
+                             <th>5</th>
+                             <th>6</th>
+                             <th>7</th>
+                             <th>8</th>
+                             <th>9</th>
+                        
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            
+                        </tr>
+                           <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            
+                        </tr>
+                         <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            
+                        </tr>
+                     
+                        
+                       
+
+
+                    </table>
+                </div>
+
+            </div>
                     </div>
                 </div>
             </div>
+            
+            
+            
+            <!-- Default box -->
+            
+            
+ 
+            <!-- /.box -->
         </section>
         <!-- /.content -->
     </div>
 </asp:Content>
-<asp:Content ID="Content3" ContentPlaceHolderID="Fotter" runat="Server">
+<asp:Content ID="Content3" ContentPlaceHolderID="Fotter" Runat="Server">
 </asp:Content>
 
 

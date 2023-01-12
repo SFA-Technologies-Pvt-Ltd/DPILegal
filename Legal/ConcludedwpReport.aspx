@@ -86,11 +86,11 @@
                                                         <asp:Label ID="lblWpCaseNo" runat="server" Text='<%# Eval("CaseNo") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                 <asp:TemplateField HeaderText="Case Year">
+                                              <%--   <asp:TemplateField HeaderText="Case Year">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblCaseYear" runat="server" Text='<%# Eval("WPCaseYear") %>'></asp:Label>
                                                     </ItemTemplate>
-                                                </asp:TemplateField>
+                                                </asp:TemplateField>--%>
                                                 <asp:TemplateField HeaderText="Petitioner Name">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblPetitionerName" runat="server" Text='<%# Eval("Petitoner_Name") %>'></asp:Label>
@@ -101,7 +101,7 @@
                                                         <asp:Label ID="lblOfficeName" runat="server" Text='<%# Eval("OfficeName") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                  <asp:TemplateField HeaderText="Dispoce Date">
+                                                  <asp:TemplateField HeaderText="Case Disposal Date">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblDisposedate" runat="server" Text='<%# Eval("CaseDisposeDate") %>'></asp:Label>
                                                     </ItemTemplate>

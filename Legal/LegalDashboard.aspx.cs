@@ -73,7 +73,8 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             SbCount.Append("bottom: 12");
             SbCount.Append("},");
             SbCount.Append(" height: 250,");
-            SbCount.Append(" 'is3D': false,pieHole: 0.03,pieSliceTextStyle: {bold:true,fontSize: 12}, "); // Piehole using For Create Circle Into Center.
+          //  SbCount.Append(" 'is3D': false,pieHole: 0.03,pieSliceTextStyle: {bold:true,fontSize: 12}, "); // Piehole using For Create Circle Into Center.
+            SbCount.Append(" 'is3D': false,pieSliceTextStyle: {bold:true,fontSize: 12}, ");
             SbCount.Append("legend: {");
             SbCount.Append("position: 'labeled',");
             SbCount.Append("   textStyle: {");
@@ -103,11 +104,11 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
         }
 
     }
-
     protected void CourtTypeCase()
     {
         try
         {
+            int CaseCount = 0;
             DataSet dsCase = new DataSet();
             dsCase = objdb.ByProcedure("USP_Legal_getCourtCaseCountForgraph", new string[] { }, new string[] { }, "dataset");
             StringBuilder Sb = new StringBuilder();
@@ -122,9 +123,10 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             Sb.Append(" ['Court', 'Case No.'],");
             for (int i = 0; i < dsCase.Tables[0].Rows.Count; i++)
             {
+                CaseCount = CaseCount + Convert.ToInt32(dsCase.Tables[0].Rows[i]["Case_ID"]);
                 Sb.Append(" ['" + dsCase.Tables[0].Rows[i]["CourtTypeName"].ToString() + "', " + dsCase.Tables[0].Rows[i]["Case_ID"].ToString() + " ],");
             }
-
+            lblCaseCount.Text = "(TOTAL CASE " + CaseCount.ToString() + " No's)";
             Sb.Append("]);");
             Sb.Append("var options = {");
             Sb.Append(" 'title':  'COURT WISE CASE No.',");
@@ -138,7 +140,8 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             Sb.Append("bottom: 12");
             Sb.Append("},");
             Sb.Append(" height: 250,");
-            Sb.Append(" 'is3D': false, pieHole: 0.03, pieSliceTextStyle: {fontSize: 12,bold:true },");// Piehole using For Create Circle Into Center.
+            //Sb.Append(" 'is3D': false, pieHole: 0.03, pieSliceTextStyle: {fontSize: 12,bold:true },");// Piehole using For Create Circle Into Center.
+            Sb.Append(" 'is3D': false, pieSliceTextStyle: {fontSize: 12,bold:true },");
             Sb.Append("legend: {");
             Sb.Append("position: 'labeled',");
             Sb.Append("textStyle: {");
@@ -164,7 +167,6 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
         }
 
     }
-  
     protected void UpComingHearing()
     {
         ds = objdb.ByProcedure("USP_GetUpcoming_HearingDate", new string[] { }, new string[] { }, "dataset");
@@ -188,79 +190,59 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             spnHearing.InnerHtml = Marquee;
         }
     }
-
     protected void BIndWACaseCount()
     {
         try
         {
             ds = objdb.ByProcedure("USP_Get_WACaseCount", new string[] { }, new string[] { }, "dataset");
 
-            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            // PP Case
+            if (ds.Tables[0].Rows[0]["PPCase"].ToString() != "")
             {
-                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                {
-                    if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "PP Cases")
-                    {
-                        lblPPCase.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
-                    }
-                    if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "DPI Cases")
-                    {
-                        lblDPICase.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
-                    }
-                    if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "JD Cases")
-                    {
-                        lblJDCases.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
-                    }
-                    if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "DEO Cases")
-                    {
-                        lblDEOCases.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
-                    }
-                    if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "RSK Cases")
-                    {
-                        lblRskCases.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
-                    }
-                    if (ds.Tables[0].Rows[i]["RespondertypeName"].ToString() == "TBC Cases")
-                    {
-                        lblTBCCases.Text = ds.Tables[0].Rows[i]["Case_ID"].ToString() + " No's";
-                    }
-                }
+                lblPPCase.Text = ds.Tables[0].Rows[0]["PPCase"].ToString() + " No's";
             }
-            if (ds.Tables[1].Rows[0]["HIghPriorityCase"].ToString() != "")
+            else { lblPPCase.Text = "00 No's"; }
+
+            // DPI Case
+            if (ds.Tables[0].Rows[0]["DPICase"].ToString() != "")
             {
-                spnhighpriorityCase.InnerHtml = "&nbsp;" +  ds.Tables[1].Rows[0]["HIghPriorityCase"].ToString() + " No's";
+                lblDPICase.Text = ds.Tables[0].Rows[0]["DPICase"].ToString() + " No's";
+            }
+            else { lblDPICase.Text = "00 No's"; }
+            // JD Case
+            if (ds.Tables[0].Rows[0]["JDCase"].ToString() != "")
+            {
+                lblJDCases.Text = ds.Tables[0].Rows[0]["JDCase"].ToString() + " No's";
+            }
+            else { lblJDCases.Text = "00 No's"; }
+            // DEO Case
+            if (ds.Tables[0].Rows[0]["DEOCase"].ToString() != "")
+            {
+                lblDEOCases.Text = ds.Tables[0].Rows[0]["DEOCase"].ToString() + " No's";
+            }
+            else { lblDEOCases.Text = "00 No's"; }
+            // RSK Case
+            if (ds.Tables[0].Rows[0]["RSKCase"].ToString() != "")
+            {
+                lblRskCases.Text = ds.Tables[0].Rows[0]["RSKCase"].ToString() + " No's";
+            }
+            else { lblRskCases.Text = "00 No's"; }
+            // TBC Case
+            if (ds.Tables[0].Rows[0]["TBCCase"].ToString() != "")
+            {
+                lblTBCCases.Text = ds.Tables[0].Rows[0]["TBCCase"].ToString() + " No's";
+            }
+            else { lblTBCCases.Text = "00 No's"; }
+            if (ds.Tables.Count >= 1 && ds.Tables[1].Rows.Count > 0)
+            {
+                if (ds.Tables[1].Rows[0]["HIghPriorityCase"].ToString() != "")
+                {
+                    spnhighpriorityCase.InnerHtml = "&nbsp;" + ds.Tables[1].Rows[0]["HIghPriorityCase"].ToString() + " No's";
+                }
             }
             else
             {
-                spnhighpriorityCase.InnerHtml = "00 No's";
-            }
-            if (lblPPCase.Text == "")
-            { lblPPCase.Text = "00 No's"; }
-            if (lblDPICase.Text == "")
-            { lblDPICase.Text = "00 No's"; }
-            if (lblJDCases.Text == "")
-            { lblJDCases.Text = "00 No's"; }
-            if (lblDEOCases.Text == "")
-            { lblDEOCases.Text = "00 No's"; }
-            if (lblRskCases.Text == "")
-            { lblRskCases.Text = "00 No's"; }
-            if (lblTBCCases.Text == "")
-            { lblTBCCases.Text = "00 No's"; }
-        }
-        catch (Exception ex)
-        {
-            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
-        }
-    }
-    protected void btnJabalpur_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            lblMsg.Text = "";
-            if (btnJabalpur.Text == "View Detail")
-            {
-                string ID = "2";
-                string CaseType = "Jabalpur Court Case";
-                Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
+                spnhighpriorityCase.InnerHtml = "&nbsp;" + "00 No's";
             }
         }
         catch (Exception ex)
@@ -268,71 +250,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
         }
     }
-    protected void btnIndoreCases_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            lblMsg.Text = "";
-            if (btnIndoreCases.Text == "View Detail")
-            {
-                string ID = "3";
-                string CaseType = "Indore Court Case";
-                Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
-            }
-        }
-        catch (Exception ex)
-        {
-            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
-        }
-    }
-    protected void btnGwalior_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            lblMsg.Text = "";
-            if (btnGwalior.Text == "View Detail")
-            {
-                string ID = "4";
-                string CaseType = "Gwalior Court Case";
-                Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
-            }
-        }
-        catch (Exception ex)
-        {
-            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
-        }
-    }
-    protected void btnWPCase_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            lblMsg.Text = "";
-            if (btnWPCase.Text == "View Detail")
-            {
-                string ID = "WPCase";
-                Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?WPID=WPCase");
-            }
-        }
-        catch (Exception ex)
-        {
-            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
-        }
-    }
-    protected void btnWACase_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            lblMsg.Text = "";
-            if (btnWACase.Text == "View Detail")
-            {
-                Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?WAID=WACase");
-            }
-        }
-        catch (Exception ex)
-        {
-            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
-        }
-    }
+
     protected void btnPPCase_Click(object sender, EventArgs e)
     {
         try
@@ -341,7 +259,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             if (btnPPCase.Text == "View Detail")
             {
                 string ID = "1";
-                string CaseType = "PP Case";
+                string CaseType = "PP Case"; // Here MP Govt Case
                 Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
             }
         }
@@ -358,7 +276,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             if (btnDPICase.Text == "View Detail")
             {
                 string ID = "2";
-                string CaseType = "DPI Case";
+                string CaseType = "DPI Case"; // Here ENC Case
                 Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
             }
         }
@@ -375,7 +293,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             if (btnJDCases.Text == "View Detail")
             {
                 string ID = "3";
-                string CaseType = "JD Case";
+                string CaseType = "JD Case"; // Here Zone Case
                 Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
             }
         }
@@ -392,7 +310,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             if (btnDEOCases.Text == "View Detail")
             {
                 string ID = "4";
-                string CaseType = "DEO Case";
+                string CaseType = "DEO Case"; // Here Cirlce Case
                 Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
             }
         }
@@ -409,7 +327,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             if (btnRskCases.Text == "View Detail")
             {
                 string ID = "5";
-                string CaseType = "RSK Case";
+                string CaseType = "RSK Case"; // Here Jal Nigam Case
                 Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
             }
         }
@@ -426,7 +344,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             if (btnTBCCases.Text == "View Detail")
             {
                 string ID = "6";
-                string CaseType = "TBC Case";
+                string CaseType = "TBC Case"; // Here DO Case
                 Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
             }
         }
@@ -443,7 +361,6 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             {
                 GrdHighpriorityCase.DataSource = null;
                 GrdHighpriorityCase.DataBind();
-
                 ds = objdb.ByProcedure("USP_Legal_GetHighPriorityCase", new string[] { }, new string[] { }, "dataset");
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {

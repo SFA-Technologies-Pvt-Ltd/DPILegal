@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="Prapatra1.aspx.cs" Inherits="Prapatra_Prapatra1" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-    <style>
+     <style>
         table {
             border-collapse: collapse;
             width: 100%;
@@ -11,80 +11,211 @@
             border: 1px solid #dddddd;
             text-align: center;
             padding: 8px;
-            font-weight: 200;
-        }
+            font-weight:200;
+           
 
-        td {
-            padding: 18px;
-            width: 15px;
         }
-
-        .Statics {
-            border: 1.5px solid #dddddd;
-            width: 100%;
-            text-align: center;
-            margin-bottom: 0px;
-            background-color: #838583;
-            color: white;
+        td{
+            padding:18px;
+            width:15px;
         }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
+    <%-- <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>--%>
     <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <%-- <section class="content-header">
+            <h1></h1>
+        </section>--%>
+        <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
                 <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
                 <div class="card">
                     <div class="card-header">
-                        Prapatra - 1 Statistical Report
+                        प्रपत्र - 1 सांख्यकीय
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-12">                               
-                            </div>
-                        </div>
-                        <fieldset>
-                            <legend>Case Detail</legend>
+                <div class="col-md-12">
+                    <table>
+                        <tr>
+                            <th colspan="15"> <h4>प्रपत्र - 1 सांख्यकीय</h4>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="15"><h4>जिला............................... दिनांक........................................ की स्थिति में</h4>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th rowspan="2">सoक्रo</th>
+                            <th colspan="3">रिट याचिका</th>
+                            <th colspan="3">अवमानना</th>
+                            <th colspan="3">पारित आदेश / पालन</th>
+                            <th colspan="3">अपील (पालन से शंष रहे प्रकरणों में से दर्ज अपील)</th>
+                            <th colspan="2">वास्तविक पालन में शेष</th>
+                           
+                        </tr>
+                         <tr>
+                         
+                             <th>कुल</th>
+                             <th>प्रत्यावर्तन प्रस्तुत</th>
+                             <th>प्रत्यावर्तन शेष</th>
+                            <th>कुल</th>
+                             <th>पालन प्रतिवेदन</th>
+                             <th>शेष</th>
+                              <th>कुल</th>
+                             <th>पालन</th>
+                             <th>पालन हेतु शेष</th>
+                             <th><strong>WA</strong></th>
+                             <th><strong>RP</strong></th>
+                             <th><strong>SLP</strong></th>
+                             <th>जिला संभाग</th>
+                              <th>शासन/ संचालनालय स्तर</th>
+                           
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                           <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                           <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                           <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                           <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                           <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                           <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                       
 
-                            <p class="Statics">प्रपत्र - 1 सांख्यकीय</p>
-                            <p class="Statics"><span style="text-align:center;">जिला....... &nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="text-align:center;">दिनांक....... की स्तिथि में</span></p>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="table-responsive">
-                                        <asp:GridView ID="GrdCaseCount" runat="server" CssClass=" table" CellSpacing="5" RowHeaderColumn="प्रपत्र-1" AutoGenerateColumns="false" OnRowCreated="GrdCaseCount_RowCreated">
-                                            <HeaderStyle BackColor="#838583" Font-Bold="True" ForeColor="White" HorizontalAlign="Left" />
-                                            <Columns>
-                                                <asp:TemplateField HeaderText="सं.कं">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:BoundField HeaderText="कुल" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="प्रत्यावर्तन प्रस्तुत" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="प्रत्यावर्तन शेष" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="कुल" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="पालन प्रतिवेदन" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="शेष" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="कुल" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="पालन" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="पालन हेतु शेष" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="WA" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="RP" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="SLP" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="जिला संभाग" DataField="Petitoner_Name" />
-                                                <asp:BoundField HeaderText="शासन/संचानालय स्तर" DataField="Petitoner_Name" />
-                                            </Columns>
-                                        </asp:GridView>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
+
+                    </table>
+                </div>
+            </div>
                     </div>
                 </div>
             </div>
+            
+            
+            
+            <!-- Default box -->
+            
+            
+ 
+            <!-- /.box -->
         </section>
+        <!-- /.content -->
     </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Fotter" runat="Server">
+   
 </asp:Content>
 

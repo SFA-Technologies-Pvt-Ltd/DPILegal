@@ -31,13 +31,14 @@
                                                 <asp:BoundField HeaderText="Office Type" DataField="OfficeType_Name" />
                                                 <asp:BoundField HeaderText="Office Name" DataField="OfficeName" />
                                                 <asp:BoundField HeaderText="WP Case No" DataField="WPCaseNo" />
-                                                <asp:BoundField HeaderText="WP Case Year" DataField="WPCaseYear" />
+                                               <asp:BoundField HeaderText="Updated Status" DataField="CurrentOfficeStatus" />
                                                 <asp:BoundField HeaderText="Nodal Officer Name" DataField="NodalOfficer_Name" />
                                                 <asp:BoundField HeaderText="Nodal Officer Mobile No." DataField="NodalOfficerMobileNo" />
-                                                <asp:BoundField HeaderText="OIC Name" DataField="OICName" />
-                                                <asp:BoundField HeaderText="OIC Mobile No." DataField="OICMobileNo" />
+                                                <asp:BoundField HeaderText="Petitioner Advocate Name" DataField="petiAdvocateName" />
+                                                <asp:BoundField HeaderText="Petitioner Advocate Mobile No." DataField="petiAdvocateMobile" />
+                                                <asp:BoundField HeaderText="Petitioner Advocate Email-Id" DataField="PetiAdvocateEmailID" />
                                                 <asp:BoundField HeaderText="Case Subject" DataField="CaseSubject" />
-                                                <asp:BoundField HeaderText="Case Details" DataField="Action_TakenByDistrict" />
+                                                <asp:BoundField HeaderText="Case Details" DataField="CaseDetail" />
                                                 <asp:TemplateField HeaderText="Status">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblStatus" runat="server" Text='<%# Eval("CaseStatus") %>' ForeColor='<%# Eval("CaseStatus").ToString() == "Pending" ? System.Drawing.Color.Red : System.Drawing.Color.Green %>' Font-Bold="true"></asp:Label>
@@ -64,6 +65,9 @@
                                                 <asp:BoundField HeaderText="Responder Name" DataField="Respondent_Name" />
                                                 <asp:BoundField HeaderText="Responder No." DataField="RespondentNo" />
                                                 <asp:BoundField HeaderText="Departent" DataField="Department" />
+                                                 <asp:BoundField HeaderText="OIC Name" DataField="OICNAME" />
+                                                <asp:BoundField HeaderText="OIC Mobile No." DataField="OICMobileNO" />
+                                                <asp:BoundField HeaderText="OIC Email-ID" DataField="OICEailID" />
                                                 <asp:BoundField HeaderText="Address" DataField="ResponderAddress" />
                                             </Columns>
                                         </asp:GridView>

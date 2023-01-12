@@ -84,7 +84,7 @@ public partial class Legal_WAPendingReport : System.Web.UI.Page
                     FieldControl.Visible = false;
                     dtlCaseDetail.DataSource = ds;
                     dtlCaseDetail.DataBind();
-                    GrdResponderDtl.DataSource = ds;
+                    GrdResponderDtl.DataSource = ds.Tables[1];
                     GrdResponderDtl.DataBind();
 
                     if (ds.Tables[0].Rows[0]["HearingDtl"].ToString() != "")

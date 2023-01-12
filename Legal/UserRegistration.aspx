@@ -90,7 +90,7 @@
                                 <%--</div>
                                 <div class="row">
                                     <div class="col-md-4"></div>--%>
-                                <div class="col-md-3" style="padding-top: 6%;">
+                                <div class="col-md-3 col-sm mt-5" >
                                     <div class="row">
                                         <div class="col-md-6">
                                             <asp:Button ID="btnSave" runat="server" CssClass="btn btn-primary btn-block" ValidationGroup="Save" Text="Save" OnClick="btnSave_Click" />

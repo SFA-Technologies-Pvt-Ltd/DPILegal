@@ -35,6 +35,8 @@ public partial class Legal_Upload_HighCourtCaseFile : System.Web.UI.Page
         }
     }
 
+
+
     protected void BindCourtType()
     {
         try
@@ -56,6 +58,7 @@ public partial class Legal_Upload_HighCourtCaseFile : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+
 
     protected void btnUpload_Click(object sender, EventArgs e)
     {
@@ -116,10 +119,11 @@ public partial class Legal_Upload_HighCourtCaseFile : System.Web.UI.Page
             DataTable dtMain = new DataTable();
             dtMain = ExcelConn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
             SheetName = dtMain.Rows[0]["Table_Name"].ToString();
-            ExcelCmd.CommandText = "SELECT * FROM [" + SheetName + "]";
+            ExcelCmd.CommandText = "SELECT * FROM [" + SheetName + "] order by 1 asc ,2 desc";
             Ada.SelectCommand = ExcelCmd;
             Ada.Fill(dt);
             ExcelConn.Close();
+
             DataTable DtFiliNo = new DataTable(); // Main table To case file.
             DtFiliNo.Columns.Add("Filing No", typeof(string));
             DtFiliNo.Columns.Add("Petitioner Name", typeof(string));
@@ -139,7 +143,6 @@ public partial class Legal_Upload_HighCourtCaseFile : System.Web.UI.Page
 
             for (int i = 0; i < rowCount; i++)
             {
-
                 if (i == 0) //Step1. for the First time insert data.
                 {
                     if (dt.Rows[i]["Filing No"].ToString() != null && dt.Rows[i]["Filing No"].ToString() != "")
@@ -148,7 +151,6 @@ public partial class Legal_Upload_HighCourtCaseFile : System.Web.UI.Page
                         DtResponder.Rows.Add(dt.Rows[i]["Respondent Name"].ToString(), dt.Rows[i]["Responder No"].ToString(), dt.Rows[i]["Address"].ToString(), dt.Rows[i]["Department"].ToString());
                         //dtDoc.Rows.Add(dt.Rows[i]["Documents"].ToString()); // Here Comment Doc Datatable order by mohini maam due to Excel Format.
                     }
-
                 }
                 else if (FileNo == dt.Rows[i]["Filing No"].ToString()) //Staep2. to Check comman name and file no.(Repeat Data).
                 {

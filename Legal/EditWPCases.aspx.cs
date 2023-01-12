@@ -32,7 +32,7 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                 HearingDatacolumn(); // Create Hearing Datatable Column.
                 BindRespondertype();
                 BindCasetype();
-                BINDCaseSubject();
+                BindCaseSubject();
             }
         }
         else
@@ -42,14 +42,17 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
 
     }
 
-    protected void BINDCaseSubject()
+    protected void Page_PreRender(object sender, EventArgs e)
+    {
+        ViewState["UPAGETOKEN"] = Session["PAGETOKEN"];
+    }
+
+    protected void BindCaseSubject()
     {
         try
         {
             ddlCaseSubject.Items.Clear();
-
-            ds = obj.ByProcedure("USP_Legal_GetCaseSubject", new string[] { }
-                    , new string[] { }, "dataset");
+            ds = obj.ByDataSet("SELECT CaseSubject, CaseSubjectID FROM tbl_LegalMstCaseSubject");
             if (ds != null && ds.Tables[0].Rows.Count > 0)
             {
                 ddlCaseSubject.DataTextField = "CaseSubject";
@@ -61,14 +64,10 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
         }
     }
 
-    protected void Page_PreRender(object sender, EventArgs e)
-    {
-        ViewState["UPAGETOKEN"] = Session["PAGETOKEN"];
-    }
     protected void BindRespondertype()
     {
         try
@@ -289,11 +288,17 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                 Label lblDepartent = (Label)row.FindControl("lblDepartent");
                 Label lblAddress = (Label)row.FindControl("lblAddress");
                 Label lblrespondertypeID = (Label)row.FindControl("lblrespondertypeID");
+                Label lblOicName = (Label)row.FindControl("lblOicName");
+                Label lblOicMbileno = (Label)row.FindControl("lblOicMbileno");
+                Label lblOiceEmailid = (Label)row.FindControl("lblOiceEmailid");
 
                 txtResponderName.Text = lblResponderName.Text;
                 txtResponderNo.Text = lblResponderNo.Text;
                 txtDepartment.Text = lblDepartent.Text;
                 txtAddress.Text = lblAddress.Text;
+                txtOicNameRespondent.Text = lblOicName.Text;
+                txtOicMobileNoRespondent.Text = lblOicMbileno.Text;
+                txtOicEmailIDRespondent.Text = lblOiceEmailid.Text;
                 if (lblrespondertypeID.Text != "")
                 {
                     ddlEditRespondertype.ClearSelection();
@@ -330,37 +335,42 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                     Fieldset_HearingDtl.Visible = false;
                     lblCaseRefNo.Text = ds.Tables[0].Rows[0]["CaseNo"].ToString();
                     txtPetitionerName.Text = ds.Tables[0].Rows[0]["Petitoner_Name"].ToString();
-                    if (ds.Tables[0].Rows[0]["CaseNo"].ToString() != null)
+                    if (ds.Tables[0].Rows[0]["WPCaseNo"].ToString() != null)
                     {
-                        txtWPCaseNo.Text = ds.Tables[0].Rows[0]["CaseNo"].ToString();
+                        txtWPCaseNo.Text = ds.Tables[0].Rows[0]["CurrentOfficeStatus"].ToString();
+                    }
+                    if (ds.Tables[0].Rows[0]["CaseSubject"].ToString() != "")
+                    {
+                        //txtCaseSubject.Text = ds.Tables[0].Rows[0]["CaseSubject"].ToString();
+
                     }
                     if (ds.Tables[0].Rows[0]["NodalOfficer_Name"].ToString() != "")
                     {
                         txtNOdalOfficerName.Text = ds.Tables[0].Rows[0]["NodalOfficer_Name"].ToString();
                     }
-                    if (ds.Tables[0].Rows[0]["NodalOfficerEmailID"].ToString() != "")
-                    {
-                        txtNodalOfficerEmailID.Text = ds.Tables[0].Rows[0]["NodalOfficerEmailID"].ToString();
-                    }
-                    if (ds.Tables[0].Rows[0]["AdvocateEmailID"].ToString() != "")
-                    {
-                        txtAdvocateEmaild.Text = ds.Tables[0].Rows[0]["AdvocateEmailID"].ToString();
-                    }
                     if (ds.Tables[0].Rows[0]["NodalOfficerMobileNo"].ToString() != "")
                     {
                         txtNodalOfficerMobileNo.Text = ds.Tables[0].Rows[0]["NodalOfficerMobileNo"].ToString();
                     }
-                    if (ds.Tables[0].Rows[0]["OICName"].ToString() != "")
+                    if (ds.Tables[0].Rows[0]["NodalOfficerEmailID"].ToString() != "")
                     {
-                        txtOicName.Text = ds.Tables[0].Rows[0]["OICName"].ToString();
+                        txtNodalOfficerEmailID.Text = ds.Tables[0].Rows[0]["NodalOfficerEmailID"].ToString();
                     }
-                    if (ds.Tables[0].Rows[0]["OICMobileNo"].ToString() != "")
+                    if (ds.Tables[0].Rows[0]["petiAdvocateName"].ToString() != "")
                     {
-                        txtOicMobileNO.Text = ds.Tables[0].Rows[0]["OICMobileNo"].ToString();
+                        txtpetiAdvocateName.Text = ds.Tables[0].Rows[0]["petiAdvocateName"].ToString();
                     }
-                    if (ds.Tables[0].Rows[0]["Action_TakenByDistrict"].ToString() != "")
+                    if (ds.Tables[0].Rows[0]["petiAdvocateMobile"].ToString() != "")
                     {
-                        txtActionByDistrict.Text = ds.Tables[0].Rows[0]["Action_TakenByDistrict"].ToString();
+                        txtPetiAdvocateMobileNO.Text = ds.Tables[0].Rows[0]["petiAdvocateMobile"].ToString();
+                    }
+                    if (ds.Tables[0].Rows[0]["PetiAdvocateEmailID"].ToString() != "")
+                    {
+                        txtPetiAdvocateEmaild.Text = ds.Tables[0].Rows[0]["PetiAdvocateEmailID"].ToString();
+                    }
+                    if (ds.Tables[0].Rows[0]["CaseDetail"].ToString() != "")
+                    {
+                        txtCaseDetail.Text = ds.Tables[0].Rows[0]["CaseDetail"].ToString();
                     }
                     if (ds.Tables[0].Rows[0]["CaseDispose_Status"].ToString() == "Yes")
                     {
@@ -375,16 +385,6 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                         txtCaseDispose_OrderNo.Text = ds.Tables[0].Rows[0]["CaseDispose_OrderNo"].ToString();
                         ViewDoc_CaseDipose.Visible = true;
                         hyPerlinkViewDisposeDoc.NavigateUrl = "UploadOrderDoc/" + ds.Tables[0].Rows[0]["CaseDispose_OrderDoc"].ToString();
-                    }
-                    if (ds.Tables[0].Rows[0]["HighPrityCaseStatus"].ToString() != "")
-                    {
-                        ddlHighPriorityCase.ClearSelection();
-                        ddlHighPriorityCase.Items.FindByText(ds.Tables[0].Rows[0]["HighPrityCaseStatus"].ToString()).Selected = true;
-                    }
-                    if (ds.Tables[0].Rows[0]["CaseSubject_ID"].ToString() != "")
-                    {
-                        ddlCaseSubject.ClearSelection();
-                        ddlCaseSubject.Items.FindByValue(ds.Tables[0].Rows[0]["CaseSubject_ID"].ToString()).Selected = true;
                     }
                     if (ds.Tables[0].Rows[0]["Casetype_ID"].ToString() != "")
                     {
@@ -404,12 +404,25 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                     }
                     if (ds.Tables[0].Rows[0]["Office_Id"].ToString() != "")
                     {
-                        ddlOfficeType_SelectedIndexChanged(sender, e);
-                        ddlOfficeName.ClearSelection();
-                        ddlOfficeName.Items.FindByValue(ds.Tables[0].Rows[0]["Office_Id"].ToString()).Selected = true;
+                        //ddlOfficeType_SelectedIndexChanged(sender, e);  HighPrirtyCaseSts
+                        //ddlOfficeName.ClearSelection();
+                        //ddlOfficeName.Items.FindByValue(ds.Tables[0].Rows[0]["Office_Id"].ToString()).Selected = true;
 
                     }
-
+                    if (ds.Tables[0].Rows[0]["OfficeName"].ToString() != "")
+                    {
+                        txtOfficeName.Text = ds.Tables[0].Rows[0]["OfficeName"].ToString();
+                    }
+                    if (ds.Tables[0].Rows[0]["HighPrirtyCaseSts"].ToString() != "")
+                    {
+                        ddlHighPriorityCase.ClearSelection();
+                        ddlHighPriorityCase.Items.FindByText(ds.Tables[0].Rows[0]["HighPrirtyCaseSts"].ToString()).Selected = true;
+                    }
+                    if (ds.Tables[0].Rows[0]["CaseSubject"].ToString() != "")
+                    {
+                        ddlCaseSubject.ClearSelection();
+                        ddlCaseSubject.Items.FindByText(ds.Tables[0].Rows[0]["CaseSubject"].ToString()).Selected = true;
+                    }
                 }
             }
 
@@ -429,8 +442,40 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                 lblMsg.Text = "";
                 if (btnUpdate.Text == "Update" && ViewState["ID"].ToString() != null && ViewState["ID"].ToString() != "")
                 {
-                    ds = obj.ByProcedure("USP_Update_LegalWPCaseReg", new string[] { "HighPrityCaseStatus", "Casetype_ID", "Petitoner_Name", "OfficeType_Id", "Office_Id", "CaseSubject", "WPCaseNo", "WPCaseYear", "NodalOfficer_Name", "NodalOfficerMobileNo", "OICName", "OICMobileNo", "LastupdatedBy", "LastupdatedByIp", "Case_ID", "Action_TakenByDistrict", "NodalOfficerEmailID", "AdvocateEmailID" }
-                        , new string[] { ddlHighPriorityCase.SelectedItem.Text, ddlOfficeType.SelectedValue, txtPetitionerName.Text.Trim(), ddlOfficeType.SelectedValue, ddlOfficeName.SelectedValue, ddlCaseSubject.SelectedValue, txtWPCaseNo.Text.Trim(), ddlWPCaseYear.SelectedItem.Text, txtNOdalOfficerName.Text.Trim(), txtNodalOfficerMobileNo.Text.Trim(), txtOicName.Text.Trim(), txtOicMobileNO.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ViewState["ID"].ToString(), txtActionByDistrict.Text.Trim(), txtNodalOfficerEmailID.Text.Trim(), txtAdvocateEmaild.Text.Trim() }, "dataset");
+                    ds = obj.ByProcedure("USP_Update_LegalWPCaseReg", new string[] { "HighPrirtyCaseSts", 
+                        "Casetype_ID",
+                        "Petitoner_Name",
+                        "OfficeType_Id",
+                        "OfficeName", 
+                        "CurrentOfficeStatus", 
+                        "CaseSubject", 
+                        "NodalOfficer_Name", 
+                        "NodalOfficerMobileNo", 
+                        "NodalOfficerEmailID", 
+                        "PetiAdvocateName", 
+                        "PetiAdvocateMobile", 
+                        "PetiAdvocateEmailID", 
+                        "LastupdatedBy", 
+                        "LastupdatedByIp", 
+                        "Case_ID", 
+                        "CaseDetail" }
+                        , new string[] { ddlHighPriorityCase.SelectedItem.Text, 
+                            ddlCasetype.SelectedValue,
+                            txtPetitionerName.Text.Trim(), 
+                            ddlOfficeType.SelectedValue,
+                            txtOfficeName.Text.Trim(),
+                            txtWPCaseNo.Text.Trim(),
+                            ddlCaseSubject.SelectedValue,
+                            txtNOdalOfficerName.Text.Trim(),
+                            txtNodalOfficerMobileNo.Text.Trim(), 
+                            txtNodalOfficerEmailID.Text.Trim(),
+                            txtpetiAdvocateName.Text.Trim(), 
+                            txtPetiAdvocateMobileNO.Text.Trim(),
+                            txtPetiAdvocateEmaild.Text.Trim(),
+                            ViewState["Emp_Id"].ToString(),
+                            obj.GetLocalIPAddress(),
+                            ViewState["ID"].ToString(), 
+                            txtCaseDetail.Text.Trim() }, "dataset");
 
                 }
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
@@ -440,16 +485,18 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                     {
                         lblMsg.Text = obj.Alert("fa-ban", "alert-success", "Thanks !", ErrMsg);
                         txtPetitionerName.Text = "";
-                        ddlOfficeName.ClearSelection();
+                        //  ddlOfficeName.ClearSelection();
                         ddlOfficeType.ClearSelection();
                         ddlCaseSubject.ClearSelection();
                         txtWPCaseNo.Text = "";
                         ddlWPCaseYear.ClearSelection();
                         txtNOdalOfficerName.Text = "";
                         txtNodalOfficerMobileNo.Text = "";
-                        txtOicName.Text = "";
-                        txtOicMobileNO.Text = "";
-                        txtActionByDistrict.Text = "";
+                        txtpetiAdvocateName.Text = "";
+                        txtPetiAdvocateMobileNO.Text = "";
+                        txtCaseDetail.Text = "";
+                        txtPetiAdvocateEmaild.Text = "";
+                        txtNodalOfficerEmailID.Text = "";
                         ddlDisponsType.ClearSelection();
                         CaseDisposeStatus();
                         txtCaseDispose_OrderNo.Text = "";
@@ -498,13 +545,13 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                 lblMsg.Text = "";
                 if (btnAddResponder.Text == "Add" && ViewState["ID"].ToString() != null && ViewState["ID"].ToString() != "")
                 {
-                    ds = obj.ByProcedure("USP_Legal_Insert_ResponderName", new string[] { "Case_ID", "Respondertype_ID", "Respondent_Name", "RespondentNo", "Address", "Department", "CreatedBy", "CreatedByIP" }
-                        , new string[] { ViewState["ID"].ToString(), ddlResponderType.SelectedValue, txtAddResponderName.Text.Trim(), txtAddResponderNo.Text.Trim(), txtAddResponderAddress.Text.Trim(), txtAddResponderDepartment.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
+                    ds = obj.ByProcedure("USP_Legal_Insert_ResponderName", new string[] { "Case_ID", "Respondertype_ID", "Respondent_Name", "RespondentNo", "Address", "Department", "CreatedBy", "CreatedByIP", "OICNAME", "OICMobileNO", "OICEailID" }
+                        , new string[] { ViewState["ID"].ToString(), ddlResponderType.SelectedValue, txtAddResponderName.Text.Trim(), txtAddResponderNo.Text.Trim(), txtAddResponderAddress.Text.Trim(), txtAddResponderDepartment.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(), txtOicNameRespondent.Text.Trim(), txtOicMobileNoRespondent.Text.Trim(), txtOicEmailIDRespondent.Text.Trim() }, "dataset");
                 }
                 else if (btnAddResponder.Text == "Update" && ViewState["ResponderID"].ToString() != null && ViewState["ResponderID"].ToString() != "")
                 {
-                    ds = obj.ByProcedure("USP_Legal_Update_ResponderDtl", new string[] { "Respondent_ID", "Respondertype_ID", "Case_ID", "Respondent_Name", "RespondentNo", "Address", "Department", "LastupdatedBy", "LastupdatedByIp" }
-                        , new string[] { ViewState["ResponderID"].ToString(), ddlEditRespondertype.SelectedValue, ViewState["ID"].ToString(), txtResponderName.Text.Trim(), txtResponderNo.Text.Trim(), txtAddress.Text.Trim(), txtDepartment.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
+                    ds = obj.ByProcedure("USP_Legal_Update_ResponderDtl", new string[] { "Respondent_ID", "Respondertype_ID", "Case_ID", "Respondent_Name", "RespondentNo", "Address", "Department", "LastupdatedBy", "LastupdatedByIp", "OICNAME", "OICMobileNO", "OICEailID" }
+                        , new string[] { ViewState["ResponderID"].ToString(), ddlEditRespondertype.SelectedValue, ViewState["ID"].ToString(), txtResponderName.Text.Trim(), txtResponderNo.Text.Trim(), txtAddress.Text.Trim(), txtDepartment.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(), txtEditRespondentOICName.Text.Trim(), txtEditRepondentOICMObile.Text.Trim(), txtEditRepondentOICEmail.Text.Trim() }, "dataset");
                 }
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
@@ -750,28 +797,30 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
-    protected void ddlOfficeType_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        try
-        {
-            lblMsg.Text = "";
-            ddlOfficeName.Items.Clear();
-            ds = obj.ByProcedure("USP_legal_select_OfficeName", new string[] { "OfficeType_Id" }
-                , new string[] { ddlOfficeType.SelectedValue }, "dataset");
-            if (ds != null && ds.Tables[0].Rows.Count > 0)
-            {
-                ddlOfficeName.DataTextField = "OfficeName";
-                ddlOfficeName.DataValueField = "Office_Id";
-                ddlOfficeName.DataSource = ds;
-                ddlOfficeName.DataBind();
-            }
-            ddlOfficeName.Items.Insert(0, new ListItem("Select", "0"));
-        }
-        catch (Exception ex)
-        {
-            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
-        }
-    }
+
+    // Thise Dropdown Comment by me Due to Change Office dropdown into textbox
+    //protected void ddlOfficeType_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    try
+    //    {
+    //        lblMsg.Text = "";
+    //        ddlOfficeName.Items.Clear();
+    //        ds = obj.ByProcedure("USP_legal_select_OfficeName", new string[] { "OfficeType_Id" }
+    //            , new string[] { ddlOfficeType.SelectedValue }, "dataset");
+    //        if (ds != null && ds.Tables[0].Rows.Count > 0)
+    //        {
+    //            ddlOfficeName.DataTextField = "OfficeName";
+    //            ddlOfficeName.DataValueField = "Office_Id";
+    //            ddlOfficeName.DataSource = ds;
+    //            ddlOfficeName.DataBind();
+    //        }
+    //        ddlOfficeName.Items.Insert(0, new ListItem("Select", "0"));
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+    //    }
+    //}
 
     protected void btnAddHearingDtl_Click(object sender, EventArgs e) //  Add Hearing Dtl.
     {
@@ -829,7 +878,7 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                 DataTable dt1 = (DataTable)ViewState["HearingDt"];
                 if (dt1.Columns.Count > 0)
                 {
-                    dt1.Rows.Add(Convert.ToDateTime(txtHearingDate.Text, cult).ToString("yyyy/MM/dd"), txtHearingDtl.Text.Trim(), ViewState["HearingDOC"].ToString());
+                    dt1.Rows.Add(Convert.ToDateTime(txtHearingDate.Text, cult).ToString("yyyy/MM/dd"), ddlHearingDtl.SelectedItem.Text.Trim(), ViewState["HearingDOC"].ToString());
                 }
                 ds.Tables.Add(dt1);
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
@@ -838,6 +887,7 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                     btnSaveHearingDtl.Visible = true;
                     txtHearingDtl.Text = "";
                     txtHearingDate.Text = "";
+                    ddlHearingDtl.ClearSelection();
                     ViewState["HearingDOC"] = "";
                     GrdHearingDetail.DataSource = dt1;
                     GrdHearingDetail.DataBind();
@@ -944,6 +994,7 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                 ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "alertMessage", "alert('Please Select \\n " + errormsg + "')", true);
             }
             BindDetails();
+            FiledSet_HearingDBDtl.Visible = true;
         }
         catch (Exception ex)
         {
@@ -1019,7 +1070,7 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                     if (errormsg == "")
                     {
                         ds = obj.ByProcedure("USP_Legal_CaseDispose", new string[] { "Case_ID", "CaseDisposeType_Id", "CaseDispose_Status", "CaseDispose_Date", "CaseDispose_OrderNo", "CaseDispose_OrderDoc", "LastupdatedBy", "LastupdatedByIp" }
-                            , new string[] { ViewState["ID"].ToString(), ddlDisponsType.SelectedValue, rdCaseDispose.SelectedItem.Text.Trim(), Convert.ToDateTime(txtCaseDisposeDate.Text, cult).ToString("yyyy/MM/dd"), txtCaseDispose_OrderNo.Text.Trim(), ViewState["FileOrderDOC"].ToString(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
+                            , new string[] { ViewState["ID"].ToString(), ddlDisponsType.SelectedValue, rdCaseDispose.SelectedItem.Text.Trim(), Convert.ToDateTime(txtCaseDisposeDate.Text, cult).ToString("yyyy/MM/dd"), txtOrderimpletimeline.Text.Trim(), ViewState["FileOrderDOC"].ToString(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
 
                         if (ds != null && ds.Tables[0].Rows.Count > 0)
                         {
@@ -1090,10 +1141,10 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
             FieldSet_DocumentDetail.Visible = true;
             FieldSet_ResponderDetail.Visible = true;
             Fieldset_HearingDtl.Visible = true;
+            BindDetails();
 
             AddNewHearing.Visible = false;
             FiledSet_HearingDBDtl.Visible = true;
-            BindDetails();
         }
         catch (Exception ex)
         {

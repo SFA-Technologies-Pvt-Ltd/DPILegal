@@ -69,7 +69,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
-                                        <asp:GridView ID="GrdWAPendingReport" runat="server" CssClass="table table-bordered" AutoGenerateColumns="false" DataKeyNames="WACase_ID" OnRowCommand="GrdWAPendingReport_RowCommand">
+                                        <asp:GridView ID="GrdWAPendingReport" runat="server" CssClass="table table-bordered" AutoGenerateColumns="false" DataKeyNames="WACase_ID" OnRowCommand="GrdWAPendingReport_RowCommand" EmptyDataText="NO RECORD FOUND">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="S.No.">
                                                     <ItemTemplate>
@@ -99,7 +99,7 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Case Subject">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblCasesubject" runat="server" Text='<%# Eval("WACaseSubject") %>'></asp:Label>
+                                                        <asp:Label ID="lblCasesubject" runat="server" Text='<%# Eval("CaseSubject") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Case Status">
@@ -138,7 +138,7 @@
                                                     <asp:BoundField HeaderText="OIC Mobile No." DataField="WAOICMobileNo" />
                                                     <asp:BoundField HeaderText="Advocate Name" DataField="WAAdvocateName" />
                                                     <asp:BoundField HeaderText="Advocate Mobile No." DataField="WAAdvocateMobileNo" />
-                                                    <asp:BoundField HeaderText="Case Subject" DataField="WACaseSubject" />
+                                                    <asp:BoundField HeaderText="Case Subject" DataField="CaseSubject" />
                                                     <asp:BoundField HeaderText="Case Details" DataField="WACaseDetail" />
                                                     <asp:TemplateField HeaderText="Case Status">
                                                         <ItemTemplate>

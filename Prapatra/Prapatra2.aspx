@@ -34,7 +34,7 @@
                 <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
                 <div class="card">
                     <div class="card-header">
-                        Prapatra - 2 Contempt Case Report
+                        प्रपत्र - 2 अवमानना प्रकरण
                     </div>
                     <div class="card-body">
                         <div class="row">

@@ -1,0 +1,142 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>MP-Sport</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../image/logo/ssmsLogoremovebg.png" rel="icon" />
+    <%-- ============================================ offline links=====================================================--%>
+  
+    <link href="Main_plugins/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,500,500i,700,800i" rel="stylesheet" />
+    <script src="Main_plugins/plugins/jquery/jquery.min.js"></script>
+    <script src="Main_plugins/plugins/popper/esm/popper.min.js"></script>
+    <script src="Main_plugins/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <link href="Main_plugins/custom_css/Custom.css" rel="stylesheet" />
+    <link href="Main_plugins/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <link href="Main_plugins/plugins/bootstrap/bootstrap-datepicker.css" rel="stylesheet" />
+    <link rel="stylesheet" href="Main_plugins/dist/css/adminlte.min.css" />
+      <link href="Main_plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+
+    <style>
+        table {
+            border-radius: 10px;
+        }
+
+        th {
+            color: white;
+            background-color: #2095a1cc;
+            text-align: center;
+        }
+
+        .card-header {
+            background-color: #68A7AD;
+            color: white;
+        }
+
+        .wodrcolor {
+            color: #906b31;
+        }
+    </style>
+    <%-- =================================================================================================--%>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.navbar-light .dmenu').hover(function () {
+                $(this).find('.sm-menu').first().stop(true, true).slideDown(150);
+            }, function () {
+                $(this).find('.sm-menu').first().stop(true, true).slideUp(105)
+            });
+        });
+    </script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+
+
+        <div class="navbar navbar-expand-sm">
+            <a class="navbar-brand" href="#">
+                <img runat="server" src="~/image/logo/Home_Logo.png" alt="" width="300" height="50" />
+            </a>
+        </div>
+
+
+        <nav class="navbar navbar-expand-sm py-0  navbar-light custom_bg_color">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="Home.aspx">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="about.aspx">About</a>
+                    </li>
+                    <li class="nav-item dropdown dmenu">
+                        <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop" data-toggle="dropdown">Registration </a>
+                        <div class="dropdown-menu sm-menu">
+                            <a class="dropdown-item " href="School_Registration_Form.aspx">School Registration</a>
+                            <a class="dropdown-item" href="School_Search.aspx">Student Registration</a>
+                            <a class="dropdown-item" href="Reg_Trineraspx.aspx">Official Registration</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="Sport_Calender.aspx">Sport Calendar</a>
+                    </li>
+                    <%--<li class="nav-item">
+                        <a class="nav-link text-light" href="SearchNomination.aspx">Nomination Form</a>
+                    </li>--%>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="#">Contact us</a>
+                    </li>
+                    <%--  <li class="nav-item">
+                            <a class="nav-link text-light" href="#">Call</a>
+                        </li>--%>
+                </ul>
+
+            </div>
+            <div class="social-part text-end">
+                <%--   <i class="fa fa-facebook" aria-hidden="true"></i>
+                    <i class="fa fa-twitter" aria-hidden="true"></i>--%>
+                <%--<i class="fa fa-key "  aria-hidden="true"></i>--%>
+                <asp:Button runat="server" Text="Login" CssClass="btn text-light" PostBackUrl="~/login.aspx" />
+            </div>
+        </nav>
+        <asp:ContentPlaceHolder ID="body" runat="server">
+        </asp:ContentPlaceHolder>
+
+        <script src="Main_plugins/plugins/bootstrap/js/bootstrap-datepicker.js"></script>
+        <script src="Main_plugins/plugins/daterangepicker/daterangepicker.js"></script>
+        <script>
+            function isNumber(evt) {
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if (charCode > 32 && (charCode < 46 || charCode == 47 || charCode > 57)) {
+                    return false;
+                }
+                return true;
+            }
+
+            function lettersOnly() {
+                var charCode = event.keyCode;
+
+                if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 8 || charCode == 32)
+
+                    return true;
+                else
+                    return false;
+            }
+        </script>
+        <asp:ContentPlaceHolder ID="Fotter" runat="server">
+        </asp:ContentPlaceHolder>
+    </form>
+</body>
+</html>

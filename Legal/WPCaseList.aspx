@@ -1,170 +1,151 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="WPCaseList.aspx.cs" Inherits="Legal_WPCaseList" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+    <link href="../DataTable_CssJs/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="../DataTable_CssJs/buttons.dataTables.min.css" rel="stylesheet" />
+    <link href="../DataTable_CssJs/jquery.dataTables.min.css" rel="stylesheet" />
     <style>
-        label
-        {
+        /*.datepicker tbody {
+            background-color: #ecfce6 !important;
+            color: black;
+        }
+
+        .datepicker th {
+            background-color: #608640 !important;
+        }*/
+
+        .label-orange {
+            background-color: #f5ac45;
+        }
+
+        .label {
+            display: inline;
+            padding: 0.2em 0.6em 0.3em;
+            font-size: 80%;
+            font-weight: 700;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.25em;
+        }
+
+        a.btn.btn-default.buttons-excel.buttons-html5 {
+            background: #066205;
+            color: white;
+            border-radius: unset;
+            box-shadow: 2px 2px 2px #808080;
+            margin-left: 6px;
+            border: none;
+            margin-top: 4%;
+        }
+
+        a.btn.btn-default.buttons-print {
+            background: #1e79e9;
+            color: white;
+            border-radius: unset;
+            box-shadow: 2px 2px 2px #808080;
+            border: none;
+            margin-top: 4%;
+        }
+
+        th.sorting, th.sorting_asc, th.sorting_desc {
+            background: teal !important;
+            color: white !important;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            padding: 8px 5px;
+        }
+
+        a.btn.btn-default.buttons-excel.buttons-html5 {
+            background: #ff5722c2;
+            color: white;
+            border-radius: unset;
+            box-shadow: 2px 2px 2px #808080;
+            margin-left: 6px;
+            border: none;
+        }
+
+        a.btn.btn-default.buttons-pdf.buttons-html5 {
+            background: #009688c9;
+            color: white;
+            border-radius: unset;
+            box-shadow: 2px 2px 2px #808080;
+            margin-left: 6px;
+            border: none;
+        }
+
+        a.btn.btn-default.buttons-print {
+            background: #e91e639e;
+            color: white;
+            border-radius: unset;
+            box-shadow: 2px 2px 2px #808080;
+            border: none;
+        }
+
+            a.btn.btn-default.buttons-print:hover, a.btn.btn-default.buttons-pdf.buttons-html5:hover, a.btn.btn-default.buttons-excel.buttons-html5:hover {
+                box-shadow: 1px 1px 1px #808080;
+            }
+
+            a.btn.btn-default.buttons-print:active, a.btn.btn-default.buttons-pdf.buttons-html5:active, a.btn.btn-default.buttons-excel.buttons-html5:active {
+                box-shadow: 1px 1px 1px #808080;
+            }
+
+        .box.box-pramod {
+            border-top-color: #1ca79a;
+        }
+
+        .box {
+            min-height: auto;
+        }
+    </style>
+    <style>
+        label {
             font-size: 15px;
         }
     </style>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="body" Runat="Server">
+<asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
     <asp:ValidationSummary ID="VDS" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Save" />
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div style="display: table; height: 100%; width: 100%;">
-            <div class="modal-dialog" style="width: 80%; display: table-cell; vertical-align: middle;">
-                <div class="modal-content" style="width: inherit; height: inherit; margin: 0 auto;">
-                    <div class="modal-header" style="background-color: #D9D9D9;">
-                        <span class="modal-title" style="float: left" id="myModalLabel">Case Details</span>
-                        <button type="button" class="close" data-dismiss="modal">
-                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                        </button>
-                    </div>
-                    <div class="clearfix"></div>
-                    <div class="modal-body">
-                        <fieldset>
-                            <legend>Case And Petitioner Details</legend>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Case No.</label>
-                                        <asp:TextBox ID="txtCaseNo" runat="server" CssClass="form-control" Text='<%# Eval("CaseNo") %>' AutoComplete="off" MaxLength="70"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Petitioner Name</label>
-                                        <asp:TextBox ID="txtPetitionerName" runat="server" CssClass="form-control" Text='<%# Eval("Petitoner_Name") %>' AutoComplete="off" MaxLength="70"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>District Name</label>
-                                        <asp:DropDownList ID="ddlDistrictName" runat="server" CssClass="form-control"></asp:DropDownList>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Case Transfered To Designation</label>
-                                        <asp:DropDownList ID="ddlTransferOfficeName" runat="server" CssClass="form-control select2"></asp:DropDownList>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
-                        <fieldset>
-                            <legend>Responder Details</legend>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="table-responsive">                                       
-                                        <asp:GridView ID="GrdCaseDoc_Details" runat="server" CssClass="table table-bordered table-hover text-center" AutoGenerateColumns="false" AllowPaging="true">
-                                            <Columns>
-                                                <asp:TemplateField HeaderText="S.No.<br />सरल क्र." ItemStyle-Width="5%">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblSrNo" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Responder Name<br />प्रतिउत्तर का नाम">
-                                                    <ItemTemplate>
-                                                        <asp:TextBox ID="txtResponderName" runat="server" Text='<%# Eval("Respondent_Name") %>' CssClass="form-control" AutoComplete="off" MaxLength="70"></asp:TextBox>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Responder No.<br />प्रतिउत्तर का नंबर">
-                                                    <ItemTemplate>
-                                                        <asp:TextBox ID="txtResponderNo" runat="server" CssClass="form-control" Text='<%# Eval("RespondentNo") %>' AutoComplete="off" MaxLength="70"></asp:TextBox>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Department Name<br />डिपार्टमेंट का नाम">
-                                                    <ItemTemplate>
-                                                        <asp:TextBox ID="txtDepartment" runat="server" Text='<%# Eval("Department") %>' CssClass="form-control" AutoComplete="off" MaxLength="70"></asp:TextBox>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Address<br />पता">
-                                                    <ItemTemplate>
-                                                        <asp:TextBox ID="txtAddress" runat="server" CssClass="form-control" Text='<%# Eval("responderAddress") %>' AutoComplete="off" MaxLength="70"></asp:TextBox>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                            </Columns>
-                                        </asp:GridView>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
-                        <fieldset>
-                            <legend>Case Document</legend>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="table-responsive">                                      
-                                        <asp:GridView ID="GrdDocCase" runat="server" AutoGenerateColumns="false" AllowPaging="true" CssClass="table table-bordered text-center table-hover">
-                                            <Columns>
-                                                <asp:TemplateField HeaderText="S.No.<br />सरल क्र." ItemStyle-Width="5%">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblSrNo" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Documents Name<br />दस्तावेज का नाम">
-                                                    <ItemTemplate>
-                                                        <asp:TextBox ID="txtDocName" runat="server" CssClass="form-control" Text='<%# Eval("Doc_Name") %>' MaxLength="70" AutoComplete="off"></asp:TextBox>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Documents Upload<br />दस्तावेज अपलोड">
-                                                    <ItemTemplate>
-                                                        <asp:FileUpload ID="fileUploadDoc1" runat="server" CssClass="form-control" />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                            </Columns>
-                                        </asp:GridView>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </div>
-                    <div class="modal-footer">
-                        <asp:Button runat="server" CssClass="btn btn-success" Text="Yes" ID="btnYes" Style="margin-top: 20px; width: 50px;" />
-                        <asp:Button ID="btnNo" ValidationGroup="no" runat="server" CssClass="btn btn-danger" Text="No" data-dismiss="modal" Style="margin-top: 20px; width: 50px;" />
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="content-wrapper">
         <section class="content">
             <div class="container-fluid">
                 <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
                 <div class="card">
                     <div class="card-header">
-                       WP Case Detail
+                        WP Case Detail
                     </div>
                     <div class="card-body">
                         <fieldset>
                             <legend>Case Report</legend>
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-sm">
                                     <div class="form-group">
                                         <label>
-                                          From Date<span style="color: red;"><b> *</b></span>
+                                            From Date<span style="color: red;"><b> *</b></span>
                                             <asp:RequiredFieldValidator ID="Rfvdate" ValidationGroup="Save"
                                                 ErrorMessage="Enter From Date." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                 ControlToValidate="txtFromDate" Display="Dynamic" runat="server">
                                             </asp:RequiredFieldValidator><br />
-                                           प्रारंभिक तिथि</label>
-                                        <asp:TextBox ID="txtFromDate" runat="server"  data-provide="datepicker" placeholder="DD/MM/YYYY" CssClass="form-control disableFuturedate" data-date-format="dd/mm/yyyy" data-date-autoclose="true" AutoComplete="off"></asp:TextBox>
+                                            प्रारंभिक तिथि</label>
+                                        <asp:TextBox ID="txtFromDate" runat="server" data-provide="datepicker" placeholder="DD/MM/YYYY" CssClass="form-control disableFuturedate" data-date-format="dd/mm/yyyy" data-date-autoclose="true" AutoComplete="off"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-sm">
                                     <div class="form-group">
                                         <label>
-                                          To Date<span style="color: red;"><b> *</b></span>
+                                            To Date<span style="color: red;"><b> *</b></span>
                                             <asp:RequiredFieldValidator ID="RfvEndDate" ValidationGroup="Save"
                                                 ErrorMessage="Enter End Date." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                 ControlToValidate="txtEndDate" Display="Dynamic" runat="server">
                                             </asp:RequiredFieldValidator><br />
-                                           अंतिम तिथि</label>
+                                            अंतिम तिथि</label>
                                         <asp:TextBox ID="txtEndDate" runat="server" data-provide="datepicker" data-date-end-date="0d" placeholder="DD/MM/YYYY" CssClass="form-control disableFuturedate" data-date-format="dd/mm/yyyy" data-date-autoclose="true" AutoComplete="off"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-md-3" style="padding-top: 5.5%;">
+                                <div class="col-md-3 col-sm mt-5">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary btn-block" ValidationGroup="Save" OnClick="btnSearch_Click" />
@@ -181,20 +162,25 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
-                                        <asp:GridView ID="GrdCaseDetails" runat="server" AutoGenerateColumns="false" DataKeyNames="Case_ID" CssClass="table table-bordered table-hover text-center" OnRowCommand="GrdCaseDetails_RowCommand" EmptyDataText="NO RECORD FOUND">
+                                        <asp:GridView ID="GrdCaseDetails" runat="server" AutoGenerateColumns="false" DataKeyNames="Case_ID" CssClass="datatable table table-bordered text-center" OnRowCommand="GrdCaseDetails_RowCommand" EmptyDataText="NO RECORD FOUND">
                                             <Columns>
-                                                <asp:TemplateField HeaderText="S.No.<br />सरल क्र.">
+                                                <asp:TemplateField HeaderText="S.No.<br />स. क्र.">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblId" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
                                                         <asp:Label ID="lblCaseID" runat="server" Text='<%# Eval("Case_ID") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Case No.<br />मुक़दमा क्र.">
+                                                <asp:TemplateField HeaderText="Case No.<br />प्रकरण क्र.">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblCaseNo" runat="server" Text='<%# Eval("CaseNo") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Petitioner Name<br />आवेदक का नाम">
+                                                <asp:TemplateField HeaderText="Case Subject<br />प्रकरण का विषय">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblCasetype" runat="server" Text='<%# Eval("CaseSubject") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Petitioner Name<br />याचिकाकर्ता का नाम">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblPetitionerName" runat="server" Text='<%# Eval("Petitoner_Name") %>'></asp:Label>
                                                     </ItemTemplate>
@@ -221,6 +207,61 @@
         </section>
     </div>
 </asp:Content>
-<asp:Content ID="Content3" ContentPlaceHolderID="Fotter" Runat="Server">
+<asp:Content ID="Content3" ContentPlaceHolderID="Fotter" runat="Server">
+    <script src="../DataTable_CssJs/jquery.js"></script>
+    <script src="../DataTable_CssJs/jquery.dataTables.min.js"></script>
+    <script src="../DataTable_CssJs/dataTables.bootstrap.min.js"></script>
+    <script src="../DataTable_CssJs/dataTables.buttons.min.js"></script>
+    <script src="../DataTable_CssJs/buttons.flash.min.js"></script>
+    <script src="../DataTable_CssJs/jszip.min.js"></script>
+    <script src="../DataTable_CssJs/pdfmake.min.js"></script>
+    <script src="../DataTable_CssJs/vfs_fonts.js"></script>
+    <script src="../DataTable_CssJs/buttons.html5.min.js"></script>
+    <script src="../DataTable_CssJs/buttons.print.min.js"></script>
+    <script src="../DataTable_CssJs/buttons.colVis.min.js"></script>
+    <script type="text/javascript">
+        $('.datatable').DataTable({
+            paging: true,
+            PageLength: 15,
+            columnDefs: [{
+                targets: 'no-sort',
+                orderable: false
+            }],
+            dom: '<"row"<"col-sm-6"Bl><"col-sm-6"f>>' +
+              '<"row"<"col-sm-12"<"table-responsive"tr>>>' +
+              '<"row"<"col-sm-5"i><"col-sm-7"p>>',
+            fixedHeader: {
+                header: true
+            },
+            buttons: {
+                buttons: [{
+                    extend: 'print',
+                    text: '<i class="fa fa-print"></i> Print',
+                    title: $('h3').text(),
+                    exportOptions: {
+                        columns: [0, 1, 2, 3]
+                    },
+                    footer: true,
+                    autoPrint: true
+                }, {
+                    extend: 'excel',
+                    text: '<i class="fa fa-file-excel-o"></i> Excel',
+                    title: $('h3').text(),
+                    exportOptions: {
+                        columns: [0, 1, 2, 3]
+                    },
+                    footer: true
+                }],
+                dom: {
+                    container: {
+                        className: 'dt-buttons'
+                    },
+                    button: {
+                        className: 'btn btn-default'
+                    }
+                }
+            }
+        });
+    </script>
 </asp:Content>
 

@@ -16,6 +16,7 @@ public partial class Legal_Login : System.Web.UI.Page
     {
         if (!Page.IsPostBack)
         {
+            Page.Validate();
             GetRandomText();
         }
     }
@@ -52,22 +53,26 @@ public partial class Legal_Login : System.Web.UI.Page
             {
                 if (txtPassword.Text != "" && txtUserName.Text != "")
                 {
-                    ds = obj.ByProcedure("USP_Login", new string[] { "UserName" }, new string[] { txtUserName.Text.Trim() }, "dataset");
+                    //ds = obj.ByProcedure("USP_Login", new string[] { "UserName" }, new string[] { txtUserName.Text.Trim() }, "dataset");
+                    ds = obj.ByProcedure("SpLogin", new string[] { "UserName", "flag" }, new string[] { txtUserName.Text.Trim(), "0" }, "dataset");
                     if (ds != null && ds.Tables[0].Rows.Count > 0)
                     {
-                        //if (CompaireHashCode(ds.Tables[0].Rows[0]["Password"].ToString(), txtpassword.Text))
-                        //{
-                        Session["Emp_Id"] = ds.Tables[0].Rows[0]["Emp_Id"].ToString();
-                        Session["UserName"] = ds.Tables[0].Rows[0]["UserName"].ToString();
-                        Session["Designation_Name"] = ds.Tables[0].Rows[0]["Designation_Name"].ToString();
-                        Session["Designation_ID"] = ds.Tables[0].Rows[0]["UserType_Id"].ToString();
-                        Session["Office_Id"] = ds.Tables[0].Rows[0]["Office_Id"].ToString();
-                        Session["Office_Name"] = ds.Tables[0].Rows[0]["OfficeName"].ToString();
-                        Session["Division_Id"] = ds.Tables[0].Rows[0]["Division_Id"].ToString();
-                        Session["District_Id"] = ds.Tables[0].Rows[0]["District_Id"].ToString();
-                        Session["OfficeType_Id"] = ds.Tables[0].Rows[0]["OfficeType_Id"].ToString();
-                        Response.Redirect("~/Legal/LegalDashboard.aspx");
-                        //}
+                        //if (CompaireHashCode(ds.Tables[0].Rows[0]["Password"].ToString(), txtPassword.Text))
+                        {
+                            Session["Emp_Id"] = ds.Tables[0].Rows[0]["Emp_Id"].ToString();
+                            Session["UserName"] = ds.Tables[0].Rows[0]["UserName"].ToString();
+                            Session["Designation_Name"] = ds.Tables[0].Rows[0]["Designation_Name"].ToString();
+                            Session["Designation_ID"] = ds.Tables[0].Rows[0]["UserType_Id"].ToString();
+                            Session["Office_Id"] = ds.Tables[0].Rows[0]["Office_Id"].ToString();
+                            Session["Office_Name"] = ds.Tables[0].Rows[0]["OfficeName"].ToString();
+                            Session["Division_Id"] = ds.Tables[0].Rows[0]["Division_Id"].ToString();
+                            Session["District_Id"] = ds.Tables[0].Rows[0]["District_Id"].ToString();
+                            Session["OfficeType_Id"] = ds.Tables[0].Rows[0]["OfficeType_Id"].ToString();
+
+                            Session["AccessModule"] = ds.Tables[1];
+                            Session["AccessForm"] = ds.Tables[2];
+                            Response.Redirect("~/Legal/LegalDashboard.aspx");
+                        }
                         //else
                         //{
                         //    Labelmsg.ForeColor = System.Drawing.Color.Red;
@@ -77,7 +82,8 @@ public partial class Legal_Login : System.Web.UI.Page
                     else
                     {
                         lblMsg.ForeColor = System.Drawing.Color.Red;
-                        lblMsg.Text = "Login Failed!<br /> UserName or Password is not correct";
+                        lblMsg.Text = "Invalid Credential!";
+                        //lblMsg.Text = "Login Failed!<br /> UserName or Password is not correct";
                     }
                 }
             }

@@ -21,7 +21,7 @@ public partial class Legal_WPCaseList : System.Web.UI.Page
             {
                 ViewState["Emp_Id"] = Session["Emp_Id"].ToString();
                 ViewState["Office_Id"] = Session["Office_Id"].ToString();
-                // BindDesignation();
+               
             }
         }
         else
@@ -33,8 +33,7 @@ public partial class Legal_WPCaseList : System.Web.UI.Page
     {
         try
         {
-            if (Page.IsValid)
-            {
+            
                 lblMsg.Text = "";
                 GrdCaseDetails.DataSource = null;
                 GrdCaseDetails.DataBind();
@@ -45,13 +44,15 @@ public partial class Legal_WPCaseList : System.Web.UI.Page
                 {
                     GrdCaseDetails.DataSource = ds;
                     GrdCaseDetails.DataBind();
+                    GrdCaseDetails.HeaderRow.TableSection = TableRowSection.TableHeader;
+                    GrdCaseDetails.UseAccessibleHeader = true;
                 }
                 else
                 {
                     GrdCaseDetails.DataSource = null;
                     GrdCaseDetails.DataBind();
                 }
-            }
+            
         }
         catch (Exception ex)
         {
@@ -64,6 +65,7 @@ public partial class Legal_WPCaseList : System.Web.UI.Page
         {
             lblMsg.Text = "";
             GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+
             string ID = e.CommandArgument.ToString();
             Response.Redirect("../Legal/EditWPCases.aspx?ID=" + Server.UrlEncode(ID));
         }
@@ -72,4 +74,17 @@ public partial class Legal_WPCaseList : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+    //protected void GrdCaseDetails_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    //{
+    //    try
+    //    {
+    //        GrdCaseDetails.PageIndex = e.NewPageIndex;
+    //        btnSearch_Click(sender,  e);
+    //        GrdCaseDetails.DataBind();
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
+    //    }
+    //}
 }

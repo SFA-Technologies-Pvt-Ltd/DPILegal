@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="LegalDashboard.aspx.cs" Inherits="mis_Legal_LegalDashboard" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-
+     
     <style>
         .LegalImage {
             background-image: url("../image/Legal%203.png");
@@ -126,10 +126,39 @@
             document.forms[0].target = "_blank";
         }
     </script>
+
+
+    <%-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                                <script type="text/javascript">
+                                    google.charts.load('current', { 'packages': ['corechart'] });
+                                    google.charts.setOnLoadCallback(drawChart);
+
+                                    function drawChart() {
+
+                                        var data = google.visualization.arrayToDataTable([
+                                          ['Task', 'Hours per Day'],
+                                          ['Work', 11],
+                                          ['Eat', 2],
+                                          ['Commute', 2],
+                                          ['Watch TV', 2],
+                                          ['Sleep', 7]
+                                        ]);
+
+                                        var options = {
+                                            title: 'My Daily Activities'
+                                        };
+
+                                        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+                                        chart.draw(data, options);
+                                    }
+                                </script>
+
+          graph                      <div id="piechart" style="width: 900px; height: 500px;"></div>--%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div style="display: table; height: 100%; width: 80%; position: absolute; left: 10%;">
+        <div style="display: table; height: 100%; width: 80%; position:absolute; left:10%;">
             <div class="modal-dialog" style="width: 80%; display: table-cell; vertical-align: middle;">
                 <div class="modal-content" style="width: inherit; height: inherit; margin: 0 auto;">
                     <div class="modal-header" style="background-color: #D9D9D9;">
@@ -147,11 +176,17 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="table-responsive">
-                                            <asp:GridView ID="GrdHighpriorityCase" runat="server" CssClass="table table-bordered" AutoGenerateColumns="false" EmptyDataText="NO RECORD FOUND">
+                                            <asp:GridView ID="GrdHighpriorityCase" runat="server" CssClass="table table-bordered" AutoGenerateColumns="false">
                                                 <Columns>
                                                     <asp:TemplateField HeaderText="S.No.">
                                                         <ItemTemplate>
                                                             <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex +1 %>'></asp:Label>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField HeaderText="Case Subject">
+                                                        <ItemTemplate>
+                                                            <asp:Label ID="lblCaseSubject" runat="server" Text='<%# Eval("CaseSubject") %>'></asp:Label>
+                                                         
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="Case No.">
@@ -164,26 +199,13 @@
                                                             <asp:Label ID="lblPetitionerName" runat="server" Text='<%# Eval("PetionerName") %>'></asp:Label>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Case Subject">
-                                                        <ItemTemplate>
-                                                            <asp:Label ID="lblCaseSubject" runat="server" Text='<%# Eval("CaseSubject") %>'></asp:Label>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="Court Name">
                                                         <ItemTemplate>
                                                             <asp:Label ID="lblCourtName" runat="server" Text='<%# Eval("CourtTypeName") %>'></asp:Label>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Case Type">
-                                                        <ItemTemplate>
-                                                            <asp:Label ID="lblCaseType" runat="server" Text='<%# Eval("Casetype_Name") %>'></asp:Label>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="High Priority Case Status">
-                                                        <ItemTemplate>
-                                                            <asp:Label ID="lblHighPriorityCase" runat="server" Text='<%# Eval("HighPrityCaseStatus") %>'></asp:Label>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
+                                                    <asp:BoundField HeaderText="High Priority Case" DataField="HighPrirtyCaseSts" />
+                                                    <asp:BoundField HeaderText="High Priority Case" DataField="Casetype_Name" />
                                                 </Columns>
                                             </asp:GridView>
                                         </div>
@@ -218,10 +240,10 @@
                                     <img src="../image/Libra.png" class="Libraimage" />
                                 </div>
                             </div>--%>
-                        <div class="row Space">
+                         <div class="row Space">
                             <div class="col-md-12">
                                 <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">HIGH PRIORITY CASE :</span>
-                                <asp:LinkButton ID="btnHighPriorityCase" runat="server" CssClass="btn-sm label label-warning " OnClick="btnHighPriorityCase_Click">TOTAL Case<span id="spnhighpriorityCase" runat="server"></span></asp:LinkButton>
+                                <asp:LinkButton ID="btnHighPriorityCase" runat="server" CssClass="btn-sm label label-warning" OnClick="btnHighPriorityCase_Click">TOTAL Case<span id="spnhighpriorityCase" runat="server" style="font-weight:bold;"></span></asp:LinkButton>
                             </div>
                         </div>
                         <div class="row">
@@ -232,147 +254,36 @@
                             <div class="col-md-12" style="margin-top: 10px;">
                                 <marquee direction="left"> <span id="spnHearing" runat="server" style="font-size:18px; color:red; font-weight:800;"></span></marquee>
                             </div>
-                        </div>
-                        <div id="CourtWiseDiv" runat="server" visible="false">
-                            <div class="row Space">
-                                <div class="col-md-12">
-                                    <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">COURT WISE (TOTAL CASE):</span>
-                                    <asp:Label ID="lblTotalCaseCourtwise" runat="server"></asp:Label>
-                                </div>
-                            </div>
-
-                            <div class="row Space">
-                                <div class="col-6 col-md-4">
-                                    <div class="boxshape" style="background-color: #cf57cf; border: 2px solid green;">
-                                        <div class="circle">
-                                            <div class="insideBox" style="border: 2px solid #cf57cf;">
-                                                <span>INDORE COURT<br />
-                                                    CASES</span>
-                                            </div>
-                                        </div>
-                                        <div class="lableBox">
-                                            <asp:Label ID="lblIndoreCases" runat="server" CssClass=""></asp:Label>
-                                        </div>
-                                        <div class="buttonDiv">
-                                            <asp:Button ID="btnIndoreCases" runat="server" CssClass="Buttons" Text="View Detail" OnClientClick="SetTarget();" OnClick="btnIndoreCases_Click" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-4">
-                                    <div class="boxshape" style="background-color: red; border: 2px solid blue;">
-                                        <div class="circle">
-                                            <div class="insideBox" style="border: 2px solid #4444c5;">
-                                                <span>JABALPUR COURT<br />
-                                                    CASES</span>
-                                            </div>
-                                        </div>
-                                        <div class="lableBox">
-                                            <asp:Label ID="lblJabalpur" runat="server" CssClass=""></asp:Label>
-                                        </div>
-                                        <div class="buttonDiv">
-                                            <asp:Button ID="btnJabalpur" runat="server" CssClass="Buttons" Text="View Detail" OnClick="btnJabalpur_Click" OnClientClick="SetTarget();" />
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-4">
-                                    <div class="boxshape" style="background-color: purple; border: 2px solid green;">
-                                        <div class="circle">
-                                            <div class="insideBox" style="border: 2px solid violet;">
-                                                <span>Gwalior COURT<br />
-                                                    CASES</span>
-                                            </div>
-                                        </div>
-                                        <div class="lableBox">
-                                            <asp:Label ID="lblGwalior" runat="server"></asp:Label>
-                                        </div>
-                                        <div class="buttonDiv">
-                                            <asp:Button ID="btnGwalior" runat="server" CssClass="Buttons" Text="View Detail" OnClientClick="SetTarget();" OnClick="btnGwalior_Click" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="CasetypewiseDiv" runat="server" visible="false">
-                            <div class="row Space">
-                                <div class="col-md-12">
-                                    <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">CASE TYPE :</span>
-                                </div>
-                            </div>
-
-                            <div class="row Space">
-                                <div class="col-6 col-md-4">
-                                    <div class="boxshape" style="background-color: #f9e70e; border: 2px solid magenta;">
-                                        <div class="circle">
-                                            <div class="insideBox" style="border: 2px solid #ef12c9;">
-                                                <span>WP<br />
-                                                    CASES</span>
-                                            </div>
-                                        </div>
-                                        <div class="lableBox" style="margin: 0 3px 0px 0px;">
-                                            <asp:Label ID="lblWPCase" runat="server"></asp:Label>
-                                        </div>
-                                        <div class="buttonDiv">
-                                            <asp:Button ID="btnWPCase" runat="server" CssClass="Buttons" Text="View Detail" OnClientClick="SetTarget();" OnClick="btnWPCase_Click" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-6">
-                                    <div class="boxshape" style="background-color: #9d9d26; border: 2px solid red;">
-                                        <div class="circle">
-                                            <div class="insideBox" style="border: 2px solid red;">
-                                                <span>CONT<br />
-                                                    EMPT<br />
-                                                    CASES</span>
-                                            </div>
-                                        </div>
-                                        <div class="lableBox" style="margin: 0 3px 0px 0px;">
-                                            <asp:Label ID="lblConTempt" runat="server"></asp:Label>
-                                        </div>
-                                        <div class="buttonDiv">
-                                            <asp:Button ID="btnContempt" runat="server" CssClass="Buttons" Text="View Detail" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-4">
-                                    <div class="boxshape" style="background-color: green; border: 2px solid red;">
-                                        <div class="circle">
-                                            <div class="insideBox" style="border: 2px solid red;">
-                                                <span>WA<br />
-                                                    CASES</span>
-                                            </div>
-                                        </div>
-                                        <div class="lableBox" style="margin: 0 3px 0px 0px;">
-                                            <asp:Label ID="lblWACase" runat="server"></asp:Label>
-                                        </div>
-                                        <div class="buttonDiv">
-                                            <asp:Button ID="btnWACase" runat="server" CssClass="Buttons" Text="View Detail" OnClientClick="SetTarget();" OnClick="btnWACase_Click" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                        </div>                        
+                      
                         <div class="row Space">
                             <div class="col-md-6">
-                                <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">COURT WISE :</span>
+                                <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">COURT WISE :
+                                      <asp:Label ID="lblCaseCount" runat="server" CssClass="Heading" />
+                                                                                                      </span>
                             </div>
                             <div class="col-md-6">
-                                <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">CASE WISE :(TOTAL CASE : <span id="CasetypeCountno" runat="server" class="Heading"></span>No's)</span>
+                                <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">CASE WISE :(TOTAL CASE : <span id="CasetypeCountno" runat="server" class="Heading"></span> No's)</span>
                             </div>
                         </div>
                         <div class="row Space">
+                            <%-- <div class="col-md-1"></div>--%>
                             <div class="col-md-6">
-                                <%-- <img src="../image/New1.png" class="NewCaseCourtImage" />--%>
-                                <div id="sbid" runat="server"></div>
+                                <%--<img src="../image/Courtwise.png"  class="NewCaseCourtImage"/>--%>
+                              <%--  <img src="../image/New1.png" class="NewCaseCourtImage"/>--%>
+                               <div id="sbid" runat="server"></div>
+                                
                             </div>
+
+                            <%-- <div class="col-md-1"></div>--%>
                             <div class="col-md-6">
-                                <%--<img src="../image/New2.png" class="NewCaseCourtImage" />--%>
+                              <%--  <img src="../image/New2.png" class="NewCaseCourtImage" />--%>
+                                <%--<img src="../image/CaseWise.png" class="NewCaseCourtImage" />--%>
                                 <div id="CasetypeCountID" runat="server"></div>
                             </div>
                         </div>
 
-
+                        
                         <%--<div class="row Space">
                                 <div class="col-md-12">
                                     <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">OFFICE WISE :</span>
@@ -453,6 +364,22 @@
                                     </div>
                                 </div>
                             </div>
+                             <div class="col-6 col-md-4">
+                                <div class="boxshape" style="background-color: yellow; border: 2px solid black;">
+                                    <div class="circle" style="">
+                                        <div class="insideBox" style="border: 2px solid yellow;">
+                                            <span>TBC<br />
+                                                CASES</span>
+                                        </div>
+                                    </div>
+                                    <div class="lableBox">
+                                        <asp:Label ID="lblTBCCases" runat="server">22</asp:Label>
+                                    </div>
+                                    <div class="buttonDiv">
+                                        <asp:Button ID="btnTBCCases" runat="server" CssClass="Buttons" Text="View Detail" OnClientClick="SetTarget();" OnClick="btnTBCCases_Click" />
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-6 col-md-4">
                                 <div class="boxshape" style="background-color: #EE9A4D; border: 2px solid red;">
                                     <div class="circle">
@@ -469,22 +396,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6 col-md-4">
-                                <div class="boxshape" style="background-color: yellow; border: 2px solid black;">
-                                    <div class="circle" style="">
-                                        <div class="insideBox" style="border: 2px solid yellow;">
-                                            <span>TBC<br />
-                                                CASES</span>
-                                        </div>
-                                    </div>
-                                    <div class="lableBox">
-                                        <asp:Label ID="lblTBCCases" runat="server"></asp:Label>
-                                    </div>
-                                    <div class="buttonDiv">
-                                        <asp:Button ID="btnTBCCases" runat="server" CssClass="Buttons" Text="View Detail" OnClientClick="SetTarget();" OnClick="btnTBCCases_Click" />
-                                    </div>
-                                </div>
-                            </div>
+                           
                         </div>
                     </div>
                 </div>

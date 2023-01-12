@@ -43,6 +43,8 @@ public partial class mis_Legal_PendingWPReport : System.Web.UI.Page
                 {
                     GrdPendingReport.DataSource = ds;
                     GrdPendingReport.DataBind();
+                    GrdPendingReport.HeaderRow.TableSection = TableRowSection.TableHeader;
+                    GrdPendingReport.UseAccessibleHeader = true;
                 }
                 else
                 {
@@ -56,20 +58,7 @@ public partial class mis_Legal_PendingWPReport : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
-    protected void GrdPendingReport_PageIndexChanging(object sender, GridViewPageEventArgs e)
-    {
-        try
-        {
-            lblMsg.Text = "";
-            GrdPendingReport.PageIndex = e.NewPageIndex;
-            GrdPendingReport.DataSource = ds;
-            GrdPendingReport.DataBind();
-        }
-        catch (Exception ex)
-        {
-            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
-        }
-    }
+    
     protected void GrdPendingReport_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         try
