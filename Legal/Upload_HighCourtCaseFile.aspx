@@ -19,11 +19,11 @@
                 <asp:Label ID="lblMsg" runat="server"></asp:Label>
                 <div class="card">
                     <div class="card-header">
-                        Upload Petition
+                        Upload Case File
                     </div>
                     <div class="card-body">
                         <fieldset>
-                            <legend>Upload Petition File</legend>
+                            <legend>Upload Case File</legend>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">

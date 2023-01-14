@@ -107,7 +107,7 @@
                 <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
                 <div class="card">
                     <div class="card-header">
-                        Case Registration
+                       Add New Case
                         <asp:Label ID="lbl" runat="server" Text="" CssClass="text-danger"></asp:Label>
                     </div>
                     <div class="card-body">

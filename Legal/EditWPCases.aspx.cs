@@ -33,6 +33,7 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                 BindRespondertype();
                 BindCasetype();
                 BindCaseSubject();
+                FillDesignation();
             }
         }
         else
@@ -47,12 +48,36 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
         ViewState["UPAGETOKEN"] = Session["PAGETOKEN"];
     }
 
+    #region Fill Designarion
+    protected void FillDesignation()
+    {
+        try
+        {
+            ddldesignation.Items.Clear();
+            ds = obj.ByProcedure("USP_Select_DesignationMaster", new string[] { }, new string[] { }, "dataset");
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            {
+                ddldesignation.DataTextField = "UserType_Name";
+                ddldesignation.DataValueField = "UserType_Id";
+                ddldesignation.DataSource = ds;
+                ddldesignation.DataBind();
+            }
+            ddldesignation.Items.Insert(0, new ListItem("Select", "0"));
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+        }
+    }
+    #endregion
+
+    #region Fill CaseSubject
     protected void BindCaseSubject()
     {
         try
         {
             ddlCaseSubject.Items.Clear();
-            ds = obj.ByDataSet("SELECT CaseSubject, CaseSubjectID FROM tbl_LegalMstCaseSubject");
+            ds = obj.ByProcedure("Sp_CaseSubject", new string[] { "flag" }, new string[] { "2" }, "dataset");
             if (ds != null && ds.Tables[0].Rows.Count > 0)
             {
                 ddlCaseSubject.DataTextField = "CaseSubject";
@@ -67,7 +92,9 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
         }
     }
+    #endregion
 
+    #region Fill Respondent
     protected void BindRespondertype()
     {
         try
@@ -95,6 +122,9 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+    #endregion
+
+    #region Fill Year
     protected void BindYear()
     {
         List<int> List = new List<int>();
@@ -107,6 +137,9 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
         }
         ddlWPCaseYear.Items.Insert(0, new ListItem("Select", "0"));
     }
+    #endregion
+
+    #region Fill CaseDispose Status
     protected void CaseDisposeStatus() // Case Dispose By Default On NO condtiton
     {
         foreach (ListItem item in rdCaseDispose.Items)
@@ -123,6 +156,9 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
             HearingDtl_CaseDispose.Visible = false;
         }
     }
+    #endregion
+
+    #region Fill Case DisposeType
     protected void BindDisposeType()
     {
         try
@@ -144,6 +180,9 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+    #endregion
+
+    #region Fill CaseType
     protected void BindCasetype()
     {
         try
@@ -165,6 +204,9 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+    #endregion
+
+    #region Hearing Datatable
     protected void HearingDatacolumn()
     {
         DataTable dt = new DataTable();
@@ -177,6 +219,8 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
         }
         ViewState["HearingDt"] = dt;
     }
+    #endregion
+
     protected void FieldClose()
     {
         Case_EditField.Visible = false;
@@ -185,7 +229,8 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
         FieldSet_ResponderDetail.Visible = false;
         Field_AddResponder.Visible = false;
     }
-    // Office Type Bind.
+
+    #region Fill OfficeType
     protected void BindOfficeType()
     {
         try
@@ -207,6 +252,9 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+    #endregion
+
+    #region Fill MainDetails
     protected void BindDetails()
     {
         try
@@ -272,7 +320,9 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
         }
         finally { ds.Clear(); }
     }
+    #endregion
 
+    #region Fill ResponderRowCommand
     protected void GrdResponderDtl_RowCommand(object sender, GridViewCommandEventArgs e)  // Navigate on the Edit Case Detail Div.
     {
         try
@@ -315,6 +365,9 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
         }
 
     }
+    #endregion
+
+    #region Fill Petitioner Dtl
     protected void lnkEditCaseDtl_Click(object sender, EventArgs e)
     {
         try
@@ -339,9 +392,10 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                     {
                         txtWPCaseNo.Text = ds.Tables[0].Rows[0]["CurrentOfficeStatus"].ToString();
                     }
-                    if (ds.Tables[0].Rows[0]["CaseSubject"].ToString() != "")
+                    if (ds.Tables[0].Rows[0]["UserType_Id"].ToString() != "")
                     {
-                        //txtCaseSubject.Text = ds.Tables[0].Rows[0]["CaseSubject"].ToString();
+                        ddldesignation.ClearSelection();
+                        ddldesignation.Items.FindByValue(ds.Tables[0].Rows[0]["UserType_Id"].ToString()).Selected = true;
 
                     }
                     if (ds.Tables[0].Rows[0]["NodalOfficer_Name"].ToString() != "")
@@ -433,6 +487,9 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
         }
         finally { ds.Clear(); }
     }
+    #endregion
+
+    #region Edit Petitioner Dtl
     protected void btnUpdate_Click(object sender, EventArgs e) // Only Case & Petitioner INformation Update.
     {
         try
@@ -458,7 +515,7 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                         "LastupdatedBy", 
                         "LastupdatedByIp", 
                         "Case_ID", 
-                        "CaseDetail" }
+                        "CaseDetail","UserType_Id" }
                         , new string[] { ddlHighPriorityCase.SelectedItem.Text, 
                             ddlCasetype.SelectedValue,
                             txtPetitionerName.Text.Trim(), 
@@ -475,7 +532,8 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
                             ViewState["Emp_Id"].ToString(),
                             obj.GetLocalIPAddress(),
                             ViewState["ID"].ToString(), 
-                            txtCaseDetail.Text.Trim() }, "dataset");
+                            txtCaseDetail.Text.Trim(),
+                        ddldesignation.SelectedValue}, "dataset");
 
                 }
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
@@ -518,6 +576,8 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+    #endregion
+
     protected void lnkAddResponderDtl_Click(object sender, EventArgs e) // Navigate on the Add Responder Div.
     {
         try
@@ -536,6 +596,8 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+
+    #region Insert Edit Respondent Dtl
     protected void btnAddResponder_Click(object sender, EventArgs e) // Add New Responder.
     {
         try
@@ -584,6 +646,8 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+    #endregion
+
     protected void lnkAddEditDoc_Click(object sender, EventArgs e) // For Back Button
     {
         try
@@ -602,6 +666,8 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+
+    #region insert edit Doc
     protected void btnSaveDoc_Click(object sender, EventArgs e) // Add & Edit Document.
     {
         if (Page.IsValid)
@@ -731,6 +797,8 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
             }
         }
     }
+    #endregion
+
     protected void GrdCaseDoc_RowCommand(object sender, GridViewCommandEventArgs e)// on row command Event for Edit Document
     {
         try
@@ -780,6 +848,7 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+
     protected void rdCaseDispose_SelectedIndexChanged(object sender, EventArgs e)
     {
         try
@@ -822,6 +891,7 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
     //    }
     //}
 
+    #region Add Hearing_datatable
     protected void btnAddHearingDtl_Click(object sender, EventArgs e) //  Add Hearing Dtl.
     {
         try
@@ -905,6 +975,9 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+    #endregion
+
+    #region Save Edit Hearing
     protected void btnSaveHearingDtl_Click(object sender, EventArgs e) //Save Hearing Dtl.
     {
         try
@@ -1001,6 +1074,8 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+    #endregion
+
     protected void lnkbtnAddNewHering_Click(object sender, EventArgs e)
     {
         try
@@ -1015,6 +1090,7 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
         }
     }
 
+    #region Case Dispose Save
     protected void btnCaseDispose_Click(object sender, EventArgs e) // Case Dispose Event
     {
         try
@@ -1107,6 +1183,8 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+    #endregion
+
     protected void GrdHearingDtl_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         try
@@ -1130,6 +1208,7 @@ public partial class Legal_EditWPCases : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+
     protected void btnHearingBack_Click(object sender, EventArgs e)
     {
         try

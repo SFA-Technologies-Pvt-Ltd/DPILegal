@@ -124,7 +124,7 @@ public partial class Legal_ContemptCaseRpt : System.Web.UI.Page
 
     protected void btnClear_Click(object sender, EventArgs e)
     {
-        Response.Redirect("~/legal/subjectwisecasedtl.aspx");
+        Response.Redirect("~/legal/ContemptCaseRpt.aspx");
     }
     protected void grdSubjectWiseCasedtl_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {

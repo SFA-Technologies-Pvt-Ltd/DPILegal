@@ -262,6 +262,11 @@
                                                     <asp:Label ID="lblPetitionerName" runat="server" Text='<%# Eval("Petitoner_Name") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Designation">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblDesignationName" runat="server" Text='<%# Eval("UserType_Name") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Office Type">
                                                 <ItemTemplate>
                                                     <asp:Label ID="lblOfficeType" runat="server" Text="Head Office"></asp:Label>
@@ -792,6 +797,19 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
+                                        <label>Designation</label><span style="color: red;"><b> *</b></span>
+                                        <asp:RequiredFieldValidator ID="rfvDesignation" ValidationGroup="CaseDtl"
+                                            ErrorMessage="Select Designation." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="ddldesignation" Display="Dynamic" runat="server" InitialValue="0">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:DropDownList ID="ddldesignation" runat="server" CssClass="form-control">
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                 <div class="col-md-3">
+                                    <div class="form-group">
                                         <label>Office Type</label><span style="color: red;"><b> *</b></span>
                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="CaseDtl"
                                             ErrorMessage="Select Office Type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
@@ -801,8 +819,6 @@
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Office Name</label>

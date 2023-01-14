@@ -22,7 +22,7 @@
                 <div class="card">
                    
                     <div class="card-header">
-                        Cabinet Decision Details
+                        Cabinet Meeting Details
                     </div>
                     <div class="card-body">
                         <fieldset>
@@ -33,7 +33,7 @@
                                         <table class="table table-bordered text-center">
                                             <tr>
                                                 <th colspan="4">
-                                                    <h3>Cabinet Decision Details</h3>
+                                                    <h3>Cabinet Meeting Details</h3>
                                                 </th>
                                             </tr>
                                             <tr>

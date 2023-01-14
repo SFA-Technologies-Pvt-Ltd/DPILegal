@@ -5,13 +5,17 @@
         label {
             font-size: 15px;
         }
+
+        .pt-4{
+            padding-top:2rem!important
+
+        }
     </style>
     <script type="text/javascript">
         function myModal() {
             $("#myModal").modal('show');
         }
     </script>
-
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
     <asp:ValidationSummary ID="VDS" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Save" />
@@ -20,7 +24,7 @@
             <div class="modal-dialog" style="width: 80%; display: table-cell; vertical-align: middle;">
                 <div class="modal-content" style="width: inherit; height: inherit; margin: 0 auto;">
                     <div class="modal-header" style="background-color: #D9D9D9;">
-                        <span class="modal-title" style="float: left" id="myModalLabel">Responder Details</span>
+                        <span class="modal-title" style="float: left" id="myModalLabel">View Case Details</span>
                         <button type="button" class="close" data-dismiss="modal">
                             <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                         </button>
@@ -177,7 +181,7 @@
                 <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
                 <div class="card">
                     <div class="card-header">
-                        Subject Wise Case Detail
+                        Contempt Dispose Case Detail
                     </div>
                     <div class="card-body">
                         <fieldset>
@@ -186,28 +190,26 @@
                                 <div class="col-md-3 col-sm">
                                     <div class="form-group">
                                         <label>
-                                            From Date<span style="color: red;"><b> *</b></span>
+                                            From Date<span style="color: red;"><b> *</b></span></label>
                                             <asp:RequiredFieldValidator ID="Rfvdate" ValidationGroup="Save"
                                                 ErrorMessage="Enter From Date." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                 ControlToValidate="txtDate" Display="Dynamic" runat="server">
-                                            </asp:RequiredFieldValidator><br />
-                                            प्रारंभिक दिनांक</label>
+                                            </asp:RequiredFieldValidator>
                                         <asp:TextBox ID="txtDate" runat="server" data-provide="datepicker" placeholder="DD/MM/YYYY" CssClass="form-control disableFuturedate" data-date-format="dd/mm/yyyy" data-date-autoclose="true" AutoComplete="off"></asp:TextBox>
                                     </div>
                                 </div>
                                  <div class="col-md-3 col-sm">
                                     <div class="form-group">
                                         <label>
-                                            End Date<span style="color: red;"><b> *</b></span>
+                                            End Date<span style="color: red;"><b> *</b></span></label>
                                             <asp:RequiredFieldValidator ID="RefvEndate" ValidationGroup="Save"
                                                 ErrorMessage="Enter End Date." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                 ControlToValidate="txtEndDate" Display="Dynamic" runat="server">
-                                            </asp:RequiredFieldValidator><br />
-                                            अंतिम दिनांक</label>
+                                            </asp:RequiredFieldValidator>
                                         <asp:TextBox ID="txtEndDate" runat="server" data-date-end-date="0d" data-provide="datepicker" placeholder="DD/MM/YYYY" CssClass="form-control disableFuturedate" data-date-format="dd/mm/yyyy" data-date-autoclose="true" AutoComplete="off"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-md-3" style="margin:5% 0 0 0">
+                                <div class="col-md-3 pt-4">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary btn-block" Text="Search" OnClick="btnSearch_Click" ValidationGroup="Save" />
@@ -225,7 +227,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
-                                        <asp:GridView ID="grdSubjectWiseCasedtl" runat="server" CssClass="table table-bordered" AutoGenerateColumns="false" OnRowCommand="grdSubjectWiseCasedtl_RowCommand" DataKeyNames="Case_ID" OnPageIndexChanging="grdSubjectWiseCasedtl_PageIndexChanging" AllowPaging="true" PageSize="10">
+                                        <asp:GridView ID="grdSubjectWiseCasedtl" runat="server" CssClass="table table-bordered" AutoGenerateColumns="false" OnRowCommand="grdSubjectWiseCasedtl_RowCommand" DataKeyNames="Case_ID"
+                                             OnPageIndexChanging="grdSubjectWiseCasedtl_PageIndexChanging" AllowPaging="true" PageSize="10" EmptyDataText="NO RECORD FOUND">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="S.No.">
                                                     <ItemTemplate>
@@ -266,6 +269,11 @@
                                                 <asp:TemplateField HeaderText="Court Name">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblCourtName" runat="server" Text='<%# Eval("CourtTypeName") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                  <asp:TemplateField HeaderText="Case Status">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblCaseStatus" runat="server" Text='<%# Eval("CaseStatus") %>' ForeColor='<%# (Eval("CaseStatus").ToString() == "Dispose") ? System.Drawing.Color.Green : System.Drawing.Color.Red %>' Font-Bold="true"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Action">

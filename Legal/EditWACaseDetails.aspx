@@ -740,7 +740,18 @@
                                         <asp:Label ID="lblCaseNo" runat="server" CssClass="form-control"></asp:Label>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>WA/RP/SLP Case No</label>
+                                        <span style="color: red;"><b>*</b></span>
+                                        <asp:RequiredFieldValidator ID="RfvtxtWaCaseNo" ValidationGroup="CaseDtl"
+                                            ErrorMessage="Enter WaCaseNo." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="txtWaCaseNo" Display="Dynamic" runat="server">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:TextBox ID="txtWaCaseNo" runat="server" CssClass="form-control" onkeypress="return NumberOnly();" AutoComplete="off" MaxLength="70"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Case Type</label>
                                         <span style="color: red;"><b>*</b></span>
@@ -750,8 +761,11 @@
                                         </asp:RequiredFieldValidator>
                                         <asp:DropDownList ID="ddlCasetype" runat="server" CssClass="form-control"></asp:DropDownList>
                                     </div>
-                                </div>
-                                <div class="col-md-5">
+                                </div> 
+                                                             
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Petitioner Name</label>
                                         <span style="color: red;"><b>*</b></span>
@@ -762,9 +776,19 @@
                                         <asp:TextBox ID="txtPetitionerName" runat="server" onkeypress="return chcode();" CssClass="form-control" AutoComplete="off" MaxLength="70"></asp:TextBox>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
+                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Designation Name</label>
+                                        <span style="color: red;"><b>*</b></span>
+                                        <asp:RequiredFieldValidator ID="rfvDesignation" ValidationGroup="CaseDtl"
+                                            ErrorMessage="Select Designation." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="ddlDesignation" InitialValue="0" Display="Dynamic" runat="server">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:DropDownList ID="ddlDesignation" runat="server" CssClass="form-control">
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Court Type</label>
                                         <span style="color: red;"><b>*</b></span>
@@ -776,7 +800,9 @@
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                </div>
+                            <div class="row">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Office Type</label>
                                         <span style="color: red;"><b>*</b></span>
@@ -788,7 +814,7 @@
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Office Name</label>
                                         <span style="color: red;"><b>*</b></span>
@@ -799,22 +825,8 @@
                                         <asp:DropDownList ID="ddlOfficeName" runat="server" CssClass="form-control" Visible="false"></asp:DropDownList>
                                         <asp:TextBox ID="txtOfficeName" runat="server" CssClass="form-control" MaxLength="70" AutoComplete="off"></asp:TextBox>
                                     </div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>WA/RP/SLP Case No</label>
-                                        <span style="color: red;"><b>*</b></span>
-                                        <asp:RequiredFieldValidator ID="RfvtxtWaCaseNo" ValidationGroup="CaseDtl"
-                                            ErrorMessage="Enter WaCaseNo." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
-                                            ControlToValidate="txtWaCaseNo" Display="Dynamic" runat="server">
-                                        </asp:RequiredFieldValidator>
-                                        <asp:TextBox ID="txtWaCaseNo" runat="server" CssClass="form-control" onkeypress="return NumberOnly();" AutoComplete="off" MaxLength="70"></asp:TextBox>
-                                    </div>
-                                </div>                               
-                            </div>
-                            <div class="row">
-                                 <div class="col-md-3">
+                                </div> 
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>
                                             Case Year
@@ -825,8 +837,10 @@
                                             </asp:RequiredFieldValidator></label>
                                         <asp:DropDownList ID="ddlCaseYear" runat="server" CssClass="form-control"></asp:DropDownList>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
+                                </div>                                                              
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Nodal Officer Name</label>
                                        <%-- <span style="color: red;"><b>*</b></span>
@@ -837,7 +851,7 @@
                                         <asp:TextBox ID="txtNOdalOfficerName" runat="server" onkeypress="return chcode();" CssClass="form-control" AutoComplete="off" MaxLength="70"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Nodal Officer Mobile No.</label>
                                        <%-- <span style="color: red;"><b>*</b></span>
@@ -851,9 +865,9 @@
                                         <asp:TextBox ID="txtNodalOfficerMobileNo" runat="server" onkeypress="return NumberOnly();" CssClass="form-control" AutoComplete="off" MaxLength="10"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Nodal Officer Email-ID</label><span style="color: red;"><b>*</b></span>
+                                        <label>Nodal Officer Email-ID</label>
                                         <asp:TextBox ID="txtNodalOfficerEmail" runat="server"  AutoComplete="off" MaxLength="50" CssClass="form-control"></asp:TextBox>
                                     </div>
                                 </div>
@@ -886,7 +900,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>OIC Email-ID</label><span style="color: red;"><b>*</b></span>
+                                        <label>OIC Email-ID</label>
                                         <asp:TextBox ID="txtOICEmailID" runat="server"  AutoComplete="off" MaxLength="50" CssClass="form-control"></asp:TextBox>
                                     </div>
                                 </div>
@@ -919,7 +933,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Advocate Email-ID</label><span style="color: red;"><b>*</b></span>
+                                        <label>Advocate Email-ID</label>
                                         <asp:TextBox ID="txtNodalEmailID" runat="server"  AutoComplete="off" MaxLength="50" CssClass="form-control"></asp:TextBox>
                                     </div>
                                 </div>
