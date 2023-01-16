@@ -35,6 +35,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                     FillCasetype();
                     BindCaseSubject();
                     DtColumn();
+                    FillYear();
                     if (Request.QueryString["Case_ID"] != null)
                     {
                         ViewState["Case_ID"] = objdb.Decrypt(Request.QueryString["Case_ID"].ToString());
@@ -59,6 +60,18 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
         }
 
     }
+    #region Fill Year
+    protected void FillYear()
+    {
+        ddlCaseYear.Items.Clear();
+        for (int i = 2018; i <= DateTime.Now.Year; i++)
+        {
+            ddlCaseYear.Items.Add(i.ToString());
+        }
+        ddlCaseYear.Items.Insert(0, new ListItem("Select", "0"));
+
+    }
+    #endregion
     #region Fill Respondent
     protected void BindRespondertype()
     {
@@ -92,6 +105,8 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
         }
         ViewState["dtcol"] = dtcol;
     }
+
+
     #endregion
     #region Fill CourtName
     protected void BindCourtName()
@@ -179,261 +194,271 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
     {
         try
         {
-            string msg = "";
-            //string Hearing_Date = txtHearingDate.Text;            
-            if (txtCaseNo.Text == "")
+            if (Page.IsValid)
             {
-                msg += "Enter Case Number.\\n";
-            }
-            if (ddlCourtType.SelectedIndex < 0)
-            {
-                msg += "Select Court Type.\\n";
-            }
-            if (ddlCaseSubject.SelectedIndex < 0)
-            {
-                msg += "Select Case Subject.\\n";
-            }
-            if (ddlHighprioritycase.SelectedIndex < 0)
-            {
-                msg += "Select High Priority Case.\\n";
-            }
-            if (txtCaseDescription.Text == "")
-            {
-                msg += "Enter Subject Of Case.\\n";
-            }
-            //if (FileUpload1.HasFile)
-            //{
-            //    Document1 = "../Legal/Uploads/" + Guid.NewGuid() + FileUpload1.FileName;
-            //    FileUpload1.SaveAs(Server.MapPath(Document1));
-            //}
-            //else if (ViewState["Case_UploadedDoc1"] != null)
-            //{
-            //    Document1 = ViewState["Case_UploadedDoc1"].ToString();
-            //}
-            //if (FileUpload2.HasFile)
-            //{
-            //    Document2 = "../Legal/Uploads/" + Guid.NewGuid() + FileUpload2.FileName;
-            //    FileUpload2.SaveAs(Server.MapPath(Document2));
-            //}
-            //else if (ViewState["Case_UploadedDoc2"] != null)
-            //{
-            //    Document2 = ViewState["Case_UploadedDoc2"].ToString();
-            //}
-            //if (FileUpload3.HasFile)
-            //{
-            //    Document3 = "../Legal/Uploads/" + Guid.NewGuid() + FileUpload3.FileName;
-            //    FileUpload3.SaveAs(Server.MapPath(Document3));
-            //}
-            //else if (ViewState["Case_UploadedDoc3"] != null)
-            //{
-            //    Document3 = ViewState["Case_UploadedDoc3"].ToString();
-            //}
-            ViewState["FileUploadDOC1"] = "";
-            ViewState["FileUploadDOC2"] = "";
-            ViewState["FileUploadDOC3"] = "";
-            int DocFailedCntExt = 0;
-            int DocFailedCntSize = 0;
-            string strFileName = "";
-            string strExtension = "";
-            string strTimeStamp = "";
-            if (FileUpload1.HasFile)     // CHECK IF ANY FILE HAS BEEN SELECTED.
-            {
-
-                string fileExt = System.IO.Path.GetExtension(FileUpload1.FileName).Substring(1);
-                string[] supportedTypes = { "PDF", "pdf" };
-                if (!supportedTypes.Contains(fileExt))
+                string msg = "";
+                //string Hearing_Date = txtHearingDate.Text;            
+                if (txtCaseNo.Text == "")
                 {
-                    DocFailedCntExt += 1;
+                    msg += "Enter Case Number.\\n";
                 }
-                else if (FileUpload1.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
+                if (ddlCourtType.SelectedIndex < 0)
                 {
-                    DocFailedCntSize += 1;
+                    msg += "Select Court Type.\\n";
                 }
-                else
+                if (ddlCaseSubject.SelectedIndex < 0)
+                {
+                    msg += "Select Case Subject.\\n";
+                }
+                if (ddlHighprioritycase.SelectedIndex < 0)
+                {
+                    msg += "Select High Priority Case.\\n";
+                }
+                if (txtCaseDetail.Text == "")
+                {
+                    msg += "Enter Subject Of Case.\\n";
+                }
+                //if (FileUpload1.HasFile)
+                //{
+                //    Document1 = "../Legal/Uploads/" + Guid.NewGuid() + FileUpload1.FileName;
+                //    FileUpload1.SaveAs(Server.MapPath(Document1));
+                //}
+                //else if (ViewState["Case_UploadedDoc1"] != null)
+                //{
+                //    Document1 = ViewState["Case_UploadedDoc1"].ToString();
+                //}
+                //if (FileUpload2.HasFile)
+                //{
+                //    Document2 = "../Legal/Uploads/" + Guid.NewGuid() + FileUpload2.FileName;
+                //    FileUpload2.SaveAs(Server.MapPath(Document2));
+                //}
+                //else if (ViewState["Case_UploadedDoc2"] != null)
+                //{
+                //    Document2 = ViewState["Case_UploadedDoc2"].ToString();
+                //}
+                //if (FileUpload3.HasFile)
+                //{
+                //    Document3 = "../Legal/Uploads/" + Guid.NewGuid() + FileUpload3.FileName;
+                //    FileUpload3.SaveAs(Server.MapPath(Document3));
+                //}
+                //else if (ViewState["Case_UploadedDoc3"] != null)
+                //{
+                //    Document3 = ViewState["Case_UploadedDoc3"].ToString();
+                //}
+                ViewState["FileUploadDOC1"] = "";
+                ViewState["FileUploadDOC2"] = "";
+                ViewState["FileUploadDOC3"] = "";
+                int DocFailedCntExt = 0;
+                int DocFailedCntSize = 0;
+                string strFileName = "";
+                string strExtension = "";
+                string strTimeStamp = "";
+                if (FileUpload1.HasFile)     // CHECK IF ANY FILE HAS BEEN SELECTED.
                 {
 
-                    strFileName = FileUpload1.FileName.ToString();
-                    strExtension = Path.GetExtension(strFileName);
-                    strTimeStamp = DateTime.Now.ToString();
-                    strTimeStamp = strTimeStamp.Replace("/", "-");
-                    strTimeStamp = strTimeStamp.Replace(" ", "-");
-                    strTimeStamp = strTimeStamp.Replace(":", "-");
-                    string strName = Path.GetFileNameWithoutExtension(strFileName);
-                    strFileName = strName + "NewCase-" + strTimeStamp + strExtension;
-                    string path = Path.Combine(Server.MapPath("../Legal/AddNewCaseDoc/"), strFileName);
-                    FileUpload1.SaveAs(path);
-
-                    ViewState["FileUploadDOC1"] = strFileName;
-                    path = "";
-                    strFileName = "";
-                    strName = "";
-                }
-
-            }
-            else if (FileUpload2.HasFile)
-            {
-                string fileExt = System.IO.Path.GetExtension(FileUpload2.FileName).Substring(1);
-                string[] supportedTypes = { "PDF", "pdf" };
-                if (!supportedTypes.Contains(fileExt))
-                {
-                    DocFailedCntExt += 1;
-                }
-                else if (FileUpload2.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
-                {
-                    DocFailedCntSize += 1;
-                }
-                else
-                {
-
-                    strFileName = FileUpload2.FileName.ToString();
-                    strExtension = Path.GetExtension(strFileName);
-                    strTimeStamp = DateTime.Now.ToString();
-                    strTimeStamp = strTimeStamp.Replace("/", "-");
-                    strTimeStamp = strTimeStamp.Replace(" ", "-");
-                    strTimeStamp = strTimeStamp.Replace(":", "-");
-                    string strName = Path.GetFileNameWithoutExtension(strFileName);
-                    strFileName = strName + "NewCase-" + strTimeStamp + strExtension;
-                    string path = Path.Combine(Server.MapPath("../Legal/AddNewCaseDoc/"), strFileName);
-                    FileUpload2.SaveAs(path);
-
-                    ViewState["FileUploadDOC2"] = strFileName;
-                    path = "";
-                    strFileName = "";
-                    strName = "";
-                }
-            }
-            else if (FileUpload3.HasFile)
-            {
-                string fileExt = System.IO.Path.GetExtension(FileUpload3.FileName).Substring(1);
-                string[] supportedTypes = { "PDF", "pdf" };
-                if (!supportedTypes.Contains(fileExt))
-                {
-                    DocFailedCntExt += 1;
-                }
-                else if (FileUpload3.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
-                {
-                    DocFailedCntSize += 1;
-                }
-                else
-                {
-
-                    strFileName = FileUpload3.FileName.ToString();
-                    strExtension = Path.GetExtension(strFileName);
-                    strTimeStamp = DateTime.Now.ToString();
-                    strTimeStamp = strTimeStamp.Replace("/", "-");
-                    strTimeStamp = strTimeStamp.Replace(" ", "-");
-                    strTimeStamp = strTimeStamp.Replace(":", "-");
-                    string strName = Path.GetFileNameWithoutExtension(strFileName);
-                    strFileName = strName + "NewCase-" + strTimeStamp + strExtension;
-                    string path = Path.Combine(Server.MapPath("../Legal/AddNewCaseDoc/"), strFileName);
-                    FileUpload3.SaveAs(path);
-
-                    ViewState["FileUploadDOC3"] = strFileName;
-                    path = "";
-                    strFileName = "";
-                    strName = "";
-                }
-            }
-            string errormsg = "";
-            if (DocFailedCntExt > 0) { errormsg += "Only upload Document in( PDF) Formate.\\n"; }
-            if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 200 KB \\n"; }
-
-            if (errormsg == "")
-            {
-                if (msg == "")
-                {
-                    string Hearing_Date = "";
-                    string DateofReceipt = "";
-                    string DateofFiling = "";
-                    if (txtHearingDate.Text != "")
+                    string fileExt = System.IO.Path.GetExtension(FileUpload1.FileName).Substring(1);
+                    string[] supportedTypes = { "PDF", "pdf" };
+                    if (!supportedTypes.Contains(fileExt))
                     {
-                        Hearing_Date = Convert.ToDateTime(txtHearingDate.Text, cult).ToString("yyyy/MM/dd");
+                        DocFailedCntExt += 1;
+                    }
+                    else if (FileUpload1.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
+                    {
+                        DocFailedCntSize += 1;
                     }
                     else
                     {
-                        Hearing_Date = "";
+
+                        strFileName = FileUpload1.FileName.ToString();
+                        strExtension = Path.GetExtension(strFileName);
+                        strTimeStamp = DateTime.Now.ToString();
+                        strTimeStamp = strTimeStamp.Replace("/", "-");
+                        strTimeStamp = strTimeStamp.Replace(" ", "-");
+                        strTimeStamp = strTimeStamp.Replace(":", "-");
+                        string strName = Path.GetFileNameWithoutExtension(strFileName);
+                        strFileName = strName + "NewCase-" + strTimeStamp + strExtension;
+                        string path = Path.Combine(Server.MapPath("../Legal/AddNewCaseDoc/"), strFileName);
+                        FileUpload1.SaveAs(path);
+
+                        ViewState["FileUploadDOC1"] = strFileName;
+                        path = "";
+                        strFileName = "";
+                        strName = "";
                     }
-                    if (txtDateOfReceipt.Text != "")
+
+                }
+                else if (FileUpload2.HasFile)
+                {
+                    string fileExt = System.IO.Path.GetExtension(FileUpload2.FileName).Substring(1);
+                    string[] supportedTypes = { "PDF", "pdf" };
+                    if (!supportedTypes.Contains(fileExt))
                     {
-                        DateofReceipt = Convert.ToDateTime(txtDateOfReceipt.Text, cult).ToString("yyyy/MM/dd");
+                        DocFailedCntExt += 1;
+                    }
+                    else if (FileUpload2.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
+                    {
+                        DocFailedCntSize += 1;
                     }
                     else
                     {
-                        DateofReceipt = "";
+
+                        strFileName = FileUpload2.FileName.ToString();
+                        strExtension = Path.GetExtension(strFileName);
+                        strTimeStamp = DateTime.Now.ToString();
+                        strTimeStamp = strTimeStamp.Replace("/", "-");
+                        strTimeStamp = strTimeStamp.Replace(" ", "-");
+                        strTimeStamp = strTimeStamp.Replace(":", "-");
+                        string strName = Path.GetFileNameWithoutExtension(strFileName);
+                        strFileName = strName + "NewCase-" + strTimeStamp + strExtension;
+                        string path = Path.Combine(Server.MapPath("../Legal/AddNewCaseDoc/"), strFileName);
+                        FileUpload2.SaveAs(path);
+
+                        ViewState["FileUploadDOC2"] = strFileName;
+                        path = "";
+                        strFileName = "";
+                        strName = "";
                     }
-                    if (txtDateOfLastHearing.Text != "")
+                }
+                else if (FileUpload3.HasFile)
+                {
+                    string fileExt = System.IO.Path.GetExtension(FileUpload3.FileName).Substring(1);
+                    string[] supportedTypes = { "PDF", "pdf" };
+                    if (!supportedTypes.Contains(fileExt))
                     {
-                        DateofFiling = Convert.ToDateTime(txtDateOfLastHearing.Text, cult).ToString("yyyy/MM/dd");
+                        DocFailedCntExt += 1;
+                    }
+                    else if (FileUpload3.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
+                    {
+                        DocFailedCntSize += 1;
                     }
                     else
                     {
-                        DateofFiling = "";
+
+                        strFileName = FileUpload3.FileName.ToString();
+                        strExtension = Path.GetExtension(strFileName);
+                        strTimeStamp = DateTime.Now.ToString();
+                        strTimeStamp = strTimeStamp.Replace("/", "-");
+                        strTimeStamp = strTimeStamp.Replace(" ", "-");
+                        strTimeStamp = strTimeStamp.Replace(":", "-");
+                        string strName = Path.GetFileNameWithoutExtension(strFileName);
+                        strFileName = strName + "NewCase-" + strTimeStamp + strExtension;
+                        string path = Path.Combine(Server.MapPath("../Legal/AddNewCaseDoc/"), strFileName);
+                        FileUpload3.SaveAs(path);
+
+                        ViewState["FileUploadDOC3"] = strFileName;
+                        path = "";
+                        strFileName = "";
+                        strName = "";
                     }
-                    lblMsg.Text = "";
-                    if (btnSubmit.Text == "Save")
+                }
+                string errormsg = "";
+                if (DocFailedCntExt > 0) { errormsg += "Only upload Document in( PDF) Formate.\\n"; }
+                if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 200 KB \\n"; }
+
+                if (errormsg == "")
+                {
+                    if (msg == "")
                     {
-                        ds = objdb.ByProcedure("USP_Legal_InsertLocalCourtCaseRegis", new string[] { "FilingNo", "Petitoner_Name", "CaseSubject", "CourtType_Id", "PetiAdvocateName", "PetiAdvocateMobile", "petiAdvocateEmail_ID", "CaseDetail", "CreatedBy", "CreatedByIP", "DeptAdvocateName", "DeptAdvocateMobileNo", "DeptAdvocateEmailId", "HighPrirtyCaseSts", "OldCaseNo" },
-                            new string[] { txtCaseNo.Text.Trim(), txtPetitionerAppName.Text.Trim(), ddlCaseSubject.SelectedValue, ddlCourtType.SelectedValue, txtPetitionerAdvName.Text.Trim(), txtPetitionerAdvMobileNo.Text.Trim(), txtPetitionerAdvEmail.Text.Trim(), txtCaseDescription.Text.Trim(), ViewState["Emp_ID"].ToString(), objdb.GetLocalIPAddress(), txtDeptAdvocateName.Text.Trim(), txtDeptAdvocateMobileNo.Text.Trim(), txtDeptAdvocateEmail.Text.Trim(), ddlHighprioritycase.SelectedItem.Text, txtCaseOldRefNo.Text.Trim() }, "dataset");
-                    }
-                    //else if (btnSubmit.Text == "Update")
-                    //{
-                    //    if (FileUpload1.HasFile)
-                    //    {
-                    //        Document1 = "../Legal/Uploads/" + Guid.NewGuid() + FileUpload1.FileName;
-                    //        FileUpload1.SaveAs(Server.MapPath(Document1));
-                    //    }
-                    //    else
-                    //    {
-                    //        Document1 = ViewState["Case_UploadedDoc1"].ToString();
-                    //    }
-                    //    if (FileUpload2.HasFile)
-                    //    {
-                    //        Document2 = "../Legal/Uploads/" + Guid.NewGuid() + FileUpload2.FileName;
-                    //        FileUpload2.SaveAs(Server.MapPath(Document2));
-                    //    }
-                    //    else
-                    //    {
-                    //        Document2 = ViewState["Case_UploadedDoc2"].ToString();
-                    //    }
-                    //    if (FileUpload3.HasFile)
-                    //    {
-                    //        Document3 = "../Legal/Uploads/" + Guid.NewGuid() + FileUpload3.FileName;
-                    //        FileUpload3.SaveAs(Server.MapPath(Document3));
-                    //    }
-                    //    else
-                    //    {
-                    //        Document3 = ViewState["Case_UploadedDoc3"].ToString();
-                    //    }
-                    //   
-                    //}
-                    if (ds != null && ds.Tables[0].Rows.Count > 0)
-                    {
-                        string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
-                        if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
+                        string Hearing_Date = "";
+                        string DateofReceipt = "";
+                        string DateofFiling = "";
+                        if (txtHearingDate.Text != "")
                         {
-                            lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thanks!", ErrMsg);
-                            ClearText();
+                            Hearing_Date = Convert.ToDateTime(txtHearingDate.Text, cult).ToString("yyyy/MM/dd");
                         }
                         else
                         {
-                            lblMsg.Text = objdb.Alert("fa-check", "alert-warning", "Warning!", ErrMsg);
+                            Hearing_Date = "";
+                        }
+                        if (txtDateOfCaseReg.Text != "")
+                        {
+                            DateofReceipt = Convert.ToDateTime(txtDateOfCaseReg.Text, cult).ToString("yyyy/MM/dd");
+                        }
+                        else
+                        {
+                            DateofReceipt = "";
+                        }
+                        if (txtDateOfLastHearing.Text != "")
+                        {
+                            DateofFiling = Convert.ToDateTime(txtDateOfLastHearing.Text, cult).ToString("yyyy/MM/dd");
+                        }
+                        else
+                        {
+                            DateofFiling = "";
+                        }
+                        lblMsg.Text = "";
+                        if (btnSubmit.Text == "Save")
+                        {
+                            DataTable DtNew = ViewState["DocData"] as DataTable;
+
+                            ds = objdb.ByProcedure("USP_Insert_AddNewCaseReg", new string[] {" OldCaseNo", "CaseNo", "Casetype_ID", "CourtType_Id", "CaseSubject_ID", "CaseRegDate",
+                            "LastHearingDate", "CourtDistrictLocation_ID", "HighPrioritiCaseSts", "CaseDetail","PetitonerName", 
+                            "PetitionerMobileNo", "PetiAdvocateName", "PetiAdvocateMobile", "OICName", "OICMobileNo", "DeptAdvocateName",
+                            "DeptAdvocateMobileNo",  "CaseYear", "CreatedBy", "CreatedByIP"},
+                                new string[] { txtCaseOldRefNo.Text.Trim(), txtCaseNo.Text.Trim(), ddlCasetype.SelectedValue, ddlCourtType.SelectedValue, ddlCaseSubject.SelectedValue, Convert.ToDateTime(txtDateOfCaseReg.Text, cult).ToString("yyyy/MM/dd"),
+                                Convert.ToDateTime(txtDateOfLastHearing.Text, cult).ToString("yyyy/MM/dd"),ddlDistrict.SelectedValue,ddlHighprioritycase.SelectedItem.Text,txtCaseDetail.Text.Trim(), txtPetitionerAppName.Text.Trim(),
+                            txtPetitionerAppMobileNo.Text.Trim(),txtPetitionerAdvName.Text.Trim(),txtPetitionerAdvMobileNo.Text.Trim(),txtOICName.Text.Trim(),txtOICMobileNo.Text.Trim(), txtDeptAdvocateName.Text.Trim(),txtDeptAdvocateMobileNo.Text.Trim(),
+                           ddlCaseYear.SelectedItem.Text.Trim(),ViewState["Emp_ID"].ToString(),objdb.GetLocalIPAddress()}, new string[] { "type_LegalCaseDocDetail" }, new DataTable[] { DtNew }, "dataset");
+                        }
+                        //else if (btnSubmit.Text == "Update")
+                        //{
+                        //    if (FileUpload1.HasFile)
+                        //    {
+                        //        Document1 = "../Legal/Uploads/" + Guid.NewGuid() + FileUpload1.FileName;
+                        //        FileUpload1.SaveAs(Server.MapPath(Document1));
+                        //    }
+                        //    else
+                        //    {
+                        //        Document1 = ViewState["Case_UploadedDoc1"].ToString();
+                        //    }
+                        //    if (FileUpload2.HasFile)
+                        //    {
+                        //        Document2 = "../Legal/Uploads/" + Guid.NewGuid() + FileUpload2.FileName;
+                        //        FileUpload2.SaveAs(Server.MapPath(Document2));
+                        //    }
+                        //    else
+                        //    {
+                        //        Document2 = ViewState["Case_UploadedDoc2"].ToString();
+                        //    }
+                        //    if (FileUpload3.HasFile)
+                        //    {
+                        //        Document3 = "../Legal/Uploads/" + Guid.NewGuid() + FileUpload3.FileName;
+                        //        FileUpload3.SaveAs(Server.MapPath(Document3));
+                        //    }
+                        //    else
+                        //    {
+                        //        Document3 = ViewState["Case_UploadedDoc3"].ToString();
+                        //    }
+                        //   
+                        //}
+                        if (ds != null && ds.Tables[0].Rows.Count > 0)
+                        {
+                            string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
+                            if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
+                            {
+                                lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thanks!", ErrMsg);
+                                ClearText();
+                            }
+                            else
+                            {
+                                lblMsg.Text = objdb.Alert("fa-check", "alert-warning", "Warning!", ErrMsg);
+                            }
+                        }
+                        else
+                        {
+                            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ds.Tables[0].Rows[0]["ErrMsg"].ToString());
                         }
                     }
-                    else
-                    {
-                        lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ds.Tables[0].Rows[0]["ErrMsg"].ToString());
-                    }
+                    //else
+                    //{
+                    //    Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "alert('" + msg + "');", true);
+                    //}
                 }
-                //else
-                //{
-                //    Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "alert('" + msg + "');", true);
-                //}
+                else
+                {
+                    ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "alertMessage", "alert('Please Select \\n " + errormsg + "')", true);
+                }
             }
-            else
-            {
-                ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "alertMessage", "alert('Please Select \\n " + errormsg + "')", true);
-            }
-
         }
         catch (Exception ex)
         {
@@ -455,23 +480,17 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
         txtCaseOldRefNo.Text = "";
         ddlCourtType.ClearSelection();
         ddlCaseSubject.ClearSelection();
-        txtDateOfReceipt.Text = "";
+        txtDateOfCaseReg.Text = "";
         txtDateOfLastHearing.Text = "";
-        txtCaseDescription.Text = "";
+        txtCaseDetail.Text = "";
         txtDepartment.Text = "";
         txtOICMobileNo.Text = "";
-        txtOICEmail.Text = "";
         txtDeptAdvocateName.Text = "";
         txtDeptAdvocateMobileNo.Text = "";
-        txtDeptAdvocateEmail.Text = "";
         txtPetitionerAppName.Text = "";
         txtPetitionerAppMobileNo.Text = "";
-        txtPetitionerAppEmail.Text = "";
-        txtPetitionerAppAddress.Text = "";
         txtPetitionerAdvName.Text = "";
         txtPetitionerAdvMobileNo.Text = "";
-        txtPetitionerAdvEmail.Text = "";
-        txtPetitionerAdvAddress.Text = "";
         txtHearingDate.Text = "";
         HyperLink1.Visible = false;
         HyperLink2.Visible = false;
@@ -731,23 +750,22 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
             string strFileName = "";
             string strExtension = "";
             string strTimeStamp = "";
-            if (FileUpload1.HasFile)     // CHECK IF ANY FILE HAS BEEN SELECTED.
+            if (FileUpload10.HasFile)     // CHECK IF ANY FILE HAS BEEN SELECTED.
             {
 
-                string fileExt = System.IO.Path.GetExtension(FileUpload1.FileName).Substring(1);
+                string fileExt = System.IO.Path.GetExtension(FileUpload10.FileName).Substring(1);
                 string[] supportedTypes = { "PDF", "pdf" };
                 if (!supportedTypes.Contains(fileExt))
                 {
                     DocFailedCntExt += 1;
                 }
-                else if (FileUpload1.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
+                else if (FileUpload10.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
                 {
                     DocFailedCntSize += 1;
                 }
                 else
                 {
-
-                    strFileName = FileUpload1.FileName.ToString();
+                    strFileName = FileUpload10.FileName.ToString();
                     strExtension = Path.GetExtension(strFileName);
                     strTimeStamp = DateTime.Now.ToString();
                     strTimeStamp = strTimeStamp.Replace("/", "-");
@@ -756,7 +774,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                     string strName = Path.GetFileNameWithoutExtension(strFileName);
                     strFileName = strName + "NewCase-" + strTimeStamp + strExtension;
                     string path = Path.Combine(Server.MapPath("../Legal/AddNewCaseDoc/"), strFileName);
-                    FileUpload1.SaveAs(path);
+                    FileUpload10.SaveAs(path);
 
                     ViewState["AddNewCaseDoc"] = strFileName;
                     path = "";
@@ -774,7 +792,20 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                 if (dt.Columns.Count > 0)
                 {
                     dt.Rows.Add(txtDocName.Text.Trim(), ViewState["AddNewCaseDoc"].ToString());
-                    ds.Tables.Add(dt);
+                }
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    ViewState["DocData"] = dt;
+                    GrdViewDoc.DataSource = dt;
+                    GrdViewDoc.DataBind();
+                    txtDocName.Text = "";
+                    ViewState["AddNewCaseDoc"] = "";
+
+                }
+                else
+                {
+                    GrdViewDoc.DataSource = null;
+                    GrdViewDoc.DataBind();
                 }
             }
             else
