@@ -157,9 +157,15 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                 ddlDistrict.DataTextField = "District_Name";
                 ddlDistrict.DataValueField = "District_ID";
                 ddlDistrict.DataBind();
-                ddlDistrict.Items.Insert(0, new ListItem("Select", "0"));
+
+                ddlDistrictCourt.DataSource = ds;
+                ddlDistrictCourt.DataTextField = "District_Name";
+                ddlDistrictCourt.DataValueField = "District_ID";
+                ddlDistrictCourt.DataBind();
             }
 
+            ddlDistrict.Items.Insert(0, new ListItem("Select", "0"));
+            ddlDistrictCourt.Items.Insert(0, new ListItem("Select", "0"));
         }
         catch (Exception ex)
         {
@@ -391,7 +397,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                         {
                             DataTable DtNew = ViewState["DocData"] as DataTable;
 
-                            ds = objdb.ByProcedure("USP_Insert_AddNewCaseReg", new string[] {" OldCaseNo", "CaseNo", "Casetype_ID", "CourtType_Id", "CaseSubject_ID", "CaseRegDate",
+                            ds = objdb.ByProcedure("USP_Insert_AddNewCaseReg", new string[] {"OldCaseNo", "CaseNo", "Casetype_ID", "CourtType_Id", "CaseSubject_ID", "CaseRegDate",
                             "LastHearingDate", "CourtDistrictLocation_ID", "HighPrioritiCaseSts", "CaseDetail","PetitonerName", 
                             "PetitionerMobileNo", "PetiAdvocateName", "PetiAdvocateMobile", "OICName", "OICMobileNo", "DeptAdvocateName",
                             "DeptAdvocateMobileNo",  "CaseYear", "CreatedBy", "CreatedByIP"},
@@ -495,6 +501,13 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
         HyperLink1.Visible = false;
         HyperLink2.Visible = false;
         HyperLink3.Visible = false;
+        GrdViewDoc.DataSource = null;
+        GrdViewDoc.DataBind();
+        ddlCasetype.ClearSelection();
+        ddlCaseYear.ClearSelection();
+        ddlDistrict.ClearSelection();
+        ddlHighprioritycase.ClearSelection();
+        txtOICName.Text = "";
     }
     #endregion
     #region FillGrid
@@ -819,5 +832,31 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
         }
     }
     #endregion
+    protected void ddlCourtType_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            try
+            {
+                if (ddlCourtType.SelectedValue == "5")
+                {
+                    DistrictCourtSelect.Visible = true;
+                }
+                else
+                {
+                    DistrictCourtSelect.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
+            }
+
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
+        }
+    }
 }
 

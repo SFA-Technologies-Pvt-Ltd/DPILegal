@@ -172,7 +172,22 @@
                                                 ErrorMessage="Select Court type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                 ControlToValidate="ddlCourtType" Display="Dynamic" runat="server" InitialValue="0">
                                             </asp:RequiredFieldValidator>
-                                            <asp:DropDownList ID="ddlCourtType" runat="server" class="form-control select2">
+                                            <asp:DropDownList ID="ddlCourtType" runat="server" class="form-control select2" OnSelectedIndexChanged="ddlCourtType_SelectedIndexChanged" AutoPostBack="true">
+                                            </asp:DropDownList>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" id="DistrictCourtSelect" runat="server" visible="false">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label>
+                                                District<span style="color: red;">*</span></label>
+                                            <asp:RequiredFieldValidator ID="RfvCourtOfDistrict" ValidationGroup="Save"
+                                                ErrorMessage="Select District Of Court." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                ControlToValidate="ddlDistrictCourt" Display="Dynamic" runat="server" InitialValue="0">
+                                            </asp:RequiredFieldValidator>
+                                            <asp:DropDownList ID="ddlDistrictCourt" runat="server" class="form-control select2" OnSelectedIndexChanged="ddlCourtType_SelectedIndexChanged" AutoPostBack="true">
                                             </asp:DropDownList>
 
                                         </div>
@@ -197,12 +212,12 @@
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label>
-                                                Date of Case</label>
+                                                Case Registration Date</label>
                                             <asp:RequiredFieldValidator ID="rfvCaseRegisDate" ValidationGroup="Save"
                                                 ErrorMessage="Enter Date Of Case Registration." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                 ControlToValidate="txtDateOfCaseReg" Display="Dynamic" runat="server">
                                             </asp:RequiredFieldValidator>
-                                            <asp:TextBox ID="txtDateOfCaseReg" date-provide="datepicker" runat="server" AutoComplete="off" placeholder="DD/MM/YYYY" class="form-control" ClientIDMode="Static"></asp:TextBox>
+                                            <asp:TextBox ID="txtDateOfCaseReg" date-provide="datepicker" runat="server" data-date-end-date="0d" data-date-start-date="0d" AutoComplete="off" placeholder="DD/MM/YYYY" class="form-control" ClientIDMode="Static"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div>
@@ -217,20 +232,16 @@
                                         <asp:TextBox ID="txtDateOfLastHearing" runat="server" date-provide="datepicker" AutoComplete="off" data-date-end-date="0d" placeholder="DD/MM/YYYY" class="form-control" ClientIDMode="Static"></asp:TextBox>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Court Location</label><span style="color: red;"><b> *</b></span>
+                                        <label>Office Location</label><span style="color: red;"><b> *</b></span>
                                         <asp:RequiredFieldValidator ID="rfvCourtlocation" ValidationGroup="Save"
                                             ErrorMessage="Select Court Location." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="ddlDistrict" Display="Dynamic" runat="server" InitialValue="0">
                                         </asp:RequiredFieldValidator>
                                         <asp:DropDownList ID="ddlDistrict" runat="server" class="form-control">
                                         </asp:DropDownList>
-
                                     </div>
-
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
@@ -493,7 +504,7 @@
     <script type="text/javascript">
 
 
-        $('#txtDateOfReceipt').datepicker({
+        $('#txtDateOfCaseReg').datepicker({
             autoclose: true,
             format: 'dd/mm/yyyy'
         });
@@ -632,7 +643,7 @@
             if (msg != "") {
                 alert(msg);
                 return false;
-            }          
+            }
         }
 
         function checkHearingDetail() {
