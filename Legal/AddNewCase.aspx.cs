@@ -36,17 +36,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                     BindCaseSubject();
                     DtColumn();
                     FillYear();
-                    if (Request.QueryString["Case_ID"] != null)
-                    {
-                        ViewState["Case_ID"] = objdb.Decrypt(Request.QueryString["Case_ID"].ToString());
-                        //  FillCaseDetail();
-                        btnClear.Enabled = false;
-                    }
-                    if (Request.QueryString["ReopenCase_ID"] != null)
-                    {
-                        ViewState["ReopenCase_ID"] = objdb.Decrypt(Request.QueryString["ReopenCase_ID"].ToString());
-                        // FillCaseDetail();
-                    }
+                    FillColumn();
                 }
             }
             else
@@ -60,6 +50,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
         }
 
     }
+
     #region Fill Year
     protected void FillYear()
     {
@@ -508,6 +499,8 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
         ddlDistrict.ClearSelection();
         ddlHighprioritycase.ClearSelection();
         txtOICName.Text = "";
+        GrdRespondent.DataSource = null;
+        GrdRespondent.DataBind();
     }
     #endregion
     #region FillGrid
@@ -832,6 +825,29 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
         }
     }
     #endregion
+
+    #region Fill RespondentColumn
+    protected void FillColumn()
+    {
+        DataTable dtCol = new DataTable();
+        if (dtCol.Columns.Count == 0)
+        {
+            dtCol.Columns.Add("RespondenttypeID", typeof(int));
+            dtCol.Columns.Add("OfficeTypeID", typeof(int));
+            dtCol.Columns.Add("OfficeNameId", typeof(int));
+            dtCol.Columns.Add("DesignationId", typeof(int));
+            dtCol.Columns.Add("DesignationName", typeof(string));
+            dtCol.Columns.Add("RespondentName", typeof(string));
+            dtCol.Columns.Add("RespondentMobileNo", typeof(string));
+            dtCol.Columns.Add("Department", typeof(string));
+            dtCol.Columns.Add("Address", typeof(string));
+            dtCol.Columns.Add("RespondenttypeName", typeof(string));
+            dtCol.Columns.Add("OfficeTypeName", typeof(string));
+            dtCol.Columns.Add("OfficeName", typeof(string));
+        }
+        ViewState["DtCol"] = dtCol;
+    }
+    #endregion
     protected void ddlCourtType_SelectedIndexChanged(object sender, EventArgs e)
     {
         try
@@ -856,6 +872,77 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
         catch (Exception ex)
         {
             lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
+        }
+    }
+    protected void ddlOfficetypeName_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            lblMsg.Text = "";
+            ddlOfficeName.Items.Clear();
+            ddlDesignation.Items.Clear();
+            ds = objdb.ByProcedure("USP_legal_select_OfficeName", new string[] { "OfficeType_Id" }
+                , new string[] { ddlOfficetypeName.SelectedValue }, "dataset");
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            {
+                ddlOfficeName.DataTextField = "OfficeName";
+                ddlOfficeName.DataValueField = "Office_Id";
+                ddlOfficeName.DataSource = ds;
+                ddlOfficeName.DataBind();
+            }
+            if (ds != null && ds.Tables[1].Rows.Count > 0)
+            {
+                ddlDesignation.DataTextField = "UserType_Name";
+                ddlDesignation.DataValueField = "UserType_Id";
+                ddlDesignation.DataSource = ds.Tables[1];
+                ddlDesignation.DataBind();
+            }
+            ddlDesignation.Items.Insert(0, new ListItem("Select", "0"));
+            ddlOfficeName.Items.Insert(0, new ListItem("Select", "0"));
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "AddRespondent()", true);
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+        }
+    }
+    protected void btnYes_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (Page.IsValid)
+            {
+                lblMsg.Text = "";
+                if (btnYes.Text == "Add")
+                {
+                    DataTable dt = ViewState["DtCol"] as DataTable;
+                    if (dt.Columns.Count > 0)
+                    {
+                        dt.Rows.Add(ddlRespondertype.SelectedValue,ddlOfficetypeName.SelectedValue,ddlOfficeName.SelectedValue,ddlDesignation.SelectedValue,ddlDesignation.SelectedItem.Text,txtResponderName.Text.Trim(),
+                            txtMobileNo.Text.Trim(),txtDepartment.Text.Trim(),txtAddress.Text.Trim(),ddlRespondertype.SelectedItem.Text.Trim(),ddlOfficetypeName.SelectedItem.Text.Trim(),ddlOfficeName.SelectedItem.Text.Trim());
+                    }
+                    if(dt != null && dt.Rows.Count > 0)
+                    {
+                        GrdRespondent.DataSource = dt;
+                        GrdRespondent.DataBind();
+                        ViewState["dt"] = dt;
+
+                        ddlOfficeName.ClearSelection();
+                        ddlDesignation.ClearSelection();
+                        ddlRespondertype.ClearSelection();
+                        ddlOfficetypeName.ClearSelection();
+                        txtResponderName.Text = "";
+                        txtMobileNo.Text = "";
+                        txtDepartment.Text = "";
+                        txtAddress.Text = "";
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+
+            throw;
         }
     }
 }

@@ -12,7 +12,7 @@ using System.Net.Sockets;
 using System.Net.NetworkInformation;
 using System.Globalization;
 
-public abstract class AbstApiDBApi
+public abstract class AbstApiDBApi12
 {
     public abstract void WriteLog(string _msg);
     public abstract string ReplaceVal(string msg);
@@ -21,7 +21,6 @@ public abstract class AbstApiDBApi
     public abstract bool isNumber(string s);
     public abstract bool isDecimal(string s);
     public abstract void ByText(string Query);
-    public abstract void ByTextQuery(string Query); 
     public abstract void ByText(string Query, SqlConnection Con, SqlTransaction Tran);
     public abstract DataSet ByDataSet(string Query);
     public abstract void ResizeImage(Image ImageId, int ResizeWidth, int ResizeHeight);
@@ -42,7 +41,7 @@ public abstract class AbstApiDBApi
     public abstract string Alert(string icon, string AlertClass, string Heading, string Description);
 }
 
-public class APIProcedure : AbstApiDBApi
+public class APIProcedure12 : AbstApiDBApi12
 {
     public int _NewWidth, _NewHeight;
     public string _ErrorMessage;
@@ -692,26 +691,6 @@ public class APIProcedure : AbstApiDBApi
             cmd = new SqlCommand(Query, Con, Tran);
             cmd.CommandTimeout = 3600;
             cmd.ExecuteNonQuery();
-        }
-        catch (Exception ex)
-        {
-            WriteLog(" Error Msg :" + ex.Message + "\n" + "Event Info :" + ex.StackTrace);
-        }
-        finally { cmd.Dispose(); }
-    }
-    public override void ByTextQuery(string Query)
-    {
-        try
-        {
-            using (SqlConnection cn = new SqlConnection(getconnection))
-            {
-                cn.Open();
-                cmd = new SqlCommand(Query,cn);
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandTimeout = 3600;
-                cmd.ExecuteNonQuery();
-                cn.Close();
-            }
         }
         catch (Exception ex)
         {
