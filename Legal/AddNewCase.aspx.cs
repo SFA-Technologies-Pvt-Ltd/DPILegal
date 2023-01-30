@@ -37,11 +37,12 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                     DtColumn();
                     FillYear();
                     FillColumn();
+                    FillEmployee();
                 }
             }
             else
             {
-                Response.Redirect("../Login.aspx");
+                Response.Redirect("../Login.aspx", false);
             }
         }
         catch (Exception ex)
@@ -51,6 +52,28 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
 
     }
 
+    #region FillEmployee
+    protected void FillEmployee()
+    {
+        try
+        {
+            ddlEmpployee.Items.Clear();
+            ds = objdb.ByDataSet("select UserId, EMPName from tblUserMaster where Isactive = 1");
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            {
+                ddlEmpployee.DataTextField = "EMPName";
+                ddlEmpployee.DataValueField = "UserId";
+                ddlEmpployee.DataSource = ds;
+                ddlEmpployee.DataBind();
+            }
+            ddlEmpployee.Items.Insert(0, new ListItem("Select", "0"));
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
+        }
+    }
+    #endregion
     #region Fill Year
     protected void FillYear()
     {
@@ -918,10 +941,10 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                     DataTable dt = ViewState["DtCol"] as DataTable;
                     if (dt.Columns.Count > 0)
                     {
-                        dt.Rows.Add(ddlRespondertype.SelectedValue,ddlOfficetypeName.SelectedValue,ddlOfficeName.SelectedValue,ddlDesignation.SelectedValue,ddlDesignation.SelectedItem.Text,txtResponderName.Text.Trim(),
-                            txtMobileNo.Text.Trim(),txtDepartment.Text.Trim(),txtAddress.Text.Trim(),ddlRespondertype.SelectedItem.Text.Trim(),ddlOfficetypeName.SelectedItem.Text.Trim(),ddlOfficeName.SelectedItem.Text.Trim());
+                        dt.Rows.Add(ddlRespondertype.SelectedValue, ddlOfficetypeName.SelectedValue, ddlOfficeName.SelectedValue, ddlDesignation.SelectedValue, ddlDesignation.SelectedItem.Text, txtResponderName.Text.Trim(),
+                            txtMobileNo.Text.Trim(), txtDepartment.Text.Trim(), txtAddress.Text.Trim(), ddlRespondertype.SelectedItem.Text.Trim(), ddlOfficetypeName.SelectedItem.Text.Trim(), ddlOfficeName.SelectedItem.Text.Trim());
                     }
-                    if(dt != null && dt.Rows.Count > 0)
+                    if (dt != null && dt.Rows.Count > 0)
                     {
                         GrdRespondent.DataSource = dt;
                         GrdRespondent.DataBind();

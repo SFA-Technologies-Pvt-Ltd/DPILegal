@@ -48,10 +48,17 @@
                                         <asp:DropDownList ID="ddlOfficeName" runat="server" CssClass="form-control">
                                         </asp:DropDownList>
                                     </div>
-                                </div> 
-                            </div>  
+                                </div>
+                            </div>
                             <div class="row">
-                                 <div class="col-md-4">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Employee Name</label>
+                                        <asp:DropDownList ID="ddlEmpployee" runat="server" CssClass="form-control">
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Designation</label>
                                         <asp:DropDownList ID="ddlDesignation" runat="server" CssClass="form-control">
@@ -64,22 +71,21 @@
                                         <asp:TextBox ID="txtResponderName" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="70"></asp:TextBox>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Respondent Mobile No.</label>
                                         <asp:TextBox ID="txtMobileNo" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="10"></asp:TextBox>
                                     </div>
                                 </div>
-                            </div>                       
-                            <div class="row">
-
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Department</label>
                                         <asp:TextBox ID="txtDepartment" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="70"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Address</label>
                                         <asp:TextBox ID="txtAddress" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="70"></asp:TextBox>
@@ -496,13 +502,13 @@
                                                                     <asp:Label ID="lblofficetypename" runat="server" Text='<%# Eval("OfficeTypeName") %>'></asp:Label>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
-                                                             <asp:TemplateField HeaderText="Office Name">
+                                                            <asp:TemplateField HeaderText="Office Name">
                                                                 <ItemTemplate>
                                                                     <asp:Label ID="lblOfficeNameID" runat="server" Text='<%# Eval("OfficeNameId") %>' Visible="false"></asp:Label>
                                                                     <asp:Label ID="lblOfficename" runat="server" Text='<%# Eval("OfficeName") %>'></asp:Label>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
-                                                              <asp:TemplateField HeaderText="Designation Name">
+                                                            <asp:TemplateField HeaderText="Designation Name">
                                                                 <ItemTemplate>
                                                                     <asp:Label ID="lblDesignationID" runat="server" Text='<%# Eval("DesignationId") %>' Visible="false"></asp:Label>
                                                                     <asp:Label ID="lblDesignationname" runat="server" Text='<%# Eval("DesignationName") %>'></asp:Label>
