@@ -40,7 +40,7 @@ public partial class Legal_WAcaseList : System.Web.UI.Page
                 GrdCaseDetails.DataSource = null;
                 GrdCaseDetails.DataBind();
 
-                ds = obj.ByProcedure("USP_Legal_Get_WPConcludeRpt", new string[] { "Fromdate", "Todate" }
+                ds = obj.ByProcedure("USP_GetWPConcludeRpt", new string[] { "Fromdate", "Todate" }
                     , new string[] { Convert.ToDateTime(txtDate.Text, cult).ToString("yyyy/MM/dd"), Convert.ToDateTime(txtEndDate.Text, cult).ToString("yyyy/MM/dd") }, "dataset");
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {

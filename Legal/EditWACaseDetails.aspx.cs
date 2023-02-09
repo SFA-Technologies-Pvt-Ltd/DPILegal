@@ -79,11 +79,11 @@ public partial class Legal_EditWACaseDetails : System.Web.UI.Page
         try
         {
             ddlDesignation.Items.Clear();
-            ds = obj.ByProcedure("USP_Select_DesignationMaster", new string[] { }, new string[] { }, "dataset");
+            ds = obj.ByDataSet("select * from tblDesignationMaster");
             if (ds != null && ds.Tables[0].Rows.Count > 0)
             {
-                ddlDesignation.DataTextField = "UserType_Name";
-                ddlDesignation.DataValueField = "UserType_Id";
+                ddlDesignation.DataTextField = "Designation_Name";
+                ddlDesignation.DataValueField = "Designation_Id";
                 ddlDesignation.DataSource = ds;
                 ddlDesignation.DataBind();
             }
@@ -112,8 +112,7 @@ public partial class Legal_EditWACaseDetails : System.Web.UI.Page
         {
 
             ddlOfficeType.Items.Clear();
-            ds1 = obj.ByProcedure("USP_Select_Officetype", new string[] { }
-           , new string[] { }, "dataset");
+            ds1 = obj.ByDataSet("select OfficeType_Id, OfficeType_Name from tblOfficeTypeMaster");
             if (ds1 != null && ds1.Tables[0].Rows.Count > 0)
             {
                 ddlOfficeType.DataTextField = "OfficeType_Name";
@@ -216,7 +215,7 @@ public partial class Legal_EditWACaseDetails : System.Web.UI.Page
     {
         List<int> List = new List<int>();
         ddlCaseYear.Items.Clear();
-        for (int i = 2019; i <= 2030; i++)
+        for (int i = 2001; i <= 2030; i++)
         {
             List.Add(i);
             ddlCaseYear.DataSource = List;
@@ -466,10 +465,10 @@ public partial class Legal_EditWACaseDetails : System.Web.UI.Page
                         ViewState["WACaseID"] = ds.Tables[0].Rows[0]["WACase_ID"].ToString();
 
                     }
-                    if (ds.Tables[0].Rows[0]["UserType_Id"].ToString() != "")
+                    if (ds.Tables[0].Rows[0]["Designation_Id"].ToString() != "")
                     {
                         ddlDesignation.ClearSelection();
-                        ddlDesignation.Items.FindByValue(ds.Tables[0].Rows[0]["UserType_Id"].ToString()).Selected = true;
+                        ddlDesignation.Items.FindByValue(ds.Tables[0].Rows[0]["Designation_Id"].ToString()).Selected = true;
                     }
                     if (ds.Tables[0].Rows[0]["CourtType_Id"].ToString() != "")
                     {
@@ -851,7 +850,6 @@ public partial class Legal_EditWACaseDetails : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
-
     protected void BindCaseSubject()
     {
         try
@@ -873,31 +871,6 @@ public partial class Legal_EditWACaseDetails : System.Web.UI.Page
         }
     }
 
-    //protected void ddlOfficeType_SelectedIndexChanged(object sender, EventArgs e)
-    //{
-    //    try
-    //    {
-
-    //        lblMsg.Text = "";
-    //        ddlOfficeName.Items.Clear();
-    //        ds = obj.ByProcedure("USP_legal_select_OfficeName", new string[] { "OfficeType_Id" }
-    //            , new string[] { ddlOfficeType.SelectedValue }, "dataset");
-    //        if (ds != null && ds.Tables[0].Rows.Count > 0)
-    //        {
-    //            ddlOfficeName.DataTextField = "OfficeName";
-    //            ddlOfficeName.DataValueField = "Office_Id";
-    //            ddlOfficeName.DataSource = ds;
-    //            ddlOfficeName.DataBind();
-    //        }
-    //        ddlOfficeName.Items.Insert(0, new ListItem("Select", "0"));
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
-    //    }
-
-
-    //}
     protected void btnUpdateWaDtl_Click(object sender, EventArgs e)
     {
         try
@@ -908,12 +881,12 @@ public partial class Legal_EditWACaseDetails : System.Web.UI.Page
                 if (btnUpdateWaDtl.Text == "Save" && ViewState["ID"].ToString() != null && ViewState["ID"].ToString() != "")
                 {
 
-                    ds = obj.ByProcedure("USP_Legal_Insert_WaCase_ReAppeal", new string[] { "Casetype_ID", "WPCase_ID", "WAPetitionerName", "WACaseNo", "OfficeType_Id", "OfficeName", "WACaseYear", "WANodalOfficer_Name", "WANodalOfficer_MobileNo", "WAOICName", "WAOICMobileNo", "WAAdvocateName", "WAAdvocateMobileNo", "WACaseSubject", "WACaseDetail", "CreatedBy", "CreatedByIP", "HighPrirtyCaseSts", "CourtType_Id", "UserType_Id" }
+                    ds = obj.ByProcedure("USP_Insert_WaCaseDetail", new string[] { "Casetype_ID", "WPCase_ID", "WAPetitionerName", "WACaseNo", "OfficeType_Id", "OfficeName", "WACaseYear", "WANodalOfficer_Name", "WANodalOfficer_MobileNo", "WAOICName", "WAOICMobileNo", "WAAdvocateName", "WAAdvocateMobileNo", "WACaseSubject", "WACaseDetail", "CreatedBy", "CreatedByIP", "HighPrirtyCaseSts", "CourtType_Id", "UserType_Id" }
                         , new string[] { ddlCasetype.SelectedValue, ViewState["ID"].ToString(), txtPetitionerName.Text.Trim(), txtWaCaseNo.Text.Trim(), ddlOfficeType.SelectedValue, txtOfficeName.Text.Trim(), ddlCaseYear.SelectedItem.Text.Trim(), txtNOdalOfficerName.Text.Trim(), txtNodalOfficerMobileNo.Text.Trim(), txtOicName.Text.Trim(), txtOicMobileNO.Text.Trim(), txtAdvocateName.Text.Trim(), txtAdvocateMobileNo.Text.Trim(), ddlCaseSubject.SelectedValue, txtCaseDetail.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ddlHighPriorityCase.SelectedItem.Text,ddlCourtType.SelectedValue, ddlDesignation.SelectedValue }, "dataset");
                 }
                 else if (btnUpdateWaDtl.Text == "Update")
                 {
-                    ds = obj.ByProcedure("USP_Legal_Update_WACaseDetail", new string[] { "Casetype_ID", "WPCase_ID", "WACase_ID", "WAPetitionerName", "WACaseNo", "OfficeType_Id", "OfficeName", "WACaseYear", "WANodalOfficer_Name", "WANodalOfficer_MobileNo", "WAOICName", "WAOICMobileNo", "WAAdvocateName", "WAAdvocateMobileNo", "WACaseSubject", "WACaseDetail", "LastUpdatedBy", "LastUpdatedByIP", "HighPrirtyCaseSts", "CourtType_Id","UserType_Id" }
+                    ds = obj.ByProcedure("USP_Update_WACaseDetail", new string[] { "Casetype_ID", "WPCase_ID", "WACase_ID", "WAPetitionerName", "WACaseNo", "OfficeType_Id", "OfficeName", "WACaseYear", "WANodalOfficer_Name", "WANodalOfficer_MobileNo", "WAOICName", "WAOICMobileNo", "WAAdvocateName", "WAAdvocateMobileNo", "WACaseSubject", "WACaseDetail", "LastUpdatedBy", "LastUpdatedByIP", "HighPrirtyCaseSts", "CourtType_Id", "UserType_Id" }
                         , new string[] { ddlCasetype.SelectedValue, ViewState["ID"].ToString(), ViewState["WACaseID"].ToString(), txtPetitionerName.Text.Trim(), txtWaCaseNo.Text.Trim(), ddlOfficeType.SelectedValue, txtOfficeName.Text.Trim(), ddlCaseYear.SelectedItem.Text.Trim(), txtNOdalOfficerName.Text.Trim(), txtNodalOfficerMobileNo.Text.Trim(), txtOicName.Text.Trim(), txtOicMobileNO.Text.Trim(), txtAdvocateName.Text.Trim(), txtAdvocateMobileNo.Text.Trim(), ddlCaseSubject.SelectedValue, txtCaseDetail.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ddlHighPriorityCase.SelectedItem.Text, ddlCourtType.SelectedValue, ddlDesignation.SelectedValue }, "dataset");
                 }
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
