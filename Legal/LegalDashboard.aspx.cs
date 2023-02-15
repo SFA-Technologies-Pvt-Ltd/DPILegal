@@ -44,7 +44,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
         try
         {
             DataSet dsCasecount = new DataSet();
-          //  dsCasecount = objdb.ByProcedure("USP_Legal_GetCasetypeCount_ForGraph", new string[] { }, new string[] { }, "dataset");
+            dsCasecount = objdb.ByProcedure("USP_Legal_GetCasetypeCount_ForGraph", new string[] { }, new string[] { }, "dataset");
             StringBuilder SbCount = new StringBuilder();
             SbCount.Append("<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>");
             SbCount.Append("<script type='text/javascript'>");
@@ -110,7 +110,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
         {
             int CaseCount = 0;
             DataSet dsCase = new DataSet();
-           // dsCase = objdb.ByProcedure("USP_Legal_getCourtCaseCountForgraph", new string[] { }, new string[] { }, "dataset");
+            dsCase = objdb.ByProcedure("USP_Legal_getCourtCaseCountForgraph", new string[] { }, new string[] { }, "dataset");
             StringBuilder Sb = new StringBuilder();
             Sb.Append("<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>");
             Sb.Append("<script type='text/javascript'>");
@@ -169,7 +169,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
     }
     protected void UpComingHearing()
     {
-        //ds = objdb.ByProcedure("USP_GetUpcoming_HearingDate", new string[] { }, new string[] { }, "dataset");
+        ds = objdb.ByProcedure("USP_GetUpcoming_HearingDate", new string[] { }, new string[] { }, "dataset");
         string Marquee = "";
         string space = "<span style='color:black; font-weight:bold;font-size:18px;'>,</span>";
 
@@ -194,7 +194,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
     {
         try
         {
-           // ds = objdb.ByProcedure("USP_Get_WACaseCount", new string[] { }, new string[] { }, "dataset");
+            ds = objdb.ByProcedure("USP_Get_WACaseCount", new string[] { }, new string[] { }, "dataset");
 
             // PP Case
             if (ds.Tables[0].Rows[0]["PPCase"].ToString() != "")
@@ -259,7 +259,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             if (btnPPCase.Text == "View Detail")
             {
                 string ID = "1";
-                string CaseType = "PP Case"; // Here MP Govt Case
+                string CaseType = "MP Govt Case"; // Here MP Govt Case
                 Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
             }
         }
@@ -276,7 +276,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             if (btnDPICase.Text == "View Detail")
             {
                 string ID = "2";
-                string CaseType = "DPI Case"; // Here ENC Case
+                string CaseType = "ENC Case"; // Here ENC Case
                 Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
             }
         }
@@ -293,7 +293,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             if (btnJDCases.Text == "View Detail")
             {
                 string ID = "3";
-                string CaseType = "JD Case"; // Here Zone Case
+                string CaseType = "Zone Case"; // Here Zone Case
                 Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
             }
         }
@@ -310,7 +310,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             if (btnDEOCases.Text == "View Detail")
             {
                 string ID = "4";
-                string CaseType = "DEO Case"; // Here Cirlce Case
+                string CaseType = "Cirlce Case"; // Here Cirlce Case
                 Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
             }
         }
@@ -327,7 +327,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             if (btnRskCases.Text == "View Detail")
             {
                 string ID = "5";
-                string CaseType = "RSK Case"; // Here Jal Nigam Case
+                string CaseType = "Jal Nigam Case"; // Here Jal Nigam Case
                 Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
             }
         }
@@ -344,7 +344,7 @@ public partial class mis_Legal_LegalDashboard : System.Web.UI.Page
             if (btnTBCCases.Text == "View Detail")
             {
                 string ID = "6";
-                string CaseType = "TBC Case"; // Here DO Case
+                string CaseType = "DO Case"; // Here DO Case
                 Response.Redirect("../Legal/Dashboard_ViewCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&Casetype=" + CaseType);
             }
         }

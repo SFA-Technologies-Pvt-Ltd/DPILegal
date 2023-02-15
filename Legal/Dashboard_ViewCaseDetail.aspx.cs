@@ -104,7 +104,7 @@ public partial class Legal_Dashboard_ViewCaseDetail : System.Web.UI.Page
                     GrdCaseDetail.DataBind();
                 }
             } // When Responder Wise And Office Wise Dtl Would You fetch.
-            else if (Request.QueryString["Casetype"].ToString() == "PP Case" || Request.QueryString["Casetype"].ToString() == "DPI Case" || Request.QueryString["Casetype"].ToString() == "JD Case" || Request.QueryString["Casetype"].ToString() == "DEO Case" || Request.QueryString["Casetype"].ToString() == "RSK Case" || Request.QueryString["Casetype"].ToString() == "TBC Case")
+            else if (Request.QueryString["Casetype"].ToString() == "MP Govt Case" || Request.QueryString["Casetype"].ToString() == "ENC Case" || Request.QueryString["Casetype"].ToString() == "Zone Case" || Request.QueryString["Casetype"].ToString() == "Cirlce Case" || Request.QueryString["Casetype"].ToString() == "Jal Nigam Case" || Request.QueryString["Casetype"].ToString() == "DO Case")
             {
                 GrdOfficeAndRespndrbyDtl.DataSource = null;
                 GrdOfficeAndRespndrbyDtl.DataBind();

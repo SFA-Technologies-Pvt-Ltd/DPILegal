@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="Cabinet.aspx.cs" Inherits="Legal_Cabinet" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-     <style>
+    <style>
         /*table {
             border-collapse: collapse;
             width: 100%;
@@ -20,53 +20,48 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="card">
-                   
+
                     <div class="card-header">
                         Cabinet Meeting Details
                     </div>
                     <div class="card-body">
                         <fieldset>
                             <legend>Details</legend>
+                            <div class="card-header" style="background-color: #838583; font-size: 25px; text-align: center; color: white;">
+                                Cabinet Meeting Details     
+                            </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered text-center">
-                                            <tr>
-                                                <th colspan="4">
-                                                    <h3>Cabinet Meeting Details</h3>
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <th>Sr.No.
-                                                </th>
-                                                <th>Meeting Date
-                                                </th>
-                                                <th> Detail 
-                                                </th>
-                                                <th>Reference Document 
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                               <%-- <td colspan="5" style="font-weight:600; text-align:center; height:10%;">NO RECORD FOUND</td>--%>
-                                                <td>1</td>
-                                                <td>06/12/2022</td>
-                                                <td>दैनिक वेतन भोगी लाभ</td>
-                                                <td>No Document</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                 <td>13/12/2022</td>
-                                                <td>पदोन्नति संबंधी</td>
-                                               <td>No Document</td>
-                                               
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                 <td>03/01/2023</td>
-                                                <td>समान वेतनमान संबंधी</td>
-                                                <td>No Document</td>
-                                            </tr>
-                                        </table>
+                                        <asp:GridView runat="server" DataKeyNames="CabinetId" ID="gridview" CssClass="table table-bordered table-striped" AutoGenerateColumns="False" OnPageIndexChanging="gridview_PageIndexChanging" 
+                                            AllowPaging="true" PageSize="10"  >
+                                                <PagerStyle HorizontalAlign="Left" CssClass="GridPager" />
+                                                <Columns>
+                                                    <asp:TemplateField HeaderText=" S.No." ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                        <ItemTemplate>
+                                                            <asp:Label runat="server" ID="lblSno" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
+                                                            <asp:Label ID="lblCabinetId" runat="server" Visible="false" Text='<%#Eval("CabinetId").ToString() %>'></asp:Label>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField HeaderText="Meeting Date" HeaderStyle-Width="8%">
+                                                        <ItemTemplate>
+                                                            <asp:Label ID="lblMeetingDate" Text='<%# Eval("MeetingDate") %>' runat="server"></asp:Label>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField HeaderText="Detail" >
+                                                        <ItemTemplate>
+                                                            <asp:Label ID="lblCabinetDetail" Text='<%# Eval("CabinetDetail") %>' runat="server"></asp:Label>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField HeaderText="Refrence<br /> Documents" HeaderStyle-Width="5%" ItemStyle-HorizontalAlign="Center">
+                                                        <ItemTemplate>
+                                                            <asp:HyperLink ID="HyperLink_ID" runat="server" Text="View" NavigateUrl='<% #"../Legal/CabinetMeetingDoc/" + Eval("CabinetDocument")%>' Enabled='<%# "../Legal/CabinetMeetingDoc/" + Eval("CabinetDocument").ToString() != null ? true : false %>' CssClass="btn-sm label  label-primary" Target="_blank">View</asp:HyperLink>
+                                                            <asp:Label ID="lblFileUpload" runat="server" Text='<%# Eval("CabinetDocument") %>' Visible="false"></asp:Label>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    
+                                                </Columns>
+                                            </asp:GridView>
                                     </div>
                                 </div>
                             </div>

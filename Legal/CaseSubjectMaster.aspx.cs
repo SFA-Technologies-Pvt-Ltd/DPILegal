@@ -46,6 +46,11 @@ public partial class Legal_CaseSubjectMaster : System.Web.UI.Page
                 grdCaseSubject.DataSource = dt;
                 grdCaseSubject.DataBind();
             }
+            else
+            {
+                grdCaseSubject.DataSource = null;
+                grdCaseSubject.DataBind();
+            }
         }
         catch (Exception ex)
         {
@@ -61,13 +66,13 @@ public partial class Legal_CaseSubjectMaster : System.Web.UI.Page
             {
                 if (btnSave.Text == "Save")
                 {
-                    ds = objdb.ByProcedure("Sp_CaseSubject", new string[] { "flag", "CaseSubject", "CaseSubjectCode", "CaseSubjectDetail","CreatedBy","CreatedByIP" }, new string[] {
-                        "1",txtCaseSubject.Text.Trim(),txtCaseSubjectCode.Text.Trim(),txtCaseSubjectDetail.Text.Trim(),ViewState["Emp_Id"].ToString(),objdb.GetLocalIPAddress()}, "dataset");
+                    ds = objdb.ByProcedure("Sp_CaseSubject", new string[] { "flag", "CaseSubject", "CaseSubjectCode", "CaseSubjectDetail", "CreatedBy", "CreatedByIP", "Office_Id" }, new string[] {
+                        "1",txtCaseSubject.Text.Trim(),txtCaseSubjectCode.Text.Trim(),txtCaseSubjectDetail.Text.Trim(),ViewState["Emp_Id"].ToString(),objdb.GetLocalIPAddress(), ViewState["Office_Id"].ToString()}, "dataset");
                 }
                 else if (btnSave.Text == "Update" && ViewState["EditID"].ToString() != "" && ViewState["EditID"].ToString() != null)
                 {
-                    ds = objdb.ByProcedure("Sp_CaseSubject", new string[] { "flag", "CaseSubject", "CaseSubjectCode", "CaseSubjectDetail", "ModiFyBy", "ModiFyByIP", "CaseSubjectID" }, new string[] {
-                        "4",txtCaseSubject.Text.Trim(),txtCaseSubjectCode.Text.Trim(),txtCaseSubjectDetail.Text.Trim(),ViewState["Emp_Id"].ToString(),objdb.GetLocalIPAddress(),ViewState["EditID"].ToString()}, "dataset");
+                    ds = objdb.ByProcedure("Sp_CaseSubject", new string[] { "flag", "CaseSubject", "CaseSubjectCode", "CaseSubjectDetail", "ModiFyBy", "ModiFyByIP", "CaseSubjectID", "Office_Id" }, new string[] {
+                        "4",txtCaseSubject.Text.Trim(),txtCaseSubjectCode.Text.Trim(),txtCaseSubjectDetail.Text.Trim(),ViewState["Emp_Id"].ToString(),objdb.GetLocalIPAddress(),ViewState["EditID"].ToString(),ViewState["Office_Id"].ToString()}, "dataset");
                 }
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
@@ -89,33 +94,6 @@ public partial class Legal_CaseSubjectMaster : System.Web.UI.Page
             lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Thanks !", ex.Message.ToString());
         }
     }
-    protected void chkActice_CheckedChanged(object sender, EventArgs e)
-    {
-        try
-        {
-
-            HiddenField hdnCaseSubjectID = (HiddenField)((CheckBox)sender).Parent.FindControl("hdnCaseSubjectID");
-
-            ds = objdb.ByProcedure("Sp_CaseSubject", new string[] { "flag", "CaseSubjectID" }, new string[] { "3", hdnCaseSubjectID.Value }, "dataset");
-
-
-
-            if (ds != null && ds.Tables[0].Rows.Count > 0)
-            {
-                string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
-                if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
-                {
-                    lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
-
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Thanks !", ex.Message.ToString());
-        }
-    }
-
 
     protected void grdCaseSubject_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
@@ -134,13 +112,22 @@ public partial class Legal_CaseSubjectMaster : System.Web.UI.Page
                 Label lblCaseSubjectCode = (Label)row.FindControl("lblCaseSubjectCode");
                 Label lblCaseSubject = (Label)row.FindControl("lblCaseSubject");
                 Label lblCaseSubjectDetail = (Label)row.FindControl("lblCaseSubjectDetail");
-            
+
                 txtCaseSubjectCode.Text = lblCaseSubjectCode.Text;
                 txtCaseSubject.Text = lblCaseSubject.Text;
                 txtCaseSubjectDetail.Text = lblCaseSubjectDetail.Text;
                 btnSave.Text = "Update";
                 ViewState["EditID"] = e.CommandArgument;
             }
+            if (e.CommandName == "DeleteDetails")
+            {
+                ViewState["EditID"] = "";
+                ViewState["EditID"] = e.CommandArgument;
+                int casesubjId = Convert.ToInt32(e.CommandArgument);
+                objdb.ByTextQuery("delete from tbl_LegalMstCaseSubject where CaseSubjectID=" + casesubjId);
+                BindGridCaseSubject();
+            }
+            lblMsg.Text = "";
         }
         catch (Exception ex)
         {

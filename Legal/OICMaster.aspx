@@ -49,11 +49,11 @@
                                 <fieldset>
                                     <legend>Enter Details</legend>
                                     <div class="row">
-                                        <div class="col-md-3" style="display:none;">
+                                        <div class="col-md-3" style="display: none;">
                                             <div class="form-group">
                                                 <label>Zone<span style="color: red;"> *</span></label>
                                                 <span class="pull-right">
-                                                   <%-- <asp:RequiredFieldValidator ID="Rfv_zone" ValidationGroup="Save"
+                                                    <%-- <asp:RequiredFieldValidator ID="Rfv_zone" ValidationGroup="Save"
                                                         ErrorMessage="Select Zone" Text="<i class='fa fa-exclamation-circle' title='Select Zone'></i>"
                                                         ControlToValidate="ddlzone" ForeColor="Red" Display="Dynamic" runat="server" InitialValue="0">
                                                     </asp:RequiredFieldValidator>--%>
@@ -61,11 +61,11 @@
                                                 <asp:DropDownList runat="server" ID="ddlzone" CssClass="form-control" OnSelectedIndexChanged="ddlzone_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
                                             </div>
                                         </div>
-                                        <div class="col-md-3" style="display:none;">
+                                        <div class="col-md-3" style="display: none;">
                                             <div class="form-group">
                                                 <label>Circle<span style="color: red;"> *</span></label>
                                                 <span class="pull-right">
-                                                  <%--  <asp:RequiredFieldValidator ID="rfv_circle" ValidationGroup="Save"
+                                                    <%--  <asp:RequiredFieldValidator ID="rfv_circle" ValidationGroup="Save"
                                                         ErrorMessage="Select Circle" Text="<i class='fa fa-exclamation-circle' title='Select Circle'></i>"
                                                         ControlToValidate="ddlcircle" ForeColor="Red" Display="Dynamic" runat="server" InitialValue="0">
                                                     </asp:RequiredFieldValidator>--%>
@@ -102,7 +102,7 @@
                                             </div>
                                         </div>
 
-                                   <%-- </div>
+                                        <%-- </div>
                                     <div class="row">--%>
                                         <div class="col-md-3">
                                             <div class="form-group">
@@ -119,17 +119,29 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
+                                                <label>Department<span style="color: red;"> *</span></label>
+                                                <span class="pull-right">
+                                                    <asp:RequiredFieldValidator ID="rfvDept" ValidationGroup="Save"
+                                                        ErrorMessage="Select Department" Text="<i class='fa fa-exclamation-circle' title='Required'></i>"
+                                                        ControlToValidate="ddlDepartment" ForeColor="Red" Display="Dynamic" runat="server" InitialValue="0">
+                                                    </asp:RequiredFieldValidator>
+                                                </span>
+                                                <asp:DropDownList runat="server" ID="ddlDepartment" CssClass="form-control"></asp:DropDownList>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
                                                 <label>Mobile No<span style="color: red;"> *</span></label>
                                                 <span class="pull-right">
                                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ValidationGroup="Save"
                                                         ErrorMessage="Enter Mobile No" Text="<i class='fa fa-exclamation-circle' title='Enter Mobile No'></i>"
                                                         ControlToValidate="txtmobileno" ForeColor="Red" Display="Dynamic" runat="server">
                                                     </asp:RequiredFieldValidator>
-                                                    <asp:RegularExpressionValidator runat="server" ID="Rev_mobno" Display="Dynamic" ForeColor="Red" ControlToValidate="txtmobileno" SetFocusOnError="true"
-                                                        Text="<i class='fa fa-exclamation-circle' title='Mobile No. is Not Valid'></i>"
-                                                        ValidationExpression="[6-9]{1}[0-9]{5}[0-9]{4}" ErrorMessage="Mobile No. is Not Valid"
-                                                        ValidationGroup="save"></asp:RegularExpressionValidator>
                                                 </span>
+                                                <asp:RegularExpressionValidator runat="server" ID="Rev_mobno" Display="Dynamic" ForeColor="Red" ControlToValidate="txtmobileno" SetFocusOnError="true"     
+                                                    ValidationExpression="[6-9]{1}[0-9]{5}[0-9]{4}" ErrorMessage="Mobile No. is Not Valid"
+                                                    ValidationGroup="Save"></asp:RegularExpressionValidator>
                                                 <asp:TextBox runat="server" ID="txtmobileno" CssClass="form-control" onkeypress="return NumberOnly();" MaxLength="10" placeholder="Enter Mobile No" AutoComplete="off"></asp:TextBox>
                                             </div>
                                         </div>
@@ -196,7 +208,7 @@
                                                                 <asp:Label ID="lblDivisionID" runat="server" Text='<%# Eval("Division_ID") %>' Visible="false"></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
-                                                          <asp:TemplateField HeaderText="OIC Name">
+                                                        <asp:TemplateField HeaderText="OIC Name">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblOICName" runat="server" Text='<%# Eval("OICName") %>'></asp:Label>
                                                             </ItemTemplate>
@@ -207,7 +219,12 @@
                                                                 <asp:Label ID="lblDesignationId" runat="server" Text='<%# Eval("Designation_ID") %>' Visible="false"></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
-                                                      
+                                                        <asp:TemplateField HeaderText="Department">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblDepartmentName" runat="server" Text='<%# Eval("Dept_Name") %>'></asp:Label>
+                                                                <asp:Label ID="lblDepartmentId" runat="server" Text='<%# Eval("Dept_ID") %>' Visible="false"></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Mobile No">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblMobileNo" runat="server" Text='<%# Eval("OICMobileNo") %>'></asp:Label>

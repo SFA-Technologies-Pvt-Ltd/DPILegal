@@ -9,7 +9,7 @@
                 <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
                 <div class="card">
                     <div class="card-header">
-                      Case Library Detail
+                      Case Law Detail
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">

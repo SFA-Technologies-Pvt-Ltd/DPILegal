@@ -149,7 +149,7 @@
                     <asp:BoundField DataField="Department" HeaderText="Department"  ItemStyle-HorizontalAlign="Left"/>--%>
                                                     <%--  <asp:boundfield datafield="status" headertext="status"  itemstyle-horizontalalign="left"/>--%>
                                                     <asp:BoundField DataField="pdf" HeaderText="document name" ItemStyle-HorizontalAlign="left" />
-                                                    <asp:TemplateField HeaderText="pdflink" ItemStyle-HorizontalAlign="left">
+                                                    <asp:TemplateField HeaderText="Document" ItemStyle-HorizontalAlign="left">
                                                         <ItemTemplate>
                                                             <a href="<%#Eval("link") %>" target="_blank"><i class="fa fa-eye"></i></a>
                                                         </ItemTemplate>

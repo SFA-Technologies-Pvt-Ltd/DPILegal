@@ -263,35 +263,49 @@
                             <div class="card-header" style="text-align: center;">
                                 <span style="font-size: 18px; color: #e5e5e5" id="spnCaseType" runat="server"></span>
                             </div>
+                            <div class="row mt-2">
+                                <div class="col-md-3">
+                                    <asp:TextBox ID="txtSearch" runat="server" Font-Size="20px" CssClass="form-control" placeholder="Case No Search"></asp:TextBox>
+                                </div>
+                                <div class="col-md-3">
+                                    <asp:Button Text="Search" runat="server" ID="btnSearch" OnClick="btnSearch_Click" CssClass="btn btn-primary" />
+                                    <asp:Button Text="Clear Search" runat="server" ID="btnClearSearch" OnClick="btnClearSearch_Click" CssClass="btn btn-secondary" />
+                                </div>
+                            </div>
                             <div class="card-body" style="opacity: 1;">
-                                <asp:GridView runat="server" ID="grdCaseTypeDetail" EmptyDataText="No Record Found" AutoGenerateColumns="false" CssClass="table-responsive" Width="100%"
-                                    OnRowEditing="grdCaseTypeDetail_RowEditing" OnRowCommand="grdCaseTypeDetail_RowCommand"
-                                    OnRowUpdating="grdCaseTypeDetail_RowUpdating" OnRowCancelingEdit="grdCaseTypeDetail_RowCancelingEdit" OnRowDataBound="grdCaseTypeDetail_RowDataBound">
+                                <asp:GridView runat="server" ID="grdCaseTypeDetail" EmptyDataText="No Record Found"
+                                    AutoGenerateColumns="false" CssClass="table-responsive" Width="100%" OnPageIndexChanging="grdCaseTypeDetail_PageIndexChanging"
+                                    OnRowCommand="grdCaseTypeDetail_RowCommand" OnRowDataBound="grdCaseTypeDetail_RowDataBound">
                                     <Columns>
                                         <asp:TemplateField HeaderText="S.No." ItemStyle-HorizontalAlign="Left">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
+                                                <asp:Label ID="lblUniqueNo" runat="server" Text='<%# Eval("UniqueNo") %>' Visible="false"></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
+                                        <asp:BoundField DataField="OldFilingNo" HeaderText="Old Filing No" ReadOnly="true" />
                                         <asp:BoundField DataField="FilingNo" HeaderText="Filing No" ReadOnly="true" />
                                         <asp:BoundField DataField="Court" HeaderText="Court" ReadOnly="true" />
                                         <asp:BoundField DataField="Petitioner" HeaderText="Petitioner" ReadOnly="true" />
-                                        
-                                         <asp:TemplateField HeaderText="Respondent">
+
+                                        <asp:TemplateField HeaderText="Respondent">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblRespondent" Text='<%#Eval("Respondent") %>' runat="server" />
                                             </ItemTemplate>
                                             <EditItemTemplate>
-                                                <asp:TextBox ID="txtRespondent" TextMode="MultiLine"  Text='<%#Eval("Respondent") %>' runat="server" />
+                                                <asp:TextBox ID="txtRespondent" TextMode="MultiLine" Text='<%#Eval("Respondent") %>' runat="server" />
                                             </EditItemTemplate>
                                         </asp:TemplateField>
-                                          <asp:TemplateField HeaderText="Respondent Office">
+                                        <asp:BoundField DataField="PartyName" HeaderText="PartyName" />
+                                        <asp:BoundField DataField="Department" HeaderText="Department" />
+                                        <asp:TemplateField HeaderText="Respondent Office">
                                             <ItemTemplate>
                                                 <asp:Label ID="txtRespondentOffice" Text='<%#Eval("RespondentOffice") %>' runat="server" />
                                             </ItemTemplate>
                                             <EditItemTemplate>
-                                                <asp:TextBox ID="txtRespondentOffice"  TextMode="MultiLine" Text='<%#Eval("RespondentOffice") %>' runat="server" />
+                                                <asp:TextBox ID="txtRespondentOffice" TextMode="MultiLine" Text='<%#Eval("RespondentOffice") %>' runat="server" />
                                                 <asp:HiddenField ID="hdnUId" runat="server" Value='<%#Eval("UniqueNo") %>' />
+                                                <asp:HiddenField ID="hdnCaseNo" runat="server" Value='<%#Eval("CaseNo") %>' />
                                             </EditItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Case Subject">
@@ -303,13 +317,13 @@
                                                 </asp:DropDownList>
                                             </EditItemTemplate>
                                         </asp:TemplateField>
-                                      
+
                                         <asp:TemplateField HeaderText="OIC Name">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblOICName" Text='<%#Eval("OICId") %>' runat="server" />
                                             </ItemTemplate>
                                             <EditItemTemplate>
-                                                <asp:HiddenField ID="hdnOICId" Value='<%#Eval("OICId") %>' runat="server" />                                                
+                                                <asp:HiddenField ID="hdnOICId" Value='<%#Eval("OICId") %>' runat="server" />
                                                 <asp:DropDownList ID="ddlOICName" runat="server" OnTextChanged="ddlOICName_TextChanged" AutoPostBack="true">
                                                 </asp:DropDownList>
                                             </EditItemTemplate>
@@ -338,9 +352,14 @@
                                                 <asp:TextBox ID="txtRemarks" TextMode="MultiLine" Text='<%#Eval("Remarks") %>' runat="server" />
                                             </EditItemTemplate>
                                         </asp:TemplateField>
-                                        
-
-                                        <asp:CommandField ShowEditButton="true" ShowCancelButton="true" ShowHeader="true" />
+                                        <asp:TemplateField HeaderText="Action">
+                                            <ItemTemplate>
+                                                <asp:LinkButton ID="btnEdit" runat="server" CssClass="fa fa-edit" ToolTip="Edit" CommandArgument='<%# Eval("UniqueNo") %>' CommandName="EditDetails"></asp:LinkButton>
+                                                <%--<asp:LinkButton CssClass="fa fa-eye" runat="server" ID="lnkViewDocument" CommandName="ViewDetails" CommandArgument='<%# Eval("UniqueNo") %>' />--%>
+                                                <a href="ViewDocumentByUniqNo.aspx?ID=<%#Eval("UniqueNo")%>" target="_blank" class="fa fa-eye"></a>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <%-- <asp:CommandField ShowEditButton="true" ShowCancelButton="true" ShowHeader="true" />--%>
                                         <%-- <asp:TemplateField HeaderText="Edit" >
                                     <ItemTemplate>
                                         <asp:LinkButton Text="Edit" runat="server" CommandName="edit" CommandArgument='<%#Eval("UniqueNo") %>' />

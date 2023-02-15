@@ -91,7 +91,7 @@
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-md-4">
-                                                        <asp:Button Text="Search" ID="btnSearch" runat="server" OnClick="btnSearch_Click1" CssClass="btn btn-primary btn-block" />
+                                                        <asp:Button Text="Search" ID="btnSearch1" runat="server" OnClick="btnSearch1_Click" CssClass="btn btn-primary btn-block" />
                                                     </div>
                                                     <div class="col-md-4">
                                                         <a href="UploadOLDHCCases.aspx" class="btn btn-secondary btn-block">Clear </a>

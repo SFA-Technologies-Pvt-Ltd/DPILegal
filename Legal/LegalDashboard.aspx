@@ -299,7 +299,7 @@
                                 <div class="boxshape" style="background-color: #1fa6ad; border: 2px solid #cd7a32;">
                                     <div class="circle">
                                         <div class="insideBox" style="border: 2px solid #7DF9FF;">
-                                            <span>PP<br />
+                                            <span>MP<br />GOVT<br />
                                                 CASES</span>
 
                                         </div>
@@ -316,7 +316,7 @@
                                 <div class="boxshape" style="background-color: yellowgreen; border: 2px solid red;">
                                     <div class="circle">
                                         <div class="insideBox" style="border: 2px solid green;">
-                                            <span>DPI<br />
+                                            <span>ENC<br />
                                                 CASES</span>
                                         </div>
                                     </div>
@@ -332,7 +332,7 @@
                                 <div class="boxshape" style="background-color: #e74c4c; border: 2px solid black;">
                                     <div class="circle">
                                         <div class="insideBox" style="border: 2px solid #810101;">
-                                            <span style="text-align: center; line-height: normal;">JD<br />
+                                            <span style="text-align: center; line-height: normal;">ZONE<br />
                                                 CASES</span>
                                         </div>
                                     </div>
@@ -352,7 +352,7 @@
                                 <div class="boxshape" style="background-color: #FA2B17; border: 2px solid #cd7a32;">
                                     <div class="circle">
                                         <div class="insideBox" style="border: 2px solid #FA2B17;">
-                                            <span>DEO<br />
+                                            <span>CIRCLE<br />
                                                 CASES</span>
                                         </div>
                                     </div>
@@ -368,7 +368,7 @@
                                 <div class="boxshape" style="background-color: yellow; border: 2px solid black;">
                                     <div class="circle" style="">
                                         <div class="insideBox" style="border: 2px solid yellow;">
-                                            <span>TBC<br />
+                                            <span>DIVISION<br />
                                                 CASES</span>
                                         </div>
                                     </div>
@@ -384,7 +384,7 @@
                                 <div class="boxshape" style="background-color: #EE9A4D; border: 2px solid red;">
                                     <div class="circle">
                                         <div class="insideBox" style="border: 2px solid #EE9A4D;">
-                                            <span>RSK<br />
+                                            <span>JAL<br />NIGAM<br />
                                                 CASES</span>
                                         </div>
                                     </div>

@@ -35,7 +35,7 @@ public partial class Legal_ContemptPendingReport : System.Web.UI.Page
     {
         try
         {
-            ds = obj.ByProcedure("USP_LegalGetPheLegalContemptRpt", new string[] {  "Fromdate", "Enddate" }
+            ds = obj.ByProcedure("USP_GetContPendingCaseRpt", new string[] { "Fromdate", "Enddate" }
                     , new string[] {Convert.ToDateTime(txtDate.Text, cult).ToString("yyyy/MM/dd"), Convert.ToDateTime(txtEndDate.Text, cult).ToString("yyyy/MM/dd") }, "dataset");
             if (ds.Tables[0].Rows.Count > 0)
             {

@@ -106,7 +106,7 @@ public partial class Legal_MasterRpt_ExcelExport : System.Web.UI.Page
                 tbldt = dsfilewise.Tables[0];
                 using (XLWorkbook wb = new XLWorkbook())
                 {
-                    var ws = wb.Worksheets.Add("DPILegal");
+                    var ws = wb.Worksheets.Add("PheLegal");
                     var dataTable = dsfilewise.Tables[0];
                     ws.Cell(1, 1).Value = Table_Name;
                     ws.Cell(1, 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;

@@ -71,7 +71,7 @@
                                     <div class="table-responsive">
                                         <asp:GridView ID="GrdWAPendingReport" runat="server" CssClass="table table-bordered" AutoGenerateColumns="false" DataKeyNames="WACase_ID" OnRowCommand="GrdWAPendingReport_RowCommand" EmptyDataText="NO RECORD FOUND">
                                             <Columns>
-                                                <asp:TemplateField HeaderText="S.No.">
+                                                <asp:TemplateField HeaderText="S.No." ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
                                                         <asp:Label ID="lblCaseId" runat="server" Text='<%# Eval("WACase_ID") %>' Visible="false"></asp:Label>
@@ -107,9 +107,9 @@
                                                         <asp:Label ID="lblCaseStatus" runat="server" Font-Bold="true" ForeColor='<%# Eval("CaseStatus").ToString() == "Pending" ? System.Drawing.Color.Red : System.Drawing.Color.Green %>' Text='<%# Eval("CaseStatus") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                 <asp:TemplateField HeaderText="Action">
+                                                 <asp:TemplateField HeaderText="Action" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
-                                                        <asp:LinkButton ID="BtnViewDtl" runat="server" CommandArgument='<%# Eval("WACase_ID") %>' ToolTip="View" CommandName="ViewDetail" CssClass="btn btn-primary"><i class="fa fa-eye"></i></asp:LinkButton>
+                                                        <asp:LinkButton ID="BtnViewDtl" runat="server" CommandArgument='<%# Eval("WACase_ID") %>' ToolTip="View" CommandName="ViewDetail"><i class="fa fa-eye"></i></asp:LinkButton>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>

@@ -21,22 +21,21 @@ public partial class UploadOLDHCCases : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-		if (Session["Emp_ID"] != null)
+        if (Session["Emp_ID"] != null)
         {
-        if (!IsPostBack)
-        {
-            GetCourt();
-            GetCaseType();
-            GetCaseYear();
-            GetCaseNo();
+            if (!IsPostBack)
+            {
+                GetCourt();
+                GetCaseType();
+                GetCaseYear();
+                GetCaseNo();
+            }
         }
-		}
         else
         {
             Response.Redirect("~/Login.aspx");
         }
     }
-    
     private void GetCourt()
     {
         try
@@ -52,15 +51,14 @@ public partial class UploadOLDHCCases : System.Web.UI.Page
             }
             else
             {
-                ddlYear.DataSource = null;
-                ddlYear.DataBind();
-                ddlYear.Items.Insert(0, new ListItem("Select", "0"));
+                ddlCourt.DataSource = null;
+                ddlCourt.DataBind();
+                ddlCourt.Items.Insert(0, new ListItem("Select", "0"));
             }
         }
         catch (Exception)
         {
         }
-
     }
     private void GetCaseType()
     {
@@ -77,9 +75,9 @@ public partial class UploadOLDHCCases : System.Web.UI.Page
             }
             else
             {
-                ddlYear.DataSource = null;
-                ddlYear.DataBind();
-                ddlYear.Items.Insert(0, new ListItem("Select", "0"));
+                ddlCaseType.DataSource = null;
+                ddlCaseType.DataBind();
+                ddlCaseType.Items.Insert(0, new ListItem("Select", "0"));
             }
         }
         catch (Exception)
@@ -380,7 +378,7 @@ public partial class UploadOLDHCCases : System.Web.UI.Page
         MergeRows(grdExcel);
     }
 
-    protected void btnSearch_Click1(object sender, EventArgs e)
+    protected void btnSearch1_Click(object sender, EventArgs e)
     {
         string court = null;
         string casetype = null;

@@ -72,7 +72,65 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            User Email<span style="color: red;"><b> *</b></span>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ValidationGroup="Save"
+                                                ErrorMessage="Enter User Email" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                ControlToValidate="txtUserEmail" Display="Dynamic" runat="server">
+                                            </asp:RequiredFieldValidator><br />
+                                            उपयोगकर्ता ईमेल
+                                        </label>
+                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ValidationGroup="Save" runat="server" Display="Dynamic" ControlToValidate="txtUserEmail"
+                                            ErrorMessage="Invalid User Email" SetFocusOnError="true"
+                                            ForeColor="Red" ValidationExpression="^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"></asp:RegularExpressionValidator>
+                                        <asp:TextBox ID="txtUserEmail" runat="server" AutoComplete="off" CssClass="form-control"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            User Name<span style="color: red;"><b> *</b></span>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ValidationGroup="Save"
+                                                ErrorMessage="Enter User Email" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                ControlToValidate="txtUserName" Display="Dynamic" runat="server">
+                                            </asp:RequiredFieldValidator><br />
+                                            उपयोगकर्ता का नाम
+                                        </label>
+
+                                        <asp:TextBox ID="txtUserName" runat="server" MaxLength="10" AutoComplete="off" CssClass="form-control"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            Password<span style="color: red;"><b> *</b></span>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="Save"
+                                                ErrorMessage="Enter Password" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                ControlToValidate="txtPassword" Display="Dynamic" runat="server">
+                                            </asp:RequiredFieldValidator><br />
+                                            पासवर्ड
+                                        </label>
+                                        <asp:TextBox ID="txtPassword" TextMode="Password" runat="server" min="6" AutoComplete="off" CssClass="form-control"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            Password<span style="color: red;"><b> *</b></span>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" ValidationGroup="Save"
+                                                ErrorMessage="Enter Confirm Password" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                ControlToValidate="txtConfirmPassword" Display="Dynamic" runat="server">
+                                            </asp:RequiredFieldValidator><br />
+                                            पासवर्ड पुष्टि
+                                        </label>
+                                        <asp:CompareValidator ErrorMessage="Confirm Password Not Machted" ValidationGroup="Save" ControlToValidate="txtConfirmPassword" ControlToCompare="txtPassword" runat="server" />
+                                        <asp:TextBox ID="txtConfirmPassword" TextMode="Password" runat="server" min="6" AutoComplete="off" CssClass="form-control"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>
                                             Mobile No.<span style="color: red;"><b> *</b></span>
@@ -86,11 +144,8 @@
                                             ForeColor="Red" ValidationExpression="^([6-9]{1}[0-9]{9})$"></asp:RegularExpressionValidator>
                                         <asp:TextBox ID="txtMobileNo" runat="server" MaxLength="10" AutoComplete="off" CssClass="form-control"></asp:TextBox>
                                     </div>
-                                </div>
-                                <%--</div>
-                                <div class="row">
-                                    <div class="col-md-4"></div>--%>
-                                <div class="col-md-3 col-sm mt-5" >
+                                </div>                             
+                                <div class="col-md-3 col-sm mt-5">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <asp:Button ID="btnSave" runat="server" CssClass="btn btn-primary btn-block" ValidationGroup="Save" Text="Save" OnClick="btnSave_Click" />

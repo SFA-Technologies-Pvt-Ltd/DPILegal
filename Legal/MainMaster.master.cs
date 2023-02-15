@@ -118,14 +118,14 @@ public partial class Legal_MainMaster : System.Web.UI.MasterPage
 
                 #region Rebind Menues
 
-                Navigation.InnerHtml = "<ul class='nav nav-pills nav-sidebar flex-column' data-widget='treeview' role='menu' data-accordion='false'>"
-                                + "<li class='nav-item'>"
-                                    + "<a href='../Legal/LegalDashboard.aspx' class='nav-link'>"
-                                        + "<i class='nav-icon fas fa-list-ul text-light'></i>"
-                                        + "<p class='text-light'>"
-                                            + "<span style='color: #e5e5e5; font-size: 16px;'>Dashboard</span>"
-                                            //  + "<i class='fas fa-angle-left right'></i>" 
-                                            + "</p></a></li>'";
+                Navigation.InnerHtml = "<ul class='nav nav-pills nav-sidebar flex-column' data-widget='treeview' role='menu' data-accordion='false'>";
+                                //+ "<li class='nav-item'>"
+                                //    + "<a href='../Legal/OldCaseDashBoard.aspx' class='nav-link'>"
+                                //        + "<i class='nav-icon fas fa-list-ul text-light'></i>"
+                                //        + "<p class='text-light'>"
+                                //            + "<span style='color: #e5e5e5; font-size: 16px;'>Dashboard</span>"
+                                //            //  + "<i class='fas fa-angle-left right'></i>" 
+                                //            + "</p></a></li>'";
                 //  DataTable dtAccess = Session["AccessModule"] as DataTable;
                 DataTable dtAccessForm = Session["AccessForm"] as DataTable;
                 string menuname = string.Empty;
@@ -188,7 +188,7 @@ public partial class Legal_MainMaster : System.Web.UI.MasterPage
         else
         {
             //Response.Redirect("~/Login.aspx");
-            Response.Redirect("../Login.aspx");
+            Response.Redirect("~/Login.aspx");
         }
 
     }

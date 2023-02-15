@@ -37,7 +37,7 @@ public partial class mis_Legal_ConcludedwpReport : System.Web.UI.Page
                 GrdConcludeReport.DataSource = null;
                 GrdConcludeReport.DataBind();
 
-                ds = obj.ByProcedure("USP_Legal_Get_WPConcludeRpt", new string[] { "Fromdate", "Todate" }
+                ds = obj.ByProcedure("USP_GetWPConcludeRpt", new string[] { "Fromdate", "Todate" }
                     , new string[] { Convert.ToDateTime(txtFromdate.Text, cult).ToString("yyyy/MM/dd"), Convert.ToDateTime(txtTodate.Text, cult).ToString("yyyy/MM/dd") }, "dataset");
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
@@ -55,24 +55,7 @@ public partial class mis_Legal_ConcludedwpReport : System.Web.UI.Page
         {
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
-    }
-    //protected void GrdConcludeReport_RowCommand(object sender, GridViewCommandEventArgs e)
-    //{
-    //    try
-    //    {
-    //        lblMsg.Text = "";
-    //        if (e.CommandName == "Appeal")
-    //        {
-    //            GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
-    //            string ID = e.CommandArgument.ToString();
-    //            Response.Redirect("../Legal/EditWACaseDetails.aspx?ID=" + Server.UrlEncode(ID));
-    //        }
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
-    //    }
-    //}
+    }   
     protected void GrdConcludeReport_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         try

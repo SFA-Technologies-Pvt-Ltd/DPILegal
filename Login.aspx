@@ -57,7 +57,9 @@
                     <div class="col-lg-12 p-5 shadow-sm border rounded-5 border-primary bg-white" style="border: none !important">
                         <h2 class="text-center mb-4 text-primary" style="margin-top: -12px;">
                             <img runat="server" src="../image/logo/ssmsLogo.png" alt="" style="width: 80px;" /></h2>
-                        <h5 style="text-align: center; color: #2e0303; font-size: 21px; font-weight: bold">Legal Cases Monitoring System</h5>
+                       <!-- <h5 style="text-align: center; color: #59afd9; font-size: 25px; font-family: 'Times New Roman';">Directorate Of Public Instruction</h5> -->
+					   <h5 style="text-align: center; color: #59afd9; font-size: 25px; font-family: 'Times New Roman';">Department of School Education</h5>
+                        <h5 style="text-align: center; color: #f98023; font-size: 21px;">Legal Cases Monitoring System</h5>
                         <div class="mb-5">
                             <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
                         </div>
@@ -67,13 +69,16 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" style="color: #2e0303; font-weight: bold">Password</label>
-                            <asp:TextBox runat="server" class="form-control border border-primary" ID="txtPassword" AutoComplete="off" TextMode="Password" MaxLength="7" onpaste="return false"></asp:TextBox>
+                            <asp:TextBox runat="server" class="form-control border border-primary" ID="txtPassword" AutoComplete="off" TextMode="Password" min="6" onpaste="return false"></asp:TextBox>
                         </div>
                         <%-- <p class="small"><a class="text-primary" href="forget-password.html">Forgot password?</a></p>--%>
                         <div class="d-grid pt-3">
-                            <div style="text-align:center;">
+                            <div style="text-align: center;">
                                 <asp:Button ID="btnLogin" runat="server" CssClass="btn btn-warning1 col-lg-8" OnClientClick="return ValidatePage();" Text="Login" OnClick="btnLogin_Click" />
                             </div>
+                        </div>
+                        <div class="d-grid pt-3">
+                            <a href="Legal/ForgotPassword.aspx"  style="text-align: left; color:#0c59e7; font-size: 18px; font-family: 'Times New Roman';text-decoration:none;">Forget Password</a>
                         </div>
                     </div>
                 </div>
@@ -110,7 +115,7 @@
             if (Page_IsValid) {
                 if (document.getElementById('<%= txtPassword.ClientID %>').value.length != 128) {
                     document.getElementById('<%= txtPassword.ClientID %>').value =
-                    SHA512(SHA512(document.getElementById('<%= txtPassword.ClientID %>').value) +
+                        SHA512(SHA512(document.getElementById('<%= txtPassword.ClientID %>').value) +
                     '<%= ViewState["RandomText"].ToString() %>');
                 }
             }

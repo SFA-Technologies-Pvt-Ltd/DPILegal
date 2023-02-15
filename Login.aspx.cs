@@ -31,15 +31,22 @@ public partial class Legal_Login : System.Web.UI.Page
         ViewState["RandomText"] = obj.Encrypt(randomText.ToString());
     }
 
+    //private string ConvertText_SHA512_And_Salt(string Text)
+    //{
+    //    return obj.SHA512_HASH(String.Concat(obj.SHA512_HASH(Text), ViewState["RandomText"].ToString()));
+    //}
+
     private string ConvertText_SHA512_And_Salt(string Text)
     {
-        return obj.SHA512_HASH(String.Concat(obj.SHA512_HASH(Text), ViewState["RandomText"].ToString()));
+        return obj.SHA512_HASH(Text);
     }
 
     private bool CompaireHashCode(string DataBasePassword, string ClientPasswordWithHashing)
     {
         bool i;
-        if (obj.SHA512_HASH(String.Concat(DataBasePassword, ViewState["RandomText"].ToString())).Equals(ClientPasswordWithHashing))
+        // if (ConvertText_SHA512_And_Salt(txtPassword.Text.Trim()).Equals(DataBasePassword))
+        //if (obj.SHA512_HASH(String.Concat(DataBasePassword, ViewState["RandomText"].ToString())).Equals(ClientPasswordWithHashing))
+        if (ConvertText_SHA512_And_Salt(txtPassword.Text.Trim()) == DataBasePassword)
         { i = true; }
         else { i = false; }
         return i;
@@ -57,7 +64,7 @@ public partial class Legal_Login : System.Web.UI.Page
                     ds = obj.ByProcedure("SpLogin", new string[] { "UserName", "flag" }, new string[] { txtUserName.Text.Trim(), "0" }, "dataset");
                     if (ds != null && ds.Tables[0].Rows.Count > 0)
                     {
-                        //if (CompaireHashCode(ds.Tables[0].Rows[0]["Password"].ToString(), txtPassword.Text))
+                        if (CompaireHashCode(ds.Tables[0].Rows[0]["Password"].ToString(), txtPassword.Text))
                         {
                             Session["Emp_Id"] = ds.Tables[0].Rows[0]["Emp_Id"].ToString();
                             Session["UserName"] = ds.Tables[0].Rows[0]["UserName"].ToString();
@@ -68,21 +75,22 @@ public partial class Legal_Login : System.Web.UI.Page
                             Session["Division_Id"] = ds.Tables[0].Rows[0]["Division_Id"].ToString();
                             Session["District_Id"] = ds.Tables[0].Rows[0]["District_Id"].ToString();
                             Session["OfficeType_Id"] = ds.Tables[0].Rows[0]["OfficeType_Id"].ToString();
-
+                            Session["UserEmail"] = ds.Tables[0].Rows[0]["UserEmail"].ToString();
                             Session["AccessModule"] = ds.Tables[1];
                             Session["AccessForm"] = ds.Tables[2];
-                            Response.Redirect("~/Legal/LegalDashboard.aspx");
+                            //Response.Redirect("~/Legal/LegalDashboard.aspx", false);
+							Response.Redirect("~/Legal/OldCaseDashBoard.aspx", false);
                         }
-                        //else
-                        //{
-                        //    Labelmsg.ForeColor = System.Drawing.Color.Red;
-                        //    Labelmsg.Text = "Invalid Login Credentials!";
-                        //}
+                        else
+                        {
+                            lblMsg.ForeColor = System.Drawing.Color.Red;
+                            lblMsg.Text = "Invalid Login Credentials!";
+                        }
                     }
                     else
                     {
                         lblMsg.ForeColor = System.Drawing.Color.Red;
-                        lblMsg.Text = "Invalid Credential!";
+                        lblMsg.Text = "Invalid Login Credentials!";
                         //lblMsg.Text = "Login Failed!<br /> UserName or Password is not correct";
                     }
                 }
@@ -90,7 +98,7 @@ public partial class Legal_Login : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
 }

@@ -25,6 +25,7 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
                 FillZone();
                 FillDesignation();
                 FillDitrict();
+                FillDepartment();
             }
         }
         else
@@ -81,6 +82,27 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
     }
     #endregion
 
+    protected void FillDepartment()
+    {
+        try
+        {
+            ddlDepartment.Items.Clear();
+            ds = obj.ByDataSet("SELECT Dept_ID, Dept_Name FROM tblDepartmentMaster");
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            {
+                ddlDepartment.DataTextField = "Dept_Name";
+                ddlDepartment.DataValueField = "Dept_ID";
+                ddlDepartment.DataSource = ds;
+                ddlDepartment.DataBind();
+            }
+            ddlDepartment.Items.Insert(0, new ListItem("Select", "0"));
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
+        }
+    }
+
     protected void FillDitrict()
     {
         try
@@ -98,8 +120,7 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            
-            throw;
+            lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
 
@@ -113,19 +134,20 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
                 lblMsg.Text = "";
                 if (btnSave.Text == "Save")
                 {
-                    ds = obj.ByProcedure("USP_Insert_OICMaster", new string[] { "Zone_ID", "Circle_ID", "Division_ID", "OICName", "Designation_ID", "OICMobileNo", "OICEmailID", "Office_ID", "CreatedBy", "CreatedByIP" }
-                    , new string[] { ddlzone.SelectedValue, ddlcircle.SelectedValue, ddldivision.SelectedValue, txtoicnme.Text.Trim(), ddlDesignation.SelectedValue, txtmobileno.Text.Trim(),txtEmailID.Text.Trim(), ViewState["Office_Id"].ToString(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
+                    ds = obj.ByProcedure("USP_Insert_OICMaster", new string[] { "Zone_ID", "Circle_ID", "Division_ID", "OICName", "Designation_ID", "OICMobileNo", "OICEmailID", "Office_ID", "CreatedBy", "CreatedByIP", "Dept_ID" }
+                    , new string[] { ddlzone.SelectedValue, ddlcircle.SelectedValue, ddldivision.SelectedValue, txtoicnme.Text.Trim(), ddlDesignation.SelectedValue, txtmobileno.Text.Trim(),txtEmailID.Text.Trim(), ViewState["Office_Id"].ToString(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(),ddlDepartment.SelectedValue }, "dataset");
                 }
                 else if (btnSave.Text == "Update" && ViewState["OICID"].ToString() != "" && ViewState["OICID"].ToString() != null)
                 {
-                    ds = obj.ByProcedure("USP_Update_OICMaster", new string[] { "Zone_ID", "Circle_ID", "Division_ID", "OICName", "Designation_ID", "OICMobileNo", "OICEmailID", "Office_ID", "LastupdatedBy", "LastupdatedByIP", "OICMaster_ID" }
-                    , new string[] { ddlzone.SelectedValue, ddlcircle.SelectedValue, ddldivision.SelectedValue, txtoicnme.Text.Trim(), ddlDesignation.SelectedValue,txtmobileno.Text.Trim(),txtEmailID.Text.Trim(), ViewState["Office_Id"].ToString(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ViewState["OICID"].ToString() }, "dataset");
+                    ds = obj.ByProcedure("USP_Update_OICMaster", new string[] { "Zone_ID", "Circle_ID", "Division_ID", "OICName", "Designation_ID", "OICMobileNo", "OICEmailID", "Office_ID", "LastupdatedBy", "LastupdatedByIP", "OICMaster_ID", "Dept_ID" }
+                    , new string[] { ddlzone.SelectedValue, ddlcircle.SelectedValue, ddldivision.SelectedValue, txtoicnme.Text.Trim(), ddlDesignation.SelectedValue,txtmobileno.Text.Trim(),txtEmailID.Text.Trim(), ViewState["Office_Id"].ToString(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ViewState["OICID"].ToString(),ddlDepartment.SelectedValue }, "dataset");
                 }
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
                     string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
                     if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
                     {
+                        ddlDepartment.ClearSelection();
                         ddlzone.ClearSelection();
                         ddlcircle.ClearSelection();
                         ddldivision.ClearSelection();
@@ -211,6 +233,7 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
                 Label lblMobileNo = (Label)row.FindControl("lblMobileNo");
                 Label lblDesignationId = (Label)row.FindControl("lblDesignationId");
                 Label lblEmailID = (Label)row.FindControl("lblEmailID");
+                Label lblDepartmentId = (Label)row.FindControl("lblDepartmentId");
 
                 ViewState["OICID"] = e.CommandArgument;
                 btnSave.Text = "Update";
@@ -228,6 +251,11 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
                     ddlcircle.ClearSelection();
                     ddlcircle.Items.FindByValue(lblCircleID.Text).Selected = true;
                     ddlcircle_SelectedIndexChanged(sender, e);
+                }
+                if (lblDepartmentId.Text != "")
+                {
+                    ddlDepartment.ClearSelection();
+                    ddlDepartment.Items.FindByValue(lblDepartmentId.Text).Selected = true;
                 }
                 ddldivision.ClearSelection();
                 ddldivision.Items.FindByValue(lblDivisionID.Text).Selected = true;

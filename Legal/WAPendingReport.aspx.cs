@@ -38,7 +38,7 @@ public partial class Legal_WAPendingReport : System.Web.UI.Page
                 GrdWAPendingReport.DataSource = null;
                 GrdWAPendingReport.DataBind();
 
-                ds = obj.ByProcedure("USP_legal_select_WAPendingReport", new string[] { "FromDate", "Todate" }
+                ds = obj.ByProcedure("USP_GetWAPendingCaseRpt", new string[] { "FromDate", "Todate" }
                     , new string[] { Convert.ToDateTime(txtFromdate.Text, cult).ToString("yyyy/MM/dd"), Convert.ToDateTime(txtTodate.Text, cult).ToString("yyyy/MM/dd") }, "dataset");
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
@@ -73,7 +73,7 @@ public partial class Legal_WAPendingReport : System.Web.UI.Page
                 lblMsg.Text = "";
                 GridViewRow row = (GridViewRow)((LinkButton)e.CommandSource).NamingContainer;
 
-                ds = obj.ByProcedure("USP_Legal_ViewWACaseDtlByID", new string[] { "WACase_ID" }
+                ds = obj.ByProcedure("USP_ViewWAPendingCaseFullDtlRpt", new string[] { "WACase_ID" }
                    , new string[] { e.CommandArgument.ToString() }, "dataset");
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)

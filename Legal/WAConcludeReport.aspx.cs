@@ -37,7 +37,7 @@ public partial class Legal_WAConcludeReport : System.Web.UI.Page
                 GrdConcludeReport.DataSource = null;
                 GrdConcludeReport.DataBind();
 
-                ds = obj.ByProcedure("USP_Legal_Select_WAConcludeReport", new string[] { "FromDate", "Todate" }
+                ds = obj.ByProcedure("USP_GetWAConcludeRpt", new string[] { "FromDate", "Todate" }
                     , new string[] { Convert.ToDateTime(txtFromdate.Text, cult).ToString("yyyy/MM/dd"), Convert.ToDateTime(txtTodate.Text, cult).ToString("yyyy/MM/dd") }, "dataset");
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {

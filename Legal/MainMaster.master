@@ -234,9 +234,9 @@
                 <!-- Main Sidebar Container -->
                 <aside class="main-sidebar sidebar-dark-primary elevation-4 custom_bg_color">
                     <!-- Brand Logo -->
-                    <a href="#" class="brand-link">
+                    <a href="../login.aspx" class="brand-link">
                         <img src="../image/logo/ssmsLogoremovebg.png" alt="Logo" class="brand-image  elevation-3" style="opacity: .8" />
-                        <span class="brand-text font-weight-bold" style="color: #e5e5e5; font-size: 16px; display: -webkit-box;">Legal</span>
+                        <span class="brand-text font-weight-bold" style="color: #e5e5e5; font-size: 16px;">Legal</span>
                     </a>
 
                     <!-- Sidebar -->

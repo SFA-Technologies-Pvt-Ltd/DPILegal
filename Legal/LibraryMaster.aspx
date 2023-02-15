@@ -16,7 +16,7 @@
                     <div class="box-body">
                         <div class="card">
                             <div class="card-header">
-                                Library Master
+                                Case Law Master
                             </div>
                             <div class="card-body">
                                 <fieldset>
@@ -44,7 +44,6 @@
                                                 <asp:DropDownList ID="ddlCaseSubject" runat="server" CssClass="form-control">
                                                 </asp:DropDownList>
                                             </div>
-
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
@@ -58,8 +57,6 @@
                                                 <asp:TextBox runat="server" CssClass="form-control" ID="txtCasetype" placeholder="Enter Case Type" autocomplete="off"></asp:TextBox>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Petitioner Name<span style="color: red;"> *</span></label>
@@ -72,6 +69,8 @@
                                                 <asp:TextBox runat="server" CssClass="form-control" ID="txtPartyName" onkeypress="javascript:tbx_fnAlphaOnly(event, this);" placeholder="Enter Party Name" autocomplete="off" MaxLength="50"></asp:TextBox>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Respondent Name<span style="color: red;"> *</span></label>
@@ -96,8 +95,6 @@
                                                 <asp:TextBox runat="server" CssClass="form-control Number" ID="txtRelatedOffice" placeholder="Enter Related Office" autocomplete="off"></asp:TextBox>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Decision Date<span style="color: red;"> *</span></label>
@@ -123,6 +120,23 @@
                                                 <asp:TextBox runat="server" CssClass="form-control" ID="txtCaseYear" min="4" MaxLength="4" placeholder="Enter Form Path" autocomplete="off"></asp:TextBox>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Decision in favour of</label><span style="color: red;"> *</span>
+                                                <asp:RequiredFieldValidator ID="rfvDecisionfavour" ValidationGroup="a"
+                                                    ErrorMessage="Select Decision in favour." Text="<i class='fa fa-exclamation-circle' title='Required'></i>"
+                                                    ControlToValidate="ddlDecisionFavourin" ForeColor="Red" Display="Dynamic" runat="server" InitialValue="0">
+                                                </asp:RequiredFieldValidator>
+                                                <asp:DropDownList ID="ddlDecisionFavourin" runat="server" CssClass="form-control">
+                                                    <asp:ListItem Value="0">Select</asp:ListItem>
+                                                    <asp:ListItem Value="1">Petitioner</asp:ListItem>
+                                                    <asp:ListItem Value="2">Department</asp:ListItem>
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Upload File<span style="color: red;"> *</span></label>
@@ -136,10 +150,7 @@
                                                 <%--<asp:TextBox runat="server" CssClass="form-control" ID="TextBox1" min="4" MaxLength="4" placeholder="Enter Form Path" autocomplete="off"></asp:TextBox>--%>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <%-- <div class ="col-md-4"></div>--%>
-                                        <div class="col-md-3 pt-3">
+                                        <div class="col-md-3" style="padding-top: 2rem! important;">
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -151,6 +162,9 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="row">
+                                        <%-- <div class ="col-md-4"></div>--%>
                                     </div>
                                 </fieldset>
                                 <fieldset>
@@ -169,12 +183,12 @@
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:BoundField DataField="CaseNo" HeaderText="Case No." HeaderStyle-HorizontalAlign="Center" />
-                                                     <asp:BoundField DataField="CaseSubject" HeaderText="Case Subject" HeaderStyle-HorizontalAlign="Center" />
+                                                    <asp:BoundField DataField="CaseSubject" HeaderText="Case Subject" HeaderStyle-HorizontalAlign="Center" />
                                                     <asp:BoundField DataField="CaseType" HeaderText="Case Type" HeaderStyle-HorizontalAlign="Center" />
                                                     <asp:BoundField DataField="PartyName" HeaderText="Petitioner Name" HeaderStyle-HorizontalAlign="Center" />
                                                     <asp:BoundField DataField="RespondentName" HeaderText="Respondent Name" HeaderStyle-HorizontalAlign="Center" />
                                                     <asp:BoundField DataField="RelatedOffice" HeaderText="Related Office" HeaderStyle-HorizontalAlign="Center" />
-                                                    <%--<asp:BoundField DataField="DecisionDate" HeaderText="Decision Date" HeaderStyle-HorizontalAlign="Center" DataFormatString="{0:dd/MM/yyyy}" />--%>
+                                                    <asp:BoundField DataField="Case_Infavourof" HeaderText="Decision in Favour of" HeaderStyle-HorizontalAlign="Center"  />
                                                     <asp:TemplateField HeaderText="Decision Date">
                                                         <ItemTemplate>
                                                             <%# Convert.ToDateTime(Eval("DecisionDate")).ToString("dd/MM/yyyy") %>

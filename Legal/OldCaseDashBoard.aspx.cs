@@ -23,8 +23,13 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
                     BIndWACaseCount();
                     //UpComingHearing();
                     CourtTypeCase();
+                    CourtTypeCase1();
+                    CourtTypeCase2();
+                    CourtTypeCase3();
                     BindCaseTypeCount();
                     CourtWiseContemptCases();
+                  
+                   
                 }
             }
             else
@@ -45,16 +50,53 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
         DataSet dsCasecount = new DataSet();
         dsCasecount = objdb.ByProcedure("Sp_OldCasesDashboard", new string[] { }, new string[] { }, "dataset");
         string str = "";
-        str += "<table border='1' style='text-align:center;width:500px;height:573px;color:darkcyan;font-size:18px;'><tr style='background-color: #fff;'><td style='font-weight:bold;color: black;'>Case Type</td><td style='font-weight:bold;color: black;'>Pending Cases Since 2000</td></tr>";
+
+        str += "<table border='1' style='text-align:center;color:darkcyan;font-size:18px;height:573px;width:100%;'><tr style='background-color: #fff;'><td style='font-weight:bold;color: black;width: 87px;'>Case Type</td><td style='font-weight:bold;color: black;word-wrap: break-word'>Pending Cases Since 2000</td></tr>";
         int tCount = 0;
+        int tCount1 = 0;
+        DataSet dsCasecount2 = new DataSet();
+        dsCasecount2 = objdb.ByProcedure("Sp_OrderByDirectionPendingCasesDashboard", new string[] { }, new string[] { }, "dataset");
+
         for (int i = 0; i < dsCasecount.Tables[1].Rows.Count; i++)
         {
             tCount += Convert.ToInt32(dsCasecount.Tables[1].Rows[i]["CaseTypeWisePendingCases"]);
-            str += "<tr><td style='font-weight:bold;'>" + dsCasecount.Tables[1].Rows[i]["CaseType"].ToString() + "</td><td style='font-size: 22px;'><a href=\"Pending_Case_Since_2000.aspx?CaseType=" + dsCasecount.Tables[1].Rows[i]["CaseType"].ToString() + "\" target='_blank'>" + dsCasecount.Tables[1].Rows[i]["CaseTypeWisePendingCases"].ToString() + "</a></td></tr>";
+            str += "<tr><td style='font-weight:bold;'>" + dsCasecount.Tables[1].Rows[i]["CaseType"].ToString() + "</td><td style='font-size: 22px;'><a href=\"Pending_Case_Since_2000.aspx?CaseType=" + dsCasecount.Tables[1].Rows[i]["CaseType"].ToString() + "\" target='_blank'>" + dsCasecount.Tables[1].Rows[i]["CaseTypeWisePendingCases"].ToString() + "</a></td>";
+            str += "</tr> ";
         }
-        str += " </table>";
-        CasetypeCountID.InnerHtml = str;
-        CasetypeCountno.InnerHtml = tCount.ToString();
+        str += "</table>";
+        lblCasetypeCountno.Text = "(PENDING CASES : " + tCount.ToString() + " No's)";
+        CasetypeCountID1.InnerHtml = str;
+        string str2 = "";
+        str2 += "<table border='1' style='text-align:center;height:573px;color:darkcyan;font-size:18px;width:100%;'><tr style='background-color: #fff;width:100%;'><td rowspan='2' style='font-weight:bold;color: black;width: 87px;'>Case Type</td><td rowspan='2' style='font-weight:bold;color: black;word-wrap: break-word'>Close Cases Since 2018</td><td rowspan='2' style='font-weight:bold;color: black;'>Order By Direction</td><td colspan='7' style='font-weight:bold;color: black;'>Complainces Status</td></tr><tr style='background-color: #fff;'><td colspan='3' style='font-weight:bold;color: black;'>Yes</td><td colspan='3' style='font-weight:bold;color: black;'>No</td><td colspan='3' style='font-weight:bold;color: black;'>Pending</td></tr>";
+        for (int i = 0; i < dsCasecount2.Tables[0].Rows.Count; i++)
+        {
+
+            tCount1 += Convert.ToInt32(dsCasecount2.Tables[0].Rows[i]["IsOrderByDirectionCount"].ToString());
+            str2 += "<tr><td style='font-weight:bold;'>" + dsCasecount2.Tables[0].Rows[i]["CaseType"].ToString() + "</td><td style='font-size: 22px;'><a href=\"Order_By_Direction_Pending_Cases.aspx?CaseType=" + dsCasecount2.Tables[0].Rows[i]["CaseType"].ToString() + "\" target='_blank'>" + dsCasecount2.Tables[0].Rows[i]["DisposeOfCaseSince2018"].ToString() + "</a></td>";
+           // if (Convert.ToInt32(dsCasecount2.Tables[0].Rows[i]["IsOrderByDirectionCount"]) > 0)
+                str2 += "<td style='width: 52px;'><a href=\"Order_By_Direction_Count_Cases.aspx?CaseType=" + dsCasecount2.Tables[0].Rows[i]["CaseType"].ToString() + "\" target='_blank'>" + dsCasecount2.Tables[0].Rows[i]["IsOrderByDirectionCount"].ToString() + "</a></td>";
+          //  else
+               // str2 += "<td style='width: 52px;'>" + dsCasecount2.Tables[0].Rows[i]["IsOrderByDirectionCount"].ToString() + "</td>";
+
+         //   if (Convert.ToInt32(dsCasecount2.Tables[0].Rows[i]["YesCount"]) > 0)
+                str2 += "<td colspan='3'><a href=\"Order_By_Direction_Count_IsComplainceYes.aspx?CaseType=" + dsCasecount2.Tables[0].Rows[i]["CaseType"].ToString() + "\" target='_blank'>" + dsCasecount2.Tables[0].Rows[i]["YesCount"].ToString() + "</a></td>";
+          //  else
+           //     str2 += "<td  style='width: 52px;'>" + dsCasecount2.Tables[0].Rows[i]["YesCount"].ToString() + "</td>";
+
+         //   if (Convert.ToInt32(dsCasecount2.Tables[0].Rows[i]["NOCounts"]) > 0)
+                str2 += "<td colspan='3'><a href=\"Order_By_Direction_Count_IsComplainceNo.aspx?CaseType=" + dsCasecount2.Tables[0].Rows[i]["CaseType"].ToString() + "\" target='_blank'>" + dsCasecount2.Tables[0].Rows[i]["NOCounts"].ToString() + "</a></td>";
+          //  else
+          //      str2 += "<td  style='width: 52px;'>" + dsCasecount2.Tables[0].Rows[i]["NOCounts"].ToString() + "</td>";
+          //  if (Convert.ToInt32(dsCasecount2.Tables[0].Rows[i]["PendingCounts"]) > 0)
+                str2 += "<td colspan='3'><a href=\"Order_By_Direction_Count_IsComplaincePending.aspx?CaseType=" + dsCasecount2.Tables[0].Rows[i]["CaseType"].ToString() + "\" target='_blank'>" + dsCasecount2.Tables[0].Rows[i]["PendingCounts"].ToString() + "</a></td>";
+          //  else
+          //      str2 += "<td>" + dsCasecount2.Tables[0].Rows[i]["PendingCounts"].ToString() + "</td>";
+
+            str2 += "</tr> ";
+        }
+        str2 += " </table>";
+        CasetypeCountID2.InnerHtml =  str2;
+        lblOrderByDirectionalCases.Text = "(CASES : " + tCount1.ToString() + " No's)";
         #region
         //try
         //{
@@ -88,7 +130,7 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
         //    SbCount.Append("bottom: 12");
         //    SbCount.Append("},");
         //    SbCount.Append(" height: 250,");
-        //  //  SbCount.Append(" 'is3D': false,pieHole: 0.03,pieSliceTextStyle: {bold:true,fontSize: 12}, "); // Piehole using For Create Circle Into Center.
+        //  //  SbCount.Append(" 'is3D': true,pieHole: 0.03,pieSliceTextStyle: {bold:true,fontSize: 12}, "); // Piehole using For Create Circle Into Center.
         //    SbCount.Append(" 'is3D': true,pieSliceTextStyle: {bold:true,fontSize: 12}, ");
         //    SbCount.Append("legend: {");
         //    SbCount.Append("position: 'labeled',");
@@ -119,6 +161,7 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
         //}
         #endregion
     }
+
     protected void CourtTypeCase()
     {
         try
@@ -141,7 +184,7 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
                 CaseCount = CaseCount + Convert.ToInt32(dsCase.Tables[0].Rows[i]["CourtWisePendingCases"]);
                 Sb.Append(" ['" + dsCase.Tables[0].Rows[i]["court"].ToString() + "', " + dsCase.Tables[0].Rows[i]["CourtWisePendingCases"].ToString() + " ],");
             }
-            lblCaseCount.Text = "(TOTAL PENDING CASES " + CaseCount.ToString() + " No's)";
+            lblCaseCount.Text = "(PENDING CASES " + CaseCount.ToString() + " No's)";
             Sb.Append("]);");
             Sb.Append("var options = {");
             Sb.Append(" 'title':  'COURT WISE CASE No.',");
@@ -151,12 +194,12 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
             Sb.Append("width: '100%',");
             Sb.Append("top: 12,");
             Sb.Append("left: 12,");
-            Sb.Append("right: 12,");
+            Sb.Append("right:12,");
             Sb.Append("bottom: 12");
             Sb.Append("},");
             Sb.Append(" height: 250,");
-            //Sb.Append(" 'is3D': false, pieHole: 0.03, pieSliceTextStyle: {fontSize: 12,bold:true },");// Piehole using For Create Circle Into Center.
-            Sb.Append(" 'is3D': false, pieSliceTextStyle: {fontSize: 12,bold:true },");
+            //Sb.Append(" 'is3D': true, pieHole: 0.03, pieSliceTextStyle: {fontSize: 12,bold:true },");// Piehole using For Create Circle Into Center.
+            Sb.Append(" 'is3D': true, pieSliceTextStyle: {fontSize: 12,bold:true },");
             Sb.Append("legend: {");
             Sb.Append("position: 'labeled',");
             Sb.Append("textStyle: {");
@@ -182,6 +225,202 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
         }
 
     }
+
+    protected void CourtTypeCase1()
+    {
+        try
+        {
+            int CaseCount1 = 0;
+            DataSet dsCase = new DataSet();
+           // dsCase = objdb.ByDataSet("Select Court,COUNT(distinct UniqueNo) OrderBydirectCourtWiseCount from tbl_OrderByDirectionPendingCase where IsOrderByDirection='Yes' group by Court");
+            dsCase = objdb.ByProcedure("USP_GetOrderByDirCount", new string[] { }, new string[] { }, "dataset");
+            StringBuilder Sb1 = new StringBuilder();
+            Sb1.Append("<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>");
+            Sb1.Append("<script type='text/javascript'>");
+            Sb1.Append(" google.charts.load(");
+            Sb1.Append("'current', { 'packages': ['corechart'] });");
+            Sb1.Append("google.charts.setOnLoadCallback(drawChart);");
+            Sb1.Append("function drawChart()");
+            Sb1.Append("{");
+            Sb1.Append("var data = google.visualization.arrayToDataTable([");
+            Sb1.Append(" ['CourtN', 'CaseNo.'],");
+            for (int i = 0; i < dsCase.Tables[0].Rows.Count; i++)
+            {
+                CaseCount1 = CaseCount1 + Convert.ToInt32(dsCase.Tables[0].Rows[i]["OrderBydirectCourtWiseCount"]);
+                Sb1.Append(" ['" + dsCase.Tables[0].Rows[i]["Court"].ToString() + "', " + dsCase.Tables[0].Rows[i]["OrderBydirectCourtWiseCount"].ToString() + " ],");
+            }
+            lblCaseCount1.Text = "(CASES " + CaseCount1.ToString() + " No's)";
+            Sb1.Append("]);");
+            Sb1.Append("var options = {");
+            Sb1.Append(" 'title':  'COURT WISE CASE No.',");
+            //Sb.Append("colors: ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],"); // Using To Apply Chart Colors .
+            Sb1.Append("chartArea: {");
+            Sb1.Append("height: '100%',");
+            Sb1.Append("width: '100%',");
+            Sb1.Append("top: 12,");
+            Sb1.Append("left: 12,");
+            Sb1.Append("right: 12,");
+            Sb1.Append("bottom: 12");
+            Sb1.Append("},");
+            Sb1.Append(" height: 250,");
+            //Sb.Append(" 'is3D': true, pieHole: 0.03, pieSliceTextStyle: {fontSize: 12,bold:true },");// Piehole using For Create Circle Into Center.
+            Sb1.Append(" 'is3D': true, pieSliceTextStyle: {fontSize: 12,bold:true },");
+            Sb1.Append("legend: {");
+            Sb1.Append("position: 'labeled',");
+            Sb1.Append("textStyle: {");
+            Sb1.Append("fontSize: 13, bold:true");
+            Sb1.Append("}, ");
+            Sb1.Append("labeledValueText: 'none'"); // thise line For Remove Percentage From Legend
+            Sb1.Append("},");
+            Sb1.Append("pieSliceText: 'value',"); // thise line For Show value in Chart
+            Sb1.Append("tooltip: {");
+            Sb1.Append(" text: 'value'"); // thise line For Remove Percentage From tooltip
+            Sb1.Append(" }");
+            Sb1.Append("};");
+            Sb1.Append("var chart = new google.visualization.PieChart(document.getElementById('piechartOrderBydirect'));");
+            Sb1.Append("chart.draw(data, options);");
+            Sb1.Append("}");
+            Sb1.Append("</script>");
+            Sb1.Append("<div id='piechartOrderBydirect' style='width:500px;'></div>");
+            sbid1.InnerHtml = Sb1.ToString();
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
+        }
+
+    }
+
+    protected void CourtTypeCase2()
+    {
+        try
+        {
+            int CaseCount1 = 0;
+            DataSet dsCase = new DataSet();
+            //dsCase = objdb.ByDataSet("Select isNULL((select b.CaseSubject CaseSubject from tbl_LegalMstCaseSubject b where b.CaseSubjectID=a.CaseSubjectId),'Subject Not Applied') CaseSubject," +
+            //    "COUNT(distinct UniqueNo) CaseSubjectWiseCount from tbl_OldCaseDetail a  group by a.CaseSubjectId");
+            dsCase = objdb.ByProcedure("USP_GetSubjectwiseCount", new string[] { }, new string[] { }, "dataset");
+            StringBuilder Sb1 = new StringBuilder();
+            Sb1.Append("<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>");
+            Sb1.Append("<script type='text/javascript'>");
+            Sb1.Append(" google.charts.load(");
+            Sb1.Append("'current', { 'packages': ['corechart'] });");
+            Sb1.Append("google.charts.setOnLoadCallback(drawChart);");
+            Sb1.Append("function drawChart()");
+            Sb1.Append("{");
+            Sb1.Append("var data = google.visualization.arrayToDataTable([");
+            Sb1.Append(" ['CourtN', 'CaseNo.'],");
+            for (int i = 0; i < dsCase.Tables[0].Rows.Count; i++)
+            {
+                CaseCount1 = CaseCount1 + Convert.ToInt32(dsCase.Tables[0].Rows[i]["CaseSubjectWiseCount"]);
+                Sb1.Append(" ['" + dsCase.Tables[0].Rows[i]["CaseSubject"].ToString() + "', " + dsCase.Tables[0].Rows[i]["CaseSubjectWiseCount"].ToString() + " ],");
+            }
+            lblCaseCount2.Text = "(PENDING CASES " + CaseCount1.ToString() + " No's)";
+            Sb1.Append("]);");
+            Sb1.Append("var options = {");
+            Sb1.Append(" 'title':  'COURT WISE CASE No.',");
+            //Sb.Append("colors: ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],"); // Using To Apply Chart Colors .
+            Sb1.Append("chartArea: {");
+            Sb1.Append("height: '100%',");
+            Sb1.Append("width: '100%',");
+            Sb1.Append("top: 12,");
+            Sb1.Append("left: 12,");
+            Sb1.Append("right: 12,");
+            Sb1.Append("bottom: 12");
+            Sb1.Append("},");
+            Sb1.Append(" height: 250,");
+            //Sb.Append(" 'is3D': true, pieHole: 0.03, pieSliceTextStyle: {fontSize: 12,bold:true },");// Piehole using For Create Circle Into Center.
+            Sb1.Append(" 'is3D': true, pieSliceTextStyle: {fontSize: 12,bold:true },");
+            Sb1.Append("legend: {");
+            Sb1.Append("position: 'labeled',");
+            Sb1.Append("textStyle: {");
+            Sb1.Append("fontSize: 13, bold:true");
+            Sb1.Append("}, ");
+            Sb1.Append("labeledValueText: 'none'"); // thise line For Remove Percentage From Legend
+            Sb1.Append("},");
+            Sb1.Append("pieSliceText: 'value',"); // thise line For Show value in Chart
+            Sb1.Append("tooltip: {");
+            Sb1.Append(" text: 'value'"); // thise line For Remove Percentage From tooltip
+            Sb1.Append(" }");
+            Sb1.Append("};");
+            Sb1.Append("var chart = new google.visualization.PieChart(document.getElementById('piechartCaseSubjectWiseCount'));");
+            Sb1.Append("chart.draw(data, options);");
+            Sb1.Append("}");
+            Sb1.Append("</script>");
+            Sb1.Append("<div id='piechartCaseSubjectWiseCount' style='width:500px;'></div>");
+            sbid2.InnerHtml = Sb1.ToString();
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
+        }
+
+    }
+
+    protected void CourtTypeCase3()
+    {
+        try
+        {
+            int CaseCount1 = 0;
+            DataSet dsCase = new DataSet();
+            dsCase = objdb.ByDataSet("Select ISNULL(IsComplaince,'Not Defined') IsComplaince,COUNT(distinct UniqueNo ) OrderBydirectComplaincesStatus from tbl_OrderByDirectionPendingCase where IsOrderByDirection='Yes' group by IsComplaince");
+            StringBuilder Sb1 = new StringBuilder();
+            Sb1.Append("<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>");
+            Sb1.Append("<script type='text/javascript'>");
+            Sb1.Append(" google.charts.load(");
+            Sb1.Append("'current', { 'packages': ['corechart'] });");
+            Sb1.Append("google.charts.setOnLoadCallback(drawChart);");
+            Sb1.Append("function drawChart()");
+            Sb1.Append("{");
+            Sb1.Append("var data = google.visualization.arrayToDataTable([");
+            Sb1.Append(" ['CourtN', 'CaseNo.'],");
+            for (int i = 0; i < dsCase.Tables[0].Rows.Count; i++)
+            {
+                CaseCount1 = CaseCount1 + Convert.ToInt32(dsCase.Tables[0].Rows[i]["OrderBydirectComplaincesStatus"]);
+                Sb1.Append(" ['" + dsCase.Tables[0].Rows[i]["IsComplaince"].ToString() + "', " + dsCase.Tables[0].Rows[i]["OrderBydirectComplaincesStatus"].ToString() + " ],");
+            }
+            lblCaseCount3.Text = "(CASES " + CaseCount1.ToString() + " No's)";
+            Sb1.Append("]);");
+            Sb1.Append("var options = {");
+            Sb1.Append(" 'title':  'COURT WISE CASE No.',");
+            //Sb.Append("colors: ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],"); // Using To Apply Chart Colors .
+            Sb1.Append("chartArea: {");
+            Sb1.Append("height: '100%',");
+            Sb1.Append("width: '100%',");
+            Sb1.Append("top: 12,");
+            Sb1.Append("left: 12,");
+            Sb1.Append("right: 12,");
+            Sb1.Append("bottom: 12");
+            Sb1.Append("},");
+            Sb1.Append(" height: 250,");
+            //Sb.Append(" 'is3D': true, pieHole: 0.03, pieSliceTextStyle: {fontSize: 12,bold:true },");// Piehole using For Create Circle Into Center.
+            Sb1.Append(" 'is3D': true, pieSliceTextStyle: {fontSize: 12,bold:true },");
+            Sb1.Append("legend: {");
+            Sb1.Append("position: 'labeled',");
+            Sb1.Append("textStyle: {");
+            Sb1.Append("fontSize: 13, bold:true");
+            Sb1.Append("}, ");
+            Sb1.Append("labeledValueText: 'none'"); // thise line For Remove Percentage From Legend
+            Sb1.Append("},");
+            Sb1.Append("pieSliceText: 'value',"); // thise line For Show value in Chart
+            Sb1.Append("tooltip: {");
+            Sb1.Append(" text: 'value'"); // thise line For Remove Percentage From tooltip
+            Sb1.Append(" }");
+            Sb1.Append("};");
+            Sb1.Append("var chart = new google.visualization.PieChart(document.getElementById('piechartIsCompalinceStatus'));");
+            Sb1.Append("chart.draw(data, options);");
+            Sb1.Append("}");
+            Sb1.Append("</script>");
+            Sb1.Append("<div id='piechartIsCompalinceStatus' style='width:500px;'></div>");
+            sbid3.InnerHtml = Sb1.ToString();
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
+        }
+
+    }
+
     protected void CourtWiseContemptCases()
     {
         try
@@ -204,7 +443,7 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
                 CaseCountCC = CaseCountCC + Convert.ToInt32(dsCase.Tables[3].Rows[i]["CourtWisePendingContemptCases"]);
                 Sb.Append(" ['" + dsCase.Tables[3].Rows[i]["court"].ToString() + "', " + dsCase.Tables[3].Rows[i]["CourtWisePendingContemptCases"].ToString() + " ],");
             }
-            lblConcCount.Text = "(TOTAL " + CaseCountCC.ToString() + " No's)";
+            lblConcCount.Text = "(" + CaseCountCC.ToString() + " No's)";
             Sb.Append("]);");
             Sb.Append("var options = {");
             Sb.Append(" 'title':  'COURT WISE CASE No.',");
@@ -218,8 +457,8 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
             Sb.Append("bottom: 12");
             Sb.Append("},");
             Sb.Append(" height: 250,");
-            //Sb.Append(" 'is3D': false, pieHole: 0.03, pieSliceTextStyle: {fontSize: 12,bold:true },");// Piehole using For Create Circle Into Center.
-            Sb.Append(" 'is3D': false, pieSliceTextStyle: {fontSize: 12,bold:true },");
+            //Sb.Append(" 'is3D': true, pieHole: 0.03, pieSliceTextStyle: {fontSize: 12,bold:true },");// Piehole using For Create Circle Into Center.
+            Sb.Append(" 'is3D': true, pieSliceTextStyle: {fontSize: 12,bold:true },");
             Sb.Append("legend: {");
             Sb.Append("position: 'labeled',");
             Sb.Append("textStyle: {");
@@ -265,7 +504,7 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
                 }
 
             }
-           // spnHearing.InnerHtml = Marquee;
+            // spnHearing.InnerHtml = Marquee;
         }
     }
 
@@ -330,21 +569,28 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
         }
     }
 
-            
+
     protected void btnHighPriorityCase_Click(object sender, EventArgs e)
     {
         try
         {
             if (Page.IsValid)
             {
-                //GrdHighpriorityCase.DataSource = null;
-                //GrdHighpriorityCase.DataBind();
-                ds = objdb.ByProcedure("USP_Legal_GetHighPriorityCase", new string[] { }, new string[] { }, "dataset");
+                // thise is old Query
+                //ds = objdb.ByDataSet("select distinct UniqueNo, FilingNo, Court, Petitioner, Respondent, HearingDate,(Select CaseSubject from tbl_LegalMstCaseSubject b where b.CaseSubjectID = a.CaseSubjectId) CaseSubject,(select OICName from tblOICMaster c where c.OICMaster_ID = a.OICId) OICName from tbl_OldCaseDetail a where a.CaseType = 'CONC'");
+                //This is New Query
+                ds = objdb.ByProcedure("USP_GetHighPriCase_ForOldDashb", new string[]{}, new string[]{},"dataset");
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
-                    //GrdHighpriorityCase.DataSource = ds;
-                    //GrdHighpriorityCase.DataBind();
+                    ViewState["dt"] = ds.Tables[0];
+                    GrdHighpriorityCase.DataSource = ds;
+                    GrdHighpriorityCase.DataBind();
                     Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "myModal()", true);
+                }
+                else
+                {
+                    GrdHighpriorityCase.DataSource = null;
+                    GrdHighpriorityCase.DataBind();
                 }
             }
         }
@@ -352,5 +598,21 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
         {
             lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
+    }
+
+    protected void GrdHighpriorityCase_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GrdHighpriorityCase.PageIndex = e.NewPageIndex;
+        DataTable dt = (DataTable)ViewState["dt"];
+        GrdHighpriorityCase.DataSource = dt;
+        GrdHighpriorityCase.DataBind();
+
+    }
+
+
+
+    protected void btnOrderByDirectionPendingCases_Click(object sender, EventArgs e)
+    {
+
     }
 }

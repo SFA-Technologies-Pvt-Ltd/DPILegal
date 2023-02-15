@@ -48,6 +48,26 @@
                         <fieldset>
                             <legend>Enter Details</legend>
                             <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Office Type</label><span style="color: red;"><b> *</b></span>
+                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="Save"
+                                            ErrorMessage="Select Office Type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="ddlOfficetype" Display="Dynamic" runat="server" InitialValue="0">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:DropDownList ID="ddlOfficetype" runat="server" CssClass="form-control" OnSelectedIndexChanged="ddlOfficetype_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Office Name</label><span style="color: red;"><b> *</b></span>
+                                         <asp:RequiredFieldValidator ID="rfvOfficeName" ValidationGroup="Save"
+                                            ErrorMessage="Select Office Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="ddlOfficeName" Display="Dynamic" runat="server" InitialValue="0">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:DropDownList ID="ddlOfficeName" runat="server" CssClass="form-control"></asp:DropDownList>
+                                    </div>
+                                </div>
                                 <div class="col-md-3 col-sm">
                                     <div class="form-group">
                                         <label>
@@ -56,7 +76,7 @@
                                             ErrorMessage="Enter Authority Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="txtAuthorityName" Display="Dynamic" runat="server">
                                         </asp:RequiredFieldValidator>
-                                        <asp:TextBox ID="txtAuthorityName" runat="server" onkeyup="javascript:capFirst(this);" onkeypress="return chcode();" CssClass="form-control" AutoComplete="off" MaxLength="80"></asp:TextBox>
+                                        <asp:TextBox ID="txtAuthorityName" runat="server" onkeyup="javascript:capFirst(this);" onkeypress="return lettersOnly();" CssClass="form-control" AutoComplete="off" placeholder="Enter Authority Name" MaxLength="80"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-sm">
@@ -70,10 +90,13 @@
                                         <asp:RegularExpressionValidator ID="RexNodalOfficerMobileNo" ValidationGroup="Save" runat="server" Display="Dynamic" ControlToValidate="txtMobileNo"
                                             ErrorMessage="Invalid Mobile No." SetFocusOnError="true"
                                             ForeColor="Red" ValidationExpression="^([6-9]{1}[0-9]{9})$"></asp:RegularExpressionValidator>
-                                        <asp:TextBox ID="txtMobileNo" runat="server" CssClass="form-control" onkeypress="return NumberOnly();" AutoComplete="off" MaxLength="10"></asp:TextBox>
+                                        <asp:TextBox ID="txtMobileNo" runat="server" CssClass="form-control" onkeypress="return NumberOnly();" placeholder="Enter Mobile No." AutoComplete="off" MaxLength="10"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-sm">
+                             
+                            </div>
+                            <div class="row">
+                                   <div class="col-md-3 col-sm">
                                     <div class="form-group">
                                         <label>
                                             Email-ID<span style="color: red;"><b> *</b></span></label>
@@ -84,7 +107,7 @@
                                         <asp:RegularExpressionValidator ID="RevEmailID" ValidationGroup="Save" runat="server" Display="Dynamic" ControlToValidate="txtEmailID"
                                             ErrorMessage="Invalid Email Address" SetFocusOnError="true"
                                             ForeColor="Red" ValidationExpression="^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"></asp:RegularExpressionValidator>
-                                        <asp:TextBox ID="txtEmailID" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="50"></asp:TextBox>
+                                        <asp:TextBox ID="txtEmailID" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="50" placeholder="Enter Email-ID"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-sm">
@@ -98,14 +121,12 @@
                                         <asp:DropDownList ID="ddlDesignation" runat="server" CssClass="form-control"></asp:DropDownList>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>
-                                            Location<span style="color: red;"><b> *</b></span></label>
+                                         Office Location<span style="color: red;"><b> *</b></span></label>
                                         <asp:RequiredFieldValidator ID="rfvLocation" ValidationGroup="Save"
-                                            ErrorMessage="Select Location." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ErrorMessage="Select Office Location." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="ddlLocation" Display="Dynamic" runat="server" InitialValue="0">
                                         </asp:RequiredFieldValidator>
                                         <asp:DropDownList ID="ddlLocation" runat="server" CssClass="form-control"></asp:DropDownList>
@@ -114,7 +135,7 @@
                                 <div class="col-md-3 pt-4">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <asp:Button ID="btnSave" runat="server" CssClass="btn btn-primary btn-block" Text="Save" ValidationGroup="Save" OnClick="btnSave_Click" />
+                                            <asp:Button ID="btnSave" runat="server" CssClass="btn btn-primary btn-block" Text="Save" ValidationGroup="Save" OnClick="btnSave_Click" OnClientClick="return ValidatePage();"/>
                                         </div>
                                         <div class="col-md-6">
                                             <a href="ImplementationAuthorityMst.aspx" class="btn btn-default btn-block">Clear</a>
@@ -128,12 +149,24 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
-                                        <asp:GridView ID="GrdImpleAuthority" runat="server" CssClass="table table-bordered table-hover" AutoGenerateColumns="false" AllowPaging="true" OnPageIndexChanging="GrdImpleAuthority_PageIndexChanging" OnRowCommand="GrdImpleAuthority_RowCommand" PageSize="10" DataKeyNames="IAuthority_ID">
+                                        <asp:GridView ID="GrdImpleAuthority" runat="server" CssClass="table table-bordered table-hover" AutoGenerateColumns="false" AllowPaging="true" OnPageIndexChanging="GrdImpleAuthority_PageIndexChanging" OnRowCommand="GrdImpleAuthority_RowCommand" PageSize="10" DataKeyNames="IAuthority_ID" EmptyDataText="NO RECORD FOUND">
                                             <Columns>
-                                                <asp:TemplateField HeaderText="S.No.">
+                                                <asp:TemplateField HeaderText="S.No." ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblSrNo" runat="server" Text='<%# Container.DataItemIndex +1 %>'></asp:Label>
                                                         <asp:Label ID="lblID" runat="server" Text='<%# Eval("IAuthority_ID") %>' Visible="false"></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Office Type Name">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblOfficetypename" runat="server" Text='<%# Eval("OfficeType_Name") %>'></asp:Label>
+                                                        <asp:Label ID="lblOfficetypeid" runat="server" Text='<%# Eval("Officetype_Id") %>' Visible="false"></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Office Name">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblOfficeName" runat="server" Text='<%# Eval("OfficeName") %>'></asp:Label>
+                                                        <asp:Label ID="lblOfficeid" runat="server" Text='<%# Eval("Office_Id") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Name">
@@ -153,8 +186,8 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Designation">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblImpleAuthorityDesig" runat="server" Text='<%# Eval("UserType_Name") %>'></asp:Label>
-                                                         <asp:Label ID="lblImpleAuthorityDesig_ID" runat="server" Text='<%# Eval("UserType_Id") %>' Visible="false"></asp:Label>
+                                                        <asp:Label ID="lblImpleAuthorityDesig" runat="server" Text='<%# Eval("Designation_Name") %>'></asp:Label>
+                                                         <asp:Label ID="lblImpleAuthorityDesig_ID" runat="server" Text='<%# Eval("Designation_Id") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Location">
@@ -163,9 +196,9 @@
                                                         <asp:Label ID="lblImpleAuthorityLocation_ID" runat="server" Text='<%# Eval("District_Id") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Action">
+                                                <asp:TemplateField HeaderText="Action" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
-                                                        <asp:LinkButton ID="lnkbtnEdit" runat="server" CommandArgument='<%# Eval("IAuthority_ID") %>' CommandName="EditDetails" ToolTip="Edit" CssClass="btn btn-primary"><i class="fa fa-edit"></i></asp:LinkButton>
+                                                        <asp:LinkButton ID="lnkbtnEdit" runat="server" CommandArgument='<%# Eval("IAuthority_ID") %>' CommandName="EditDetails" ToolTip="Edit"><i class="fa fa-edit"></i></asp:LinkButton>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>
@@ -199,6 +232,13 @@
                 return false
             else if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 8 || charCode == 32)
                 return true
+        }
+        function lettersOnly() { // Only English Letter Allow.
+            var charCode = event.keyCode;
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 8 || charCode == 32)
+                return true;
+            else
+                return false;
         }
     </script>
     <script>

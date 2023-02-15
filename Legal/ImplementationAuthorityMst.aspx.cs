@@ -24,6 +24,7 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
                 FillDesigNation();
                 FillLocation();
                 BindGrid();
+                Officetype();
             }
         }
         else
@@ -37,14 +38,13 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
         try
         {
             ddlDesignation.Items.Clear();
-            ds = obj.ByDataSet("select UserType_Id, UserType_Name from tblLegal_UserTypeMaster");
+            ds = obj.ByDataSet("select Designation_Id, Designation_Name from tblDesignationMaster");
             if (ds != null && ds.Tables[0].Rows.Count > 0)
             {
-                ddlDesignation.DataTextField = "UserType_Name";
-                ddlDesignation.DataValueField = "UserType_Id";
+                ddlDesignation.DataValueField = "Designation_Id";
+                ddlDesignation.DataTextField = "Designation_Name";
                 ddlDesignation.DataSource = ds;
                 ddlDesignation.DataBind();
-
             }
             ddlDesignation.Items.Insert(0, new ListItem("Select", "0"));
         }
@@ -82,7 +82,7 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
     {
         try
         {
-            ds = obj.ByProcedure("USP_Legal_SelectIAuthorityMst", new string[] { }, new string[] { }, "dataset");
+            ds = obj.ByProcedure("USP_Select_ImplementAuthorityMst", new string[] { }, new string[] { }, "dataset");
             if (ds != null && ds.Tables[0].Rows.Count > 0)
             {
                 GrdImpleAuthority.DataSource = ds;
@@ -96,7 +96,29 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ex.Message.ToString());
+            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+        }
+    }
+    #endregion
+    #region Fill OfficetypeName
+    protected void Officetype()
+    {
+        try
+        {
+            ddlOfficetype.ClearSelection();
+            ds = obj.ByDataSet("select OfficeType_Id, OfficeType_Name from tblOfficeTypeMaster");
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            {
+                ddlOfficetype.DataValueField = "OfficeType_Id";
+                ddlOfficetype.DataTextField = "OfficeType_Name";
+                ddlOfficetype.DataSource = ds;
+                ddlOfficetype.DataBind();
+            }
+            ddlOfficetype.Items.Insert(0, new ListItem("Select", "0"));
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
     #endregion
@@ -109,13 +131,13 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
             {
                 if (btnSave.Text == "Save")
                 {
-                    ds = obj.ByProcedure("USP_LegalInsert_IAuthMst", new string[] { "IAuthority_Name", "IAuthority_MobileNo", "IAuthority_EmailID", "UserType_Id", "District_Id", "CreatedBy", "CreatedByIP" }
-                        , new string[] { txtAuthorityName.Text.Trim(), txtMobileNo.Text.Trim(), txtEmailID.Text.Trim(), ddlDesignation.SelectedValue, ddlLocation.SelectedValue, ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
+                    ds = obj.ByProcedure("USP_Insert_ImplementionAuthMst", new string[] { "OfficeType_Id", "Office_Id", "IAuthority_Name", "IAuthority_MobileNo", "IAuthority_EmailID", "UserType_Id", "District_Id", "CreatedBy", "CreatedByIP" }
+                        , new string[] { ddlOfficetype.SelectedValue, ddlOfficeName.SelectedValue, txtAuthorityName.Text.Trim(), txtMobileNo.Text.Trim(), txtEmailID.Text.Trim(), ddlDesignation.SelectedValue, ddlLocation.SelectedValue, ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
                 }
                 else if (btnSave.Text == "Update" && ViewState["AuthorityID"].ToString() != "" && ViewState["AuthorityID"].ToString() != null)
                 {
-                    ds = obj.ByProcedure("USP_Legal_UpdateIAuthorityMst", new string[] { "IAuthority_Name", "IAuthority_MobileNo", "IAuthority_EmailID", "UserType_Id", "District_Id", "LastUpdatedby", "LastUpdatedByIP", "IAuthority_ID" }
-                        , new string[] { txtAuthorityName.Text.Trim(), txtMobileNo.Text.Trim(), txtEmailID.Text.Trim(), ddlDesignation.SelectedValue, ddlLocation.SelectedValue, ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ViewState["AuthorityID"].ToString() }, "dataset");
+                    ds = obj.ByProcedure("USP_Update_ImplementAuthorityMst", new string[] { "OfficeType_Id", "Office_Id", "IAuthority_Name", "IAuthority_MobileNo", "IAuthority_EmailID", "UserType_Id", "District_Id", "LastUpdatedby", "LastUpdatedByIP", "IAuthority_ID" }
+                        , new string[] { ddlOfficetype.SelectedValue, ddlOfficeName.SelectedValue, txtAuthorityName.Text.Trim(), txtMobileNo.Text.Trim(), txtEmailID.Text.Trim(), ddlDesignation.SelectedValue, ddlLocation.SelectedValue, ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ViewState["AuthorityID"].ToString() }, "dataset");
                 }
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
@@ -128,6 +150,8 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
                         txtEmailID.Text = "";
                         ddlDesignation.ClearSelection();
                         ddlLocation.ClearSelection();
+                        ddlOfficeName.ClearSelection();
+                        ddlOfficetype.ClearSelection();
                     }
                     else
                     {
@@ -140,7 +164,7 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ex.Message.ToString());
+            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
     protected void GrdImpleAuthority_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -151,10 +175,9 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
             GrdImpleAuthority.PageIndex = e.NewPageIndex;
             BindGrid();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-
-            throw;
+            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
     protected void GrdImpleAuthority_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -171,6 +194,8 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
                 Label lblEmailID = (Label)row.FindControl("lblImpleAuthorityEmailID");
                 Label lblDesignationID = (Label)row.FindControl("lblImpleAuthorityDesig_ID");
                 Label lblLocationID = (Label)row.FindControl("lblImpleAuthorityLocation_ID");
+                Label lblOfficetypeid = (Label)row.FindControl("lblOfficetypeid");
+                Label lblOfficeid = (Label)row.FindControl("lblOfficeid");
 
                 txtAuthorityName.Text = lblName.Text;
                 txtEmailID.Text = lblEmailID.Text;
@@ -180,13 +205,41 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
                 ddlLocation.ClearSelection();
                 ddlLocation.Items.FindByValue(lblLocationID.Text).Selected = true;
                 btnSave.Text = "Update";
-                ViewState["AuthorityID"] = e.CommandArgument;
+                ViewState["AuthorityID"] = e.CommandArgument; // 
+
+                ddlOfficetype.ClearSelection();
+                ddlOfficetype.Items.FindByValue(lblOfficetypeid.Text).Selected = true;
+                ddlOfficetype_SelectedIndexChanged(sender, e);
+                ddlOfficeName.ClearSelection();
+                ddlOfficeName.Items.FindByValue(lblOfficeid.Text).Selected = true;
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
 
-            throw;
+        }
+    }
+    protected void ddlOfficetype_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            lblMsg.Text = "";
+            ddlOfficeName.Items.Clear();
+            ds = obj.ByProcedure("USP_legal_select_OfficeName", new string[] { "OfficeType_Id" }
+                , new string[] { ddlOfficetype.SelectedValue }, "dataset");
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            {
+                ddlOfficeName.DataValueField = "Office_Id";
+                ddlOfficeName.DataTextField = "OfficeName";
+                ddlOfficeName.DataSource = ds;
+                ddlOfficeName.DataBind();
+            }
+            ddlOfficeName.Items.Insert(0, new ListItem("Select", "0"));
+
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
 }

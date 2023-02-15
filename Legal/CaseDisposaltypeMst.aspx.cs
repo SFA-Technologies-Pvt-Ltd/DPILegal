@@ -64,22 +64,61 @@ public partial class Legal_CaseDisposaltypeMst : System.Web.UI.Page
                 {
                     ds = obj.ByProcedure("USP_Legal_InsertCaseDispose", new string[] { "CaseDisposeType", "CreatedBy", "CreatedByIP" },
                         new string[] { txtDisposaltype.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
-                    if (ds != null && ds.Tables[0].Rows.Count > 0)
-                    {
-                        string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
-                        if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
-                        {
-                            lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
-                        }
-                        else
-                        {
-                            lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ErrMsg);
-                        }
-                    }
-                    BindGrid();
-                    btnSave.Text = "Save";
                 }
+                else if (btnSave.Text == "Update" && ViewState["DesignationID"].ToString() != "" && ViewState["DesignationID"].ToString() != null)
+                {
+                    ds = obj.ByProcedure("USP_legal_UpdateCaseDisposetyp", new string[] { "CaseDisposeType", "LastUpdatedBy", "LastUpdatedByIP", "CaseDisposeType_Id" },
+                    new string[] { txtDisposaltype.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ViewState["DesignationID"].ToString() }, "dataset");
+                }
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
+                {
+                    string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
+                    if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
+                    {
+                        lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
+                    }
+                    else
+                    {
+                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ErrMsg);
+                    }
+                }
+                BindGrid();
+                btnSave.Text = "Save";
+
             }
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ex.Message.ToString());
+        }
+    }
+    protected void GrdCaseDipose_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName == "EditDetails")
+            {
+                lblMsg.Text = "";
+                ViewState["DesignationID"] = "";
+                GridViewRow row = (GridViewRow)((LinkButton)e.CommandSource).NamingContainer;
+                Label lblDisposetype = (Label)row.FindControl("lblDisposetype");
+                txtDisposaltype.Text = lblDisposetype.Text;
+                ViewState["DesignationID"] = e.CommandArgument;
+                btnSave.Text = "Update";
+            }
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ex.Message.ToString());
+        }
+    }
+    protected void GrdCaseDipose_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            lblMsg.Text = "";
+            GrdCaseDipose.PageIndex = e.NewPageIndex;
+            BindGrid();
         }
         catch (Exception ex)
         {

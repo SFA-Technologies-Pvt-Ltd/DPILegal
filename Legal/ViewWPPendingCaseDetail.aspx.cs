@@ -44,7 +44,7 @@ public partial class Legal_ViewWPPendingCaseDetail : System.Web.UI.Page
             GrdHearingDtl.DataSource = null;
             GrdHearingDtl.DataBind();
 
-            ds = obj.ByProcedure("USP_Legal_ViewCaseDetail", new string[] { "Case_ID" }
+            ds = obj.ByProcedure("USP_ViewWPPendingCaseFullDtlRpt", new string[] { "Case_ID" }
                 , new string[] { ViewState["CaseID"].ToString() }, "dataset");
             if (ds != null && ds.Tables[0].Rows.Count > 0)
             {

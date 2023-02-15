@@ -11,16 +11,18 @@ using System.Web.UI.WebControls;
 public partial class Legal_LibraryMaster : System.Web.UI.Page
 {
     DataSet ds = null;
-    AbstApiDBApi objdb = new APIProcedure();
+    APIProcedure objdb = new APIProcedure();
     CultureInfo cult = new CultureInfo("gu-IN");
     protected void Page_Load(object sender, EventArgs e)
     {
         try
         {
-            if (Session["Emp_Id"] != null)
+            if (Session["Emp_Id"] != null && Session["Office_Id"] != null)
             {
                 if (!IsPostBack)
                 {
+                    ViewState["Emp_Id"] = Session["Emp_Id"].ToString();
+                    ViewState["Office_Id"] = Session["Office_Id"].ToString();
                     BindGridLibrary();
                     GetCaseSubject();
                     lblMsg.Text = "";
@@ -97,8 +99,8 @@ public partial class Legal_LibraryMaster : System.Web.UI.Page
             }
             if (FU1.HasFile)
             {
-                ds = objdb.ByProcedure("Sp_librarydetail", new string[] { "flag", "CaseType", "PartyName", "CaseNo", "RelatedOffice", "DecisionDate", "Case_Year", "PDFViewLink", "RespondentName", "CaseSubjectId" }, new string[] {
-                        "1",txtCasetype.Text,txtPartyName.Text,txtCaseNo.Text,txtRelatedOffice.Text, Convert.ToDateTime(txtDecisionDate.Text, cult).ToString("yyyy/MM/dd"),txtCaseYear.Text,"../PDF_Files/"+fileName, txtrespondentName.Text.Trim(),ddlCaseSubject.SelectedItem.Value}, "dataset");
+                ds = objdb.ByProcedure("Sp_librarydetail", new string[] { "flag", "CaseType", "PartyName", "CaseNo", "RelatedOffice", "DecisionDate", "Case_Year", "PDFViewLink", "RespondentName", "CaseSubjectId", "Case_Infavourof", "CreatedBy", "CreatedByIP" }, new string[] {
+                        "1",txtCasetype.Text,txtPartyName.Text,txtCaseNo.Text,txtRelatedOffice.Text, Convert.ToDateTime(txtDecisionDate.Text, cult).ToString("yyyy/MM/dd"),txtCaseYear.Text,"../PDF_Files/"+fileName, txtrespondentName.Text.Trim(),ddlCaseSubject.SelectedItem.Value, ddlDecisionFavourin.SelectedItem.Text.Trim(),ViewState["Emp_Id"].ToString(), objdb.GetLocalIPAddress()}, "dataset");
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
                     string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
@@ -113,12 +115,14 @@ public partial class Legal_LibraryMaster : System.Web.UI.Page
                         txtPartyName.Text = "";
                         txtRelatedOffice.Text = "";
                         txtrespondentName.Text = "";
+                        ddlDecisionFavourin.ClearSelection();
+                        BindGridLibrary();
+                        btnSave.Text = "Save";
                     }
                 }
 
             }
-            BindGridLibrary();
-            btnSave.Text = "Save";
+
         }
         catch (Exception ex)
         {
@@ -126,5 +130,5 @@ public partial class Legal_LibraryMaster : System.Web.UI.Page
         }
     }
 
-   
+
 }

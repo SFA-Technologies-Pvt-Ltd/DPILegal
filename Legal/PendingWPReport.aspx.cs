@@ -37,7 +37,7 @@ public partial class mis_Legal_PendingWPReport : System.Web.UI.Page
                 GrdPendingReport.DataSource = null;
                 GrdPendingReport.DataBind();
 
-                ds = obj.ByProcedure("USP_Legal_Get_WPPendingRpt", new string[] { "Fromdate", "Todate" }
+                ds = obj.ByProcedure("USP_GetWPPendingRpt", new string[] { "Fromdate", "Todate" }
                     , new string[] { Convert.ToDateTime(txtFromdate.Text, cult).ToString("yyyy/MM/dd"), Convert.ToDateTime(txtTodate.Text, cult).ToString("yyyy/MM/dd") }, "dataset");
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
