@@ -64,18 +64,6 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label>Case Subject Code<span style="color: red;"> *</span></label>
-                                                <span class="pull-right">
-                                                    <asp:RequiredFieldValidator ID="Rfv2" ValidationGroup="Save"
-                                                        ErrorMessage="Enter Case Subject Code" Text="<i class='fa fa-exclamation-circle' title='Enter Case Subject Code'></i>"
-                                                        ControlToValidate="txtCaseSubjectCode" ForeColor="Red" Display="Dynamic" runat="server">
-                                                    </asp:RequiredFieldValidator>
-                                                </span>
-                                                <asp:TextBox runat="server" CssClass="form-control" ID="txtCaseSubjectCode" placeholder="Enter Case Subject Code" autocomplete="off"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
                                                 <label>Case Subject<span style="color: red;"> *</span></label>
                                                 <span class="pull-right">
                                                     <asp:RequiredFieldValidator ID="rfv1" ValidationGroup="Save"
@@ -89,13 +77,14 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Case Subject Detail<span style="color: red;"> *</span></label>
+                                                <label>Case Subject Detail</label>
+                                               <%-- <span style="color: red;"> *</span>
                                                 <span class="pull-right">
                                                     <asp:RequiredFieldValidator ID="Tfv3" ValidationGroup="Save"
                                                         ErrorMessage="Enter Case Subject Detail" Text="<i class='fa fa-exclamation-circle' title='Enter Case Subject Detail'></i>"
                                                         ControlToValidate="txtCaseSubjectDetail" ForeColor="Red" Display="Dynamic" runat="server">
                                                     </asp:RequiredFieldValidator>
-                                                </span>
+                                                </span>--%>
                                                 <asp:TextBox runat="server" CssClass="form-control" ID="txtCaseSubjectDetail" placeholder="Enter Case Subject Detail" autocomplete="off"></asp:TextBox>
                                             </div>
                                         </div>

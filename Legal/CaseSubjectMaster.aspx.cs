@@ -65,14 +65,14 @@ public partial class Legal_CaseSubjectMaster : System.Web.UI.Page
             if (Page.IsValid)
             {
                 if (btnSave.Text == "Save")
-                {
-                    ds = objdb.ByProcedure("Sp_CaseSubject", new string[] { "flag", "CaseSubject", "CaseSubjectCode", "CaseSubjectDetail", "CreatedBy", "CreatedByIP", "Office_Id" }, new string[] {
-                        "1",txtCaseSubject.Text.Trim(),txtCaseSubjectCode.Text.Trim(),txtCaseSubjectDetail.Text.Trim(),ViewState["Emp_Id"].ToString(),objdb.GetLocalIPAddress(), ViewState["Office_Id"].ToString()}, "dataset");
+                {  
+                    ds = objdb.ByProcedure("Sp_CaseSubject", new string[] { "flag", "CaseSubject", "CaseSubjectDetail", "CreatedBy", "CreatedByIP", "Office_Id" }, new string[] {
+                        "1",txtCaseSubject.Text.Trim(),txtCaseSubjectDetail.Text.Trim(),ViewState["Emp_Id"].ToString(),objdb.GetLocalIPAddress(), ViewState["Office_Id"].ToString()}, "dataset");
                 }
                 else if (btnSave.Text == "Update" && ViewState["EditID"].ToString() != "" && ViewState["EditID"].ToString() != null)
                 {
-                    ds = objdb.ByProcedure("Sp_CaseSubject", new string[] { "flag", "CaseSubject", "CaseSubjectCode", "CaseSubjectDetail", "ModiFyBy", "ModiFyByIP", "CaseSubjectID", "Office_Id" }, new string[] {
-                        "4",txtCaseSubject.Text.Trim(),txtCaseSubjectCode.Text.Trim(),txtCaseSubjectDetail.Text.Trim(),ViewState["Emp_Id"].ToString(),objdb.GetLocalIPAddress(),ViewState["EditID"].ToString(),ViewState["Office_Id"].ToString()}, "dataset");
+                    ds = objdb.ByProcedure("Sp_CaseSubject", new string[] { "flag", "CaseSubject","CaseSubjectDetail", "ModiFyBy", "ModiFyByIP", "CaseSubjectID", "Office_Id" }, new string[] {
+                        "4",txtCaseSubject.Text.Trim(),txtCaseSubjectDetail.Text.Trim(),ViewState["Emp_Id"].ToString(),objdb.GetLocalIPAddress(),ViewState["EditID"].ToString(),ViewState["Office_Id"].ToString()}, "dataset");
                 }
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
@@ -81,8 +81,12 @@ public partial class Legal_CaseSubjectMaster : System.Web.UI.Page
                     {
                         lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                         txtCaseSubject.Text = "";
-                        txtCaseSubjectCode.Text = "";
+                        //txtCaseSubjectCode.Text = "";
                         txtCaseSubjectDetail.Text = "";
+                    }
+                    else
+                    {
+                        lblMsg.Text = objdb.Alert("fa-ban", "alert-warning", "Warning !", ErrMsg);
                     }
                 }
                 BindGridCaseSubject();
@@ -109,11 +113,11 @@ public partial class Legal_CaseSubjectMaster : System.Web.UI.Page
             {
                 ViewState["EditID"] = "";
                 GridViewRow row = (GridViewRow)((LinkButton)e.CommandSource).NamingContainer;
-                Label lblCaseSubjectCode = (Label)row.FindControl("lblCaseSubjectCode");
+                //Label lblCaseSubjectCode = (Label)row.FindControl("lblCaseSubjectCode");
                 Label lblCaseSubject = (Label)row.FindControl("lblCaseSubject");
                 Label lblCaseSubjectDetail = (Label)row.FindControl("lblCaseSubjectDetail");
 
-                txtCaseSubjectCode.Text = lblCaseSubjectCode.Text;
+                //txtCaseSubjectCode.Text = lblCaseSubjectCode.Text;
                 txtCaseSubject.Text = lblCaseSubject.Text;
                 txtCaseSubjectDetail.Text = lblCaseSubjectDetail.Text;
                 btnSave.Text = "Update";
