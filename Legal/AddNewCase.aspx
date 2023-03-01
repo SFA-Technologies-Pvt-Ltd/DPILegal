@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="AddNewCase.aspx.cs" Inherits="Legal_AddNewCase" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" MaintainScrollPositionOnPostback="true" AutoEventWireup="true" CodeFile="AddNewCase.aspx.cs" Inherits="Legal_AddNewCase" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <style>
@@ -6,94 +6,40 @@
             font-size: 15px;
         }
 
-        .pt-4
-        {
-            padding-top:2rem!important;
+        .pt-4 {
+            padding-top: 2rem !important;
         }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
-    <div class="modal fade" id="myModal01" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <asp:ValidationSummary ID="VDS" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Save" />
+    <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Responder" />
+    <asp:ValidationSummary ID="ValidationSummary2" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Petitioner" />
+    <asp:ValidationSummary ID="ValidationSummary3" runat="server" ValidationGroup="DeptADV" ShowMessageBox="true" ShowSummary="false" />
+    <asp:ValidationSummary ID="ValidationSummary4" runat="server" ValidationGroup="Hearing" ShowMessageBox="true" ShowSummary="false" />
+    <asp:ValidationSummary ID="ValidationSummary5" runat="server" ValidationGroup="PetiAdv" ShowMessageBox="true" ShowSummary="false" />
+    <asp:ValidationSummary ID="ValidationSummary6" runat="server" ValidationGroup="OldCase" ShowMessageBox="true" ShowSummary="false" />
+    <asp:ValidationSummary ID="ValidationSummary7" runat="server" ValidationGroup="Add" ShowMessageBox="true" ShowSummary="false" />
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div style="display: table; height: 100%; width: 100%;">
-            <div class="modal-dialog" style="width: 60%; display: table-cell; vertical-align: middle;">
+            <div class="modal-dialog" style="width: 340px; display: table-cell; vertical-align: middle;">
                 <div class="modal-content" style="width: inherit; height: inherit; margin: 0 auto;">
                     <div class="modal-header" style="background-color: #D9D9D9;">
-                        <span class="modal-title" style="float: left" id="myModalLabel">Add Respondent</span>
+                        <span class="modal-title" style="float: left" id="myModalLabel">Confirmation</span>
                         <button type="button" class="close" data-dismiss="modal">
                             <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                         </button>
                     </div>
                     <div class="clearfix"></div>
                     <div class="modal-body">
-                        <fieldset>
-                            <legend>Add Respondent</legend>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Respondent Type</label>
-                                        <asp:DropDownList ID="ddlRespondertype" runat="server" CssClass="form-control">                                         
-                                        </asp:DropDownList>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Office Name</label>
-                                        <%--<asp:DropDownList ID="ddlDistrictForRespondent" runat="server" CssClass="form-control"></asp:DropDownList>--%>
-                                        <asp:DropDownList ID="ddlOfficetypeName" runat="server" CssClass="form-control">                                        
-                                        </asp:DropDownList>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Respondent Name</label>
-                                        <asp:TextBox ID="txtResponderName" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="70"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Respondent Mobile No.</label>
-                                        <asp:TextBox ID="txtResponderNo" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="70"></asp:TextBox>
-                                    </div>
-                                </div>
-                            </div>
-                            <%--<div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>OIC Name</label>
-                                        <asp:TextBox ID="txtEditRespondentOICName" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="70"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>OIC Mobile No.</label>
-                                        <asp:TextBox ID="txtEditRepondentOICMObile" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="70"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>OIC Email-ID</label>
-                                        <asp:TextBox ID="txtEditRepondentOICEmail" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="70"></asp:TextBox>
-                                    </div>
-                                </div>
-                            </div>--%>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Department</label>
-                                        <asp:TextBox ID="txtDepartment" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="70"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Address</label>
-                                        <asp:TextBox ID="txtAddress" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="70"></asp:TextBox>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
+                        <p>
+                            <%--<img src="../assets/images/question-circle.png" width="30" />--%>&nbsp;&nbsp;
+                           <i class="fa fa-question-circle"></i>
+                            <asp:Label ID="lblPopupAlert" runat="server"></asp:Label>
+                        </p>
                     </div>
                     <div class="modal-footer">
-                        <asp:Button runat="server" CssClass="btn btn-success" Text="Update" ID="btnYes" Style="margin-top: 20px; width: 80px;" />
+                        <asp:Button runat="server" CssClass="btn btn-success" Text="Yes" ID="Button1" OnClick="btnSubmit_Click" Style="margin-top: 20px; width: 50px;" />
                         <asp:Button ID="btnNo" ValidationGroup="no" runat="server" CssClass="btn btn-danger" Text="No" data-dismiss="modal" Style="margin-top: 20px; width: 50px;" />
                     </div>
                     <div class="clearfix"></div>
@@ -107,8 +53,7 @@
                 <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
                 <div class="card">
                     <div class="card-header">
-                       Add New Case
-                        <asp:Label ID="lbl" runat="server" Text="" CssClass="text-danger"></asp:Label>
+                        Add New Case
                     </div>
                     <div class="card-body">
                         <fieldset>
@@ -117,25 +62,32 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>
-                                            Case No.<br />
-                                            प्रकरण क्रमांक<span style="color: red;">*</span></label>
-                                        <asp:TextBox ID="txtCaseNo" runat="server" placeholder="Case No." class="form-control" AutoComplete="off" MaxLength="50" onkeypress="return validatenum(event);"></asp:TextBox>
-                                        <small><span id="valtxtCaseNo" class="text-danger"></span></small>
+                                            Case No.</label><span style="color: red;">*</span>
+                                        <asp:RequiredFieldValidator ID="RfvCaseno" ValidationGroup="Save"
+                                            ErrorMessage="Enter Case No." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="txtCaseNo" Display="Dynamic" runat="server">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:TextBox ID="txtCaseNo" runat="server" placeholder="Case No." class="form-control" AutoComplete="off" MaxLength="10" onkeypress="return NumberOnly();"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <div class="form-group">
-                                            <label>
-                                                Old Case No.<br />
-                                                पुराने प्रकरण का क्रमांक</label>
-                                            <asp:TextBox ID="txtCaseOldRefNo" runat="server" placeholder="Old Case No." AutoComplete="off" class="form-control" MaxLength="50" onkeypress="return validatenum(event);"></asp:TextBox>
-                                        </div>
+                                        <label>Case Year</label><span style="color: red;"><b>*</b></span>
+                                        <asp:RequiredFieldValidator ID="rfvCaseyear" ValidationGroup="Save"
+                                            ErrorMessage="Select Case year." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="ddlCaseYear" Display="Dynamic" runat="server" InitialValue="0">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:DropDownList ID="ddlCaseYear" runat="server" CssClass="form-control"></asp:DropDownList>
                                     </div>
                                 </div>
-                                   <div class="col-md-3">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Case Type<br />प्रकरण का प्रकार</label><span style="color: red;"><b>*</b></span>
+                                        <label>
+                                            Case Type</label><span style="color: red;"><b>*</b></span>
+                                        <asp:RequiredFieldValidator ID="rfvCasetype" ValidationGroup="Save"
+                                            ErrorMessage="Select Case type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="ddlCasetype" Display="Dynamic" runat="server" InitialValue="0">
+                                        </asp:RequiredFieldValidator>
                                         <asp:DropDownList ID="ddlCasetype" runat="server" CssClass="form-control"></asp:DropDownList>
                                     </div>
                                 </div>
@@ -143,360 +95,134 @@
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label>
-                                                Court Type<br />
-                                                कोर्ट का प्रकार <span style="color: red;">*</span></label>
-                                            <asp:DropDownList ID="ddlCourtType" runat="server" class="form-control select2">
+                                                Court<span style="color: red;">*</span></label>
+                                            <asp:RequiredFieldValidator ID="RfvCourttype" ValidationGroup="Save"
+                                                ErrorMessage="Select Court type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                ControlToValidate="ddlCourtType" Display="Dynamic" runat="server" InitialValue="0">
+                                            </asp:RequiredFieldValidator>
+                                            <asp:DropDownList ID="ddlCourtType" runat="server" class="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlCourtType_SelectedIndexChanged">
                                             </asp:DropDownList>
-                                            <small><span id="valddlCourtType" class="text-danger"></span></small>
-                                        </div>
-                                    </div>
-                                </div>
-                               
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <div class="form-group">
-                                            <label>
-                                                Case Subject<br />
-                                                प्रकरण का विषय<span style="color: red;">*</span></label>
-                                            <asp:DropDownList ID="ddlCaseSubject" runat="server" class="form-control select2">
-                                            </asp:DropDownList>
-                                            <small><span id="valddlCaseSubject" class="text-danger"></span></small>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <div class="form-group">
-                                            <label>
-                                                Date of Case<br />
-                                                प्रकरण की तिथि</label>
-                                            <div class="input-group date">
-                                               
-                                                <asp:TextBox ID="txtDateOfReceipt" date-provide="datepicker" runat="server" AutoComplete="off" placeholder="DD/MM/YYYY" class="form-control" ClientIDMode="Static"></asp:TextBox>
-                                            </div>
-                                            <small><span id="valtxtDateOfReceipt" class="text-danger"></span></small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>
-                                            Last Hearing Date<br />
-                                            पिछली सुनवाई की तिथि</label>
-                                        <div class="input-group date">
-                                            
-                                            <asp:TextBox ID="txtDateOfLastHearing" runat="server" date-provide="datepicker" AutoComplete="off" placeholder="DD/MM/YYYY" class="form-control" ClientIDMode="Static"></asp:TextBox>
-                                        </div>
-                                        <small><span id="valtxtDate" class="text-danger"></span></small>
-                                    </div>
-                                </div>
-                                <div class="col-md-3" id="Hearing_Date" runat="server">
-                                    <div class="form-group">
-                                        <label>Next Hearing Date<br />(अगली सुनवाई की तिथि)</label>
-                                        <div class="input-group date">
-                                          
-                                            <asp:TextBox ID="txtHearingDate" runat="server" date-provide="datepicker" placeholder="DD/MM/YYYY" class="form-control" ClientIDMode="Static" autocomplete="off" onchange="checkHearingDetail();"></asp:TextBox>
-                                        </div>
-                                        <small><span id="valtxtHearingDate" class="text-danger"></span></small>
-                                    </div>
-                                </div>
-                               
-                            </div>
-                            <div class="row">
-                             <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>
-                                            Location<br />
-                                            स्थान</label>
-                                        <asp:DropDownList ID="ddlDistrict" runat="server" class="form-control">
+                                        <label>Court Location</label><span style="color: red;"><b> *</b></span>
+                                        <asp:RequiredFieldValidator ID="rfvCourtlocation" ValidationGroup="Save"
+                                            ErrorMessage="Select Court Location." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="ddlCourtLocation" Display="Dynamic" runat="server" InitialValue="0">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:DropDownList ID="ddlCourtLocation" runat="server" class="form-control">
                                         </asp:DropDownList>
-                                        <small><span id="valddlDistrict" class="text-danger"></span></small>
                                     </div>
-
                                 </div>
-                                 <div class="col-md-3">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label>
+                                                Case Subject<span style="color: red;">*</span></label>
+                                            <asp:RequiredFieldValidator ID="rfvCaseSubject" ValidationGroup="Save"
+                                                ErrorMessage="Select Case Subject." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                ControlToValidate="ddlCaseSubject" Display="Dynamic" runat="server" InitialValue="0">
+                                            </asp:RequiredFieldValidator>
+                                            <asp:DropDownList ID="ddlCaseSubject" runat="server" class="form-control select2" OnSelectedIndexChanged="ddlCaseSubject_SelectedIndexChanged" AutoPostBack="true">
+                                            </asp:DropDownList>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Sub Subject<span style="color: red"><b>*</b></span></label>
+                                        <asp:DropDownList runat="server" ID="ddlSubSubject" CssClass="form-control">
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="display: none;">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label>Case Registration Date</label>
+                                            <asp:TextBox ID="txtDateOfCaseReg" date-provide="datepicker" runat="server" data-date-end-date="0d" AutoComplete="off" placeholder="DD/MM/YYYY" class="form-control" ClientIDMode="Static"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>
-                                            High Priority Case<br />
-                                            उच्च प्राथमिकता का प्रकरण</label><span style="color: red;"><b>*</b></span>
+                                            High Priority Case</label>
                                         <asp:DropDownList ID="ddlHighprioritycase" runat="server" CssClass="form-control">
                                             <asp:ListItem Value="0">Select</asp:ListItem>
                                             <asp:ListItem Value="1">Yes</asp:ListItem>
                                             <asp:ListItem Value="2">No</asp:ListItem>
                                         </asp:DropDownList>
-                                        <small><span id="valddlHighprioritycase" class="text-danger"></span></small>
                                     </div>
                                 </div>
-                                <div class="col-md-3 pt-5">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-md-8">
-                                                <asp:Button ID="btnAddresponder" runat="server" CssClass="btn btn-info btn-block" Text="Add Responder" OnClick="btnAddresponder_Click" />
-                                            </div>
-                                        </div>
+                                        <label>
+                                            Party Name</label>
+                                        <asp:DropDownList ID="ddlParty" runat="server" CssClass="form-control">
+                                        </asp:DropDownList>
                                     </div>
                                 </div>
-                                
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            Last Hearing Date</label>
+                                        <asp:TextBox ID="txtDateOfLastHearing" runat="server" date-provide="datepicker" AutoComplete="off" data-date-end-date="0d" placeholder="DD/MM/YYYY" class="form-control" ClientIDMode="Static"></asp:TextBox>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>
-                                            Subject Detail/
-                                            प्रकरण की जानकारी<span style="color: red;">*</span></label>
-                                        <asp:TextBox ID="txtCaseDescription" Rows="4" runat="server"  class="form-control" TextMode="MultiLine"></asp:TextBox>
-                                        <small><span id="valtxtCaseDescription" class="text-danger"></span></small>
+                                            Case Detail/Remarks<span style="color: red;">*</span></label>
+                                        <asp:RequiredFieldValidator ID="rfvCasedetail" ValidationGroup="Save"
+                                            ErrorMessage="Enter Case Detail." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="txtCaseDetail" Display="Dynamic" runat="server">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:TextBox ID="txtCaseDetail" runat="server" class="form-control" onkeyup="javascript:capFirst(this);" TextMode="MultiLine"></asp:TextBox>
+                                        <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator" Display="Dynamic" ControlToValidate="txtCaseDetail"
+                                            ValidationExpression="^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$" ValidationGroup="Save" ForeColor="Red" ErrorMessage="Please Enter Valid Text">
+                                        </asp:RegularExpressionValidator>
                                     </div>
                                 </div>
                             </div>
                         </fieldset>
+
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="box-body">
-                                    <fieldset>
-                                        <legend>Appointment of Officer Incharge</legend>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>
-                                                        OIC
-                                                        <br />
-                                                        प्रभारी अधिकारी<span style="color: red;">*</span></label>
-                                                    <asp:TextBox ID="txtOICName" runat="server" CssClass="form-control" MaxLength="70"></asp:TextBox>
-                                                    <small><span id="valOICName" class="text-danger"></span></small>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>
-                                                        Mobile No.<br />
-                                                        मोबाइल नंबर</label>
-                                                    <asp:TextBox ID="txtOICMobileNo" runat="server" CssClass="form-control" MaxLength="10"></asp:TextBox>
-                                                    <small><span id="valOICMobile" class="text-danger"></span></small>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>
-                                                        Email<br />
-                                                        ईमेल</label>
-                                                    <asp:TextBox ID="txtOICEmail" runat="server" CssClass="form-control" MaxLength="50"></asp:TextBox>
-                                                    <small><span id="valOICEmailID" class="text-danger"></span></small>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </fieldset>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="box-body">
-                                    <fieldset>
-                                        <legend>Appointment of Advocate</legend>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>
-                                                        Advocate Name<br />
-                                                        वकील का नाम</label>
-                                                    <asp:TextBox ID="txtDeptAdvocateName" runat="server" AutoComplete="off" CssClass="form-control" MaxLength="70"></asp:TextBox>
-                                                    <small><span id="valAdvocateName" class="text-danger"></span></small>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>
-                                                        Mobile No.<br />
-                                                        मोबाइल नंबर</label>
-                                                    <asp:TextBox ID="txtDeptAdvocateMobileNo" runat="server" AutoComplete="off" CssClass="form-control" MaxLength="10"></asp:TextBox>
-                                                    <small><span id="valAdvocateMobile" class="text-danger"></span></small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>
-                                                        Email<br />
-                                                        ईमेल</label>
-                                                    <asp:TextBox ID="txtDeptAdvocateEmail" runat="server" AutoComplete="off" CssClass="form-control" MaxLength="50"></asp:TextBox>
-                                                    <small><span id="valAdvocateEmailId" class="text-danger"></span></small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="box-body">
-                                    <fieldset>
-                                        <legend>Petitioner / Applicant Details</legend>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label>
-                                                        Name<br />
-                                                        नाम</label>
-                                                    <asp:TextBox ID="txtPetitionerAppName" runat="server" placeholder="Name" AutoComplete="off" CssClass="form-control" MaxLength="70" onkeypress="return validatename(event);"></asp:TextBox>
-                                                    <small><span id="valtxtPetitionerAppName" class="text-danger"></span></small>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>
-                                                        Mobile No.<br />
-                                                        मोबाइल नंबर</label>
-                                                    <asp:TextBox ID="txtPetitionerAppMobileNo" runat="server" placeholder="Mobile No" AutoComplete="off" CssClass="form-control MobileNo1" MaxLength="10" onkeypress='javascript:tbx_fnNumeric(event, this);'></asp:TextBox>
-                                                    <small><span id="valtxtPetitionerAppMobileNo" class="text-danger"></span></small>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>
-                                                        Email<br />
-                                                        ईमेल</label>
-                                                    <asp:TextBox ID="txtPetitionerAppEmail" runat="server" placeholder="Email" AutoComplete="off" CssClass="form-control" MaxLength="50"></asp:TextBox>
-                                                    <small><span id="valtxtPetitionerAppEmail" class="text-danger"></span></small>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label>
-                                                        Address<br />
-                                                        पता</label>
-                                                    <asp:TextBox ID="txtPetitionerAppAddress" runat="server" placeholder="Address" CssClass="form-control" AutoComplete="off" MaxLength="200"></asp:TextBox>
-                                                    <small><span id="valtxtPetitionerAppAddress" class="text-danger"></span></small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="box-body">
-                                    <fieldset>
-                                        <legend>Petitioner Advocate Details</legend>
-
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label>
-                                                        Name<br />
-                                                        नाम</label>
-                                                    <asp:TextBox ID="txtPetitionerAdvName" runat="server" placeholder="Name" CssClass="form-control" MaxLength="50" AutoComplete="off" onkeypress="return validatename(event);"></asp:TextBox>
-                                                    <small><span id="valtxtPetitionerAdvName" class="text-danger"></span></small>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>
-                                                        Mobile No.<br />
-                                                        मोबाइल नंबर</label>
-                                                    <asp:TextBox ID="txtPetitionerAdvMobileNo" runat="server" placeholder="Mobile" AutoComplete="off" CssClass="form-control MobileNo" MaxLength="10" onkeypress='javascript:tbx_fnNumeric(event, this);'></asp:TextBox>
-                                                    <small><span id="valtxtPetitionerAdvMobileNo" class="text-danger"></span></small>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>
-                                                        Email<br />
-                                                        ईमेल</label>
-                                                    <asp:TextBox ID="txtPetitionerAdvEmail" runat="server" placeholder="Email" CssClass="form-control" MaxLength="30"></asp:TextBox>
-                                                    <small><span id="valtxtPetitionerAdvEmail" class="text-danger"></span></small>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label>
-                                                        Address<br />
-                                                        पता</label>
-                                                    <asp:TextBox ID="txtPetitionerAdvAddress" runat="server" placeholder="Address" CssClass="form-control" AutoComplete="off" MaxLength="200"></asp:TextBox>
-                                                    <small><span id="valtxtPetitionerAdvAddress" class="text-danger"></span></small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                </div>
-                            </div>
                             <div class="col-md-12">
                                 <div class="box-body">
                                     <fieldset>
-                                        <legend>Document Upload</legend>
-
+                                        <legend>Officer Incharge of Department</legend>
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="row">
-                                                    <div class="col-md-3" style="display: none;">
-                                                        <div class="form-group">
-
-                                                            <label>Document1</label>&nbsp;&nbsp;&nbsp;<asp:HyperLink ID="HyperLink1" Visible="false" CssClass="label label-default" runat="server" Text="View"></asp:HyperLink>
-
-                                                            <asp:FileUpload ID="FileUpload1" runat="server" CssClass="form-control" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3" style="display: none;">
-                                                        <div class="form-group">
-
-                                                            <label>Document2</label>&nbsp;&nbsp;&nbsp;<asp:HyperLink ID="HyperLink2" Visible="false" CssClass="label label-default" runat="server" Text="View"></asp:HyperLink>
-                                                            <asp:FileUpload ID="FileUpload2" runat="server" CssClass="form-control" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3" style="display: none;">
-                                                        <div class="form-group">
-                                                            <label>Document3</label>&nbsp;&nbsp;&nbsp;<asp:HyperLink ID="HyperLink3" Visible="false" CssClass="label label-default" runat="server" Text="View"></asp:HyperLink>
-                                                            <asp:FileUpload ID="FileUpload3" runat="server" CssClass="form-control" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label>Document Name</label>
-                                                            <asp:TextBox ID="txtDocName" runat="server" MaxLength="50" AutoComplete="off" CssClass="form-control"></asp:TextBox>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label>Documents</label>&nbsp;&nbsp;&nbsp;<asp:HyperLink ID="HyperLink4" Visible="false" CssClass="label label-default" runat="server" Text="View"></asp:HyperLink>
-                                                            <asp:FileUpload ID="FileUpload10" runat="server" CssClass="form-control" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <asp:Button ID="btnAddDoc" runat="server" Text="Add" CssClass="btn btn-primary btn-block" OnClick="btnAddDoc_Click"/>
-                                                        </div>
-                                                    </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        OIC
+                                                        <span style="color: red;"><b>*</b></span></label>
+                                                    <asp:RequiredFieldValidator runat="server" ID="rfvOICName" ForeColor="Red" Display="Dynamic"
+                                                        ControlToValidate="ddlOicName" ValidationGroup="Save" ErrorMessage="Select OIC Name."
+                                                        Text="<i class='fa fa-exclamation-circle' title='Required !'></i>" InitialValue="0">
+                                                    </asp:RequiredFieldValidator>
+                                                    <asp:DropDownList runat="server" ID="ddlOicName" CssClass="form-control select2"
+                                                        OnSelectedIndexChanged="ddlOicName_SelectedIndexChanged" AutoPostBack="true">
+                                                    </asp:DropDownList>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <fieldset>
-                                                    <legend>View Doc</legend>
-
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-
-                                                            <asp:GridView ID="GrdViewDoc" runat="server" CssClass="table table-bordered table-responsive" AutoGenerateColumns="false">
-                                                                <Columns>
-                                                                    <asp:TemplateField HeaderText="SNo.">
-                                                                        <ItemTemplate>
-                                                                            <asp:Label ID="lblSrnO" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Document Name">
-                                                                        <ItemTemplate>
-                                                                            <asp:Label ID="lblDocName" runat="server" Text='<%# Eval("DocName") %>'></asp:Label>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="View">
-                                                                        <ItemTemplate>
-                                                                            <asp:HyperLink ID="lblDocName" runat="server" NavigateUrl='<%# "../AddNewCaseDoc" +  Eval("Document") %>' Target="_blank" CssClass="label label-primary">View</asp:HyperLink>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                </Columns>
-                                                            </asp:GridView>
-                                                        </div>
-                                                    </div>
-                                                </fieldset>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Mobile No.</label>
+                                                    <asp:TextBox ID="txtOICMobileNo" runat="server" ReadOnly="true" CssClass="form-control" MaxLength="10" AutoComplete="off" onkeypress="return NumberOnly();"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        Email-ID.</label>
+                                                    <asp:TextBox runat="server" ID="txtEmailID" CssClass="form-control" ReadOnly="true"></asp:TextBox>
+                                                </div>
                                             </div>
                                         </div>
                                     </fieldset>
@@ -504,19 +230,653 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4"></div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <asp:Button ID="btnSubmit" CssClass="btn btn-block btn-success" runat="server" Text="Save" OnClick="btnSubmit_Click" OnClientClick="return validateCaseDetail();" />
+                            <div class="col-md-12">
+                                <div class="box-body">
+                                    <fieldset>
+                                        <legend>Department Advocate Details</legend>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        Advocate Name</label><span style="color: red;"><b> *</b></span>
+                                                    <asp:RequiredFieldValidator runat="server" ID="RequiredFieldValidator2" Display="Dynamic" ForeColor="Red" SetFocusOnError="true"
+                                                        ControlToValidate="txtDeptAdvocateName" ValidationGroup="DeptADV" ErrorMessage="Enter Name."
+                                                        Text="<i class='fa fa-exclamation-circle' title='Required !'></i>">
+                                                    </asp:RequiredFieldValidator>
+                                                    <asp:TextBox ID="txtDeptAdvocateName" runat="server" AutoComplete="off" placeholder="Advocate Name" onkeyup="javascript:capFirst(this);" onkeypress="return chcode();" CssClass="form-control" MaxLength="70"></asp:TextBox>
+                                                    <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator1" Display="Dynamic" ControlToValidate="txtDeptAdvocateName"
+                                                        ValidationExpression="^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$" ValidationGroup="DeptADV" ForeColor="Red" ErrorMessage="Please Enter Valid Text">
+                                                    </asp:RegularExpressionValidator>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Mobile No.</label><span style="color: red;"><b> *</b></span>
+                                                    <asp:RequiredFieldValidator runat="server" ID="rfvAdvmovile" Display="Dynamic" ForeColor="Red" SetFocusOnError="true"
+                                                        ControlToValidate="txtDeptAdvocateMobileNo" ValidationGroup="DeptADV" ErrorMessage="Enter Mobile No."
+                                                        Text="<i class='fa fa-exclamation-circle' title='Required !'></i>">
+                                                    </asp:RequiredFieldValidator>
+                                                    <asp:TextBox ID="txtDeptAdvocateMobileNo" runat="server" AutoComplete="off" placeholder="Mobile No." CssClass="form-control" MaxLength="10" onkeypress="return NumberOnly();"></asp:TextBox>
+                                                    <asp:RegularExpressionValidator runat="server" ID="revAppointmentMobileNo" Display="Dynamic" ForeColor="Red" SetFocusOnError="true"
+                                                        ControlToValidate="txtDeptAdvocateMobileNo" ValidationExpression="^([6-9]{1}[0-9]{9})$" ValidationGroup="DeptADV" ErrorMessage="Invalid Mobile No.">
+                                                    </asp:RegularExpressionValidator>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1" style="margin-top: 2rem ! important;">
+                                                <div class="form-group">
+                                                    <asp:Button ID="btnAdvocate" runat="server" CssClass="btn btn-primary btn-block" Text="Add" OnClick="btnAdvocate_Click" ValidationGroup="DeptADV" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="table-responsive">
+                                                    <asp:GridView ID="grdDeptAdvocate" runat="server" CssClass="table table-bordered" AutoGenerateColumns="false" EmptyDataText="NO RECORD FOUND">
+                                                        <Columns>
+                                                            <asp:TemplateField HeaderText="Sr#">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Advoate Name">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblAdvocatename" runat="server" Text='<%# Eval("Dept_AdvName") %>'></asp:Label>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Mobile No.">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblMobileno" runat="server" Text='<%# Eval("Dept_MobileNo") %>'></asp:Label>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                        </Columns>
+                                                    </asp:GridView>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <asp:Button ID="btnClear" CssClass="btn btn-block btn-default" runat="server" Text="Clear" OnClick="btnClear_Click" />
-                                </div>
-                            </div>
-
                         </div>
+                        <fieldset>
+                            <legend>Petitioner Details</legend>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            Name<span style="color: red"><b>*</b></span></label>
+                                        <asp:RequiredFieldValidator runat="server" ID="rfvPetitionerName" Display="Dynamic" ForeColor="Red"
+                                            SetFocusOnError="true" ControlToValidate="txtPetiName" ValidationGroup="Petitioner" ErrorMessage="Enter Name"
+                                            Text="<i class='fa fa-exclamation-circle' title='Required !'></i>">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:TextBox ID="txtPetiName" runat="server" placeholder="Name" AutoComplete="off" onkeypress="return Chcode();" onkeyup="javascript:capFirst(this);" CssClass="form-control" MaxLength="70"></asp:TextBox>
+                                        <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator2" Display="Dynamic" ControlToValidate="txtPetiName"
+                                            ValidationExpression="^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$" ValidationGroup="Petitioner" ForeColor="Red" ErrorMessage="Please Enter Valid Text">
+                                        </asp:RegularExpressionValidator>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            Desigantion<span style="color: red"><b>*</b></span></label>
+                                        <asp:RequiredFieldValidator runat="server" ID="rfvpetiDesign" Display="Dynamic" ForeColor="Red"
+                                            SetFocusOnError="true" ControlToValidate="ddlPetiDesigNation" ValidationGroup="Petitioner" ErrorMessage="Select Designation"
+                                            Text="<i class='fa fa-exclamation-circle' title='Required !'></i>" InitialValue="0">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:DropDownList ID="ddlPetiDesigNation" runat="server" CssClass="form-control"></asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>
+                                            Mobile No.<span style="color: red"><b>*</b></span></label>
+                                        <asp:RequiredFieldValidator runat="server" ID="rfvMoNo" Display="Dynamic" ForeColor="Red" SetFocusOnError="true"
+                                            ControlToValidate="txtPetiMobileNo" ValidationGroup="Petitioner" ErrorMessage="Enter Mobile No."
+                                            Text="<i class='fa fa-exclamation-circle' title='Required !'></i>">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:TextBox ID="txtPetiMobileNo" runat="server" placeholder="Mobile No" AutoComplete="off" CssClass="form-control MobileNo1" MaxLength="10" onkeypress="return NumberOnly();"></asp:TextBox>
+                                        <asp:RegularExpressionValidator ID="rfvPetiadvocatemobile" ValidationGroup="Petitioner" runat="server" Display="Dynamic" ControlToValidate="txtPetiMobileNo"
+                                            ErrorMessage="Invalid Mobile No." SetFocusOnError="true"
+                                            ForeColor="Red" ValidationExpression="^([6-9]{1}[0-9]{9})$"></asp:RegularExpressionValidator>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            Address<span style="color: red"><b>*</b></span></label>
+                                        <asp:RequiredFieldValidator runat="server" ID="rfvPetiAdd" Display="Dynamic" ForeColor="Red" SetFocusOnError="true"
+                                            ControlToValidate="txtPetiAddRess" ValidationGroup="Petitioner" ErrorMessage="Enter Petitioner Address"
+                                            Text="<i class='fa fa-exclamation-circle' title='Required !'></i>">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:TextBox ID="txtPetiAddRess" runat="server" placeholder="Address" AutoComplete="off" CssClass="form-control" MaxLength="100" onkeyup="javascript:capFirst(this);"></asp:TextBox>
+                                        <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator3" Display="Dynamic" ControlToValidate="txtPetiAddRess"
+                                            ValidationExpression="^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$" ValidationGroup="Petitioner" ForeColor="Red" ErrorMessage="Please Enter Valid Text">
+                                        </asp:RegularExpressionValidator>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <asp:Button ID="btnPetitioner" runat="server" CssClass="btn btn-primary btn-block" Text="Add" ValidationGroup="Petitioner" OnClick="btnPetitioner_Click" />
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <asp:GridView ID="GrdPetitionerDtl" runat="server" CssClass="table table-bordered " AutoGenerateColumns="false" EmptyDataText="NO RECORD FOUND">
+                                            <Columns>
+                                                <asp:TemplateField HeaderText="Sr#">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Petitioner Name">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblPetitionername" runat="server" Text='<%# Eval("PetiName") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Designation">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblDesignationname" runat="server" Text='<%# Eval("Designation_name") %>'></asp:Label>
+                                                        <asp:Label ID="lblDesignation_ID" runat="server" Text='<%# Eval("Designation_ID") %>' Visible="false"></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Mobile No.">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblMobileno" runat="server" Text='<%# Eval("MobileNo") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Address">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblAddress" runat="server" Text='<%# Eval("AddRess") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                            </Columns>
+                                        </asp:GridView>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Petitioner Advocate Details</legend>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            Name</label><span style="color: red;"><b>*</b></span>
+                                        <asp:RequiredFieldValidator ID="rfvPetiAdvName" ValidationGroup="PetiAdv"
+                                            ErrorMessage="Enter Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="txtPetiAdvocateName" Display="Dynamic" runat="server">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:TextBox ID="txtPetiAdvocateName" runat="server" placeholder="Name" onkeyup="javascript:capFirst(this);" onkeypress="return chcode();" CssClass="form-control" MaxLength="50" AutoComplete="off"></asp:TextBox>
+                                        <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator4" Display="Dynamic" ControlToValidate="txtPetiAdvocateName"
+                                            ValidationExpression="^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$" ValidationGroup="PetiAdv" ForeColor="Red" ErrorMessage="Please Enter Valid Text">
+                                        </asp:RegularExpressionValidator>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            Mobile No.</label><span style="color: red;"><b>*</b></span>
+                                        <asp:RequiredFieldValidator ID="rfvMObile" ValidationGroup="PetiAdv"
+                                            ErrorMessage="Enter Mobile No." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="txtPetiAdvocateMobileNo" Display="Dynamic" runat="server">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:TextBox ID="txtPetiAdvocateMobileNo" runat="server" placeholder="Mobile" AutoComplete="off" CssClass="form-control MobileNo" onkeypress="return NumberOnly();" MaxLength="10"></asp:TextBox>
+                                        <asp:RegularExpressionValidator ID="rfv" ValidationGroup="PetiAdv" runat="server" Display="Dynamic" ControlToValidate="txtPetiAdvocateMobileNo"
+                                            ErrorMessage="Invalid Mobile No." SetFocusOnError="true"
+                                            ForeColor="Red" ValidationExpression="^([6-9]{1}[0-9]{9})$"></asp:RegularExpressionValidator>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 mt-3">
+                                    <div class="row">
+                                        <div class="col-md-6 mt-3">
+                                            <asp:Button ID="btnPetiAdvSave" runat="server" Text="Add" OnClick="btnPetiAdvSave_Click" ValidationGroup="PetiAdv" CssClass="btn btn-primary btn-block" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="table-responsive">
+                                        <asp:GridView ID="GrdPetiAdv" runat="server" CssClass="table table-bordered " AutoGenerateColumns="false" EmptyDataText="NO RECORD FOUND">
+                                            <Columns>
+                                                <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Advocate Name">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblPetiAdvocatMObile" runat="server" Text='<%# Eval("Peti_AdvName") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Mobile No.">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblPetiAdvocatename" runat="server" Text='<%# Eval("Peti_AdvMobileNo") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                            </Columns>
+                                        </asp:GridView>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="col-md-12">
+                            <div class="box-body">
+                                <fieldset>
+                                    <legend>Add Respondent Detail</legend>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Office Type</label><span style="color: red;"><b> *</b></span>
+                                                <asp:RequiredFieldValidator ID="rfvOffice" ValidationGroup="Responder"
+                                                    ErrorMessage="Select Office type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                    ControlToValidate="ddlOfficetypeName" Display="Dynamic" runat="server" InitialValue="0">
+                                                </asp:RequiredFieldValidator>
+                                                <asp:DropDownList ID="ddlOfficetypeName" runat="server" OnSelectedIndexChanged="ddlOfficetypeName_SelectedIndexChanged" AutoPostBack="true" CssClass="form-control">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Office Name</label><span style="color: red;"><b> *</b></span>
+                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="Responder"
+                                                    ErrorMessage="Select Office Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                    ControlToValidate="ddlOfficeName" Display="Dynamic" runat="server" InitialValue="0">
+                                                </asp:RequiredFieldValidator>
+                                                <asp:DropDownList ID="ddlOfficeName" runat="server" CssClass="form-control">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Designation</label><span style="color: red;"><b> *</b></span>
+                                                <asp:RequiredFieldValidator ID="rfvDesignation" ValidationGroup="Responder"
+                                                    ErrorMessage="Select Designation." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                    ControlToValidate="ddlDesignation" Display="Dynamic" runat="server" InitialValue="0">
+                                                </asp:RequiredFieldValidator>
+                                                <asp:DropDownList ID="ddlDesignation" runat="server" CssClass="form-control">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Name</label><span style="color: red;"><b> *</b></span>
+                                                <asp:RequiredFieldValidator ID="rfvname" ValidationGroup="Responder"
+                                                    ErrorMessage="Enter Responder Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                    ControlToValidate="txtResponderName" Display="Dynamic" runat="server">
+                                                </asp:RequiredFieldValidator>
+                                                <asp:TextBox ID="txtResponderName" runat="server" onkeyup="javascript:capFirst(this);" CssClass="form-control" onkeypress="return chcode();" AutoComplete="off" MaxLength="70"></asp:TextBox>
+                                                <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator5" Display="Dynamic" ControlToValidate="txtResponderName"
+                                                    ValidationExpression="^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$" ValidationGroup="Responder" ForeColor="Red" ErrorMessage="Please Enter Valid Text">
+                                                </asp:RegularExpressionValidator>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Mobile No.</label>
+                                                <span style="color: red;"><b>*</b></span>
+                                                <asp:RequiredFieldValidator ID="rfvmobileno" ValidationGroup="Responder"
+                                                    ErrorMessage="Enter Mobile No." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                    ControlToValidate="txtMobileNo" Display="Dynamic" runat="server">
+                                                </asp:RequiredFieldValidator>
+                                                <asp:TextBox ID="txtMobileNo" onkeypress="return NumberOnly();" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="10"></asp:TextBox>
+                                                <asp:RegularExpressionValidator ID="RexNodalOfficerMobileNo" ValidationGroup="Responder" runat="server" Display="Dynamic" ControlToValidate="txtMobileNo"
+                                                    ErrorMessage="Invalid Mobile No." SetFocusOnError="true"
+                                                    ForeColor="Red" ValidationExpression="^([6-9]{1}[0-9]{9})$"></asp:RegularExpressionValidator>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Department</label><span style="color: red;"><b> *</b></span>
+                                                <asp:RequiredFieldValidator ID="rfvDeptname" ValidationGroup="Responder"
+                                                    ErrorMessage="Enter Department Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                    ControlToValidate="txtDepartment" Display="Dynamic" runat="server">
+                                                </asp:RequiredFieldValidator>
+                                                <asp:TextBox ID="txtDepartment" runat="server" onkeyup="javascript:capFirst(this);" CssClass="form-control" onkeypress="return chcode();" AutoComplete="off" MaxLength="70"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Address</label><span style="color: red;"><b> *</b></span>
+                                                <asp:RequiredFieldValidator ID="rfvAdd" ValidationGroup="Responder"
+                                                    ErrorMessage="Enter Address." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                    ControlToValidate="txtAddress" Display="Dynamic" runat="server">
+                                                </asp:RequiredFieldValidator>
+                                                <asp:TextBox ID="txtAddress" runat="server" CssClass="form-control" onkeyup="javascript:capFirst(this);" AutoComplete="off" MaxLength="70"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1" style="padding-top: 2rem! important;">
+                                            <asp:Button runat="server" CssClass="btn btn-primary btn-block" Text="Add" ID="btnYes" ValidationGroup="Responder" OnClick="btnYes_Click" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="table table-responsive">
+                                                <asp:GridView ID="GrdRespondent" runat="server" AutoGenerateColumns="false" EmptyDataText="NO RECORD FOUND" CssClass="table table-bordered">
+                                                    <Columns>
+                                                        <asp:TemplateField HeaderText="SNo.">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblSrnO" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Office Type">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblOfficetypeID" runat="server" Text='<%# Eval("OfficeTypeID") %>' Visible="false"></asp:Label>
+                                                                <asp:Label ID="lblofficetypename" runat="server" Text='<%# Eval("OfficeTypeName") %>'></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Office Name">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblOfficeNameID" runat="server" Text='<%# Eval("OfficeNameId") %>' Visible="false"></asp:Label>
+                                                                <asp:Label ID="lblOfficename" runat="server" Text='<%# Eval("OfficeName") %>'></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Designation Name">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblDesignationID" runat="server" Text='<%# Eval("DesignationId") %>' Visible="false"></asp:Label>
+                                                                <asp:Label ID="lblDesignationname" runat="server" Text='<%# Eval("DesignationName") %>'></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Respondent Name">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblrespondentName" runat="server" Text='<%# Eval("RespondentName") %>'></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Mobile No.">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblMobileNo" runat="server" Text='<%# Eval("RespondentMobileNo") %>'></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Department">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblDepartment" runat="server" Text='<%# Eval("Department") %>'></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Address">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblAddress" runat="server" Text='<%# Eval("Address") %>'></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                    </Columns>
+                                                </asp:GridView>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <legend>New Case Document</legend>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Document Name</label>
+                                                        <asp:RequiredFieldValidator runat="server" ID="rfvDocumentName" ForeColor="Red" Display="Dynamic"
+                                                            ControlToValidate="txtDocName" ValidationGroup="Add" ErrorMessage="Enter Document Name." Text="<i class='fa fa-exclamation-circle' title='Required !'></i>">
+                                                        </asp:RequiredFieldValidator>
+                                                        <asp:TextBox ID="txtDocName" placeholder="Enter Document Name" onkeyup="javascript:capFirst(this);" onkeypress="return chcode();" runat="server" MaxLength="50" AutoComplete="off" CssClass="form-control"></asp:TextBox>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Documents</label>&nbsp;&nbsp;&nbsp;<asp:HyperLink ID="HyperLink4" Visible="false" CssClass="label label-default" runat="server" Text="View"></asp:HyperLink>
+                                                        <asp:RequiredFieldValidator runat="server" ID="rfvDocument" ForeColor="Red" Display="Dynamic"
+                                                            ControlToValidate="FileUpload10" ValidationGroup="Add" ErrorMessage="Select Document" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>">
+                                                        </asp:RequiredFieldValidator>
+                                                        <asp:FileUpload ID="FileUpload10" runat="server" CssClass="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 mt-3">
+                                                    <div class="row">
+                                                        <div class="col-md-6 mt-3">
+                                                            <asp:Button ID="btnAddDoc" runat="server" Text="Add" ValidationGroup="Add" CssClass="btn btn-primary btn-block" OnClick="btnAddDoc_Click" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="table-responsive">
+                                                <asp:GridView ID="GrdViewDoc" runat="server" CssClass="table table-bordered text-center" AutoGenerateColumns="false" EmptyDataText="NO RECORD FOUND">
+                                                    <Columns>
+                                                        <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblSrnO" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Document Name">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblDocName" runat="server" Text='<%# Eval("DocName") %>'></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="View" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                            <ItemTemplate>
+                                                                <asp:HyperLink ID="lblDocName" runat="server" NavigateUrl='<%# "../Legal/AddNewCaseCourtDoc/" +  Eval("Document") %>' Target="_blank" CssClass="fa fa-edit"></asp:HyperLink>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                    </Columns>
+                                                </asp:GridView>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+
+                                <fieldset>
+                                    <legend>Hearing Detail</legend>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Next Hearing Date</label>
+                                                <asp:RequiredFieldValidator ID="rfvHearingDate" ValidationGroup="Hearing"
+                                                    ErrorMessage="Enter Next Hearing Date." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                    ControlToValidate="txtNextHearingDate" Display="Dynamic" runat="server">
+                                                </asp:RequiredFieldValidator>
+                                                <asp:TextBox ID="txtNextHearingDate" runat="server" date-provide="datepicker" placeholder="DD/MM/YYYY" CssClass="form-control" ClientIDMode="Static" AutoComplete="off"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Hearing Document</label>
+                                                <asp:RequiredFieldValidator ID="rfvhearingFile" ValidationGroup="Hearing"
+                                                    ErrorMessage="Upload Hearing Document." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                    ControlToValidate="FileHearingDoc" Display="Dynamic" runat="server">
+                                                </asp:RequiredFieldValidator>
+                                                <asp:FileUpload ID="FileHearingDoc" runat="server" CssClass="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 mt-3">
+                                            <div class="row">
+                                                <div class="col-md-6 mt-3">
+                                                    <asp:Button ID="btnAddHeairng" runat="server" CssClass="btn btn-primary btn-block" ValidationGroup="Hearing" Text="Add" OnClick="btnAddHeairng_Click" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="table-responsive">
+                                                <asp:GridView ID="grdHeairngDtl" runat="server" CssClass="table table-bordered text-center" AutoGenerateColumns="false" EmptyDataText="NO RECORD FOUND">
+                                                    <Columns>
+                                                        <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblSrnO" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Hearing Date">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblHearingDate" runat="server" Text='<%# Eval("HearingDate") %>'></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="View" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                            <ItemTemplate>
+                                                                <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%# "../Legal/HearingDoc/" +  Eval("HearingDoc") %>' Target="_blank" CssClass="btn-sm label label-primary">View</asp:HyperLink>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                    </Columns>
+                                                </asp:GridView>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <legend>Old Case Detail</legend>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Old Case No</label><span style="color: red;"><b>*</b></span>
+                                                <asp:RequiredFieldValidator ID="rfvoldCsseno" ValidationGroup="OldCase"
+                                                    ErrorMessage="Enter Old Case No." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                    ControlToValidate="txtoldCaseNo" Display="Dynamic" runat="server">
+                                                </asp:RequiredFieldValidator>
+                                                <asp:TextBox ID="txtoldCaseNo" runat="server" CssClass="form-control" MaxLength="10" AutoComplete="off" onkeypress="return NumberOnly();"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Year</label><span style="color: red;"><b>*</b></span>
+                                                <asp:RequiredFieldValidator ID="rfvoldYear" ValidationGroup="OldCase"
+                                                    ErrorMessage="Select Case Year" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                    ControlToValidate="ddloldCaseYear" Display="Dynamic" runat="server" InitialValue="0">
+                                                </asp:RequiredFieldValidator>
+                                                <asp:DropDownList ID="ddloldCaseYear" runat="server" CssClass="form-control">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>CaseType</label><span style="color: red;"><b>*</b></span>
+                                                <asp:RequiredFieldValidator ID="rfvOldCasetype" ValidationGroup="OldCase"
+                                                    ErrorMessage="Select Case type" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                    ControlToValidate="ddloldCasetype" Display="Dynamic" runat="server" InitialValue="0">
+                                                </asp:RequiredFieldValidator>
+                                                <asp:DropDownList ID="ddloldCasetype" runat="server" CssClass="form-control">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Court</label><span style="color: red;"><b>*</b></span>
+                                                <asp:RequiredFieldValidator ID="rfvOldCourt" ValidationGroup="OldCase"
+                                                    ErrorMessage="Select Court type" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                    ControlToValidate="ddloldCaseCourt" Display="Dynamic" runat="server" InitialValue="0">
+                                                </asp:RequiredFieldValidator>
+                                                <asp:DropDownList ID="ddloldCaseCourt" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddloldCaseCourt_SelectedIndexChanged">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Court Location</label><span style="color: red;"><b>*</b></span>
+                                                <asp:RequiredFieldValidator ID="rfvoldCourtLocation" ValidationGroup="OldCase"
+                                                    ErrorMessage="Select Court Location" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                    ControlToValidate="ddloldCourtLoca_Id" Display="Dynamic" runat="server" InitialValue="0">
+                                                </asp:RequiredFieldValidator>
+                                                <asp:DropDownList ID="ddloldCourtLoca_Id" runat="server" CssClass="form-control">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>केस का विवरण</label><br />
+                                            <asp:FileUpload ID="FU1" runat="server" CssClass="form-control" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>कार्यवाही का विवरण</label><br />
+                                            <asp:FileUpload ID="FU2" runat="server" CssClass="form-control" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>निर्णय</label><br />
+                                            <asp:FileUpload ID="FU3" runat="server" CssClass="form-control" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>अन्य</label><br />
+                                            <asp:FileUpload ID="FU4" runat="server" CssClass="form-control" />
+                                        </div>
+                                        <div class="col-md-2 mt-3">
+                                            <div class="row">
+                                                <div class="col-md-6 mt-3">
+                                                    <asp:Button ID="btnSaveOldCase" runat="server" CssClass="btn btn-primary btn-block" ValidationGroup="OldCase" Text="Add" OnClick="btnSaveOldCase_Click" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <div class="table-responsive">
+                                                <asp:GridView ID="GrdOldCaseDtl" runat="server" CssClass="table table-bordered text-center" AutoGenerateColumns="false" EmptyDataText="NO RECORD FOUND">
+                                                    <Columns>
+                                                        <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblId" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Old Case No.">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblOldCaseNo" runat="server" Text='<%# Eval("OldCaseNo") %>'></asp:Label>
+                                                                <asp:Label ID="lblOldFillingNO" runat="server" Text='<%# Eval("OldFillingNo") %>' Visible="false"></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Case Year">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblOldCaseYear" runat="server" Text='<%# Eval("CaseYear") %>'></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Case type">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblOldCasetype" runat="server" Text='<%# Eval("Casetype") %>'></asp:Label>
+                                                                <asp:Label ID="lblOldCasetype_Id" runat="server" Text='<%# Eval("Casetype_ID") %>' Visible="false"></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Court">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblOldCourt" runat="server" Text='<%# Eval("Court") %>'></asp:Label>
+                                                                <asp:Label ID="lblOldCourt_Id" runat="server" Text='<%# Eval("Court_ID") %>' Visible="false"></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Court Location">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblOldCourtLoca" runat="server" Text='<%# Eval("CourtLocation") %>'></asp:Label>
+                                                                <asp:Label ID="lblOldCourtLoca_Id" runat="server" Text='<%# Eval("CourtLocation_ID") %>' Visible="false"></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Doc Name">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblOldDocName" runat="server" Text='<%# Eval("DocName") %>'></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="View">
+                                                            <ItemTemplate>
+                                                                <asp:HyperLink ID="hypOldCaseDtl" runat="server" Enabled='<%# Eval("Document").ToString() == "" ? false : true %>' Target="_blank" NavigateUrl='<%# "~/Legal/OldCaseDocument/" +  Eval("Document") %>' CssClass="fa fa-eye"></asp:HyperLink>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                    </Columns>
+                                                </asp:GridView>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <asp:Button ID="btnSubmit" CssClass="btn btn-block btn-success" ValidationGroup="Save" runat="server" Text="Save" OnClick="btnSubmit_Click" OnClientClick="return ValidatePage();" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <asp:Button ID="btnClear" CssClass="btn btn-block btn-default" runat="server" Text="Clear" OnClick="btnClear_Click" />
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -525,9 +885,35 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Fotter" runat="Server">
     <script type="text/javascript">
+        function NumberOnly() { //only Numeric required.
+            var charcd = event.keyCode;
+            if (charcd > 47 && charcd < 58)
+                return true
+            return false
+        }
 
+        function capFirst(cpt) { //only Capital First.
+            cpt.value = cpt.value[0].toUpperCase() + cpt.value.substring(1);
+        }
 
-        $('#txtDateOfReceipt').datepicker({
+        function chcode() { // Only English or Hindi Required
+            var charcd = event.keyCode;
+            if (charcd > 47 && charcd < 58)
+                return false
+            else if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 8 || charCode == 32)
+                return true
+        }
+
+        function lettersOnly() { // Only English Letter Allow.
+            var charCode = event.keyCode;
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 8 || charCode == 32)
+                return true;
+            else
+                return false;
+        }
+    </script>
+    <script type="text/javascript">
+        $('#txtDateOfCaseReg').datepicker({
             autoclose: true,
             format: 'dd/mm/yyyy'
         });
@@ -537,7 +923,7 @@
             format: 'dd/mm/yyyy'
         });
 
-        $('#txtHearingDate').datepicker({
+        $('#txtNextHearingDate').datepicker({
             autoclose: true,
             format: 'dd/mm/yyyy'
         });
@@ -575,310 +961,10 @@
             return true;
         }
 
-        $('.MobileNo').blur(function () {
-            debugger;
-            var Obj = $('.MobileNo').val();
-            if (Obj == null) Obj = window.event.srcElement;
-            if (Obj != "") {
-                ObjVal = Obj;
-                var MobileNo = /^[6-9]{1}[0-9]{9}$/;
-                var code_chk = ObjVal.substring(3, 4);
-                if (ObjVal.search(MobileNo) == -1) {
-                    alert("Invalid Mobile No.");
-                    //message_error("Error", "Invalid IFSC Code.");
-                    //Obj.focus();
-                    $('.MobileNo').val('');
-                    return false;
-                }
-                if (code.test(code_chk) == false) {
-                    alert("Invaild Mobile No.");
-                    //message_error("Error", "Invalid IFSC Code.");
-                    $('.MobileNo').val('');
-                    return false;
-                }
-            }
-        });
-        $('.MobileNo1').blur(function () {
-            debugger;
-            var Obj = $('.MobileNo1').val();
-            if (Obj == null) Obj = window.event.srcElement;
-            if (Obj != "") {
-                ObjVal = Obj;
-                var MobileNo = /^[6-9]{1}[0-9]{9}$/;
-                var code_chk = ObjVal.substring(3, 4);
-                if (ObjVal.search(MobileNo) == -1) {
-                    alert("Invalid Mobile No.");
-                    //message_error("Error", "Invalid IFSC Code.");
-                    //Obj.focus();
-                    $('.MobileNo1').val('');
-                    return false;
-                }
-                if (code.test(code_chk) == false) {
-                    alert("Invaild Mobile No.");
-                    //message_error("Error", "Invalid IFSC Code.");
-                    $('.MobileNo1').val('');
-                    return false;
-                }
-            }
-        });
-        $('.MobileNo2').blur(function () {
-            debugger;
-            var Obj = $('.MobileNo2').val();
-            if (Obj == null) Obj = window.event.srcElement;
-            if (Obj != "") {
-                ObjVal = Obj;
-                var MobileNo = /^[6-9]{1}[0-9]{9}$/;
-                var code_chk = ObjVal.substring(3, 4);
-                if (ObjVal.search(MobileNo) == -1) {
-                    alert("Invalid Mobile No.");
-                    //message_error("Error", "Invalid IFSC Code.");
-                    //Obj.focus();
-                    $('.MobileNo2').val('');
-                    return false;
-                }
-                if (code.test(code_chk) == false) {
-                    alert("Invaild Mobile No.");
-                    //message_error("Error", "Invalid IFSC Code.");
-                    $('.MobileNo2').val('');
-                    return false;
-                }
-            }
-        });
-
-        function validateCaseDetail() {
-            debugger;
-            var msg = "";
-            var Hearing_Date = document.getElementById('<%=txtHearingDate.ClientID%>');
-            $("#valtxtCaseNo").html("");
-            $("#valddlCourtType").html("");
-            $("#valddlDistrict").html("");
-            $("#valddlCaseSubject").html("");
-            $("#valddloffice").html("");
-            $("#valtxtDate").html("");
-            $("#valtxtDateOfLastHearing").html("");
-            $("#valddlHighprioritycase").html("");
-            $("#valOICName").html("");
-            $("#valvalOICEmailID").html("");
-            $("#valOICMobile").html("");
-            $("#valvalAdvocateName").html("");
-            $("#valvalAdvocateEmailID").html("");
-            $("#valAdvocateMobile").html("");
-            $("#valtxtCaseDescription").html("");
-            //$("#valddlOIC").html(" ");
-            //$("#valddlAdvocate").html("");
-            $("#valtxtPetitionerAppName").html("");
-            $("#valtxtPetitionerAppMobileNo").html("");
-            $("#valtxtPetitionerAppEmail").html("");
-            $("#valtxtPetitionerAppAddress").html("");
-            $("#valtxtPetitionerAdvName").html("");
-            $("#txtPetitionerAdvMobileNo").html("");
-            $("#valtxtPetitionerAdvEmail").html("");
-            $("#valtxtPetitionerAdvAddress").html("");
-          <%--  $("#valtxtHearingDate").html("");
-            if (document.getElementById('<%=ddloffice.ClientID%>').selectedIndex == 0) {
-                msg = msg + "Select Office(Supervision By). \n";
-                $("#valddloffice").html("Select Office(Supervision By)");
-            }--%>
-            if (document.getElementById('<%=txtCaseNo.ClientID%>').value.trim() == "") {
-                msg = msg + "Enter Case Number. \n";
-                $("#valtxtCaseNo").html("Enter Case Number");
-            }
-            if (document.getElementById('<%=txtOICName.ClientID%>').value.trim() == "") {
-                msg = msg + "Enter OIC Name. \n";
-                $("#valOICName").html("Enter OIC Name");
-            }
-            if (document.getElementById('<%=txtOICEmail.ClientID%>').value.trim() == "") {
-                msg = msg + "Enter OIC Email-ID. \n";
-                $("#valvalOICEmailID").html("Enter OIC Email-ID");
-            }
-            if (document.getElementById('<%=txtOICMobileNo.ClientID%>').value.trim() == "") {
-                msg = msg + "Enter OIC Mobile No. \n";
-                $("#valOICMobile").html("Enter OIC Mobile No.");
-            }
-            if (document.getElementById('<%=ddlCourtType.ClientID%>').selectedIndex == 0) {
-                msg = msg + "Select Court Type. \n";
-                $("#valddlCourtType").html("Select Court Type");
-            }
-
-            if (document.getElementById('<%=ddlDistrict.ClientID%>').selectedIndex == 0) {
-                msg = msg + "Select District. \n";
-                $("#valddlDistrict").html("Select District");
-            }
-            if (document.getElementById('<%=ddlHighprioritycase.ClientID%>').selectedIndex == 0) {
-
-                msg = msg + "Select High Priority Case Type. \n";
-                $("#valddlHighprioritycase").html("Select High Priority Case Type");
-            }
-
-            if (document.getElementById('<%=ddlCaseSubject.ClientID%>').selectedIndex == 0) {
-
-                msg = msg + "Select Case Subject. \n";
-                $("#valddlCaseSubject").html("Select Case Subject");
-            }
-            if (document.getElementById('<%=txtDateOfReceipt.ClientID%>').value.trim() == "") {
-                msg = msg + "Select Date Of Receipt. \n";
-                $("#valtxtDateOfReceipt").html("Enter Date of Case");
-            }
-            if (document.getElementById('<%=txtDateOfLastHearing.ClientID%>').value.trim() == "") {
-                msg = msg + "Select Date of Filling. \n";
-                $("#valtxtDate").html("Enter last Hearing Date");
-            }
-            if (document.getElementById('<%=txtCaseDescription.ClientID%>').value.trim() == "") {
-                msg = msg + "Enter Subject Of Case. \n";
-                $("#valtxtCaseDescription").html("Enter Subject Of Case");
-            }
-            if (document.getElementById('<%=txtPetitionerAppMobileNo.ClientID%>').value.trim() != "") {
-                if (document.getElementById('<%=txtPetitionerAppMobileNo.ClientID%>').value.length != 10) {
-                    msg += "Enter Correct Petitioner/Applicant  Mobile No. \n";
-                    $("#valtxtPetitionerAppMobileNo").html("Enter Correct Petitioner/Applicant  Mobile No ");
-                }
-            }
-            if (document.getElementById('<%=txtPetitionerAppEmail.ClientID%>').value.trim() != "") {
-                if (document.getElementById('<%=txtPetitionerAppEmail.ClientID%>').value.trim() != "") {
-                    var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-
-                    if (reg.test(document.getElementById('<%=txtPetitionerAppEmail.ClientID%>').value) == false) {
-                        msg = msg + "Please Enter Valid Petitioner/Applicant Email Address. \n";
-                        $("#valtxtPetitionerAppEmail").html("Please Enter Valid Petitioner/Applicant Email Address");
-                    }
-                }
-            }
-            if (document.getElementById('<%=txtPetitionerAdvMobileNo.ClientID%>').value.trim() != "") {
-                if (document.getElementById('<%=txtPetitionerAdvMobileNo.ClientID%>').value.length != 10) {
-                    msg += "Enter Correct Petitioner/Advocate  Mobile No. \n";
-                    $("#valtxtPetitionerAdvMobileNo").html("Enter Correct Petitioner/Advocate  Mobile No ");
-                }
-            }
-            if (document.getElementById('<%=txtPetitionerAdvEmail.ClientID%>').value.trim() != "") {
-                if (document.getElementById('<%=txtPetitionerAdvEmail.ClientID%>').value.trim() != "") {
-                    var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-])+\.([A-Za-z]{2,4})$/;
-
-                    if (reg.test(document.getElementById('<%=txtPetitionerAdvEmail.ClientID%>').value) == false) {
-                        msg = msg + "Please Enter  Valid Petitioner/Advocate Email  Address. \n";
-                        $("#valtxtPetitionerAdvEmail").html("Please Enter  Valid Petitioner/Advocate Email  Address ");
-                    }
-                }
-            }
-            if (document.getElementById('<%=txtPetitionerAppName.ClientID%>').value.trim() == "") {
-                msg = msg + "Enter Petitioner/Applicant Name. \n";
-                $("#valtxtPetitionerAppName").html("Enter Petitioner/Applicant Name ");
-            }
-
-            if (document.getElementById('<%=txtPetitionerAdvName.ClientID%>').value.trim() == "") {
-                msg = msg + "Enter Petitioner/Advocate Name. \n";
-                $("#valtxtPetitionerAdvName").html("Enter Petitioner/Advocate Name ");
-            }
-
-            if (document.getElementById('<%=txtPetitionerAdvAddress.ClientID%>').value.trim() == "") {
-                msg = msg + "Enter Petitioner/Advocate Address. \n";
-                $("#valtxtPetitionerAdvAddress").html("Enter Petitioner/Advocate Address ");
-            }
-
-           <%-- if (Hearing_Date != null) {
-                if (document.getElementById('<%=txtHearingDate.ClientID%>').value.trim() == "") {
-                    msg = msg + "Select  Hearing Date. \n";
-                    $("#valtxtHearingDate").html("Select  Hearing Date ");
-                }
-            }--%>
-
-            if (msg != "") {
-                alert(msg);
-                return false;
-            }
-            else {
-                if (document.getElementById('<%=btnSubmit.ClientID%>').value.trim() == "Save") {
-                    if (confirm("Do you really want to Save Details ?")) {
-                        return true;
-                    }
-                    else {
-                        return false;
-                    }
-                }
-                else if (document.getElementById('<%=btnSubmit.ClientID%>').value.trim() == "Update") {
-                    if (confirm("Do you really want to Update Details ?")) {
-                        return true;
-                    }
-                    else {
-                        return false;
-                    }
-                }
-
-            }
-        }
-        function validateAdvocateDetail() {
-            var msg = "";
-            $("#valtxtAdvocate_Name").html("");
-            $("#valtxtAdvocate_MobileNo").html("");
-            $("#txtAdvocate_Email").html("");
-            if (document.getElementById('<%=txtDeptAdvocateName.ClientID%>').value.trim() == "") {
-                msg = msg + "Enter Advocate / CA Name. \n";
-                $("#valtxtAdvocate_Name").html("Enter Advocate / CA Name");
-            }
-            if (document.getElementById('<%=txtDeptAdvocateMobileNo.ClientID%>').value.trim() == "") {
-                msg += "Enter Advocate / CA Mobile No. \n";
-                $("#valtxtAdvocate_MobileNo").html("Enter Advocate / CA  Mobile No");
-            }
-            else if (document.getElementById('<%=txtDeptAdvocateMobileNo.ClientID%>').value.length != 10) {
-                msg += "Enter  Correct Advocate / CA Mobile No. \n";
-                $("#valtxtAdvocate_MobileNo").html("Enter Correct Advocate / CA Mobile No");
-            }
-            if (document.getElementById('<%=txtDeptAdvocateEmail.ClientID%>').value.trim() != "") {
-                var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-])+\.([A-Za-z]{2,4})$/;
-
-                if (reg.test(document.getElementById('<%=txtDeptAdvocateEmail.ClientID%>').value) == false) {
-                    msg = msg + "Please Enter Valid Email Address. \n";
-                    $("#valtxtAdvocate_Email").html("Please Enter Valid Email Address");
-                }
-            }
-
-            if (msg != "") {
-                alert(msg);
-                return false;
-            }
-           <%-- else {
-                if (document.getElementById('<%=btnAdvocateSave.ClientID%>').value.trim() == "Save") {
-                    if (confirm("Do you really want to Save Details ?")) {
-                        return true;
-                    }
-                    else {
-                        return false;
-                    }
-                }
-                else if (document.getElementById('<%=btnAdvocateSave.ClientID%>').value.trim() == "Update") {
-                    if (confirm("Do you really want to Update Details ?")) {
-                        return true;
-                    }
-                    else {
-                        return false;
-                    }
-                }
-
-            }--%>
-        }
 
         function checkHearingDetail() {
             debugger;
-            //var DateofReceipt = new Date(document.getElementById("txtDateOfReceipt"));
-            ////Dateoffiling = Date.parse(document.getElementById("txtDateOfFiling").value);
-            //var HearingDate = new Date(document.getElementById("txtHearingDate"));
-            ////var DateofReceipt = document.getElementById("txtDateOfReceipt").value;
-            ////var Dateoffiling = document.getElementById("txtDateOfFiling").value;
-            ////var HearingDate = document.getElementById("txtHearingDate").value;
 
-            //if (DateofReceipt != "" && HearingDate != "")
-            //{
-
-
-            //    if (DateofReceipt > HearingDate)
-            //    {
-            //        alert("Hearing Date should be greater than DateofReceipt ");
-
-            //    }
-            //    //else if (DOF > HDate) {
-            //    //    alert("Hearing Date should be greater than DateofFiling ");
-            //    //    return false;
-            //    //}
-            //}
             var x = document.getElementById("txtDateOfReceipt").value; //This is a STRING, not a Date
             if (x != "") {
                 var dateParts = x.split("/");   //Will split in 3 parts: day, month and year
@@ -933,5 +1019,26 @@
         }
     </script>
     <script src="../js/ValidationJs.js"></script>
+
+
+    <script>
+        function ValidatePage() {
+            if (typeof (Page_ClientValidate) == 'function') {
+                Page_ClientValidate('Save');
+            }
+            if (Page_IsValid) {
+                if (document.getElementById('<%=btnSubmit.ClientID%>').value.trim() == "Update") {
+                    document.getElementById('<%=lblPopupAlert.ClientID%>').textContent = "Are you sure you want to Update this record?";
+                    $('#myModal').modal('show');
+                    return false;
+                }
+                if (document.getElementById('<%=btnSubmit.ClientID%>').value.trim() == "Save") {
+                    document.getElementById('<%=lblPopupAlert.ClientID%>').textContent = "Are you sure you want to Save this record?";
+                    $('#myModal').modal('show');
+                    return false;
+                }
+            }
+        }
+    </script>
 </asp:Content>
 

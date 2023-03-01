@@ -26,10 +26,10 @@ public partial class Legal_CaseDisposaltypeMst : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("../Login.aspx");
+            Response.Redirect("../Login.aspx",false);
         }
     }
-
+    #region BindGrid
     protected void BindGrid()
     {
         try
@@ -49,10 +49,11 @@ public partial class Legal_CaseDisposaltypeMst : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
-
+    #endregion
+    #region save Update
     protected void btnSave_Click(object sender, EventArgs e)
     {
         try
@@ -89,9 +90,11 @@ public partial class Legal_CaseDisposaltypeMst : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
+     #endregion 
+    #region Row Command
     protected void GrdCaseDipose_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         try
@@ -106,12 +109,20 @@ public partial class Legal_CaseDisposaltypeMst : System.Web.UI.Page
                 ViewState["DesignationID"] = e.CommandArgument;
                 btnSave.Text = "Update";
             }
+            if (e.CommandName == "DeleteDetails")
+            {
+                int CaseDisposeType_Id = Convert.ToInt32(e.CommandArgument);
+                obj.ByTextQuery("delete from tbl_LegalCaseDisposeType where CaseDisposeType_Id=" + CaseDisposeType_Id);
+                BindGrid();
+            }
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
+     #endregion
+    #region Page Index Changing
     protected void GrdCaseDipose_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         try
@@ -122,7 +133,8 @@ public partial class Legal_CaseDisposaltypeMst : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
+     #endregion
 }

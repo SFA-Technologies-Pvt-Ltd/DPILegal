@@ -56,13 +56,13 @@
                                                         <label>Office Type Name<span style="color: red;"> *</span></label>
                                                         <span class="pull-right">
                                                             <asp:RequiredFieldValidator ID="Rfv_OfficeTypeName" ValidationGroup="Save"
-                                                                ErrorMessage="Enter Office Type Name" Text="<i class='fa fa-exclamation-circle' title='Select Zone'></i>"
-                                                                ControlToValidate="txtOfficeTypeName" ForeColor="Red" Display="Dynamic" runat="server" InitialValue="0">
+                                                                ErrorMessage="Enter Office Type Name" Text="<i class='fa fa-exclamation-circle' title='Enter Office Type Name'></i>"
+                                                                ControlToValidate="txtOfficeTypeName" ForeColor="Red" Display="Dynamic" runat="server">
                                                             </asp:RequiredFieldValidator>
-                                                            <asp:RegularExpressionValidator ID="rexOfficetypeName" runat="server" ErrorMessage="Only Characters Allow" ValidationExpression="^[a-zA-Z ]*$" ControlToValidate="txtOfficeTypeName" Font-Bold="true" ForeColor="Red"
-                                                                Text="<i class='fa fa-exclamation-circle' title='Mobile No. is Not Valid'></i>" ValidationGroup="Save" SetFocusOnError="true"></asp:RegularExpressionValidator>
+                                                            <asp:RegularExpressionValidator ID="rexOfficetypeName" runat="server" ErrorMessage="Only Characters Allow" ValidationExpression="^[a-zA-Z ]*$" ControlToValidate="txtOfficeTypeName" ForeColor="Red"
+                                                                Text="<i class='fa fa-exclamation-circle' title='Enter Valid Text'></i>" ValidationGroup="Save" SetFocusOnError="true"></asp:RegularExpressionValidator>
                                                         </span>
-                                                        <asp:TextBox runat="server" ID="txtOfficeTypeName" onkeyup="javascript:capFirst(this);" onkeypress="return lettersOnly();" CssClass="form-control" MaxLength="50" AutoComplete="off"></asp:TextBox>
+                                                        <asp:TextBox runat="server" ID="txtOfficeTypeName" placeholder="Enter Office Type" onkeyup="javascript:capFirst(this);" onkeypress="return lettersOnly();" CssClass="form-control" MaxLength="50" AutoComplete="off"></asp:TextBox>
                                                     </div>
                                                 </div>
                                                 </div>
@@ -70,7 +70,7 @@
                                                 <div class="col-md-12">
                                                     <div class="row">
                                                         <div class="col-md-3">
-                                                            <asp:Button ID="btnSave" runat="server" CssClass="btn btn-primary btn-block" Text="Save" OnClick="btnSave_Click" ValidationGroup="Save" />
+                                                            <asp:Button ID="btnSave" runat="server" CssClass="btn btn-primary btn-block" Text="Save" OnClientClick="return ValidatePage();" OnClick="btnSave_Click" ValidationGroup="Save" />
                                                         </div>
                                                         <div class="col-md-3">
                                                             <a href="OfficetypeMaster.aspx" class="btn btn-default btn-block">Clear</a>
@@ -88,20 +88,22 @@
                                                     <div class="table-responsive">
                                                         <asp:GridView ID="grdOfficetypeMst" runat="server" CssClass="table table-bordered table-hover" DataKeyNames="OfficeType_Id" AutoGenerateColumns="false" AllowPaging="true" OnPageIndexChanging="grdOfficetypeMst_PageIndexChanging" OnRowCommand="grdOfficetypeMst_RowCommand">
                                                             <Columns>
-                                                                <asp:TemplateField HeaderText="S.No." ItemStyle-Width="5%">
+                                                                <asp:TemplateField HeaderText="Sr#" ItemStyle-Width="5%" ItemStyle-HorizontalAlign="Center">
                                                                     <ItemTemplate>
                                                                         <asp:Label ID="lblId" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
                                                                         <asp:Label ID="lblOfficetypeID" runat="server" Text='<%# Eval("OfficeType_Id") %>' Visible="false"></asp:Label>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
-                                                                <asp:TemplateField HeaderText="Office type Name">
+                                                                <asp:TemplateField HeaderText="Office type Name" ItemStyle-HorizontalAlign="Center">
                                                                     <ItemTemplate>
                                                                         <asp:Label ID="lblOfficetypeName" runat="server" Text='<%# Eval("OfficeType_Name") %>'></asp:Label>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
-                                                                <asp:TemplateField HeaderText="Action"  ItemStyle-Width="5%">
+                                                                <asp:TemplateField HeaderText="Action"  ItemStyle-Width="5%" ItemStyle-HorizontalAlign="Center">
                                                                     <ItemTemplate>
-                                                                        <asp:LinkButton ID="lnkEditView" runat="server" CommandArgument='<%# Eval("OfficeType_Id") %>' CommandName="EditDetails" ToolTip="Edit" CssClass="fa fa-edit"></asp:LinkButton>
+                                                                        <asp:LinkButton ID="lnkEditView" runat="server" CommandArgument='<%# Eval("OfficeType_Id") %>' CommandName="EditDetails" ToolTip="Edit" CssClass="fa fa-edit"></asp:LinkButton>&nbsp;
+                                                                         <asp:LinkButton ID="lnkbtndelete" runat="server" CommandName="DeleteDetails" CommandArgument='<%# Eval("OfficeType_Id") %>'
+                                                                             OnClientClick="return confirm('Are you sure you want to delete this record?');" ToolTip="Delete" CssClass=""><i class="fa fa-trash"></i></asp:LinkButton>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
                                                             </Columns>
@@ -132,6 +134,25 @@
             else
                 return false;
         } 
+    </script>
+     <script>
+         function ValidatePage() {
+             if (typeof (Page_ClientValidate) == 'function') {
+                 Page_ClientValidate('Save');
+             }
+             if (Page_IsValid) {
+                 if (document.getElementById('<%=btnSave.ClientID%>').value.trim() == "Update") {
+                    document.getElementById('<%=lblPopupAlert.ClientID%>').textContent = "Are you sure you want to Update this record?";
+                    $('#myModal').modal('show');
+                    return false;
+                }
+                if (document.getElementById('<%=btnSave.ClientID%>').value.trim() == "Save") {
+                    document.getElementById('<%=lblPopupAlert.ClientID%>').textContent = "Are you sure you want to Save this record?";
+                    $('#myModal').modal('show');
+                    return false;
+                }
+            }
+        }
     </script>
 </asp:Content>
 

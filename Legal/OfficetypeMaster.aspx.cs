@@ -12,7 +12,6 @@ public partial class Legal_OfficetypeMaster : System.Web.UI.Page
     APIProcedure obj = new APIProcedure();
     DataSet ds = new DataSet();
     CultureInfo cult = new CultureInfo("gu-IN");
-
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Session["Emp_Id"] != null && Session["Office_Id"] != null)
@@ -26,11 +25,10 @@ public partial class Legal_OfficetypeMaster : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("../Login.aspx");
+            Response.Redirect("../Login.aspx", false);
         }
     }
-
-
+    #region Fill Grid
     protected void FillGrid()
     {
         try
@@ -51,10 +49,11 @@ public partial class Legal_OfficetypeMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
-
+    #endregion
+    #region Save Update
     protected void btnSave_Click(object sender, EventArgs e)
     {
         try
@@ -65,7 +64,7 @@ public partial class Legal_OfficetypeMaster : System.Web.UI.Page
                 if (btnSave.Text == "Save")
                 {
                     ds = obj.ByProcedure("USP_InsertOfficetypeMaster", new string[] { "OfficeType_Name", "CreatedBy", "CreatedByIP" }
-                    , new string[] { txtOfficeTypeName.Text.Trim(),  ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress()}, "dataset");
+                    , new string[] { txtOfficeTypeName.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
                 }
                 else if (btnSave.Text == "Update" && ViewState["OfficeTypeID"].ToString() != "" && ViewState["OfficeTypeID"].ToString() != null)
                 {
@@ -78,7 +77,7 @@ public partial class Legal_OfficetypeMaster : System.Web.UI.Page
                     if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
                     {
                         txtOfficeTypeName.Text = "";
-                        lblMsg.Text = obj.Alert("fa-ban", "alert-success", "Thanks !", ErrMsg);
+                        lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                     }
                     else
                     {
@@ -95,9 +94,11 @@ public partial class Legal_OfficetypeMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
+    #endregion
+    #region Page Index Chaging
     protected void grdOfficetypeMst_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         try
@@ -108,10 +109,11 @@ public partial class Legal_OfficetypeMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
-
+    #endregion
+    #region Row Command
     protected void grdOfficetypeMst_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         try
@@ -127,10 +129,17 @@ public partial class Legal_OfficetypeMaster : System.Web.UI.Page
                 ViewState["OfficeTypeID"] = e.CommandArgument;
                 btnSave.Text = "Update";
             }
+            if (e.CommandName == "DeleteDetails")
+            {
+                int OfficeType_Id = Convert.ToInt32(e.CommandArgument);
+                obj.ByTextQuery("delete from tblOfficeTypeMaster where OfficeType_Id=" + OfficeType_Id);
+                FillGrid();
+            }
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
+    #endregion
 }

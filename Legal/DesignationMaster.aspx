@@ -75,10 +75,10 @@
                                             ErrorMessage="Enter Designation Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="txtDeDesignation" Display="Dynamic" runat="server">
                                         </asp:RequiredFieldValidator>
-                                        <asp:TextBox ID="txtDeDesignation" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="50" onkeyup="javascript:capFirst(this);" onkeypress="return chcode();"></asp:TextBox>
-                                        <%--<asp:RegularExpressionValidator runat="server" ID="revDesignationName" Display="Dynamic" ControlToValidate="txtDeDesignation"
+                                        <asp:TextBox ID="txtDeDesignation" runat="server" CssClass="form-control" placeholder="Enter Designation Name" AutoComplete="off" MaxLength="50" onkeyup="javascript:capFirst(this);" onkeypress="return chcode();"></asp:TextBox>
+                                        <asp:RegularExpressionValidator runat="server" ID="revDesignationName" Display="Dynamic" ControlToValidate="txtDeDesignation"
                                             ValidationExpression="^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$" ValidationGroup="Save" ForeColor="Red" ErrorMessage="Please Enter Valid Text">
-                                        </asp:RegularExpressionValidator>--%>
+                                        </asp:RegularExpressionValidator>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -88,7 +88,7 @@
                                          <span style="color: red;"><b>*</b></span></label>
                                         <asp:RequiredFieldValidator ID="RfvOfficeLevel" ValidationGroup="Save"
                                             ErrorMessage="Enter Office Level." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
-                                            ControlToValidate="ddlOfficeLevel" Display="Dynamic" runat="server">
+                                            ControlToValidate="ddlOfficeLevel" Display="Dynamic" runat="server" InitialValue="0">
                                         </asp:RequiredFieldValidator>
                                         <asp:DropDownList runat="server" ID="ddlOfficeLevel" CssClass="form-control"></asp:DropDownList>
                                     </div>
@@ -112,7 +112,7 @@
                                     <div class="table-responsive">
                                         <asp:GridView ID="GrdDesignation" runat="server" CssClass="table table-bordered table-hover" AutoGenerateColumns="false" AllowPaging="true" PageSize="10" OnPageIndexChanging="GrdDesignation_PageIndexChanging" OnRowCommand="GrdDesignation_RowCommand" DataKeyNames="Designation_Id">
                                             <Columns>
-                                                <asp:TemplateField HeaderText="S.No." ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblsrno" runat="server" Text='<%# Container.DataItemIndex +1 %>'></asp:Label>
                                                         <asp:Label ID="lblID" runat="server" Text='<%# Eval("Designation_Id") %>' Visible="false"></asp:Label>
@@ -130,12 +130,12 @@
                                                         <asp:Label ID="lblOfficeID" runat="server" Text='<%# Eval("Office_Id") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Designation Name">
+                                                <asp:TemplateField HeaderText="Designation Name" ItemStyle-HorizontalAlign="Center">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblDesignationName" runat="server" Text='<%# Eval("Designation_Name") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Office Level">
+                                                <asp:TemplateField HeaderText="Office Level" ItemStyle-HorizontalAlign="Center">
                                                     <ItemTemplate>
                                                       <asp:Label ID="lblOfficelevelID" runat="server" Text='<%# Eval("OfficeLevel_Id") %>' Visible="false"></asp:Label>
                                                         <asp:Label ID="lblOfficelevelName" runat="server" Text='<%# Eval("OfficeLevelName") %>'></asp:Label>
@@ -144,7 +144,9 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Action" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
-                                                        <asp:LinkButton ID="lnkbtnEdit" runat="server" CommandName="EditDetails" CommandArgument='<%# Eval("Designation_Id") %>' ToolTip="Edit"><i class="fa fa-edit"></i></asp:LinkButton>
+                                                        <asp:LinkButton ID="lnkbtnEdit" runat="server" CommandName="EditDetails" CommandArgument='<%# Eval("Designation_Id") %>' ToolTip="Edit"><i class="fa fa-edit"></i></asp:LinkButton>&nbsp;
+                                                        <asp:LinkButton ID="lnkbtndelete" runat="server" CommandName="DeleteDetails" CommandArgument='<%# Eval("Designation_Id") %>'
+                                                                OnClientClick="return confirm('Are you sure you want to delete this record?');" ToolTip="Delete" CssClass=""><i class="fa fa-trash"></i></asp:LinkButton>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>

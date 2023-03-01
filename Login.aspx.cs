@@ -78,8 +78,16 @@ public partial class Legal_Login : System.Web.UI.Page
                             Session["UserEmail"] = ds.Tables[0].Rows[0]["UserEmail"].ToString();
                             Session["AccessModule"] = ds.Tables[1];
                             Session["AccessForm"] = ds.Tables[2];
-                            //Response.Redirect("~/Legal/LegalDashboard.aspx", false);
-							Response.Redirect("~/Legal/OldCaseDashBoard.aspx", false);
+                            Session["OICMaster_ID"] = ds.Tables[0].Rows[0]["OICMaster_ID"].ToString();
+                            if (Session["OICMaster_ID"] != "")
+                            {
+                                Response.Redirect("~/Legal/OICWiseOldCaseDashBoard.aspx", false);
+                            }
+                            else
+                            {
+                                //Response.Redirect("~/Legal/LegalDashboard.aspx", false);
+                                Response.Redirect("~/Legal/OldCaseDashBoard.aspx", false);
+                            }
                         }
                         else
                         {

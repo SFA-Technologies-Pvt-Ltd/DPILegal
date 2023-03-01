@@ -28,10 +28,10 @@ public partial class Legal_DesignationMaster : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("../Login.aspx");
+            Response.Redirect("../Login.aspx",false);
         }
     }
-
+    #region Bind Grid
     protected void BindGrid()
     {
         try
@@ -50,10 +50,11 @@ public partial class Legal_DesignationMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
-
+    #endregion
+    #region Fill Office Type Name
     protected void FillOfficetypeName()
     {
         try
@@ -71,10 +72,11 @@ public partial class Legal_DesignationMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
-
+    #endregion
+    #region Fill Office Leval
     protected void FillOfficeLevel()
     {
         try
@@ -94,11 +96,11 @@ public partial class Legal_DesignationMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-
-            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
-
+    #endregion
+    #region Save & Update
     protected void btnSave_Click(object sender, EventArgs e)
     {
         try
@@ -108,8 +110,8 @@ public partial class Legal_DesignationMaster : System.Web.UI.Page
             {
                 if (btnSave.Text == "Save")
                 {
-                    ds = obj.ByProcedure("USP_Insert_DesignationMaster", new string[] { "OfficeType_Id", "Office_Id", "DesignationName", "OfficeLevel_Id",  "CreatedBy", "CreatedByIP" }
-                        , new string[] { ddlOfficetypename.SelectedValue, ddlOfficeName.SelectedValue,txtDeDesignation.Text.Trim(), ddlOfficeLevel.SelectedValue, ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
+                    ds = obj.ByProcedure("USP_Insert_DesignationMaster", new string[] { "OfficeType_Id", "Office_Id", "DesignationName", "OfficeLevel_Id", "CreatedBy", "CreatedByIP" }
+                        , new string[] { ddlOfficetypename.SelectedValue, ddlOfficeName.SelectedValue, txtDeDesignation.Text.Trim(), ddlOfficeLevel.SelectedValue, ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
                 }
                 else if (btnSave.Text == "Update" && ViewState["ID"].ToString() != "" && ViewState["ID"].ToString() != null)
                 {
@@ -131,7 +133,7 @@ public partial class Legal_DesignationMaster : System.Web.UI.Page
                     }
                     else
                     {
-                        lblMsg.Text = obj.Alert("fa-check", "alert-warning", "Warning !", ErrMsg);
+                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ErrMsg);
                         txtDeDesignation.Text = "";
                         ddlOfficetypename.ClearSelection();
                         ddlOfficeName.ClearSelection();
@@ -143,9 +145,11 @@ public partial class Legal_DesignationMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
+    #endregion
+    #region Page Index
     protected void GrdDesignation_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         try
@@ -156,9 +160,11 @@ public partial class Legal_DesignationMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
+    #endregion
+    #region Row Command
     protected void GrdDesignation_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         try
@@ -173,31 +179,39 @@ public partial class Legal_DesignationMaster : System.Web.UI.Page
                 Label lblOfficetypeID = (Label)row.FindControl("lblOfficetypeID");
                 Label lblOfficeID = (Label)row.FindControl("lblOfficeID");
                 Label lblOfficelevelID = (Label)row.FindControl("lblOfficelevelID");
-               
-                
+
+
                 txtDeDesignation.Text = lblDesignationName.Text;
 
                 //ddlOfficetypename.ClearSelection();
                 //ddlOfficetypename.Items.FindByValue(lblOfficetypeID.Text).Selected = true;
-                
+
                 //ddlOfficeName.ClearSelection();
                 //ddlOfficeName.Items.FindByValue(lblOfficetypeID.Text).Selected = true;
                 //ddlOfficetypename_SelectedIndexChanged(sender, e);
-                if (lblOfficelevelID.Text != "")
+                if (!string.IsNullOrEmpty(lblOfficelevelID.Text))
                 {
                     ddlOfficeLevel.ClearSelection();
                     ddlOfficeLevel.Items.FindByValue(lblOfficelevelID.Text).Selected = true;
                 }
                 ViewState["ID"] = e.CommandArgument;
                 btnSave.Text = "Update";
-               
+
+            }
+            if (e.CommandName == "DeleteDetails")
+            {
+                int Designation_Id = Convert.ToInt32(e.CommandArgument);
+                obj.ByTextQuery("delete from tblDesignationMaster where Designation_Id=" + Designation_Id);
+                BindGrid();
             }
         }
         catch (Exception ex)
         {
-            //lblMsg.Text = obj.Alert("fa-ban", "alert-dander", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
+    #endregion
+    #region Office type Name Select Index
     protected void ddlOfficetypename_SelectedIndexChanged(object sender, EventArgs e)
     {
         try
@@ -217,7 +231,8 @@ public partial class Legal_DesignationMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
+    #endregion
 }

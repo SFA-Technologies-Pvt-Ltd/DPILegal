@@ -27,10 +27,10 @@ public partial class Legal_Case_SubSubjectMaster : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("~/Login.aspx");
+            Response.Redirect("~/Login.aspx", false);
         }
     }
-
+    #region Fill Grid
     protected void BindGrid()
     {
         try
@@ -46,14 +46,15 @@ public partial class Legal_Case_SubSubjectMaster : System.Web.UI.Page
                 grdSub_Subect.DataSource = null;
                 grdSub_Subect.DataBind();
             }
-            
+
         }
         catch (Exception ex)
         {
-            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
-
+    #endregion
+    #region Save Update
     protected void btnSave_Click(object sender, EventArgs e)
     {
         try
@@ -95,9 +96,10 @@ public partial class Legal_Case_SubSubjectMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
+    #endregion
     #region FillCaseSubject
     protected void FillCaseSubject()
     {
@@ -121,6 +123,7 @@ public partial class Legal_Case_SubSubjectMaster : System.Web.UI.Page
 
     }
     #endregion
+    #region page Index Changing
     protected void grdSub_Subect_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         try
@@ -131,9 +134,11 @@ public partial class Legal_Case_SubSubjectMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
+    #endregion
+    #region Row Command
     protected void grdSub_Subect_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         try
@@ -162,7 +167,8 @@ public partial class Legal_Case_SubSubjectMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
+    #endregion
 }

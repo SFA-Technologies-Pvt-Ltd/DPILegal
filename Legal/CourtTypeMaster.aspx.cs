@@ -16,18 +16,18 @@ public partial class Legal_CourtTypeMaster : System.Web.UI.Page
     {
         if (Session["Emp_Id"] != null && Session["Office_Id"] != null)
         {
-              if (!IsPostBack)
-                {
-                    ViewState["Emp_Id"] = Session["Emp_Id"];
-                    ViewState["Office_Id"] = Session["Office_Id"];
-                    BindGrid();
-                    lblMsg.Text = "";
-                    FillDistrict();
-                }
+            if (!IsPostBack)
+            {
+                ViewState["Emp_Id"] = Session["Emp_Id"];
+                ViewState["Office_Id"] = Session["Office_Id"];
+                BindGrid();
+                lblMsg.Text = "";
+                FillDistrict();
+            }
         }
         else
         {
-            Response.Redirect("~/Login.aspx");
+            Response.Redirect("~/Login.aspx",false);
         }
     }
     #region FillGrid
@@ -45,7 +45,7 @@ public partial class Legal_CourtTypeMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Thanks !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
     #endregion
@@ -67,7 +67,7 @@ public partial class Legal_CourtTypeMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
     #endregion
@@ -84,7 +84,7 @@ public partial class Legal_CourtTypeMaster : System.Web.UI.Page
                 }
                 else if (btnSave.Text == "Update" && ViewState["CourtId"] != "" && ViewState["CourtId"] != null)
                 {
-                    ds = objdb.ByProcedure("Sp_CourtType", new string[] { "flag", "CourtTypeName", "District_Id", "LastupdatedBy", "LastupdatedByIP", "CourtTypeID","OtherLocation" }, new string[] {
+                    ds = objdb.ByProcedure("Sp_CourtType", new string[] { "flag", "CourtTypeName", "District_Id", "LastupdatedBy", "LastupdatedByIP", "CourtTypeID", "OtherLocation" }, new string[] {
                         "3",txtCourtType.Text,ddlCourtlocation.SelectedValue,ViewState["Emp_Id"].ToString(),objdb.GetLocalIPAddress(), ViewState["CourtId"].ToString(),txtOther.Text.Trim() }, "dataset");
                 }
             }
@@ -96,7 +96,7 @@ public partial class Legal_CourtTypeMaster : System.Web.UI.Page
                     lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                     txtCourtType.Text = "";
                     ddlCourtlocation.ClearSelection();
-                    ddlCourtlocation_SelectedIndexChanged(sender, e); 
+                    ddlCourtlocation_SelectedIndexChanged(sender, e);
                     txtOther.Text = "";
                     BindGrid();
                     btnSave.Text = "Save";
@@ -106,11 +106,11 @@ public partial class Legal_CourtTypeMaster : System.Web.UI.Page
                     lblMsg.Text = objdb.Alert("fa-ban", "alert-warning", "Warning !", ErrMsg);
                 }
             }
-           
+
         }
         catch (Exception ex)
         {
-            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
 
@@ -141,9 +141,16 @@ public partial class Legal_CourtTypeMaster : System.Web.UI.Page
                 ddlCourtlocation_SelectedIndexChanged(sender, e);
                 txtOther.Text = lblOtherlocation.Text;
             }
+            if (e.CommandName == "DeleteDetails")
+            {
+                int CourtType_ID = Convert.ToInt32(e.CommandArgument);
+                objdb.ByTextQuery("delete from tbl_LegalCourtType where CourtType_ID=" + CourtType_ID);
+                BindGrid();
+            }
         }
         catch (Exception ex)
-        {          
+        {
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
 
@@ -159,7 +166,7 @@ public partial class Legal_CourtTypeMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
 }

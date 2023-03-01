@@ -83,27 +83,28 @@
                                     <div class="table-responsive">
                                         <asp:GridView ID="grdSub_Subect" runat="server" CssClass="table table-bordered table-hover" AutoGenerateColumns="false" AllowPaging="true" OnPageIndexChanging="grdSub_Subect_PageIndexChanging" OnRowCommand="grdSub_Subect_RowCommand" DataKeyNames="CaseSubSubj_Id" EmptyDataText="NO RECORD FOUND">
                                             <Columns>
-                                                <asp:TemplateField HeaderText="S.No." ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
                                                         <asp:Label ID="lblId" runat="server" Text='<%# Eval("CaseSubSubj_Id") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Case Subject">
+                                                <asp:TemplateField HeaderText="Case Subject" ItemStyle-HorizontalAlign="Center">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblSunjectName" runat="server" Text='<%# Eval("caseSubject") %>'></asp:Label>
                                                         <asp:Label ID="lblSubjectID" runat="server" Text='<%# Eval("CaseSubjectID") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Case Sub Subject">
+                                                <asp:TemplateField HeaderText="Case Sub Subject" ItemStyle-HorizontalAlign="Center">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblSub_CaseSubject" runat="server" Text='<%# Eval("CaseSubSubject") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Update" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                <asp:TemplateField HeaderText="Action" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
-                                                        <asp:LinkButton ID="btnEdit" runat="server" CssClass="fa fa-edit" CommandName="EditDetails" ToolTip="Edit" CommandArgument='<%# Eval("CaseSubSubj_Id") %>'></asp:LinkButton>
-                                                        <asp:LinkButton ID="lnkbtndelete" runat="server" CommandName="DeleteDetails" CommandArgument='<%# Eval("CaseSubSubj_Id") %>' ToolTip="Delete" CssClass=""><i class="fa fa-trash"></i></asp:LinkButton>
+                                                        <asp:LinkButton ID="btnEdit" runat="server" CssClass="fa fa-edit" CommandName="EditDetails" ToolTip="Edit" CommandArgument='<%# Eval("CaseSubSubj_Id") %>'></asp:LinkButton>&nbsp;
+                                                        <asp:LinkButton ID="lnkbtndelete" runat="server" CommandName="DeleteDetails" CommandArgument='<%# Eval("CaseSubSubj_Id") %>'
+                                                            OnClientClick="return confirm('Are you sure you want to delete this record?');" ToolTip="Delete" CssClass=""><i class="fa fa-trash"></i></asp:LinkButton>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>

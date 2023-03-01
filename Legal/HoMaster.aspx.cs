@@ -28,7 +28,7 @@ public partial class Legal_HoMaster : System.Web.UI.Page
             Response.Redirect("../Login.aspx", false);
         }
     }
-
+    #region Fill Office Level
     protected void FillOfficeLevel()
     {
         try
@@ -49,6 +49,8 @@ public partial class Legal_HoMaster : System.Web.UI.Page
             ErrorLogCls.SendErrorToText(ex);
         }
     }
+    #endregion
+    #region Fill Office Type
     protected void FillOfficeType()
     {
         try
@@ -69,6 +71,8 @@ public partial class Legal_HoMaster : System.Web.UI.Page
             ErrorLogCls.SendErrorToText(ex);
         }
     }
+    #endregion
+    #region Save Update
     protected void btnSave_Click(object sender, EventArgs e)
     {
         try
@@ -81,7 +85,7 @@ public partial class Legal_HoMaster : System.Web.UI.Page
                     ds = obj.ByProcedure("Usp_InsertHoMaster", new string[] { "HoName", "Office_Id", "CreatedBy", "CreatedByIP", "Officetype_Id", "Officelevel_Id", "HOLocation" }
                     , new string[] { txtHoName.Text.Trim(), ViewState["Office_Id"].ToString(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ddlOfficetype.SelectedValue, ddlOfficeLevel.SelectedValue, txtlocation.Text.Trim() }, "dataset");
                 }
-                else if (btnSave.Text == "Edit" && ViewState["Ho_Id"].ToString() != "" && ViewState["Ho_Id"].ToString() != null)
+                else if (btnSave.Text == "Update" && ViewState["Ho_Id"].ToString() != "" && ViewState["Ho_Id"].ToString() != null)
                 {
                     ds = obj.ByProcedure("Usp_UpdateHoMaster", new string[] { "HoName", "Office_Id", "LastUpdatedBy", "LastUpdatedByIP", "Ho_Id", "Officetype_Id", "Officelevel_Id", "HOLocation" }
                                                         , new string[] { txtHoName.Text.Trim(), ViewState["Office_Id"].ToString(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ViewState["Ho_Id"].ToString(), ddlOfficetype.SelectedValue, ddlOfficeLevel.SelectedValue, txtlocation.Text.Trim() }, "dataset");
@@ -91,7 +95,7 @@ public partial class Legal_HoMaster : System.Web.UI.Page
                     string ErrorMsg = ds.Tables[0].Rows[0]["ErrorMsg"].ToString();
                     if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
                     {
-                        lblMsg.Text = obj.Alert("fa-ban", "alert-success", "Thanks !", ErrorMsg);
+                        lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrorMsg);
                         FillGrid();
                         btnSave.Text = "Save";
                         ClearData();
@@ -112,6 +116,8 @@ public partial class Legal_HoMaster : System.Web.UI.Page
             ErrorLogCls.SendErrorToText(ex);
         }
     }
+    #endregion
+    #region Clear Date
     protected void ClearData()
     {
         txtHoName.Text = "";
@@ -120,6 +126,8 @@ public partial class Legal_HoMaster : System.Web.UI.Page
         txtlocation.Text = "";
         btnSave.Text = "Save";
     }
+    #endregion
+    #region Fill Grid
     protected void FillGrid()
     {
         try
@@ -136,6 +144,8 @@ public partial class Legal_HoMaster : System.Web.UI.Page
             ErrorLogCls.SendErrorToText(ex);
         }
     }
+    #endregion
+    #region Row Command
     protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         {
@@ -153,20 +163,25 @@ public partial class Legal_HoMaster : System.Web.UI.Page
                     Label lbllocation = (Label)row.FindControl("lbllocation");
                     txtHoName.Text = lblHoName.Text;
                     txtlocation.Text = lbllocation.Text;
-                    if(lblofficelevel.Text != "")
+                    if (lblofficelevel.Text != "")
                     {
                         ddlOfficeLevel.ClearSelection();
                         ddlOfficeLevel.Items.FindByValue(lblofficelevel.Text).Selected = true;
                     }
-                    if(lblOfficetype.Text != "")
+                    if (lblOfficetype.Text != "")
                     {
                         ddlOfficetype.ClearSelection();
                         ddlOfficetype.Items.FindByValue(lblOfficetype.Text).Selected = true;
                     }
                     ViewState["Ho_Id"] = e.CommandArgument;
-                    btnSave.Text = "Edit";
+                    btnSave.Text = "Update";
                 }
-
+                if (e.CommandName == "DeleteDetails")
+                {
+                    int Ho_Id = Convert.ToInt32(e.CommandArgument);
+                    obj.ByTextQuery("delete from tblHoMaster where Ho_Id=" + Ho_Id);
+                    FillGrid();
+                }
             }
             catch (Exception ex)
             {
@@ -175,11 +190,21 @@ public partial class Legal_HoMaster : System.Web.UI.Page
             finally { if (ds != null) { ds.Dispose(); } }
         }
     }
+    #endregion
+    #region Page Index Changing
     protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
-        lblMsg.Text = "";
-        GridView1.PageIndex = e.NewPageIndex;
-        FillGrid();
+        try
+        {
+            lblMsg.Text = "";
+            GridView1.PageIndex = e.NewPageIndex;
+            FillGrid();
+        }
+        catch (Exception ex)
+        {
+            ErrorLogCls.SendErrorToText(ex);
+        }
     }
+    #endregion
 }
 

@@ -29,7 +29,7 @@ public partial class Legal_DepartmentMaster : System.Web.UI.Page
             Response.Redirect("../Login.aspx", false);
         }
     }
-
+    #region Fill Grid
     protected void FillGrid()
     {
         try
@@ -45,10 +45,11 @@ public partial class Legal_DepartmentMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
-
+    #endregion
+    #region Save Update
     protected void btnSave_Click(object sender, EventArgs e)
     {
         try
@@ -57,8 +58,8 @@ public partial class Legal_DepartmentMaster : System.Web.UI.Page
             {
                 if (btnSave.Text == "Save")
                 {
-                    ds = obj.ByProcedure("USP_Insert_DepartmentMaster", new string[] { "Dept_Name", "CreatedBy", "CreatedByIP", "Office_Id","flag" },
-                        new string[] { txtDeptName.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ViewState["Office_Id"].ToString(),"1" }, "dataset");
+                    ds = obj.ByProcedure("USP_Insert_DepartmentMaster", new string[] { "Dept_Name", "CreatedBy", "CreatedByIP", "Office_Id", "flag" },
+                        new string[] { txtDeptName.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ViewState["Office_Id"].ToString(), "1" }, "dataset");
                 }
                 else if (btnSave.Text == "Update" && ViewState["Dept_Id"] != null && ViewState["Dept_Id"] != "")
                 {
@@ -84,9 +85,11 @@ public partial class Legal_DepartmentMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString()); 
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
+    #endregion
+    #region Row Command
     protected void GrddeptMaster_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         try
@@ -103,23 +106,33 @@ public partial class Legal_DepartmentMaster : System.Web.UI.Page
                 btnSave.Text = "Update";
                 ViewState["Dept_Id"] = e.CommandArgument;
             }
+            if (e.CommandName == "DeleteDetails")
+            {
+                int Dept_ID = Convert.ToInt32(e.CommandArgument);
+                obj.ByTextQuery("delete from tblDepartmentMaster where Dept_ID=" + Dept_ID);
+                FillGrid();
+            }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-
-            throw;
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
+    #endregion
+    #region Page Index Changing
     protected void GrddeptMaster_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         try
         {
-
+            lblMsg.Text = "";
+            GrddeptMaster.PageIndex = e.NewPageIndex;
+            FillGrid();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-
-            throw;
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
+    #endregion
+    
 }

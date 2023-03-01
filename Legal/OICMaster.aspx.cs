@@ -30,7 +30,7 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("../Login.aspx");
+            Response.Redirect("../Login.aspx",false);
         }
     }
     #region Fill Grid
@@ -81,7 +81,7 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
         }
     }
     #endregion
-
+    #region Fill Department
     protected void FillDepartment()
     {
         try
@@ -102,7 +102,8 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
-
+    #endregion
+    #region Fill District
     protected void FillDitrict()
     {
         try
@@ -123,7 +124,7 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
-
+    #endregion
     #region Button Insert_update
     protected void btnsave_Click(object sender, EventArgs e)
     {
@@ -135,12 +136,12 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
                 if (btnSave.Text == "Save")
                 {
                     ds = obj.ByProcedure("USP_Insert_OICMaster", new string[] { "Zone_ID", "Circle_ID", "Division_ID", "OICName", "Designation_ID", "OICMobileNo", "OICEmailID", "Office_ID", "CreatedBy", "CreatedByIP", "Dept_ID" }
-                    , new string[] { ddlzone.SelectedValue, ddlcircle.SelectedValue, ddldivision.SelectedValue, txtoicnme.Text.Trim(), ddlDesignation.SelectedValue, txtmobileno.Text.Trim(),txtEmailID.Text.Trim(), ViewState["Office_Id"].ToString(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(),ddlDepartment.SelectedValue }, "dataset");
+                    , new string[] { ddlzone.SelectedValue, ddlcircle.SelectedValue, ddldivision.SelectedValue, txtoicnme.Text.Trim(), ddlDesignation.SelectedValue, txtmobileno.Text.Trim(), txtEmailID.Text.Trim(), ViewState["Office_Id"].ToString(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ddlDepartment.SelectedValue }, "dataset");
                 }
                 else if (btnSave.Text == "Update" && ViewState["OICID"].ToString() != "" && ViewState["OICID"].ToString() != null)
                 {
                     ds = obj.ByProcedure("USP_Update_OICMaster", new string[] { "Zone_ID", "Circle_ID", "Division_ID", "OICName", "Designation_ID", "OICMobileNo", "OICEmailID", "Office_ID", "LastupdatedBy", "LastupdatedByIP", "OICMaster_ID", "Dept_ID" }
-                    , new string[] { ddlzone.SelectedValue, ddlcircle.SelectedValue, ddldivision.SelectedValue, txtoicnme.Text.Trim(), ddlDesignation.SelectedValue,txtmobileno.Text.Trim(),txtEmailID.Text.Trim(), ViewState["Office_Id"].ToString(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ViewState["OICID"].ToString(),ddlDepartment.SelectedValue }, "dataset");
+                    , new string[] { ddlzone.SelectedValue, ddlcircle.SelectedValue, ddldivision.SelectedValue, txtoicnme.Text.Trim(), ddlDesignation.SelectedValue, txtmobileno.Text.Trim(), txtEmailID.Text.Trim(), ViewState["Office_Id"].ToString(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ViewState["OICID"].ToString(), ddlDepartment.SelectedValue }, "dataset");
                 }
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
@@ -156,7 +157,7 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
                         txtoicnme.Text = "";
                         txtmobileno.Text = "";
                         ViewState["OICID"] = "";
-                        lblMsg.Text = obj.Alert("fa-ban", "alert-success", "Thanks !", ErrMsg);
+                        lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                     }
                     else
                     {
@@ -178,7 +179,7 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
     #endregion
@@ -204,6 +205,7 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
         }
     }
     #endregion
+    #region Page Index Changing
     protected void gridoicmaster_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         try
@@ -217,6 +219,8 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+    #endregion
+    #region  Row Command
     protected void gridoicmaster_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         try
@@ -235,8 +239,7 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
                 Label lblEmailID = (Label)row.FindControl("lblEmailID");
                 Label lblDepartmentId = (Label)row.FindControl("lblDepartmentId");
 
-                ViewState["OICID"] = e.CommandArgument;
-                btnSave.Text = "Update";
+               
                 txtoicnme.Text = lblOICName.Text;
                 txtEmailID.Text = lblEmailID.Text;
                 txtmobileno.Text = lblMobileNo.Text;
@@ -261,15 +264,23 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
                 ddldivision.Items.FindByValue(lblDivisionID.Text).Selected = true;
                 ddlDesignation.ClearSelection();
                 ddlDesignation.Items.FindByValue(lblDesignationId.Text).Selected = true;
-                
+                ViewState["OICID"] = e.CommandArgument;
+                btnSave.Text = "Update";
+            }
+            if (e.CommandName == "DeleteDetails")
+            {
+                int OICMaster_ID = Convert.ToInt32(e.CommandArgument);
+                obj.ByTextQuery("delete from tblOICMaster where OICMaster_ID=" + OICMaster_ID);
+                FillGrid();
             }
         }
         catch (Exception ex)
         {
-          //  lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
-
+    #endregion
+    #region Zoon Select Index Changed
     protected void ddlzone_SelectedIndexChanged(object sender, EventArgs e)
     {
         try
@@ -291,6 +302,8 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+    #endregion
+    #region Circle Select Index Changed
     protected void ddlcircle_SelectedIndexChanged(object sender, EventArgs e)
     {
         try
@@ -312,4 +325,6 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
+    #endregion
+
 }

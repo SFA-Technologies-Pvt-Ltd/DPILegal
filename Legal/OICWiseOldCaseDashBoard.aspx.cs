@@ -8,10 +8,11 @@ using System.Data;
 using System.Text;
 
 
-public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
+public partial class mis_Legal_OICWiseOldCaseDashBoard : System.Web.UI.Page
 {
     DataSet ds;
     AbstApiDBApi objdb = new APIProcedure();
+    int OicId;
     protected void Page_Load(object sender, EventArgs e)
     {
         try
@@ -20,47 +21,48 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
             {
                 if (!IsPostBack)
                 {
-                    BIndWACaseCount();
+                    OicId = Convert.ToInt32(Session["OICMaster_ID"]);
+                    BIndWACaseCount(OicId);
                     //UpComingHearing();
-                    CourtTypeCase();
-                    CourtTypeCase1();
-                    CourtTypeCase2();
-                    CourtTypeCase3();
-                    BindCaseTypeCount();
-                    CourtWiseContemptCases();
-                  
-                   
+                    CourtTypeCase(OicId);
+                    CourtTypeCase1(OicId);
+                    CourtTypeCase2(OicId);
+                    CourtTypeCase3(OicId);
+                    BindCaseTypeCount(OicId);
+                    CourtWiseContemptCases(OicId);
+
+
                 }
             }
             else
             {
-                Response.Redirect("~/Login.aspx",false);
+                Response.Redirect("~/Login.aspx", false);
             }
         }
-
         catch (Exception ex)
         {
-            ErrorLogCls.SendErrorToText(ex);
+            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
         }
 
     }
 
-    protected void BindCaseTypeCount()
+    // Court Wise Case Count
+    protected void BindCaseTypeCount(int OicId)
     {
         DataSet dsCasecount = new DataSet();
-        dsCasecount = objdb.ByProcedure("Sp_OldCasesDashboard", new string[] { }, new string[] { }, "dataset");
+        dsCasecount = objdb.ByProcedure("Sp_OICWiseOldCasesDashboard", new string[] { "OicId" }, new string[] { Convert.ToString(OicId) }, "dataset");
         string str = "";
 
         str += "<table border='1' style='text-align:center;color:darkcyan;font-size:18px;height:573px;width:100%;'><tr style='background-color: #fff;'><td style='font-weight:bold;color: black;width: 87px;'>Case Type</td><td style='font-weight:bold;color: black;word-wrap: break-word'>Pending Cases Since 2000</td></tr>";
         int tCount = 0;
         int tCount1 = 0;
         DataSet dsCasecount2 = new DataSet();
-        dsCasecount2 = objdb.ByProcedure("Sp_OrderByDirectionPendingCasesDashboard", new string[] { }, new string[] { }, "dataset");
+        dsCasecount2 = objdb.ByProcedure("Sp_OrderByDirectionOicWisePendingCasesDashboard", new string[] { }, new string[] { }, "dataset");
 
         for (int i = 0; i < dsCasecount.Tables[1].Rows.Count; i++)
         {
             tCount += Convert.ToInt32(dsCasecount.Tables[1].Rows[i]["CaseTypeWisePendingCases"]);
-            str += "<tr><td style='font-weight:bold;'>" + dsCasecount.Tables[1].Rows[i]["CaseType"].ToString() + "</td><td style='font-size: 22px;'><a href=\"Pending_Case_Since_2000.aspx?CaseType=" + dsCasecount.Tables[1].Rows[i]["CaseType"].ToString() + "\" target='_blank'>" + dsCasecount.Tables[1].Rows[i]["CaseTypeWisePendingCases"].ToString() + "</a></td>";
+            str += "<tr><td style='font-weight:bold;'>" + dsCasecount.Tables[1].Rows[i]["CaseType"].ToString() + "</td><td style='font-size: 22px;'><a href=\"OICWise_Pending_Case_Since_2000.aspx?CaseType=" + dsCasecount.Tables[1].Rows[i]["CaseType"].ToString() + "\" target='_blank'>" + dsCasecount.Tables[1].Rows[i]["CaseTypeWisePendingCases"].ToString() + "</a></td>";
             str += "</tr> ";
         }
         str += "</table>";
@@ -72,36 +74,36 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
         {
 
             tCount1 += Convert.ToInt32(dsCasecount2.Tables[0].Rows[i]["IsOrderByDirectionCount"].ToString());
-            str2 += "<tr><td style='font-weight:bold;'>" + dsCasecount2.Tables[0].Rows[i]["CaseType"].ToString() + "</td><td style='font-size: 22px;'><a href=\"Order_By_Direction_Pending_Cases.aspx?CaseType=" + dsCasecount2.Tables[0].Rows[i]["CaseType"].ToString() + "\" target='_blank'>" + dsCasecount2.Tables[0].Rows[i]["DisposeOfCaseSince2018"].ToString() + "</a></td>";
-           // if (Convert.ToInt32(dsCasecount2.Tables[0].Rows[i]["IsOrderByDirectionCount"]) > 0)
-                str2 += "<td style='width: 52px;'><a href=\"Order_By_Direction_Count_Cases.aspx?CaseType=" + dsCasecount2.Tables[0].Rows[i]["CaseType"].ToString() + "\" target='_blank'>" + dsCasecount2.Tables[0].Rows[i]["IsOrderByDirectionCount"].ToString() + "</a></td>";
-          //  else
-               // str2 += "<td style='width: 52px;'>" + dsCasecount2.Tables[0].Rows[i]["IsOrderByDirectionCount"].ToString() + "</td>";
+            str2 += "<tr><td style='font-weight:bold;'>" + dsCasecount2.Tables[0].Rows[i]["CaseType"].ToString() + "</td><td style='font-size: 22px;'><a href=\"OicIWse_Order_By_Direction_Pending_Cases.aspx?CaseType=" + dsCasecount2.Tables[0].Rows[i]["CaseType"].ToString() + "\" target='_blank'>" + dsCasecount2.Tables[0].Rows[i]["DisposeOfCaseSince2018"].ToString() + "</a></td>";
+            // if (Convert.ToInt32(dsCasecount2.Tables[0].Rows[i]["IsOrderByDirectionCount"]) > 0)
+            str2 += "<td style='width: 52px;'><a href=\"Order_By_Direction_Count_Cases.aspx?CaseType=" + dsCasecount2.Tables[0].Rows[i]["CaseType"].ToString() + "\" target='_blank'>" + dsCasecount2.Tables[0].Rows[i]["IsOrderByDirectionCount"].ToString() + "</a></td>";
+            //  else
+            // str2 += "<td style='width: 52px;'>" + dsCasecount2.Tables[0].Rows[i]["IsOrderByDirectionCount"].ToString() + "</td>";
 
-         //   if (Convert.ToInt32(dsCasecount2.Tables[0].Rows[i]["YesCount"]) > 0)
-                str2 += "<td colspan='3'><a href=\"Order_By_Direction_Count_IsComplainceYes.aspx?CaseType=" + dsCasecount2.Tables[0].Rows[i]["CaseType"].ToString() + "\" target='_blank'>" + dsCasecount2.Tables[0].Rows[i]["YesCount"].ToString() + "</a></td>";
-          //  else
-           //     str2 += "<td  style='width: 52px;'>" + dsCasecount2.Tables[0].Rows[i]["YesCount"].ToString() + "</td>";
+            //   if (Convert.ToInt32(dsCasecount2.Tables[0].Rows[i]["YesCount"]) > 0)
+            str2 += "<td colspan='3'><a href=\"Order_By_Direction_Count_IsComplainceYes.aspx?CaseType=" + dsCasecount2.Tables[0].Rows[i]["CaseType"].ToString() + "\" target='_blank'>" + dsCasecount2.Tables[0].Rows[i]["YesCount"].ToString() + "</a></td>";
+            //  else
+            //     str2 += "<td  style='width: 52px;'>" + dsCasecount2.Tables[0].Rows[i]["YesCount"].ToString() + "</td>";
 
-         //   if (Convert.ToInt32(dsCasecount2.Tables[0].Rows[i]["NOCounts"]) > 0)
-                str2 += "<td colspan='3'><a href=\"Order_By_Direction_Count_IsComplainceNo.aspx?CaseType=" + dsCasecount2.Tables[0].Rows[i]["CaseType"].ToString() + "\" target='_blank'>" + dsCasecount2.Tables[0].Rows[i]["NOCounts"].ToString() + "</a></td>";
-          //  else
-          //      str2 += "<td  style='width: 52px;'>" + dsCasecount2.Tables[0].Rows[i]["NOCounts"].ToString() + "</td>";
-          //  if (Convert.ToInt32(dsCasecount2.Tables[0].Rows[i]["PendingCounts"]) > 0)
-                str2 += "<td colspan='3'><a href=\"Order_By_Direction_Count_IsComplaincePending.aspx?CaseType=" + dsCasecount2.Tables[0].Rows[i]["CaseType"].ToString() + "\" target='_blank'>" + dsCasecount2.Tables[0].Rows[i]["PendingCounts"].ToString() + "</a></td>";
-          //  else
-          //      str2 += "<td>" + dsCasecount2.Tables[0].Rows[i]["PendingCounts"].ToString() + "</td>";
+            //   if (Convert.ToInt32(dsCasecount2.Tables[0].Rows[i]["NOCounts"]) > 0)
+            str2 += "<td colspan='3'><a href=\"Order_By_Direction_Count_IsComplainceNo.aspx?CaseType=" + dsCasecount2.Tables[0].Rows[i]["CaseType"].ToString() + "\" target='_blank'>" + dsCasecount2.Tables[0].Rows[i]["NOCounts"].ToString() + "</a></td>";
+            //  else
+            //      str2 += "<td  style='width: 52px;'>" + dsCasecount2.Tables[0].Rows[i]["NOCounts"].ToString() + "</td>";
+            //  if (Convert.ToInt32(dsCasecount2.Tables[0].Rows[i]["PendingCounts"]) > 0)
+            str2 += "<td colspan='3'><a href=\"Order_By_Direction_Count_IsComplaincePending.aspx?CaseType=" + dsCasecount2.Tables[0].Rows[i]["CaseType"].ToString() + "\" target='_blank'>" + dsCasecount2.Tables[0].Rows[i]["PendingCounts"].ToString() + "</a></td>";
+            //  else
+            //      str2 += "<td>" + dsCasecount2.Tables[0].Rows[i]["PendingCounts"].ToString() + "</td>";
 
             str2 += "</tr> ";
         }
         str2 += " </table>";
-        CasetypeCountID2.InnerHtml =  str2;
-        lblOrderByDirectionalCases.Text = "(CASES : " + tCount1.ToString() + " No's)";
+        //CasetypeCountID2.InnerHtml = str2;
+        //lblOrderByDirectionalCases.Text = "( PENDING CASES : " + tCount1.ToString() + " No's)";
         #region
         //try
         //{
         //    DataSet dsCasecount = new DataSet();
-        //    dsCasecount = objdb.ByProcedure("Sp_OldCasesDashboard", new string[] { }, new string[] { }, "dataset");
+        //    dsCasecount = objdb.ByProcedure("Sp_OICWiseOldCasesDashboard", new string[] { }, new string[] { }, "dataset");
         //    StringBuilder SbCount = new StringBuilder();
         //    SbCount.Append("<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>");
         //    SbCount.Append("<script type='text/javascript'>");
@@ -162,13 +164,13 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
         #endregion
     }
 
-    protected void CourtTypeCase()
+    protected void CourtTypeCase(int OicId)
     {
         try
         {
             int CaseCount = 0;
             DataSet dsCase = new DataSet();
-            dsCase = objdb.ByProcedure("Sp_OldCasesDashboard", new string[] { }, new string[] { }, "dataset");
+            dsCase = objdb.ByProcedure("Sp_OICWiseOldCasesDashboard", new string[] { "OicId" }, new string[] { Convert.ToString(OicId) }, "dataset");
             StringBuilder Sb = new StringBuilder();
             Sb.Append("<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>");
             Sb.Append("<script type='text/javascript'>");
@@ -221,19 +223,21 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ErrorLogCls.SendErrorToText(ex);
+            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
         }
 
     }
 
-    protected void CourtTypeCase1()
+    // Order by Direction Court wise case Count
+    protected void CourtTypeCase1(int OicId)
     {
         try
         {
             int CaseCount1 = 0;
             DataSet dsCase = new DataSet();
-           // dsCase = objdb.ByDataSet("Select Court,COUNT(distinct UniqueNo) OrderBydirectCourtWiseCount from tbl_OrderByDirectionPendingCase where IsOrderByDirection='Yes' group by Court");
-            dsCase = objdb.ByProcedure("USP_GetOrderByDirCount", new string[] { }, new string[] { }, "dataset");
+            //dsCase = objdb.ByDataSet("Select Court,COUNT(distinct UniqueNo) OrderBydirectCourtWiseCount from tbl_OrderByDirectionPendingCase where IsOrderByDirection='Yes' and OICId=" + OicId + "  group by Court");
+            // With New Table
+            dsCase = objdb.ByDataSet("Select CourtTypeName as Court,COUNT(distinct UniqueNo) OrderBydirectCourtWiseCount from tblLegalCaseRegistration a left join tbl_LegalCourtType b on a.CourtType_Id = b.CourtType_ID where CaseDisposalType_Id=2 and OICMaster_Id= " + OicId + "  group by a.CourtType_Id, CourtTypeName");
             StringBuilder Sb1 = new StringBuilder();
             Sb1.Append("<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>");
             Sb1.Append("<script type='text/javascript'>");
@@ -286,20 +290,19 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ErrorLogCls.SendErrorToText(ex);
+            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
         }
 
     }
 
-    protected void CourtTypeCase2()
+    protected void CourtTypeCase2(int OicId)
     {
         try
         {
             int CaseCount1 = 0;
             DataSet dsCase = new DataSet();
-            //dsCase = objdb.ByDataSet("Select isNULL((select b.CaseSubject CaseSubject from tbl_LegalMstCaseSubject b where b.CaseSubjectID=a.CaseSubjectId),'Subject Not Applied') CaseSubject," +
-            //    "COUNT(distinct UniqueNo) CaseSubjectWiseCount from tbl_OldCaseDetail a  group by a.CaseSubjectId");
-            dsCase = objdb.ByProcedure("USP_GetSubjectwiseCount", new string[] { }, new string[] { }, "dataset");
+            dsCase = objdb.ByDataSet("Select isNULL((select b.CaseSubject CaseSubject from tbl_LegalMstCaseSubject b where b.CaseSubjectID=a.CaseSubjectId),'Subject Not Applied') CaseSubject," +
+                "COUNT(distinct UniqueNo) CaseSubjectWiseCount from tbl_OldCaseDetail a where OICId=" + OicId + " group by a.CaseSubjectId");
             StringBuilder Sb1 = new StringBuilder();
             Sb1.Append("<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>");
             Sb1.Append("<script type='text/javascript'>");
@@ -352,18 +355,21 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ErrorLogCls.SendErrorToText(ex);
+            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
         }
 
     }
 
-    protected void CourtTypeCase3()
+    //Order By Direction Is Compliace Status
+    protected void CourtTypeCase3(int OicId)
     {
         try
         {
             int CaseCount1 = 0;
             DataSet dsCase = new DataSet();
-            dsCase = objdb.ByDataSet("Select ISNULL(IsComplaince,'Not Defined') IsComplaince,COUNT(distinct UniqueNo ) OrderBydirectComplaincesStatus from tbl_OrderByDirectionPendingCase where IsOrderByDirection='Yes' group by IsComplaince");
+           // dsCase = objdb.ByDataSet("Select IsComplaince,COUNT(distinct UniqueNo ) OrderBydirectComplaincesStatus from tbl_OrderByDirectionPendingCase where IsOrderByDirection='Yes'  and OICId=" + OicId + " group by IsComplaince");
+         // With New table
+            dsCase = objdb.ByDataSet(" Select Compliance_Status as IsComplaince,COUNT(distinct UniqueNo) OrderBydirectComplaincesStatus from tblLegalCaseRegistration where CaseDisposalType_Id=2 and OICMaster_Id="+ OicId + "  group by Compliance_Status");
             StringBuilder Sb1 = new StringBuilder();
             Sb1.Append("<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>");
             Sb1.Append("<script type='text/javascript'>");
@@ -416,18 +422,19 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ErrorLogCls.SendErrorToText(ex);
+            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
         }
 
     }
 
-    protected void CourtWiseContemptCases()
+    // Court Wise Contemt Case Count
+    protected void CourtWiseContemptCases(int OicId)
     {
         try
         {
             int CaseCountCC = 0;
             DataSet dsCase = new DataSet();
-            dsCase = objdb.ByProcedure("Sp_OldCasesDashboard", new string[] { }, new string[] { }, "dataset");
+            dsCase = objdb.ByProcedure("Sp_OICWiseOldCasesDashboard", new string[] { "OicId" }, new string[] { Convert.ToString(OicId) }, "dataset");
             StringBuilder Sb = new StringBuilder();
             Sb.Append("<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>");
             Sb.Append("<script type='text/javascript'>");
@@ -443,7 +450,7 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
                 CaseCountCC = CaseCountCC + Convert.ToInt32(dsCase.Tables[3].Rows[i]["CourtWisePendingContemptCases"]);
                 Sb.Append(" ['" + dsCase.Tables[3].Rows[i]["court"].ToString() + "', " + dsCase.Tables[3].Rows[i]["CourtWisePendingContemptCases"].ToString() + " ],");
             }
-            lblConcCount.Text = "(" + CaseCountCC.ToString() + " No's)";
+            lblConcCount.Text = "( " + CaseCountCC.ToString() + " No's)";
             Sb.Append("]);");
             Sb.Append("var options = {");
             Sb.Append(" 'title':  'COURT WISE CASE No.',");
@@ -480,13 +487,13 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ErrorLogCls.SendErrorToText(ex);
+            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
         }
 
     }
-    protected void UpComingHearing()
+    protected void UpComingHearing(int OicId)
     {
-        ds = objdb.ByProcedure("USP_GetUpcoming_HearingDate", new string[] { }, new string[] { }, "dataset");
+        ds = objdb.ByProcedure("USP_GetOICWise_Upcoming_HearingDate", new string[] { "OicId" }, new string[] { Convert.ToString(OicId) }, "dataset");
         string Marquee = "";
         string space = "<span style='color:black; font-weight:bold;font-size:18px;'>,</span>";
 
@@ -508,11 +515,11 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
         }
     }
 
-    protected void BIndWACaseCount()
+    protected void BIndWACaseCount(int OicId)
     {
         try
         {
-            ds = objdb.ByProcedure("Sp_OldCasesDashboard", new string[] { }, new string[] { }, "dataset");
+            ds = objdb.ByProcedure("Sp_OICWiseOldCasesDashboard", new string[] { "OicId" }, new string[] { Convert.ToString(OicId) }, "dataset");
 
             //// PP Case
             //if (ds.Tables[0].Rows[0]["PPCase"].ToString() != "")
@@ -565,7 +572,7 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ErrorLogCls.SendErrorToText(ex);
+            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
         }
     }
 
@@ -576,10 +583,9 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
         {
             if (Page.IsValid)
             {
-                // thise is old Query
-                //ds = objdb.ByDataSet("select distinct UniqueNo, FilingNo, Court, Petitioner, Respondent, HearingDate,(Select CaseSubject from tbl_LegalMstCaseSubject b where b.CaseSubjectID = a.CaseSubjectId) CaseSubject,(select OICName from tblOICMaster c where c.OICMaster_ID = a.OICId) OICName from tbl_OldCaseDetail a where a.CaseType = 'CONC'");
-                //This is New Query
-                ds = objdb.ByProcedure("USP_GetHighPriCase_ForOldDashb", new string[]{}, new string[]{},"dataset");
+
+                int Oicid = 1;
+                ds = objdb.ByDataSet("select distinct UniqueNo, FilingNo, Court, Petitioner, Respondent, HearingDate,(Select CaseSubject from tbl_LegalMstCaseSubject b where b.CaseSubjectID = a.CaseSubjectId) CaseSubject,(select OICName from tblOICMaster c where c.OICMaster_ID = a.OICId) OICName from tbl_OldCaseDetail a where a.CaseType = 'CONC' and OicId=" + Oicid);
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
                     ViewState["dt"] = ds.Tables[0];
@@ -596,7 +602,7 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ErrorLogCls.SendErrorToText(ex);
+            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
 

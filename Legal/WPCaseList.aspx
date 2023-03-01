@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="WPCaseList.aspx.cs" Inherits="Legal_WPCaseList" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" EnableEventValidation="false" AutoEventWireup="true" CodeFile="WPCaseList.aspx.cs" Inherits="Legal_WPCaseList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="../DataTable_CssJs/dataTables.bootstrap.min.css" rel="stylesheet" />
@@ -115,42 +115,88 @@
                 <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
                 <div class="card">
                     <div class="card-header">
-                        WP/Conc Case Detail
+                        Pending Case Detail
                     </div>
                     <div class="card-body">
                         <fieldset>
                             <legend>Case Report</legend>
                             <div class="row">
-                                <div class="col-md-3 col-sm">
+                                <div class="col-md-3 col-sm" style="display: none;">
                                     <div class="form-group">
                                         <label>
-                                            From Date<span style="color: red;"><b> *</b></span>
+                                            From Date</label>
+                                        <%--  <span style="color: red;"><b> *</b></span>
                                             <asp:RequiredFieldValidator ID="Rfvdate" ValidationGroup="Save"
                                                 ErrorMessage="Enter From Date." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                 ControlToValidate="txtFromDate" Display="Dynamic" runat="server">
-                                            </asp:RequiredFieldValidator><br />
-                                            प्रारंभिक तिथि</label>
+                                            </asp:RequiredFieldValidator>--%>
                                         <asp:TextBox ID="txtFromDate" runat="server" data-provide="datepicker" placeholder="DD/MM/YYYY" CssClass="form-control disableFuturedate" data-date-format="dd/mm/yyyy" data-date-autoclose="true" AutoComplete="off"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm" style="display: none;">
+                                    <div class="form-group">
+                                        <label>
+                                            To Date</label>
+                                        <%--  <span style="color: red;"><b> *</b></span>
+                                            <asp:RequiredFieldValidator ID="RfvEndDate" ValidationGroup="Save"
+                                                ErrorMessage="Enter End Date." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                ControlToValidate="txtEndDate" Display="Dynamic" runat="server">
+                                            </asp:RequiredFieldValidator>--%>
+                                        <asp:TextBox ID="txtEndDate" runat="server" data-provide="datepicker" data-date-end-date="0d" placeholder="DD/MM/YYYY" CssClass="form-control disableFuturedate" data-date-format="dd/mm/yyyy" data-date-autoclose="true" AutoComplete="off"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-sm">
                                     <div class="form-group">
-                                        <label>
-                                            To Date<span style="color: red;"><b> *</b></span>
-                                            <asp:RequiredFieldValidator ID="RfvEndDate" ValidationGroup="Save"
-                                                ErrorMessage="Enter End Date." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
-                                                ControlToValidate="txtEndDate" Display="Dynamic" runat="server">
-                                            </asp:RequiredFieldValidator><br />
-                                            अंतिम तिथि</label>
-                                        <asp:TextBox ID="txtEndDate" runat="server" data-provide="datepicker" data-date-end-date="0d" placeholder="DD/MM/YYYY" CssClass="form-control disableFuturedate" data-date-format="dd/mm/yyyy" data-date-autoclose="true" AutoComplete="off"></asp:TextBox>
+                                        <label>Case type </label>
+                                        <%--<span style="color: red;"><b> *</b></span>
+                                            <asp:RequiredFieldValidator ID="rfvcasetype" ValidationGroup="Save"
+                                                ErrorMessage="Select Case type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                ControlToValidate="ddlCaseType" Display="Dynamic" runat="server" InitialValue="0">
+                                            </asp:RequiredFieldValidator>--%>
+                                        <asp:DropDownList ID="ddlCaseType" runat="server" CssClass="form-control"></asp:DropDownList>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-sm mt-5">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Court</label>
+                                        <asp:DropDownList ID="ddlCourt" runat="server" CssClass="form-control select2"></asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Case No.</label>
+                                        <asp:DropDownList ID="ddlCaseNo" runat="server" CssClass="form-control select2"></asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Year</label>
+                                        <asp:DropDownList ID="ddlCaseYear" runat="server" CssClass="form-control"></asp:DropDownList>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 col-sm">
+                                    <div class="form-group">
+                                        <label>Case Status </label>
+                                        <%--<span style="color: red;"><b>*</b></span>
+                                        <asp:RequiredFieldValidator ID="rfvcasetype" ValidationGroup="Save"
+                                            ErrorMessage="Select Case Sratus." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="ddlCaseStatus" Display="Dynamic" runat="server" InitialValue="0">
+                                        </asp:RequiredFieldValidator>--%>
+                                        <asp:DropDownList ID="ddlCaseStatus" runat="server" CssClass="form-control">
+                                            <asp:ListItem Value="0">Select</asp:ListItem>
+                                            <asp:ListItem Value="1">Pending</asp:ListItem>
+                                            <asp:ListItem Value="2">Dispose</asp:ListItem>
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm mt-3">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-6  mt-3">
                                             <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary btn-block" ValidationGroup="Save" OnClick="btnSearch_Click" />
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6  mt-3">
                                             <a href="WPCaseList.aspx" class="btn btn-default btn-block">Clear</a>
                                         </div>
                                     </div>
@@ -164,33 +210,39 @@
                                     <div class="table-responsive">
                                         <asp:GridView ID="GrdCaseDetails" runat="server" AutoGenerateColumns="false" DataKeyNames="Case_ID" CssClass="datatable table table-bordered text-center" OnRowCommand="GrdCaseDetails_RowCommand" EmptyDataText="NO RECORD FOUND">
                                             <Columns>
-                                                <asp:TemplateField HeaderText="S.No.<br />स. क्र." ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblId" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
                                                         <asp:Label ID="lblCaseID" runat="server" Text='<%# Eval("Case_ID") %>' Visible="false"></asp:Label>
+                                                        <asp:Label ID="lblUniqueNo" runat="server" Text='<%# Eval("UniqueNo") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Case No.<br />प्रकरण क्र.">
+                                                <asp:TemplateField HeaderText="Case No.">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblCaseNo" runat="server" Text='<%# Eval("CaseNo") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Case Subject<br />प्रकरण का विषय">
+                                                <asp:TemplateField HeaderText="Case type">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblCasetype" runat="server" Text='<%# Eval("CaseSubject") %>'></asp:Label>
+                                                        <asp:Label ID="lblCasetype" runat="server" Text='<%# Eval("Casetype_Name") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Petitioner Name<br />याचिकाकर्ता का नाम">
+                                                <asp:TemplateField HeaderText="Court Name">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblPetitionerName" runat="server" Text='<%# Eval("Petitoner_Name") %>'></asp:Label>
+                                                        <asp:Label ID="lblCourt" runat="server" Text='<%# Eval("CourtTypeName") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Status<br />स्थिति">
+                                                <%--  <asp:TemplateField HeaderText="Petitioner Name">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblStatus" runat="server" Text='<%# Eval("CaseStatus") %>'></asp:Label>
+                                                        <asp:Label ID="lblPetitionerName" runat="server" Text='<%# Eval("PetitonerName") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>--%>
+                                                <asp:TemplateField HeaderText="Case Status">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblStatus" runat="server" Text='<%# Eval("CaseStatus") %>' ForeColor='<%# Eval("CaseStatus") == "Pending" ?  System.Drawing.Color.Green :System.Drawing.Color.Red %>' Font-Bold="true"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Action<br />गतिविधि" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                <asp:TemplateField HeaderText="Action" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
                                                         <asp:LinkButton ID="lnkEditView" runat="server" CommandArgument='<%# Eval("Case_ID") %>' CommandName="EditView" ToolTip="Edit/View" CssClass=""><i class="fa fa-edit"</asp:LinkButton>
                                                     </ItemTemplate>
