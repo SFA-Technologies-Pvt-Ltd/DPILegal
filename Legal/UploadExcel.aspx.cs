@@ -38,6 +38,8 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
                 if (!IsPostBack)
                 {
                     //LoadExcel();
+                    //ViewState["Office_Id"] =  Session["Office_Id"];
+                    //ViewState["Emp_Id"] =  Session["Emp_Id"];
                 }
             }
             else Response.Redirect("../Login.aspx", false);
@@ -99,14 +101,14 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
 
                     conn.Close();
                     DataTable dt1 = ds.Tables[0];
-
+                    ValidateExcelData(ds);
                     ds.Tables[0].Columns.Add("CourtTypeID", typeof(Int32));
-                    ds.Tables[0].Columns.Add("District_ID", typeof(Byte));
+                    ds.Tables[0].Columns.Add("CourtLocation_ID", typeof(Byte));
                     ds.Tables[0].Columns.Add("UniqueNo", typeof(string));
                     ds.Tables[0].Columns.Add("Casetype_ID", typeof(Int32));
                     DataSet dsc, DsCasetype, Dsbulk = new DataSet();
                     // To Update Courttype_Id into dt1.
-                    dsc = obj.ByDataSet("select T.CourtTypeName,T.CourtType_ID,D.District_Name,D.District_ID from tbl_LegalCourtType T inner join Mst_District D on T.District_Id = D.District_ID");
+                    dsc = obj.ByDataSet("select T.CourtTypeName,T.CourtType_ID,D.District_Name,D.District_ID from tbl_LegalCourtType T inner join Mst_District D on T.District_ID = D.District_ID");
                     DataTable dt2 = dsc.Tables[0];
                     // To Update Casetype_ID into Dt1.
                     DsCasetype = obj.ByDataSet("select Casetype_ID, Casetype_Name from tbl_Legal_Casetype");
@@ -114,97 +116,169 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
 
                     // To Check Datatype Of DataTable Column Below Line.
                     //var type = dt1.Columns["CourtTypeID"].DataType;
-                    //var type1 = dt1.Columns["District_ID"].DataType;
+                    //var type1 = dt1.Columns["CourtLocation_ID"].DataType;
                     //var type2 = dt1.Columns["UniqueNo"].DataType;
-                    //var qtype = dt1.Columns["CASEYEAR"].DataType;
-                    //var etype1 = dt1.Columns["CASETYPE"].DataType;
-                    //var ettype2 = dt1.Columns["CASENO"].DataType;
+                    //var qtype = dt1.Columns["CaseYear"].DataType;
+                    //var etype1 = dt1.Columns["Casetype"].DataType;
+                    //var ettype2 = dt1.Columns["Caseno"].DataType;
                     //var ettype2 = dt1.Columns["Casetype_ID"].DataType;
 
                     dt2.AsEnumerable().ToList().ForEach(m => // To Update dt1 From Court_type master.
                     {
-                        dt1.AsEnumerable().Where(r => m.Field<String>("CourtTypeName").Trim() == r.Field<String>("COURT").Trim()).ToList().ForEach(s =>
+                        dt1.AsEnumerable().Where(r => m.Field<String>("CourtTypeName").Trim() == r.Field<String>("Court").Trim()).ToList().ForEach(s =>
                         {
                             s.SetField<Int32>("CourtTypeID", m.Field<Int32>("CourtType_ID"));
-                            s.SetField<Int32>("District_ID", m.Field<Byte>("District_ID"));
-                            s.SetField<String>("UniqueNo", Convert.ToString((s.Field<Int32>("CourtTypeID"))) + "_" + Convert.ToString(s.Field<Byte>("District_ID")) + "_" + s.Field<Double>("CASEYEAR").ToString() + "_" + s.Field<String>("CASETYPE") + "_" + s.Field<Double>("CASENO").ToString()); // Here Create Uniqueno.
+                            s.SetField<Int32>("CourtLocation_ID", m.Field<Byte>("District_ID"));
+                            s.SetField<String>("UniqueNo", Convert.ToString((s.Field<Int32>("CourtTypeID"))) + "_" + Convert.ToString(s.Field<Byte>("CourtLocation_ID")) + "_" + s.Field<Double>("CaseYear").ToString() + "_" + s.Field<String>("Casetype") + "_" + s.Field<Double>("Caseno").ToString()); // Here Create Uniqueno.
                         });
                     });
 
                     dtCtype.AsEnumerable().ToList().ForEach(m => // To Update dt1 From Casetype master.
                     {
-                        dt1.AsEnumerable().Where(r => m.Field<String>("Casetype_Name").Trim() == r.Field<String>("CASETYPE").Trim()).ToList().ForEach(s =>
+                        dt1.AsEnumerable().Where(r => m.Field<String>("Casetype_Name").Trim() == r.Field<String>("Casetype").Trim()).ToList().ForEach(s =>
                         {
                             s.SetField<Int32>("Casetype_ID", m.Field<Int32>("Casetype_ID"));
                         });
                     });
 
                     DataView view = new DataView(dt1); // Here Filter Main Detail From Dt Without Duplicacy.
-                    DataTable DtMain = view.ToTable(true, "UniqueNo", "FILINGNO", "CASETYPE", "Casetype_ID", "CASENO", "CASEYEAR", "COURT", "PETITIONER", "CourtTypeID", "District_ID", "FLAG", "STATUS");
+                    DataTable DtMain = view.ToTable(true, "UniqueNo", "FillingNo", "Casetype", "Casetype_ID", "Caseno", "CaseYear", "Court", "Petitioner", "CourtTypeID", "CourtLocation_ID", "Flag", "Status");
                     DataTable dtPetitioner = DtMain.Copy(); // Here Only Petitoner Dtl Filter.
-                    dtPetitioner.Columns.Remove("FILINGNO"); dtPetitioner.Columns.Remove("STATUS");
-                    dtPetitioner.Columns.Remove("CASETYPE"); dtPetitioner.Columns.Remove("FLAG");
-                    dtPetitioner.Columns.Remove("Casetype_ID"); dtPetitioner.Columns.Remove("District_ID");
-                    dtPetitioner.Columns.Remove("CASENO"); dtPetitioner.Columns.Remove("CourtTypeID");
-                    dtPetitioner.Columns.Remove("CASEYEAR"); dtPetitioner.Columns.Remove("COURT");                  
+                    dtPetitioner.Columns.Remove("FillingNo"); dtPetitioner.Columns.Remove("Status");
+                    dtPetitioner.Columns.Remove("Casetype"); dtPetitioner.Columns.Remove("Flag");
+                    dtPetitioner.Columns.Remove("Casetype_ID"); dtPetitioner.Columns.Remove("CourtLocation_ID");
+                    dtPetitioner.Columns.Remove("Caseno"); dtPetitioner.Columns.Remove("CourtTypeID");
+                    dtPetitioner.Columns.Remove("CaseYear"); dtPetitioner.Columns.Remove("Court");
                     dtPetitioner.AcceptChanges();
-                    DtMain.Columns.Remove("PETITIONER");
+                    DtMain.Columns.Remove("Petitioner");
                     DtMain.AcceptChanges();
-                    // To Save Data into Main table.
-                    //connection();
-                    ////creating object of SqlBulkCopy  
-                    //SqlBulkCopy objbulk = new SqlBulkCopy(con);
-                    //objbulk.BulkCopyTimeout = 100000;
-                    ////assigning Destination table name  
-                    //objbulk.DestinationTableName = "tbl_OldCaseDetail_Testing";// "tbl_OldCaseDetail";
-                    ////Mapping Table column  
-                    //objbulk.ColumnMappings.Add("UniqueNo", "UniqueNo");
-                    //objbulk.ColumnMappings.Add("FILINGNO", "FilingNo");
-                    //objbulk.ColumnMappings.Add("CASETYPE", "CaseType");
-                    //objbulk.ColumnMappings.Add("Casetype_ID", "Casetype_ID");
-                    //objbulk.ColumnMappings.Add("CASENO", "CaseNo");
-                    //objbulk.ColumnMappings.Add("CASEYEAR", "CaseYear");
-                    //objbulk.ColumnMappings.Add("COURT", "Court");
-                    //objbulk.ColumnMappings.Add("PETITIONER", "Petitioner");
-                    //objbulk.ColumnMappings.Add("RESPONDENT", "Respondent");
-                    //objbulk.ColumnMappings.Add("PRNO", "P_R_No");
-                    //objbulk.ColumnMappings.Add("ADDRESS", "Address");
-                    //objbulk.ColumnMappings.Add("PARTYNAME", "PartyName");
-                    //objbulk.ColumnMappings.Add("DEPARTMENT", "Department");
-                    //objbulk.ColumnMappings.Add("STATUS", "Status");
-                    //objbulk.ColumnMappings.Add("PDF", "PDF");
-                    //objbulk.ColumnMappings.Add("Link", "PDFLink");
-                    //objbulk.ColumnMappings.Add("FLAG", "Flag");
-                    //objbulk.ColumnMappings.Add("District_ID", "CourtLocation_Id");
-                    //objbulk.ColumnMappings.Add("CourtTypeID", "CourtTypeID");    
-                    ////inserting bulk Records into DataBase   
-                    //objbulk.WriteToServer(dt1);
+
                     DataView view1 = new DataView(dt1);// Here Filter Respondent BY Unique No.
-                    DataTable DtRes = view1.ToTable(true, "UniqueNo", "RESPONDENT", "DEPARTMENT", "ADDRESS");
+                    DataTable DtRes = view1.ToTable(true, "UniqueNo", "Respondent", "Department", "Address");
                     DataTable DtDoc = dt1.Copy();
-                    DtDoc.Columns.Remove("FILINGNO"); DtDoc.Columns.Remove("CASETYPE"); DtDoc.Columns.Remove("Casetype_ID");
-                    DtDoc.Columns.Remove("CASENO"); DtDoc.Columns.Remove("COURT"); DtDoc.Columns.Remove("PETITIONER");
-                    DtDoc.Columns.Remove("PRNO"); DtDoc.Columns.Remove("PARTYNAME"); DtDoc.Columns.Remove("DEPARTMENT");
-                    DtDoc.Columns.Remove("ADDRESS"); DtDoc.Columns.Remove("STATUS"); DtDoc.Columns.Remove("DISTRICTID");
-                    DtDoc.Columns.Remove("CASEYEAR"); DtDoc.Columns.Remove("SRNO"); DtDoc.Columns.Remove("FLAG");
-                    DtDoc.Columns.Remove("District_ID"); DtDoc.Columns.Remove("CourtTypeID"); DtDoc.Columns.Remove("RESPONDENT");
-                    DtDoc.Columns.Remove("CITY");
+                    DtDoc.Columns.Remove("FillingNo"); DtDoc.Columns.Remove("Casetype"); DtDoc.Columns.Remove("Casetype_ID");
+                    DtDoc.Columns.Remove("Caseno"); DtDoc.Columns.Remove("Court"); DtDoc.Columns.Remove("Petitioner");
+                    DtDoc.Columns.Remove("PartyName"); DtDoc.Columns.Remove("Department"); DtDoc.Columns.Remove("CaseYear");
+                    DtDoc.Columns.Remove("Address"); DtDoc.Columns.Remove("Status"); DtDoc.Columns.Remove("CourtLocation_ID");
+                    DtDoc.Columns.Remove("srno"); DtDoc.Columns.Remove("Flag"); DtDoc.Columns.Remove("CourtTypeID");
+                    DtDoc.Columns.Remove("Respondent");
                     // Here Reoder Column As per Need.
                     DtDoc.Columns["UniqueNo"].SetOrdinal(0);
-                    DtDoc.Columns["PDF"].SetOrdinal(1);
-                    DtDoc.Columns["Link"].SetOrdinal(2);
+                    DtDoc.Columns["DocName"].SetOrdinal(1);
+                    DtDoc.Columns["PDFLink"].SetOrdinal(2);
                     DtDoc.AcceptChanges();
 
-                    Dsbulk = obj.ByProcedure("USP_BulkInsert", new string[] { "CreatedBy", "CreatedByIP" },
-                        new string[] { "1", "1" }, new string[] { "type_BulkInsertCaseRegistration", "type_BulkInsertPetitioner", "type_BulkInsertRespondentDtl", "type_BulkInsertDocumentDtl" },
-                        new DataTable[] { DtMain, dtPetitioner, DtRes, DtDoc }, "dataset");
-                    if (Dsbulk != null && Dsbulk.Tables[0].Rows.Count > 0)
+                    string ErrorColumnName = "";
+                    foreach (DataColumn col in dt1.Columns)
                     {
-                        if (Dsbulk.Tables[0].Rows[0]["Msg"].ToString() == "OK")
+                        if (col.ToString() != "srno" && col.ToString() != "FillingNo" && col.ToString() != "Casetype" && col.ToString() != "Caseno" && col.ToString() != "CaseYear"
+                            && col.ToString() != "Court" && col.ToString() != "Petitioner" && col.ToString() != "Respondent" && col.ToString() != "PartyName" && col.ToString() != "Address" &&
+                            col.ToString() != "Department" && col.ToString() != "Status" && col.ToString() != "DocName" && col.ToString() != "PDFLink" && col.ToString() != "Flag" &&
+                            col.ToString() != "CourtTypeID" && col.ToString() != "CourtLocation_ID" && col.ToString() != "UniqueNo" && col.ToString() != "Casetype_ID")
                         {
-                            DtMain.Clear(); dtPetitioner.Clear(); DtRes.Clear(); DtDoc.Clear(); dt1.Clear();
+                            ErrorColumnName += col.ToString() + ", ";
                         }
                     }
+                    if (ErrorColumnName != "")
+                    {
+                        lblMsg.Text = obj.Alert("fa-exclamation", "alert-info", "Invalid Columns Names ", "Invalid File Format " + ErrorColumnName + "column name missed match.");
+                        return;
+                    }
+                    if (!dt1.Columns.Contains("srno"))
+                    {
+                        ErrorColumnName += "srno, ";
+                    }
+                    if (!dt1.Columns.Contains("FillingNo"))
+                    {
+                        ErrorColumnName += "FillingNo, ";
+                    }
+                    if (!dt1.Columns.Contains("Casetype"))
+                    {
+                        ErrorColumnName += "Casetype, ";
+                    }
+                    if (!dt1.Columns.Contains("Caseno"))
+                    {
+                        ErrorColumnName += "Caseno, ";
+                    }
+                    if (!dt1.Columns.Contains("CaseYear"))
+                    {
+                        ErrorColumnName += "CaseYear, ";
+                    }
+                    if (!dt1.Columns.Contains("Court"))
+                    {
+                        ErrorColumnName += "Court, ";
+                    }
+                    if (!dt1.Columns.Contains("Petitioner"))
+                    {
+                        ErrorColumnName += "Petitioner, ";
+                    }
+                    if (!dt1.Columns.Contains("Respondent"))
+                    {
+                        ErrorColumnName += "Respondent, ";
+                    }
+                    if (!dt1.Columns.Contains("PartyName"))
+                    {
+                        ErrorColumnName += "PartyName, ";
+                    }
+                    if (!dt1.Columns.Contains("Address"))
+                    {
+                        ErrorColumnName += "Address, ";
+                    }
+                    if (!dt1.Columns.Contains("Department"))
+                    {
+                        ErrorColumnName += "Department, ";
+                    }
+                    if (!dt1.Columns.Contains("Status"))
+                    {
+                        ErrorColumnName += "Status, ";
+                    }
+                    if (!dt1.Columns.Contains("DocName"))
+                    {
+                        ErrorColumnName += "DocName, ";
+                    }
+                    if (!dt1.Columns.Contains("PDFLink"))
+                    {
+                        ErrorColumnName += "PDFLink, ";
+                    }
+                    if (!dt1.Columns.Contains("Flag"))
+                    {
+                        ErrorColumnName += "Flag, ";
+                    }
+                    if (!dt1.Columns.Contains("CourtTypeID"))
+                    {
+                        ErrorColumnName += "CourtTypeID, ";
+                    }
+                    if (!dt1.Columns.Contains("CourtLocation_ID"))
+                    {
+                        ErrorColumnName += "CourtLocation_ID, ";
+                    }
+                    if (!dt1.Columns.Contains("UniqueNo"))
+                    {
+                        ErrorColumnName += "UniqueNo, ";
+                    }
+                    if (!dt1.Columns.Contains("Casetype_ID"))
+                    {
+                        ErrorColumnName += "Casetype_ID, ";
+                    }
+                    if (ErrorColumnName == "")
+                    {
+                        // Dsbulk = obj.ByProcedure("USP_BulkInsert", new string[] { "CreatedBy", "CreatedByIP" },
+                        //new string[] { Session["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, new string[] { "type_BulkInsertCaseRegistration", "type_BulkInsertPetitioner", "type_BulkInsertRespondentDtl", "type_BulkInsertDocumentDtl" },
+                        //new DataTable[] { DtMain, dtPetitioner, DtRes, DtDoc }, "dataset");
+                        // if (Dsbulk != null && Dsbulk.Tables[0].Rows.Count > 0)
+                        // {
+                        //     if (Dsbulk.Tables[0].Rows[0]["Msg"].ToString() == "OK")
+                        //     {
+                        //         DtMain.Clear(); dtPetitioner.Clear(); DtRes.Clear(); DtDoc.Clear(); dt1.Clear();
+                        //     }
+                        // }
+                    }
+                    else
+                    {
+                        lblMsg.Text = obj.Alert("fa-exclamation", "alert-info", "Invalid Columns Names ", "Invalid File Format " + ErrorColumnName + "column name not found.");
+                    }
+
+
                 }
                 catch (Exception ex)
                 {
@@ -253,440 +327,216 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
     //    }
     //}
 
-    protected void ValidateExcelData()
+    protected void ValidateExcelData(DataSet ds)
     {
         //connection();
         try
         {
-            DataSet newds = (DataSet)ViewState["ds"];
-            if (newds != null)
+            DataSet newds = ds as DataSet;
+            if (newds != null && newds.Tables.Count > 0 && newds.Tables[0].Rows.Count > 0)
             {
-                if (newds.Tables.Count > 0)
+                #region check excel data
+                int ErrorCount = 0;
+                string ErrMsg = "";
+                for (int i = 0; i < newds.Tables[0].Rows.Count; i++)
                 {
-                    if (newds.Tables[0].Rows.Count > 0)
+                    if (string.IsNullOrWhiteSpace(newds.Tables[0].Rows[i]["srno"].ToString().Trim()))
                     {
-                        if (newds.Tables[0].Columns.Count > 0)
+                        ErrorCount = 1;
+                        ErrMsg += "Enter Sr. No., ";
+                    }
+                    else
+                    {
+                        if (!System.Text.RegularExpressions.Regex.IsMatch(newds.Tables[0].Rows[i]["srno"].ToString().Trim(), @"^[0-9]+$"))
                         {
-                            #region check excel data
-                            if (newds.Tables[0].Columns["SRNO"].ToString().Trim() == "SRNO")
-                            {
-                                for (int i = 0; i < newds.Tables[0].Rows.Count; i++)
-                                {
-                                    string pattern = @"^[0-9]+$";
-                                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                                    string input = newds.Tables[0].Rows[i]["SRNO"].ToString().Trim();
-                                    bool isMatch = regex.IsMatch(input);
-                                    if (isMatch)
-                                    {
-                                        if (i == newds.Tables[0].Rows.Count - 1)
-                                        {
-                                            lblMsg.Text = obj.Alert("fa-check", "alert-success", "thankyou", "DataCheck Success!");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        i += 1;
-                                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Alert", "SRNO Datatype mismatch on Row no.: " + i);
-                                        break;
-                                    }
-                                }
-                            }
-                            if (newds.Tables[0].Columns["FILINGNO"].ToString().Trim() == "FILINGNO")
-                            {
-                                for (int i = 0; i < newds.Tables[0].Rows.Count; i++)
-                                {
-                                    string pattern = @"^[A-Za-z]+[/]+[0-9]+[/]+[0-9]+[-]+[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$";
-                                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                                    string input = newds.Tables[0].Rows[i]["FILINGNO"].ToString().Trim();
-                                    bool isMatch = regex.IsMatch(input);
-                                    if (isMatch)
-                                    {
-                                        if (i == newds.Tables[0].Rows.Count - 1)
-                                        {
-                                            lblMsg.Text = obj.Alert("fa-check", "alert-success", "thankyou", "DataCheck Success!");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        i += 1;
-                                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Alert", "FILINGNO Datatype mismatch on Row no.: " + i);
-                                        break;
-                                    }
-                                }
-                            }
-                            if (newds.Tables[0].Columns["CASETYPE"].ToString().Trim() == "CASETYPE")
-                            {
-                                for (int i = 0; i < newds.Tables[0].Rows.Count; i++)
-                                {
-                                    string pattern = @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$";
-                                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                                    string input = newds.Tables[0].Rows[i]["CASETYPE"].ToString().Trim();
-                                    bool isMatch = regex.IsMatch(input);
-                                    if (isMatch)
-                                    {
-                                        if (i == newds.Tables[0].Rows.Count - 1)
-                                        {
-                                            lblMsg.Text = obj.Alert("fa-check", "alert-success", "thankyou", "DataCheck Success!");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        i += 1;
-                                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Alert", "CASETYPE Datatype mismatch on Row no.: " + i);
-                                        break;
-                                    }
-                                }
-                            }
-                            if (newds.Tables[0].Columns["CASENO"].ToString().Trim() == "CASENO")
-                            {
-                                for (int i = 0; i < newds.Tables[0].Rows.Count; i++)
-                                {
-                                    string pattern = @"^[0-9]+$";
-                                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                                    string input = newds.Tables[0].Rows[i]["CASENO"].ToString().Trim();
-                                    bool isMatch = regex.IsMatch(input);
-                                    if (isMatch)
-                                    {
-                                        if (i == newds.Tables[0].Rows.Count - 1)
-                                        {
-                                            lblMsg.Text = obj.Alert("fa-check", "alert-success", "thankyou", "DataCheck Success!");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        i += 1;
-                                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Alert", "CASENO Datatype mismatch on Row no.: " + i);
-                                        break;
-                                    }
-                                }
-                            }
-                            if (newds.Tables[0].Columns["CASEYEAR"].ToString().Trim() == "CASEYEAR")
-                            {
-                                for (int i = 0; i < newds.Tables[0].Rows.Count; i++)
-                                {
-                                    string pattern = @"^[0-9]+$";
-                                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                                    string input = newds.Tables[0].Rows[i]["CASEYEAR"].ToString().Trim();
-                                    bool isMatch = regex.IsMatch(input);
-                                    if (isMatch)
-                                    {
-                                        if (i == newds.Tables[0].Rows.Count - 1)
-                                        {
-                                            lblMsg.Text = obj.Alert("fa-check", "alert-success", "thankyou", "DataCheck Success!");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        i += 1;
-                                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Alert", "CASEYEAR Datatype mismatch on Row no.: " + i);
-                                        break;
-                                    }
-                                }
-                            }
-
-                            if (newds.Tables[0].Columns["COURT"].ToString().Trim() == "COURT")
-                            {
-                                for (int i = 0; i < newds.Tables[0].Rows.Count; i++)
-                                {
-                                    string pattern = @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$";
-                                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                                    string input = newds.Tables[0].Rows[i]["COURT"].ToString().Trim();
-                                    bool isMatch = regex.IsMatch(input);
-                                    if (isMatch)
-                                    {
-                                        if (i == newds.Tables[0].Rows.Count - 1)
-                                        {
-                                            lblMsg.Text = obj.Alert("fa-check", "alert-success", "thankyou", "DataCheck Success!");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        i += 1;
-                                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Alert", "COURT Datatype mismatch on Row no.: " + i);
-                                        break;
-                                    }
-                                }
-                            }
-                            if (newds.Tables[0].Columns["CITY"].ToString().Trim() == "CITY")
-                            {
-                                for (int i = 0; i < newds.Tables[0].Rows.Count; i++)
-                                {
-                                    string pattern = @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$";
-                                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                                    string input = newds.Tables[0].Rows[i]["CITY"].ToString().Trim();
-                                    bool isMatch = regex.IsMatch(input);
-                                    if (isMatch)
-                                    {
-                                        if (i == newds.Tables[0].Rows.Count - 1)
-                                        {
-                                            lblMsg.Text = obj.Alert("fa-check", "alert-success", "thankyou", "DataCheck Success!");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        i += 1;
-                                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Alert", "CITY Datatype mismatch on Row no.: " + i);
-                                        break;
-                                    }
-                                }
-                            }
-                            if (newds.Tables[0].Columns["PETITIONER"].ToString().Trim() == "PETITIONER")
-                            {
-                                for (int i = 0; i < newds.Tables[0].Rows.Count; i++)
-                                {
-                                    string pattern = @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$";
-                                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                                    string input = newds.Tables[0].Rows[i]["PETITIONER"].ToString();
-                                    bool isMatch = regex.IsMatch(input);
-                                    if (isMatch)
-                                    {
-                                        if (i == newds.Tables[0].Rows.Count - 1)
-                                        {
-                                            lblMsg.Text = obj.Alert("fa-check", "alert-success", "thankyou", "DataCheck Success!");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        i += 1;
-                                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Alert", "PETITIONER Datatype mismatch on Row no.: " + i);
-                                        break;
-                                    }
-                                }
-                            }
-                            if (newds.Tables[0].Columns["RESPONDENT"].ToString().Trim() == "RESPONDENT")
-                            {
-                                for (int i = 0; i < newds.Tables[0].Rows.Count; i++)
-                                {
-                                    string pattern = @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$";
-                                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                                    string input = newds.Tables[0].Rows[i]["RESPONDENT"].ToString().Trim();
-                                    bool isMatch = regex.IsMatch(input);
-                                    if (isMatch)
-                                    {
-                                        if (i == newds.Tables[0].Rows.Count - 1)
-                                        {
-                                            lblMsg.Text = obj.Alert("fa-check", "alert-success", "thankyou", "DataCheck Success!");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        i += 1;
-                                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Alert", "RESPONDENT Datatype mismatch on Row no.: " + i);
-                                        break;
-                                    }
-                                }
-                            }
-                            if (newds.Tables[0].Columns["PRNO"].ToString().Trim() == "PRNO")
-                            {
-                                for (int i = 0; i < newds.Tables[0].Rows.Count; i++)
-                                {
-                                    string pattern = @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$";
-                                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                                    string input = newds.Tables[0].Rows[i]["PRNO"].ToString().Trim();
-                                    bool isMatch = regex.IsMatch(input);
-                                    if (isMatch)
-                                    {
-                                        if (i == newds.Tables[0].Rows.Count - 1)
-                                        {
-                                            lblMsg.Text = obj.Alert("fa-check", "alert-success", "thankyou", "DataCheck Success!");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        i += 1;
-                                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Alert", "PRNO Datatype mismatch on Row no.: " + i);
-                                        break;
-                                    }
-                                }
-                            }
-                            if (newds.Tables[0].Columns["PARTYNAME"].ToString().Trim() == "PARTYNAME")
-                            {
-                                for (int i = 0; i < newds.Tables[0].Rows.Count; i++)
-                                {
-                                    string pattern = @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$";
-                                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                                    string input = newds.Tables[0].Rows[i]["PARTYNAME"].ToString().Trim();
-                                    bool isMatch = regex.IsMatch(input);
-                                    if (isMatch)
-                                    {
-                                        if (i == newds.Tables[0].Rows.Count - 1)
-                                        {
-                                            lblMsg.Text = obj.Alert("fa-check", "alert-success", "thankyou", "DataCheck Success!");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        i += 1;
-                                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Alert", "PARTYNAME Datatype mismatch on Row no.: " + i);
-                                        break;
-                                    }
-                                }
-                            }
-                            if (newds.Tables[0].Columns["ADDRESS"].ToString().Trim() == "ADDRESS")
-                            {
-                                for (int i = 0; i < newds.Tables[0].Rows.Count; i++)
-                                {
-                                    string pattern = @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$";
-                                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                                    string input = newds.Tables[0].Rows[i]["ADDRESS"].ToString().Trim();
-                                    bool isMatch = regex.IsMatch(input);
-                                    if (isMatch)
-                                    {
-                                        if (i == newds.Tables[0].Rows.Count - 1)
-                                        {
-                                            lblMsg.Text = obj.Alert("fa-check", "alert-success", "thankyou", "DataCheck Success!");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        i += 1;
-                                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Alert", "ADDRESS Datatype mismatch on Row no.: " + i);
-                                        break;
-                                    }
-                                }
-                            }
-                            if (newds.Tables[0].Columns["DEPARTMENT"].ToString().Trim() == "DEPARTMENT")
-                            {
-                                for (int i = 0; i < newds.Tables[0].Rows.Count; i++)
-                                {
-                                    string pattern = @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$";
-                                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                                    string input = newds.Tables[0].Rows[i]["DEPARTMENT"].ToString().Trim();
-                                    bool isMatch = regex.IsMatch(input);
-                                    if (isMatch)
-                                    {
-                                        if (i == newds.Tables[0].Rows.Count - 1)
-                                        {
-                                            lblMsg.Text = obj.Alert("fa-check", "alert-success", "thankyou", "DataCheck Success!");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        i += 1;
-                                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Alert", "DEPARTMENT Datatype mismatch on Row no.: " + i);
-                                        break;
-                                    }
-                                }
-                            }
-                            if (newds.Tables[0].Columns["STATUS"].ToString().Trim() == "STATUS")
-                            {
-                                for (int i = 0; i < newds.Tables[0].Rows.Count; i++)
-                                {
-                                    string pattern = @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$";
-                                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                                    string input = newds.Tables[0].Rows[i]["STATUS"].ToString().Trim();
-                                    bool isMatch = regex.IsMatch(input);
-                                    if (isMatch)
-                                    {
-                                        if (i == newds.Tables[0].Rows.Count - 1)
-                                        {
-                                            lblMsg.Text = obj.Alert("fa-check", "alert-success", "thankyou", "DataCheck Success!");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        i += 1;
-                                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Alert", "STATUS Datatype mismatch on Row no.: " + i);
-                                        break;
-                                    }
-                                }
-                            }
-                            if (newds.Tables[0].Columns["PDF"].ToString().Trim() == "PDF")
-                            {
-                                for (int i = 0; i < newds.Tables[0].Rows.Count; i++)
-                                {
-                                    string pattern = @"^[0-9a-zA-Z\s.-]+$";
-                                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                                    string input = newds.Tables[0].Rows[i]["PDF"].ToString().Trim();
-                                    bool isMatch = regex.IsMatch(input);
-                                    if (isMatch)
-                                    {
-                                        if (i == newds.Tables[0].Rows.Count - 1)
-                                        {
-                                            lblMsg.Text = obj.Alert("fa-check", "alert-success", "thankyou", "DataCheck Success!");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        i += 1;
-                                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Alert", "PDF Datatype mismatch on Row no.: " + i);
-                                        break;
-                                    }
-                                }
-                            }
-                            if (newds.Tables[0].Columns["Link"].ToString().Trim() == "Link")
-                            {
-                                for (int i = 0; i < newds.Tables[0].Rows.Count; i++)
-                                {
-                                    string pattern = @"^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$";
-                                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                                    string input = newds.Tables[0].Rows[i]["Link"].ToString().Trim();
-                                    bool isMatch = regex.IsMatch(input);
-                                    if (isMatch)
-                                    {
-                                        if (i == newds.Tables[0].Rows.Count - 1)
-                                        {
-                                            lblMsg.Text = obj.Alert("fa-check", "alert-success", "thankyou", "Data Check Success!");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        i += 1;
-                                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Alert", "Link Datatype mismatch on Row no.: " + i);
-                                        break;
-                                    }
-                                }
-                            }
-                            if (newds.Tables[0].Columns["DISTRICTID"].ToString().Trim() == "DISTRICTID")
-                            {
-                                for (int i = 0; i < newds.Tables[0].Rows.Count; i++)
-                                {
-                                    string pattern = @"^[0-9]+$";
-                                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                                    string input = newds.Tables[0].Rows[i]["DISTRICTID"].ToString().Trim();
-                                    bool isMatch = regex.IsMatch(input);
-                                    if (isMatch)
-                                    {
-                                        if (i == newds.Tables[0].Rows.Count - 1)
-                                        {
-                                            lblMsg.Text = obj.Alert("fa-check", "alert-success", "thankyou", "DataCheck Success!");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        i += 1;
-                                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Alert", "DISTRICTID Datatype mismatch on Row no.: " + i);
-                                        break;
-                                    }
-                                }
-                            }
-                            if (newds.Tables[0].Columns["FLAG"].ToString().Trim() == "FLAG")
-                            {
-                                for (int i = 0; i < newds.Tables[0].Rows.Count; i++)
-                                {
-                                    string pattern = @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$";
-                                    Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                                    string input = newds.Tables[0].Rows[i]["FLAG"].ToString().Trim();
-                                    bool isMatch = regex.IsMatch(input);
-                                    if (isMatch)
-                                    {
-                                        if (i == newds.Tables[0].Rows.Count - 1)
-                                        {
-                                            lblMsg.Text = obj.Alert("fa-check", "alert-success", "thankyou", "DataCheck Success!");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        i += 1;
-                                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Alert", "FLAG Datatype mismatch on Row no.: " + i);
-                                        break;
-                                    }
-                                }
-                            }
-                            #endregion
+                            ErrorCount = 1;
+                            ErrMsg += "Invalid Sr. No., ";
+                        }
+                    }
+                    if (string.IsNullOrWhiteSpace(newds.Tables[0].Rows[i]["FillingNo"].ToString().Trim()))
+                    {
+                        ErrorCount = 1;
+                        ErrMsg += "Enter Filling number., ";
+                    }
+                    else
+                    {
+                        if (!System.Text.RegularExpressions.Regex.IsMatch(newds.Tables[0].Rows[i]["FillingNo"].ToString().Trim(), @"^[A-Za-z]+[/]+[0-9]+[/]+[0-9]+[-]+[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$"))
+                        {
+                            ErrorCount = 1;
+                            ErrMsg += "Invalid Filling number., ";
+                        }
+                    }
+                    if (string.IsNullOrWhiteSpace(newds.Tables[0].Rows[i]["Casetype"].ToString().Trim()))
+                    {
+                        ErrorCount = 1;
+                        ErrMsg += "Enter Case type., ";
+                    }
+                    else
+                    {
+                        if (!System.Text.RegularExpressions.Regex.IsMatch(newds.Tables[0].Rows[i]["Casetype"].ToString().Trim(), @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$"))
+                        {
+                            ErrorCount = 1;
+                            ErrMsg += "Invalid Case type., ";
+                        }
+                    }
+                    if (string.IsNullOrWhiteSpace(newds.Tables[0].Rows[i]["Caseno"].ToString().Trim()))
+                    {
+                        ErrorCount = 1;
+                        ErrMsg += "Enter Case No., ";
+                    }
+                    else
+                    {
+                        if (!System.Text.RegularExpressions.Regex.IsMatch(newds.Tables[0].Rows[i]["Caseno"].ToString().Trim(), @"^[0-9]+$"))
+                        {
+                            ErrorCount = 1;
+                            ErrMsg += "Invalid Case No., ";
+                        }
+                    }
+                    if (string.IsNullOrWhiteSpace(newds.Tables[0].Rows[i]["CaseYear"].ToString().Trim()))
+                    {
+                        ErrorCount = 1;
+                        ErrMsg += "Enter Case Year, ";
+                    }
+                    else
+                    {
+                        if (!System.Text.RegularExpressions.Regex.IsMatch(newds.Tables[0].Rows[i]["CaseYear"].ToString().Trim(), @"^[0-9]+$"))
+                        {
+                            ErrorCount = 1;
+                            ErrMsg += "Invalid Court Name, ";
+                        }
+                    }
+                    if (string.IsNullOrWhiteSpace(newds.Tables[0].Rows[i]["Court"].ToString().Trim()))
+                    {
+                        ErrorCount = 1;
+                        ErrMsg += "Enter Court Name, ";
+                    }
+                    else
+                    {
+                        if (!System.Text.RegularExpressions.Regex.IsMatch(newds.Tables[0].Rows[i]["Court"].ToString().Trim(), @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$"))
+                        {
+                            ErrorCount = 1;
+                            ErrMsg += "Invalid Case Year, ";
+                        }
+                    }
+                    if (string.IsNullOrWhiteSpace(newds.Tables[0].Rows[i]["Petitioner"].ToString().Trim()))
+                    {
+                        ErrorCount = 1;
+                        ErrMsg += "Enter Petitioner Name, ";
+                    }
+                    else
+                    {
+                        if (!System.Text.RegularExpressions.Regex.IsMatch(newds.Tables[0].Rows[i]["Petitioner"].ToString().Trim(), @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$"))
+                        {
+                            ErrorCount = 1;
+                            ErrMsg += "Invalid Petitioner Name, ";
+                        }
+                    }
+                    if (string.IsNullOrWhiteSpace(newds.Tables[0].Rows[i]["Respondent"].ToString().Trim()))
+                    {
+                        ErrorCount = 1;
+                        ErrMsg += "Enter Respondent Name, ";
+                    }
+                    else
+                    {
+                        if (!System.Text.RegularExpressions.Regex.IsMatch(newds.Tables[0].Rows[i]["Respondent"].ToString().Trim(), @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$"))
+                        {
+                            ErrorCount = 1;
+                            ErrMsg += "Invalid Respondent Name, ";
+                        }
+                    }
+                    if (string.IsNullOrWhiteSpace(newds.Tables[0].Rows[i]["PartyName"].ToString().Trim()))
+                    {
+                        ErrorCount = 1;
+                        ErrMsg += "Enter Party Name, ";
+                    }
+                    else
+                    {
+                        if (!System.Text.RegularExpressions.Regex.IsMatch(newds.Tables[0].Rows[i]["PartyName"].ToString().Trim(), @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$"))
+                        {
+                            ErrorCount = 1;
+                            ErrMsg += "Invalid Party Name, ";
+                        }
+                    }
+                    if (string.IsNullOrWhiteSpace(newds.Tables[0].Rows[i]["Address"].ToString().Trim()))
+                    {
+                        ErrorCount = 1;
+                        ErrMsg += "Enter Address, ";
+                    }
+                    else
+                    {
+                        if (!System.Text.RegularExpressions.Regex.IsMatch(newds.Tables[0].Rows[i]["Address"].ToString().Trim(), @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$"))
+                        {
+                            ErrorCount = 1;
+                            ErrMsg += "Invalid Address, ";
+                        }
+                    }
+                    if (string.IsNullOrWhiteSpace(newds.Tables[0].Rows[i]["Department"].ToString().Trim()))
+                    {
+                        ErrorCount = 1;
+                        ErrMsg += "Enter Department, ";
+                    }
+                    else
+                    {
+                        if (!System.Text.RegularExpressions.Regex.IsMatch(newds.Tables[0].Rows[i]["Department"].ToString().Trim(), @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$"))
+                        {
+                            ErrorCount = 1;
+                            ErrMsg += "Invalid Department, ";
+                        }
+                    }
+                    if (string.IsNullOrWhiteSpace(newds.Tables[0].Rows[i]["Status"].ToString().Trim()))
+                    {
+                        ErrorCount = 1;
+                        ErrMsg += "Enter Case Status, ";
+                    }
+                    else
+                    {
+                        if (!System.Text.RegularExpressions.Regex.IsMatch(newds.Tables[0].Rows[i]["Status"].ToString().Trim(), @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$"))
+                        {
+                            ErrorCount = 1;
+                            ErrMsg += "Invalid Case Status, ";
+                        }
+                    }
+                    if (string.IsNullOrWhiteSpace(newds.Tables[0].Rows[i]["DocName"].ToString().Trim()))
+                    {
+                        ErrorCount = 1;
+                        ErrMsg += "Enter Document Name, ";
+                    }
+                    else
+                    {
+                        if (!System.Text.RegularExpressions.Regex.IsMatch(newds.Tables[0].Rows[i]["DocName"].ToString().Trim(), @"^[0-9a-zA-Z\s.-]+$"))
+                        {
+                            ErrorCount = 1;
+                            ErrMsg += "Invalid Document Name, ";
+                        }
+                    }
+                    if (string.IsNullOrWhiteSpace(newds.Tables[0].Rows[i]["PDFLink"].ToString().Trim()))
+                    {
+                        ErrorCount = 1;
+                        ErrMsg += "Enter Document Path, ";
+                    }
+                    else
+                    {
+                        if (!System.Text.RegularExpressions.Regex.IsMatch(newds.Tables[0].Rows[i]["PDFLink"].ToString().Trim(), @"^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$"))
+                        {
+                            ErrorCount = 1;
+                            ErrMsg += "Invalid Document Path, ";
+                        }
+                    }
+                    if (string.IsNullOrWhiteSpace(newds.Tables[0].Rows[i]["Flag"].ToString().Trim()))
+                    {
+                        ErrorCount = 1;
+                        ErrMsg += "Enter Flag Title. ";
+                    }
+                    else
+                    {
+                        if (!System.Text.RegularExpressions.Regex.IsMatch(newds.Tables[0].Rows[i]["Flag"].ToString().Trim(), @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$"))
+                        {
+                            ErrorCount = 1;
+                            ErrMsg += "Invalid Flag Title. ";
                         }
                     }
                 }
+                #endregion
             }
         }
         catch (Exception ex)
