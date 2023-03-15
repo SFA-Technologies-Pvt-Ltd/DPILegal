@@ -153,13 +153,9 @@
                 Page_ClientValidate('Save');
             }
             if (Page_IsValid) {
-                if (document.getElementById('<%=btnSave.ClientID%>').value.trim() == "Update") {
-                    document.getElementById('<%=lblPopupAlert.ClientID%>').textContent = "Are you sure you want to Update this record?";
-                    $('#myModal').modal('show');
-                    return false;
-                }
+               
                 if (document.getElementById('<%=btnSave.ClientID%>').value.trim() == "Save") {
-                    document.getElementById('<%=lblPopupAlert.ClientID%>').textContent = "Are you sure you want to Save this record?";
+                    document.getElementById('<%=lblPopupAlert.ClientID%>').textContent = "Are you sure you want to Delete & Save record?";
                     $('#myModal').modal('show');
                     return false;
                 }
