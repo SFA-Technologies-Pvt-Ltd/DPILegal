@@ -62,7 +62,7 @@
                                                 <label>
                                                     Zone Code
                                             <span style="color: red;"><b>*</b></span></label>
-                                                <%--  <asp:RequiredFieldValidator ID="rfvcode" ValidationGroup="Save"
+                                                <%--<asp:RequiredFieldValidator ID="rfvcode" ValidationGroup="Save"
                                                     ErrorMessage="Enter Zone Code." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                     ControlToValidate="txtZoneCode" Display="Dynamic" runat="server">
                                                 </asp:RequiredFieldValidator>--%>
@@ -75,7 +75,7 @@
 
                                                 <asp:RequiredFieldValidator ID="RfvofficeType" ValidationGroup="Save"
                                                     ErrorMessage="Enter Office Type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
-                                                    ControlToValidate="ddlOfficeType" Display="Dynamic" runat="server">
+                                                    ControlToValidate="ddlOfficeType" Display="Dynamic" runat="server" InitialValue="0">
                                                 </asp:RequiredFieldValidator>
                                                 <asp:DropDownList runat="server" ID="ddlOfficeType" CssClass="form-control"></asp:DropDownList>
                                             </div>
@@ -87,7 +87,7 @@
                                                    <span style="color: red;"><b>*</b></span></label>
                                                 <asp:RequiredFieldValidator ID="RfvOfficeLevel" ValidationGroup="Save"
                                                     ErrorMessage="Enter Office Level." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
-                                                    ControlToValidate="ddlOfficeLevel" Display="Dynamic" runat="server">
+                                                    ControlToValidate="ddlOfficeLevel" Display="Dynamic" runat="server" InitialValue="0">
                                                 </asp:RequiredFieldValidator>
                                                 <asp:DropDownList runat="server" ID="ddlOfficeLevel" CssClass="form-control"></asp:DropDownList>
                                             </div>
@@ -131,29 +131,29 @@
                                                         <asp:Label ID="lblZoneID" runat="server" Text='<%# Eval("Zone_ID") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Zone Name">
+                                                <asp:TemplateField HeaderText="Zone Name" ItemStyle-HorizontalAlign="Center">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblZoneName" runat="server" Text='<%# Eval("ZoneName") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Zone Code">
+                                                <asp:TemplateField HeaderText="Zone Code" ItemStyle-HorizontalAlign="Center">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblZoneCode" runat="server" Text='<%# Eval("ZoneCode") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Office Type">
+                                                <asp:TemplateField HeaderText="Office Type" ItemStyle-HorizontalAlign="Center">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblofficetypeID" runat="server" Text='<%# Eval("OfficeType_Id") %>' Visible="false"></asp:Label>
                                                         <asp:Label ID="lblOfficetypeName" runat="server" Text='<%# Eval("OfficeType_Name") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Office Level">
+                                                <asp:TemplateField HeaderText="Office Level" ItemStyle-HorizontalAlign="Center">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblOfficelevelID" runat="server" Text='<%# Eval("OfficeLevel_Id") %>' Visible="false"></asp:Label>
                                                         <asp:Label ID="lblOfficelevelName" runat="server" Text='<%# Eval("OfficeLevelName") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Office Location">
+                                                <asp:TemplateField HeaderText="Office Location" ItemStyle-HorizontalAlign="Center">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblLocation" runat="server" Text='<%# Eval("OfficeLocation") %>'></asp:Label>
                                                     </ItemTemplate>
@@ -161,7 +161,8 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Action" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
-                                                        <asp:LinkButton ID="lnkEditView" runat="server" CommandArgument='<%# Eval("Zone_ID") %>' CommandName="EditDetails" ToolTip="Edit" CssClass=" "><i class="fa fa-edit"></i></asp:LinkButton>
+                                                        <asp:LinkButton ID="lnkEditView" runat="server" CommandArgument='<%# Eval("Zone_ID") %>' CommandName="EditDetails" ToolTip="Edit" CssClass=" "><i class="fa fa-edit"></i></asp:LinkButton>&nbsp;
+                                                        <asp:LinkButton ID="lnkbtndelete" runat="server" CommandName="DeleteDetails" CommandArgument='<%# Eval("Zone_ID") %>' ToolTip="Delete" OnClientClick="return confirm('Are you sure you want to delete this record?');"><i class="fa fa-trash"></i></asp:LinkButton>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>

@@ -24,13 +24,14 @@ public partial class Legal_Case_SubSubjectMaster : System.Web.UI.Page
                 FillCaseSubject();
                 BindGrid();
             }
+
         }
         else
         {
-            Response.Redirect("~/Login.aspx", false);
+            Response.Redirect("~/Login.aspx",false);
         }
     }
-    #region Fill Grid
+
     protected void BindGrid()
     {
         try
@@ -41,20 +42,17 @@ public partial class Legal_Case_SubSubjectMaster : System.Web.UI.Page
                 grdSub_Subect.DataSource = ds;
                 grdSub_Subect.DataBind();
             }
-            else
-            {
-                grdSub_Subect.DataSource = null;
-                grdSub_Subect.DataBind();
-            }
-
+            grdSub_Subect.HeaderRow.TableSection = TableRowSection.TableHeader;
+            grdSub_Subect.UseAccessibleHeader = true;
+            
         }
         catch (Exception ex)
         {
             ErrorLogCls.SendErrorToText(ex);
+            //lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
-    #endregion
-    #region Save Update
+
     protected void btnSave_Click(object sender, EventArgs e)
     {
         try
@@ -76,30 +74,33 @@ public partial class Legal_Case_SubSubjectMaster : System.Web.UI.Page
                     string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
                     if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
                     {
-                        lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
+                        //lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                         txtSubsubject.Text = "";
                         ddlcaseSubject.ClearSelection();
                         BindGrid();
                         btnSave.Text = "Save";
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', '" + ErrMsg + "', 'success')", true);
                     }
                     else
                     {
-                        lblMsg.Text = objdb.Alert("fa-ban", "alert-warning", "Warning !", ErrMsg);
+                        //lblMsg.Text = objdb.Alert("fa-ban", "alert-warning", "Warning !", ErrMsg);
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','" + ErrMsg + "' , 'warning')", true);
                     }
                 }
                 else
                 {
                     lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry !", ds.Tables[0].Rows[0]["ErrMsg"].ToString());
                 }
-
+                grdSub_Subect.HeaderRow.TableSection = TableRowSection.TableHeader;
+                grdSub_Subect.UseAccessibleHeader = true;
             }
         }
         catch (Exception ex)
         {
             ErrorLogCls.SendErrorToText(ex);
+            //lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
-    #endregion
     #region FillCaseSubject
     protected void FillCaseSubject()
     {
@@ -123,7 +124,6 @@ public partial class Legal_Case_SubSubjectMaster : System.Web.UI.Page
 
     }
     #endregion
-    #region page Index Changing
     protected void grdSub_Subect_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         try
@@ -135,10 +135,9 @@ public partial class Legal_Case_SubSubjectMaster : System.Web.UI.Page
         catch (Exception ex)
         {
             ErrorLogCls.SendErrorToText(ex);
+            //lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
-    #endregion
-    #region Row Command
     protected void grdSub_Subect_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         try
@@ -158,17 +157,17 @@ public partial class Legal_Case_SubSubjectMaster : System.Web.UI.Page
             }
             if (e.CommandName == "DeleteDetails")
             {
-                ViewState["EditID"] = "";
-                ViewState["EditID"] = e.CommandArgument;
-                int casesubsubjId = Convert.ToInt32(e.CommandArgument);
-                objdb.ByTextQuery("delete from tbl_CaseSubSubjectMaster where CaseSubSubj_Id=" + casesubsubjId);
+                int CaseSubSubj_Id = Convert.ToInt32(e.CommandArgument);
+                objdb.ByTextQuery("delete from tbl_CaseSubSubjectMaster where CaseSubSubj_Id=" + CaseSubSubj_Id);
                 BindGrid();
             }
+            grdSub_Subect.HeaderRow.TableSection = TableRowSection.TableHeader;
+            grdSub_Subect.UseAccessibleHeader = true;
         }
         catch (Exception ex)
         {
             ErrorLogCls.SendErrorToText(ex);
+            //lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
-    #endregion
 }

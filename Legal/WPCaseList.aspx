@@ -108,7 +108,7 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
-    <asp:ValidationSummary ID="VDS" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Save" />
+    <%--<asp:ValidationSummary ID="VDS" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Save" />--%>
     <div class="content-wrapper">
         <section class="content">
             <div class="container-fluid">
@@ -153,7 +153,7 @@
                                                 ErrorMessage="Select Case type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                 ControlToValidate="ddlCaseType" Display="Dynamic" runat="server" InitialValue="0">
                                             </asp:RequiredFieldValidator>--%>
-                                        <asp:DropDownList ID="ddlCaseType" runat="server" CssClass="form-control"></asp:DropDownList>
+                                        <asp:DropDownList ID="ddlCaseType" runat="server" CssClass="form-control select2"></asp:DropDownList>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -171,7 +171,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Year</label>
-                                        <asp:DropDownList ID="ddlCaseYear" runat="server" CssClass="form-control"></asp:DropDownList>
+                                        <asp:DropDownList ID="ddlCaseYear" runat="server" CssClass="form-control select2"></asp:DropDownList>
                                     </div>
                                 </div>
                             </div>
@@ -219,24 +219,19 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Case No.">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblCaseNo" runat="server" Text='<%# Eval("CaseNo") %>'></asp:Label>
+                                                        <asp:Label ID="lblFilingNo" runat="server" Text='<%# Eval("FilingNo") %>'></asp:Label>/                                                       
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Case type">
+                                                <asp:TemplateField HeaderText="Petitioner Name">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblCasetype" runat="server" Text='<%# Eval("Casetype_Name") %>'></asp:Label>
+                                                        <asp:Label ID="lblPetitionerName" runat="server" Text='<%# Eval("PetitionerName") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Court Name">
+                                                <asp:TemplateField HeaderText="Respondent Name">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblCourt" runat="server" Text='<%# Eval("CourtTypeName") %>'></asp:Label>
+                                                        <asp:Label ID="lblRespondentName" runat="server" Text='<%# Eval("RespondentName") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <%--  <asp:TemplateField HeaderText="Petitioner Name">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblPetitionerName" runat="server" Text='<%# Eval("PetitonerName") %>'></asp:Label>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>--%>
                                                 <asp:TemplateField HeaderText="Case Status">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblStatus" runat="server" Text='<%# Eval("CaseStatus") %>' ForeColor='<%# Eval("CaseStatus") == "Pending" ?  System.Drawing.Color.Green :System.Drawing.Color.Red %>' Font-Bold="true"></asp:Label>
@@ -247,7 +242,9 @@
                                                         <asp:LinkButton ID="lnkEditView" runat="server" CommandArgument='<%# Eval("Case_ID") %>' CommandName="EditView" ToolTip="Edit/View" CssClass=""><i class="fa fa-edit"</asp:LinkButton>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
+                                                
                                             </Columns>
+                                            <EmptyDataTemplate>No record found</EmptyDataTemplate>
                                         </asp:GridView>
                                     </div>
                                 </div>

@@ -17,7 +17,7 @@ public partial class Legal_ViewDocumentByUniqNo : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Request.QueryString["ID"] != "")
+        if (Request.QueryString["ID"] != "" && Request.QueryString["Flag"] != "")
         {
             if (!IsPostBack)
             {
@@ -28,7 +28,7 @@ public partial class Legal_ViewDocumentByUniqNo : System.Web.UI.Page
         {
             Response.Redirect("../Login.aspx", false);
         }
-
+        
     }
 
     protected void FillDoc()
@@ -36,40 +36,37 @@ public partial class Legal_ViewDocumentByUniqNo : System.Web.UI.Page
         try
         {
             string ID = Request.QueryString["ID"].ToString();
-
-            dsCase = obj.ByDataSet("Select Id,CaseType,FilingNo,PDF,PDFLink from tbl_OldCaseDetail where uniqueno = '" + ID + "' order by Id");
+            string Flag = Request.QueryString["Flag"].ToString();
+            dsCase = obj.ByProcedure("USP_Update_OldPendingCase", new string[] { "flag", "UniqueNo", "OldNewCase" },
+                new string[] { "4", ID, Flag }, "dataset");
             if (dsCase.Tables.Count > 0 && dsCase != null)
             {
                 StringBuilder Sb = new StringBuilder();
-                Sb.Append("<table class='table table-bordered' style='text-align: center;font-size:20px;'>");
+                Sb.Append("<table class='table table-bordered'>");
                 Sb.Append("<tr>");
-                Sb.Append("<th  style='font-size: 20px;'>S.No.</th>");
-                Sb.Append("<th  style='font-size: 20px;'>Filing No</th>");
-                Sb.Append("<th  style='font-size: 20px;'>Document Name</th>");
-                Sb.Append("<th  style='font-size: 20px;'>Link</th>");
+                Sb.Append("<th>S.No.</th>");
+                Sb.Append("<th>Document Name</th>");
+                Sb.Append("<th>Link</th>");
                 Sb.Append("</tr>");
                 int RowCount = 1;
                 for (int i = 0; i < dsCase.Tables[0].Rows.Count; i++)
                 {
-
+  
                     Sb.Append("<tr>");
                     Sb.Append("<td>");
                     Sb.Append(" " + RowCount + " ");
                     Sb.Append("</td>");
                     Sb.Append("<td>");
-                    Sb.Append(" " + dsCase.Tables[0].Rows[i]["FilingNo"].ToString() + " ");
-                    Sb.Append("</td>");
-                    Sb.Append("<td>");
                     Sb.Append(" " + dsCase.Tables[0].Rows[i]["PDF"].ToString() + " ");
                     Sb.Append("</td>");
                     Sb.Append("<td>");
-                    // Sb.Append(" " + dsCase.Tables[0].Rows[i]["PDFLink"].ToString() + " ");
+                   // Sb.Append(" " + dsCase.Tables[0].Rows[i]["PDFLink"].ToString() + " ");
                     Sb.Append("<a href='" + dsCase.Tables[0].Rows[i]["PDFLink"].ToString() + "' target='_blank' class='fa fa-eye'></a>");
                     Sb.Append("</td>");
                     Sb.Append("</tr>");
                     RowCount++;
                 }
-
+               
                 Sb.Append("</table>");
                 DivDocument.InnerHtml = Sb.ToString();
             }

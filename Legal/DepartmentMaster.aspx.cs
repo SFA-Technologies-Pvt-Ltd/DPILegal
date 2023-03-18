@@ -71,14 +71,16 @@ public partial class Legal_DepartmentMaster : System.Web.UI.Page
                     string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
                     if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
                     {
-                        lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
+                        //lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                         txtDeptName.Text = "";
                         btnSave.Text = "Save";
                         FillGrid();
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', '" + ErrMsg + "', 'success')", true);
                     }
                     else
                     {
-                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ErrMsg);
+                        //lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ErrMsg);
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','" + ErrMsg + "' , 'warning')", true);
                     }
                 }
             }

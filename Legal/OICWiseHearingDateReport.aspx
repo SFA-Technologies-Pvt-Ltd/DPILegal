@@ -91,7 +91,7 @@
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="OICName" HeaderText="OIC Name" />
-                                                <asp:TemplateField HeaderText="पिछले 30 दिनो से लम्बित प्रकरण" HeaderStyle-HorizontalAlign="Center">
+                                                <asp:TemplateField HeaderText="उक्त समय से लम्बित प्रकरण" HeaderStyle-HorizontalAlign="Center">
                                                     <ItemTemplate>
                                                         <asp:HyperLink runat="server" NavigateUrl='<%# string.Format("OICWiseHearingDateShow.aspx?U={0}&F={1}&O={2}&C={3}&HF={4}&HT={5}",
                     Eval("UniqueNo1").ToString(),"1",Eval("OicId"),Eval("Court"),Eval("HearingFrom"),Eval("HearingTo")) %>'
@@ -99,7 +99,7 @@
                                                         <%--<asp:Label ID="lblCaseNO" runat="server" Text='<%# Eval("Last30daysPendingCaseCount") %>'></asp:Label>--%>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="पिछले 30 दिनों में प्राप्त प्रकरण">
+                                                <asp:TemplateField HeaderText="उक्त समय में प्राप्त प्रकरण">
                                                     <ItemTemplate>
                                                         <asp:HyperLink runat="server" NavigateUrl='<%# string.Format("OICWiseHearingDateShow.aspx?U={0}&F={1}&O={2}&C={3}&HF={4}&HT={5}",
                     Eval("UniqueNo2").ToString(),"2",Eval("OicId"),Eval("Court"),Eval("HearingFrom"),Eval("HearingTo")) %>'

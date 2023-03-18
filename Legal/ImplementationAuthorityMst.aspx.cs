@@ -29,7 +29,7 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("../Login.aspx",false);
+            Response.Redirect("../Login.aspx");
         }
     }
     #region FillDesignation
@@ -50,7 +50,7 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ErrorLogCls.SendErrorToText(ex);
+            lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ex.Message.ToString());
         }
     }
     #endregion
@@ -73,7 +73,7 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ErrorLogCls.SendErrorToText(ex);
+            lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ex.Message.ToString());
         }
     }
     #endregion
@@ -96,7 +96,7 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ErrorLogCls.SendErrorToText(ex);
+            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
     #endregion
@@ -118,11 +118,10 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ErrorLogCls.SendErrorToText(ex);
+            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
     #endregion
-    #region Save Update
     protected void btnSave_Click(object sender, EventArgs e)
     {
         try
@@ -145,7 +144,7 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
                     string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
                     if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
                     {
-                        lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
+                        //lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                         txtAuthorityName.Text = "";
                         txtMobileNo.Text = "";
                         txtEmailID.Text = "";
@@ -153,10 +152,12 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
                         ddlLocation.ClearSelection();
                         ddlOfficeName.ClearSelection();
                         ddlOfficetype.ClearSelection();
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', '" + ErrMsg + "', 'success')", true);
                     }
                     else
                     {
-                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ErrMsg);
+                        //lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ErrMsg);
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','" + ErrMsg + "' , 'warning')", true);
                     }
                 }
                 BindGrid();
@@ -165,11 +166,9 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ErrorLogCls.SendErrorToText(ex);
+            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
-    #endregion
-    #region Page Index
     protected void GrdImpleAuthority_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         try
@@ -180,11 +179,9 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ErrorLogCls.SendErrorToText(ex);
+            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
-    #endregion
-    #region Row Command
     protected void GrdImpleAuthority_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         try
@@ -218,20 +215,12 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
                 ddlOfficeName.ClearSelection();
                 ddlOfficeName.Items.FindByValue(lblOfficeid.Text).Selected = true;
             }
-            if (e.CommandName == "DeleteDetails")
-            {
-                int IAuthority_ID = Convert.ToInt32(e.CommandArgument);
-                obj.ByTextQuery("delete from tblImplementation_AuthMst where IAuthority_ID=" + IAuthority_ID);
-                BindGrid();
-            }
         }
         catch (Exception ex)
         {
-            ErrorLogCls.SendErrorToText(ex);
+
         }
     }
-    #endregion
-    #region Select Index Office Type
     protected void ddlOfficetype_SelectedIndexChanged(object sender, EventArgs e)
     {
         try
@@ -252,8 +241,7 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ErrorLogCls.SendErrorToText(ex);
+            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
-    #endregion
 }

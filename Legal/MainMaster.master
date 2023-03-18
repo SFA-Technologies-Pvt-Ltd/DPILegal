@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="../image/logo/ssmsLogoremovebg.png" rel="icon" />
-    <title>Legal-Admin</title>
+    <title>School Edu Legal</title>
     <%--======================================================================================================--%>
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
@@ -33,7 +33,8 @@
     <link rel="stylesheet" href="../Main_plugins/dist/css/adminlte.min.css" />
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="../Main_plugins/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" />
-    <!-- Daterange picker -->
+    <!-- sweetalert picker -->
+   \<script src="../Main_plugins/custom_css/sweetalert.min.js"></script>
     <%--    <link rel="stylesheet" href="../Main_plugins/plugins/daterangepicker/daterangepicker.css" />--%>
     <!-- summernote -->
     <link href="../Main_plugins/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
@@ -178,7 +179,7 @@
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
-<body style="height: auto; min-height: 100%;">
+<body style="height: auto; min-height: 100%;" class="sidebar-mini">
     <form id="form1" runat="server">
         <div>
             <div class="wrapper">
@@ -193,9 +194,9 @@
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item ">
-                            <h5 class="brand-text font-weight-bold text-light float-left" style="font-weight: bold;">Welcome :</h5>
+                            <h5 class="brand-text font-weight-bold text-light float-left" style="font-weight: bold;padding-top:4px">Welcome :</h5>
                             &nbsp;
-                            <span id="spnUsername" runat="server" style="text-transform: uppercase; font-weight: bold;" class="brand-text h6 text-light"></span>
+                            <span id="spnUsername" runat="server" style="text-transform: uppercase; font-weight: bold; font-size:x-large" class="brand-text h6 text-light"></span>
 
                         </li>
                     </ul>
@@ -213,7 +214,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <asp:Button Text="Logout !" Font-Bold="true" ForeColor="Red" ID="btnlogout" OnClick="btnlogout_Click" runat="server" CssClass="fa fa-sign-out-alt btn" />
+                            <%--<asp:Button Text="Logout !" Font-Bold="true" ForeColor="Red" ID="btnlogout" OnClick="btnlogout_Click" runat="server" CssClass="fa fa-sign-out-alt btn" />--%>
+                            <asp:LinkButton Font-Bold="true" ID="btnlogout"  ForeColor="White" Font-Size="Larger" OnClick="btnlogout_Click" runat="server" CssClass="btn"><i class="fas fa-sign-out-alt"></i></asp:LinkButton>
                             <%--  <a class="nav-link" href="../Home.aspx">
                                 <i class="fa fa-sign-out-alt text-light">Logout</i>
                             </a>--%>
@@ -236,7 +238,7 @@
                     <!-- Brand Logo -->
                     <a href="../login.aspx" class="brand-link">
                         <img src="../image/logo/ssmsLogoremovebg.png" alt="Logo" class="brand-image  elevation-3" style="opacity: .8" />
-                        <span class="brand-text font-weight-bold" style="color: #e5e5e5; font-size: 16px;">Legal</span>
+                        <span class="brand-text font-weight-bold" style="color: #e5e5e5; font-size: 16px;">School Edu Legal</span>
                     </a>
 
                     <!-- Sidebar -->

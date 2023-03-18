@@ -74,7 +74,9 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Meeting Date<span style="color: red;"> *</span></label>
-                                                <asp:RequiredFieldValidator runat="server" ID="RequiredFieldValidator6" Display="Dynamic" ControlToValidate="txtMeetingdate" ValidationGroup="a" Text="<i class='fa fa-exclamation-circle'></i>" ErrorMessage="Please Select Meeting Date" ForeColor="Red"></asp:RequiredFieldValidator>
+                                                <asp:RequiredFieldValidator runat="server" ID="RequiredFieldValidator6" Display="Dynamic"
+                                                     ControlToValidate="txtMeetingdate" ValidationGroup="a" Text="<i class='fa fa-exclamation-circle'></i>"
+                                                     ErrorMessage="Please Select Meeting Date" ForeColor="Red"></asp:RequiredFieldValidator>
                                                 <asp:TextBox ID="txtMeetingdate" data-provide="datepicker" data-date-end-date="0d" placeholder="dd/mm/yyyy" data-date-format="dd/mm/yyyy" autocomplete="off" data-date-autoclose="true" CssClass="form-control " runat="server"></asp:TextBox>
                                             </div>
                                         </div>
@@ -82,7 +84,10 @@
                                         <div class="col-md-9">
                                             <div class="form-group">
                                                 <label>Detail <span style="color: red;">*</span></label>
-                                                <asp:RequiredFieldValidator runat="server" ID="RequiredFieldValidator4" Display="Dynamic" ControlToValidate="txtDetail" ValidationGroup="a" Text="<i class='fa fa-exclamation-circle'></i>" ErrorMessage="Please Enter Detail" ForeColor="Red"></asp:RequiredFieldValidator>
+                                                <asp:RequiredFieldValidator runat="server" ID="RequiredFieldValidator4" 
+                                                    Display="Dynamic" ControlToValidate="txtDetail" ValidationGroup="a" 
+                                                    Text="<i class='fa fa-exclamation-circle'></i>" ErrorMessage="Please Enter Detail" ForeColor="Red">
+                                                </asp:RequiredFieldValidator>
                                                 <asp:TextBox runat="server" ID="txtDetail" CssClass="form-control" autocomplete="off" onkeyup="javascript:capFirst(this);" onkeypress="return chcode()" Placeholder="Enter Detail" MaxLength="100"></asp:TextBox>
                                             </div>
                                         </div>
@@ -113,18 +118,18 @@
                                             <asp:GridView runat="server" DataKeyNames="CabinetId" ID="gridview" CssClass="table table-bordered table-striped" AutoGenerateColumns="False" OnPageIndexChanging="gridview_PageIndexChanging" AllowPaging="true" PageSize="10" OnRowCommand="gridview_RowCommand" EmptyDataText="NO RECORD FOUND">
                                                 <PagerStyle HorizontalAlign="Left" CssClass="GridPager" />
                                                 <Columns>
-                                                    <asp:TemplateField HeaderText=" Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                    <asp:TemplateField HeaderText=" S.No." ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                         <ItemTemplate>
                                                             <asp:Label runat="server" ID="lblSno" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
                                                             <asp:Label ID="lblCabinetId" runat="server" Visible="false" Text='<%#Eval("CabinetId").ToString() %>'></asp:Label>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Meeting Date" HeaderStyle-Width="8%">
+                                                    <asp:TemplateField HeaderText="Meeting Date" ItemStyle-HorizontalAlign="Center">
                                                         <ItemTemplate>
                                                             <asp:Label ID="lblMeetingDate" Text='<%# Eval("MeetingDate") %>' runat="server"></asp:Label>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Detail"  ItemStyle-HorizontalAlign="Center">
+                                                    <asp:TemplateField HeaderText="Detail" ItemStyle-HorizontalAlign="Center" >
                                                         <ItemTemplate>
                                                             <asp:Label ID="lblCabinetDetail" Text='<%# Eval("CabinetDetail") %>' runat="server"></asp:Label>
                                                         </ItemTemplate>
@@ -138,8 +143,7 @@
                                                     <asp:TemplateField HeaderText="Action" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="5%">
                                                         <ItemTemplate>
                                                             <asp:LinkButton ID="btnView" runat="server" CssClass="" CommandName="ViewDtl" CommandArgument='<%# Eval("CabinetId") %>' ToolTip="View"><i class="fa fa-edit"></i></asp:LinkButton>&nbsp;
-                                                            <asp:LinkButton ID="lnkbtndelete" runat="server" CommandName="DeleteDetails" CommandArgument='<%# Eval("CabinetId") %>'
-                                                                OnClientClick="return confirm('Are you sure you want to delete this record?');" ToolTip="Delete" CssClass=""><i class="fa fa-trash"></i></asp:LinkButton>
+                                                            <asp:LinkButton ID="lnkbtndelete" runat="server" CommandName="DeleteDetails" CommandArgument='<%# Eval("CabinetId") %>' ToolTip="Delete" CssClass=""  OnClientClick="return confirm('Are you sure you want to delete this record?');"><i class="fa fa-trash"  ></i></asp:LinkButton>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                 </Columns>
@@ -179,7 +183,7 @@
     <script>
         function ValidatePage() {
             if (typeof (Page_ClientValidate) == 'function') {
-                Page_ClientValidate('Save');
+                Page_ClientValidate('a');
             }
             if (Page_IsValid) {
                 if (document.getElementById('<%=btnSave.ClientID%>').value.trim() == "Update") {

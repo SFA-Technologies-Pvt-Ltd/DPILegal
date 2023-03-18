@@ -22,6 +22,7 @@ public partial class Legal_OfficeMaster : System.Web.UI.Page
                 ViewState["Emp_Id"] = Session["Emp_Id"].ToString();
                 ViewState["Office_Id"] = Session["Office_Id"].ToString();
                 FillOfficetypeName();
+                FillDivision();
                 FillGrid();
             }
         }
@@ -46,6 +47,8 @@ public partial class Legal_OfficeMaster : System.Web.UI.Page
                 GrdOfficeMaster.DataSource = null;
                 GrdOfficeMaster.DataBind();
             }
+            GrdOfficeMaster.HeaderRow.TableSection = TableRowSection.TableHeader;
+            GrdOfficeMaster.UseAccessibleHeader = true;
         }
         catch (Exception ex)
         {
@@ -53,7 +56,7 @@ public partial class Legal_OfficeMaster : System.Web.UI.Page
         }
     }
     #endregion
-    #region Fill Office Type Name
+    #region FillDropDown
     protected void FillOfficetypeName()
     {
         try
@@ -74,6 +77,35 @@ public partial class Legal_OfficeMaster : System.Web.UI.Page
             ErrorLogCls.SendErrorToText(ex);
         }
     }
+    protected void FillDivision()
+    {
+        ddlDivision.Items.Clear();
+        ds = obj.ByDataSet("select Division_ID,Division_Name from  tblDivisionMaster where IsActive=1");
+        if (ds != null && ds.Tables[0].Rows.Count > 0)
+        {
+            ddlDivision.DataTextField = "Division_Name";
+            ddlDivision.DataValueField = "Division_ID";
+            ddlDivision.DataSource = ds;
+            ddlDivision.DataBind();
+        }
+        ddlDivision.Items.Insert(0, new ListItem("Select", "0"));
+
+    }
+    protected void FillDistrict(string Division_ID)
+    {
+        ddlDistrict.Items.Clear();
+        ds = obj.ByDataSet("select District_ID, District_Name from  Mst_District where Division_ID = "+Division_ID+"");
+        if (ds != null && ds.Tables[0].Rows.Count > 0)
+        {
+            ddlDistrict.DataTextField = "District_Name";
+            ddlDistrict.DataValueField = "District_ID";
+            ddlDistrict.DataSource = ds;
+            ddlDistrict.DataBind();
+        }
+        ddlDistrict.Items.Insert(0, new ListItem("Select", "0"));
+        GrdOfficeMaster.HeaderRow.TableSection = TableRowSection.TableHeader;
+        GrdOfficeMaster.UseAccessibleHeader = true;
+    }
     #endregion
     #region Save Update
     protected void btnSave_Click(object sender, EventArgs e)
@@ -85,34 +117,39 @@ public partial class Legal_OfficeMaster : System.Web.UI.Page
             {
                 if (btnSave.Text == "Save")
                 {
-                    ds = obj.ByProcedure("USP_Insert_OfficeMaster", new string[] { "OfficeType_Id", "OfficeName", "Officelocation", "CreatedBy", "CreatedByIP" }
-                        , new string[] { ddlOfficeType.SelectedValue, txtOfficeName.Text.Trim(), txtOfficelocation.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
+                    ds = obj.ByProcedure("USP_Insert_OfficeMaster", new string[] { "OfficeType_Id", "OfficeName", "Officelocation", "Division_Id", "District_Id", "CreatedBy", "CreatedByIP" }
+                        , new string[] { ddlOfficeType.SelectedValue, txtOfficeName.Text.Trim(), txtOfficelocation.Text.Trim(),ddlDivision.SelectedValue,ddlDistrict.SelectedValue,ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
                 }
                 else if (btnSave.Text == "Update" && ViewState["OfficeID"].ToString() != "" && ViewState["OfficeID"].ToString() != null)
                 {
-                    ds = obj.ByProcedure("USP_Update_OfficeMaster", new string[] { "OfficeType_Id", "OfficeName", "Officelocation", "LastupdatedBy", "LastupdatedByIP", "Office_Id" }
-                        , new string[] { ddlOfficeType.SelectedValue, txtOfficeName.Text.Trim(), txtOfficelocation.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ViewState["OfficeID"].ToString() }, "dataset");
+                    ds = obj.ByProcedure("USP_Update_OfficeMaster", new string[] { "OfficeType_Id", "OfficeName", "Officelocation", "Division_Id", "District_Id", "LastupdatedBy", "LastupdatedByIP", "Office_Id" }
+                        , new string[] { ddlOfficeType.SelectedValue, txtOfficeName.Text.Trim(), txtOfficelocation.Text.Trim(), ddlDivision.SelectedValue, ddlDistrict.SelectedValue, ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ViewState["OfficeID"].ToString() }, "dataset");
                 }
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
                     string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
                     if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
                     {
-                        lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
+                        //lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                         txtOfficeName.Text = "";
                         txtOfficelocation.Text = "";
                         ddlOfficeType.ClearSelection();
                         FillGrid();
                         btnSave.Text = "Save";
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', '" + ErrMsg + "', 'success')", true);
                     }
                     else
                     {
-                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ErrMsg);
+                        //lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ErrMsg);
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','" + ErrMsg + "' , 'warning')", true);
 
                     }
 
                 }
+                
             }
+            GrdOfficeMaster.HeaderRow.TableSection = TableRowSection.TableHeader;
+            GrdOfficeMaster.UseAccessibleHeader = true;
         }
         catch (Exception ex)
         {
@@ -147,6 +184,8 @@ public partial class Legal_OfficeMaster : System.Web.UI.Page
                 Label lblOfficeTypeID = (Label)row.FindControl("lblOfficeTypeID");
                 Label lblOficeName = (Label)row.FindControl("lblOficeName");
                 Label lblOficelocation = (Label)row.FindControl("lblOficelocation");
+                Label lblDivision_Id = (Label)row.FindControl("lblDivision_Id");
+                Label lblDistrict_Id = (Label)row.FindControl("lblDistrict_Id");
 
                 btnSave.Text = "Update";
                 ViewState["OfficeID"] = e.CommandArgument;
@@ -154,6 +193,21 @@ public partial class Legal_OfficeMaster : System.Web.UI.Page
                 ddlOfficeType.Items.FindByValue(lblOfficeTypeID.Text).Selected = true;
                 txtOfficeName.Text = lblOficeName.Text;
                 txtOfficelocation.Text = lblOficelocation.Text;
+                FillDivision();
+                ddlDivision.ClearSelection();
+                ddlDivision.Items.FindByValue(lblDivision_Id.Text).Selected = true;
+                string Division = lblDivision_Id.Text;
+                if (ddlOfficeType.SelectedValue == "4")
+                {
+                    FillDistrict(Division);
+                    ddlDistrict.Items.FindByValue(lblDistrict_Id.Text).Selected = true;
+                    divDistrict.Visible = true;
+                }
+                else
+                {
+                    divDistrict.Visible = false;
+                }
+
             }
             if (e.CommandName == "DeleteDetails")
             {
@@ -161,7 +215,8 @@ public partial class Legal_OfficeMaster : System.Web.UI.Page
                 obj.ByTextQuery("delete from tblOfficeMaster where Office_Id=" + Office_Id);
                 FillGrid();
             }
-
+            GrdOfficeMaster.HeaderRow.TableSection = TableRowSection.TableHeader;
+            GrdOfficeMaster.UseAccessibleHeader = true;
         }
         catch (Exception ex)
         {
@@ -169,4 +224,25 @@ public partial class Legal_OfficeMaster : System.Web.UI.Page
         }
     }
     #endregion
+    protected void ddlDivision_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        string Division_ID = ddlDivision.SelectedValue;
+        FillDistrict(Division_ID);
+        GrdOfficeMaster.HeaderRow.TableSection = TableRowSection.TableHeader;
+        GrdOfficeMaster.UseAccessibleHeader = true;
+    }
+    protected void ddlOfficeType_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (ddlOfficeType.SelectedValue == "3")
+        {
+            divDistrict.Visible = false;
+        }
+
+        else
+        {
+            divDistrict.Visible = true;
+        }
+        GrdOfficeMaster.HeaderRow.TableSection = TableRowSection.TableHeader;
+        GrdOfficeMaster.UseAccessibleHeader = true;
+    }
 }

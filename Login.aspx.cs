@@ -72,21 +72,43 @@ public partial class Legal_Login : System.Web.UI.Page
                             Session["Designation_ID"] = ds.Tables[0].Rows[0]["UserType_Id"].ToString();
                             Session["Office_Id"] = ds.Tables[0].Rows[0]["Office_Id"].ToString();
                             Session["Office_Name"] = ds.Tables[0].Rows[0]["OfficeName"].ToString();
+                            Session["Officelocation"] = ds.Tables[0].Rows[0]["Officelocation"].ToString();
                             Session["Division_Id"] = ds.Tables[0].Rows[0]["Division_Id"].ToString();
                             Session["District_Id"] = ds.Tables[0].Rows[0]["District_Id"].ToString();
                             Session["OfficeType_Id"] = ds.Tables[0].Rows[0]["OfficeType_Id"].ToString();
                             Session["UserEmail"] = ds.Tables[0].Rows[0]["UserEmail"].ToString();
+                            Session["EMPName"] = ds.Tables[0].Rows[0]["EMPName"].ToString();
+                            Session["Role_ID"] = ds.Tables[2].Rows[0]["Role_ID"].ToString();
                             Session["AccessModule"] = ds.Tables[1];
                             Session["AccessForm"] = ds.Tables[2];
-                            Session["OICMaster_ID"] = ds.Tables[0].Rows[0]["OICMaster_ID"].ToString();
-                            if (Session["OICMaster_ID"] != "")
+                            if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["OICMaster_ID"].ToString()))
                             {
-                                Response.Redirect("~/Legal/OICWiseOldCaseDashBoard.aspx", false);
+                                Session["OICMaster_ID"] = ds.Tables[0].Rows[0]["OICMaster_ID"].ToString();
                             }
                             else
                             {
-                                //Response.Redirect("~/Legal/LegalDashboard.aspx", false);
+                                Session["OICMaster_ID"] = "";
+
+                            }
+                            if (Session["Role_ID"].ToString() == "3")
+                            {
+                                Response.Redirect("~/Legal/OICWiseOldCaseDashBoard.aspx", false);
+                            }
+                            else if (Session["Role_ID"].ToString() == "1")
+                            { 
                                 Response.Redirect("~/Legal/OldCaseDashBoard.aspx", false);
+                            }
+                            else if (Session["Role_ID"].ToString() == "4")
+                            {
+                                Response.Redirect("~/Legal/DistricAdminDashBoard.aspx", false);
+                            }
+                            else if (Session["Role_ID"].ToString() == "2")
+                            {
+                                Response.Redirect("~/Legal/DivisionDashBoard.aspx", false);
+                            }
+                            else 
+                            {
+                                Response.Redirect("~/Legal/JDLegalDashBoard.aspx", false);
                             }
                         }
                         else

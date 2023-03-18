@@ -1,6 +1,107 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="OfficeMaster.aspx.cs" Inherits="Legal_OfficeMaster" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+    <link href="../DataTable_CssJs/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="../DataTable_CssJs/buttons.dataTables.min.css" rel="stylesheet" />
+    <link href="../DataTable_CssJs/jquery.dataTables.min.css" rel="stylesheet" />
+    <style>
+        /*.datepicker tbody {
+            background-color: #ecfce6 !important;
+            color: black;
+        }
+
+        .datepicker th {
+            background-color: #608640 !important;
+        }*/
+
+        .label-orange {
+            background-color: #f5ac45;
+        }
+
+        .label {
+            display: inline;
+            padding: 0.2em 0.6em 0.3em;
+            font-size: 80%;
+            font-weight: 700;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.25em;
+        }
+
+        a.btn.btn-default.buttons-excel.buttons-html5 {
+            background: #066205;
+            color: white;
+            border-radius: unset;
+            box-shadow: 2px 2px 2px #808080;
+            margin-left: 6px;
+            border: none;
+            margin-top: 4%;
+        }
+
+        a.btn.btn-default.buttons-print {
+            background: #1e79e9;
+            color: white;
+            border-radius: unset;
+            box-shadow: 2px 2px 2px #808080;
+            border: none;
+            margin-top: 4%;
+        }
+
+        th.sorting, th.sorting_asc, th.sorting_desc {
+            background: teal !important;
+            color: white !important;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            padding: 8px 5px;
+        }
+
+        a.btn.btn-default.buttons-excel.buttons-html5 {
+            background: #ff5722c2;
+            color: white;
+            border-radius: unset;
+            box-shadow: 2px 2px 2px #808080;
+            margin-left: 6px;
+            border: none;
+        }
+
+        a.btn.btn-default.buttons-pdf.buttons-html5 {
+            background: #009688c9;
+            color: white;
+            border-radius: unset;
+            box-shadow: 2px 2px 2px #808080;
+            margin-left: 6px;
+            border: none;
+        }
+
+        a.btn.btn-default.buttons-print {
+            background: #e91e639e;
+            color: white;
+            border-radius: unset;
+            box-shadow: 2px 2px 2px #808080;
+            border: none;
+        }
+
+            a.btn.btn-default.buttons-print:hover, a.btn.btn-default.buttons-pdf.buttons-html5:hover, a.btn.btn-default.buttons-excel.buttons-html5:hover {
+                box-shadow: 1px 1px 1px #808080;
+            }
+
+            a.btn.btn-default.buttons-print:active, a.btn.btn-default.buttons-pdf.buttons-html5:active, a.btn.btn-default.buttons-excel.buttons-html5:active {
+                box-shadow: 1px 1px 1px #808080;
+            }
+
+        .box.box-pramod {
+            border-top-color: #1ca79a;
+        }
+
+        .box {
+            min-height: auto;
+        }
+    </style>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
     <asp:ValidationSummary ID="vs" runat="server" ValidationGroup="Save" ShowMessageBox="true" ShowSummary="false" />
@@ -54,7 +155,7 @@
                                             ErrorMessage="Select Office Type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="ddlOfficeType" Display="Dynamic" runat="server" InitialValue="0">
                                         </asp:RequiredFieldValidator>
-                                        <asp:DropDownList runat="server" ID="ddlOfficeType" CssClass="form-control">
+                                        <asp:DropDownList runat="server" ID="ddlOfficeType" CssClass="form-control select2" OnSelectedIndexChanged="ddlOfficeType_SelectedIndexChanged" AutoPostBack="true">
                                         </asp:DropDownList>
                                     </div>
                                 </div>
@@ -91,6 +192,30 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Division</label>
+                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="Save"
+                                            ErrorMessage="Select Division" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="ddlDivision" Display="Dynamic" runat="server" InitialValue="0">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:DropDownList runat="server" ID="ddlDivision" CssClass="form-control select2" OnSelectedIndexChanged="ddlDivision_SelectedIndexChanged" AutoPostBack="true">
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" runat="server" id="divDistrict">
+                                    <div class="form-group">
+                                        <label>District</label>
+                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ValidationGroup="Save"
+                                            ErrorMessage="Select District" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="ddlDistrict" Display="Dynamic" runat="server" InitialValue="0">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:DropDownList runat="server" ID="ddlDistrict" CssClass="form-control select2">
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="btn btn-primary btn-block" ValidationGroup="Save" OnClientClick="return ValidatePage();" OnClick="btnSave_Click" />
@@ -108,7 +233,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
-                                        <asp:GridView ID="GrdOfficeMaster" runat="server" CssClass="table table-bordered table-hover" AutoGenerateColumns="false" EmptyDataText="NO RECORD FOUND" DataKeyNames="Office_Id" AllowPaging="true" OnPageIndexChanging="GrdOfficeMaster_PageIndexChanging" OnRowCommand="GrdOfficeMaster_RowCommand">
+                                        <asp:GridView ID="GrdOfficeMaster" runat="server" CssClass=" datatable table table-bordered table-hover" AutoGenerateColumns="false" EmptyDataText="NO RECORD FOUND" DataKeyNames="Office_Id" OnPageIndexChanging="GrdOfficeMaster_PageIndexChanging" OnRowCommand="GrdOfficeMaster_RowCommand">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
@@ -122,6 +247,11 @@
                                                         <asp:Label ID="lblOfficeTypeID" runat="server" Text='<%# Eval("OfficeType_Id") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
+                                                 <asp:TemplateField HeaderText="HOD" ItemStyle-HorizontalAlign="Center">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblDept_Name" runat="server" Text='<%# Eval("Dept_Name") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Office Name" ItemStyle-HorizontalAlign="Center">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblOficeName" runat="server" Text='<%# Eval("OfficeName") %>'></asp:Label>
@@ -130,6 +260,18 @@
                                                 <asp:TemplateField HeaderText="Office loaction" ItemStyle-HorizontalAlign="Center">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblOficelocation" runat="server" Text='<%# Eval("Officelocation") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Division" ItemStyle-HorizontalAlign="Center">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblDivision_Name" runat="server" Text='<%# Eval("Division_Name") %>'></asp:Label>
+                                                        <asp:Label ID="lblDivision_Id" Visible="false" runat="server" Text='<%# Eval("Division_Id") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="District" ItemStyle-HorizontalAlign="Center">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblDistrict_Name" runat="server" Text='<%# Eval("District_Name") %>'></asp:Label>
+                                                        <asp:Label ID="lblDistrict_Id" Visible="false" runat="server" Text='<%# Eval("District_Id") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Action" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
@@ -192,5 +334,60 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Fotter" runat="Server">
+    <script src="../DataTable_CssJs/jquery.js"></script>
+    <script src="../DataTable_CssJs/jquery.dataTables.min.js"></script>
+    <script src="../DataTable_CssJs/dataTables.bootstrap.min.js"></script>
+    <script src="../DataTable_CssJs/dataTables.buttons.min.js"></script>
+    <script src="../DataTable_CssJs/buttons.flash.min.js"></script>
+    <script src="../DataTable_CssJs/jszip.min.js"></script>
+    <script src="../DataTable_CssJs/pdfmake.min.js"></script>
+    <script src="../DataTable_CssJs/vfs_fonts.js"></script>
+    <script src="../DataTable_CssJs/buttons.html5.min.js"></script>
+    <script src="../DataTable_CssJs/buttons.print.min.js"></script>
+    <script src="../DataTable_CssJs/buttons.colVis.min.js"></script>
+    <script type="text/javascript">
+        $('.datatable').DataTable({
+            paging: true,
+            PageLength: 15,
+            columnDefs: [{
+                targets: 'no-sort',
+                orderable: false
+            }],
+            dom: '<"row"<"col-sm-6"Bl><"col-sm-6"f>>' +
+              '<"row"<"col-sm-12"<"table-responsive"tr>>>' +
+              '<"row"<"col-sm-5"i><"col-sm-7"p>>',
+            fixedHeader: {
+                header: true
+            },
+            buttons: {
+                buttons: [{
+                    extend: 'print',
+                    text: '<i class="fa fa-print"></i> Print',
+                    title: $('h3').text(),
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5]
+                    },
+                    footer: true,
+                    autoPrint: true
+                }, {
+                    extend: 'excel',
+                    text: '<i class="fa fa-file-excel-o"></i> Excel',
+                    title: $('h3').text(),
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5]
+                    },
+                    footer: true
+                }],
+                dom: {
+                    container: {
+                        className: 'dt-buttons'
+                    },
+                    button: {
+                        className: 'btn btn-default'
+                    }
+                }
+            }
+        });
+    </script>
 </asp:Content>
 

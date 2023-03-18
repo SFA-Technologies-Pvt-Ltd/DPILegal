@@ -37,7 +37,7 @@ public partial class Legal_LibraryMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
+            ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','" + ex.Message.ToString() + "' , 'warning')", true);
         }
     }
 
@@ -57,7 +57,7 @@ public partial class Legal_LibraryMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            throw ex;
+            ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','" + ex.Message.ToString() + "' , 'warning')", true);
         }
     }
     private void GetCaseSubject()
@@ -80,8 +80,9 @@ public partial class Legal_LibraryMaster : System.Web.UI.Page
                 ddlCaseSubject.Items.Insert(0, new ListItem("Select", "0"));
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','" + ex.Message.ToString() + "' , 'warning')", true);
         }
 
     }
@@ -106,7 +107,7 @@ public partial class Legal_LibraryMaster : System.Web.UI.Page
                     string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
                     if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
                     {
-                        lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
+                        //lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                         txtCaseNo.Text = "";
                         txtCasetype.Text = "";
                         txtCaseYear.Text = "";
@@ -118,6 +119,7 @@ public partial class Legal_LibraryMaster : System.Web.UI.Page
                         ddlDecisionFavourin.ClearSelection();
                         BindGridLibrary();
                         btnSave.Text = "Save";
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', '" + ErrMsg + "', 'success')", true);
                     }
                 }
 
@@ -126,7 +128,8 @@ public partial class Legal_LibraryMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Thanks !", ex.Message.ToString());
+            //lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Thanks !", ex.Message.ToString());
+            ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','" + ex.Message.ToString() + "' , 'warning')", true);
         }
     }
 

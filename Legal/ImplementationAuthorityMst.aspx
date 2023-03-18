@@ -151,46 +151,46 @@
                                     <div class="table-responsive">
                                         <asp:GridView ID="GrdImpleAuthority" runat="server" CssClass="table table-bordered table-hover" AutoGenerateColumns="false" AllowPaging="true" OnPageIndexChanging="GrdImpleAuthority_PageIndexChanging" OnRowCommand="GrdImpleAuthority_RowCommand" PageSize="10" DataKeyNames="IAuthority_ID" EmptyDataText="NO RECORD FOUND">
                                             <Columns>
-                                                <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                <asp:TemplateField HeaderText="S.No." ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblSrNo" runat="server" Text='<%# Container.DataItemIndex +1 %>'></asp:Label>
                                                         <asp:Label ID="lblID" runat="server" Text='<%# Eval("IAuthority_ID") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Office Type Name" ItemStyle-HorizontalAlign="Center">
+                                                <asp:TemplateField HeaderText="Office Type Name">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblOfficetypename" runat="server" Text='<%# Eval("OfficeType_Name") %>'></asp:Label>
                                                         <asp:Label ID="lblOfficetypeid" runat="server" Text='<%# Eval("Officetype_Id") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Office Name" ItemStyle-HorizontalAlign="Center">
+                                                <asp:TemplateField HeaderText="Office Name">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblOfficeName" runat="server" Text='<%# Eval("OfficeName") %>'></asp:Label>
                                                         <asp:Label ID="lblOfficeid" runat="server" Text='<%# Eval("Office_Id") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Name" ItemStyle-HorizontalAlign="Center">
+                                                <asp:TemplateField HeaderText="Name">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblImpleAuthorityName" runat="server" Text='<%# Eval("IAuthority_Name") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Mobile No." ItemStyle-HorizontalAlign="Center">
+                                                <asp:TemplateField HeaderText="Mobile No.">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblImpleAuthorityMobileNo" runat="server" Text='<%# Eval("IAuthority_MobileNo") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Email-ID" ItemStyle-HorizontalAlign="Center">
+                                                <asp:TemplateField HeaderText="Email-ID">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblImpleAuthorityEmailID" runat="server" Text='<%# Eval("IAuthority_EmailID") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Designation" ItemStyle-HorizontalAlign="Center">
+                                                <asp:TemplateField HeaderText="Designation">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblImpleAuthorityDesig" runat="server" Text='<%# Eval("Designation_Name") %>'></asp:Label>
                                                          <asp:Label ID="lblImpleAuthorityDesig_ID" runat="server" Text='<%# Eval("Designation_Id") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Location" ItemStyle-HorizontalAlign="Center">
+                                                <asp:TemplateField HeaderText="Location">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblImpleAuthorityLocation" runat="server" Text='<%# Eval("District_Name") %>'></asp:Label>
                                                         <asp:Label ID="lblImpleAuthorityLocation_ID" runat="server" Text='<%# Eval("District_Id") %>' Visible="false"></asp:Label>
@@ -198,9 +198,7 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Action" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
-                                                        <asp:LinkButton ID="lnkbtnEdit" runat="server" CommandArgument='<%# Eval("IAuthority_ID") %>' CommandName="EditDetails" ToolTip="Edit"><i class="fa fa-edit"></i></asp:LinkButton>&nbsp;
-                                                        <asp:LinkButton ID="lnkbtndelete" runat="server" CommandName="DeleteDetails" CommandArgument='<%# Eval("IAuthority_ID") %>'
-                                                                OnClientClick="return confirm('Are you sure you want to delete this record?');" ToolTip="Delete" CssClass=""><i class="fa fa-trash"></i></asp:LinkButton>
+                                                        <asp:LinkButton ID="lnkbtnEdit" runat="server" CommandArgument='<%# Eval("IAuthority_ID") %>' CommandName="EditDetails" ToolTip="Edit"><i class="fa fa-edit"></i></asp:LinkButton>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>

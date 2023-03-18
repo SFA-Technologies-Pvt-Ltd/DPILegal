@@ -28,7 +28,7 @@ public partial class Legal_ZoneMaster : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("../Login.aspx");
+            Response.Redirect("../Login.aspx", false);
         }
     }
 
@@ -52,8 +52,8 @@ public partial class Legal_ZoneMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-
-            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
+            //lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
 
@@ -76,8 +76,8 @@ public partial class Legal_ZoneMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-
-            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
+            //lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
 
@@ -102,7 +102,8 @@ public partial class Legal_ZoneMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
+            //lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
     protected void btnSave_Click(object sender, EventArgs e)
@@ -134,7 +135,7 @@ public partial class Legal_ZoneMaster : System.Web.UI.Page
                         ddlOfficeType.ClearSelection();
                         ddlOfficeLevel.ClearSelection();
                         txtZoneOfficeLocation.Text = "";
-                        lblMsg.Text = obj.Alert("fa-ban", "alert-success", "Thanks !", ErrMsg);
+                        lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                     }
                     else
                     {
@@ -149,7 +150,8 @@ public partial class Legal_ZoneMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
+            //lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
     protected void GrdZoneMaster_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -182,10 +184,19 @@ public partial class Legal_ZoneMaster : System.Web.UI.Page
                 btnSave.Text = "Update";
 
             }
+            if (e.CommandName == "DeleteDetails")
+            {
+                ViewState["ZoneID"] = "";
+                ViewState["ZoneID"] = e.CommandArgument;
+                int Zone_ID = Convert.ToInt32(e.CommandArgument);
+                obj.ByTextQuery("delete from tblZoneMaster where Zone_ID=" + Zone_ID);
+                FillGrid();
+            }
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
+            //lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
 
@@ -199,7 +210,8 @@ public partial class Legal_ZoneMaster : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
+            //lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
 }

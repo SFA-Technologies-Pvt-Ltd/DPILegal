@@ -14,7 +14,6 @@ using System.Web.UI.WebControls;
 //using Microsoft.Office.Interop.Excel;
 using System.Text.RegularExpressions;
 using ClosedXML.Excel;
-using System.Data.Linq;
 using System.Reflection;
 
 
@@ -157,27 +156,27 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
                         {
                             if (!System.Text.RegularExpressions.Regex.IsMatch(dt1.Rows[i]["srno"].ToString().Trim(), @"^[0-9]+$"))
                             {
-                                ErrMsg += "Invalid SrNo \n";
+                                ErrMsg += "Invalid SrNo, ";
                             }
                             if (!System.Text.RegularExpressions.Regex.IsMatch(dt1.Rows[i]["FillingNo"].ToString().Trim(), @"^[A-Za-z]+[/]+[0-9]+[/]+[0-9]+[-]+[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$"))
                             {
-                                ErrMsg += "Invalid Filling number \n";
+                                ErrMsg += "Invalid Filling number, ";
                             }
                             if (!System.Text.RegularExpressions.Regex.IsMatch(dt1.Rows[i]["Casetype"].ToString().Trim(), @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$"))
                             {
-                                ErrMsg += "Invalid Case type \n";
+                                ErrMsg += "Invalid Case type, ";
                             }
                             if (!System.Text.RegularExpressions.Regex.IsMatch(dt1.Rows[i]["Caseno"].ToString().Trim(), @"^[0-9]+$"))
                             {
-                                ErrMsg += "Invalid Case No \n";
+                                ErrMsg += "Invalid Case No, ";
                             }
                             if (!System.Text.RegularExpressions.Regex.IsMatch(dt1.Rows[i]["CaseYear"].ToString().Trim(), @"^[0-9]+$"))
                             {
-                                ErrMsg += "Invalid Court Name \n";
+                                ErrMsg += "Invalid Court Name, ";
                             }
                             if (!System.Text.RegularExpressions.Regex.IsMatch(dt1.Rows[i]["Court"].ToString().Trim(), @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$"))
                             {
-                                ErrMsg += "Invalid Case Year \n";
+                                ErrMsg += "Invalid Case Year, ";
                             }
                         }
 
@@ -185,6 +184,7 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
                     #endregion
                     if (ErrMsg == "")
                     {
+                        // Add New Column in Existing table.
                         dt1.Columns.Add("CourtTypeID");
                         dt1.Columns.Add("CourtLocation_ID");
                         dt1.Columns.Add("UniqueNo");
@@ -216,34 +216,34 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
                                 s.SetField<Int32>("Casetype_ID", m.Field<Int32>("Casetype_ID"));
                             });
                         });
+                        // when party name Multiple.
+                        //DataView view = new DataView(dt1); // Here Filter Main Detail From Dt Without Duplicacy.
+                        //DataTable DtParty = view.ToTable(true, "UniqueNo", "FillingNo", "Casetype", "Caseno", "CaseYear", "Court", "Petitioner", "Flag", "Status", "PartyName");
 
-                        DataView view = new DataView(dt1); // Here Filter Main Detail From Dt Without Duplicacy.
-                        DataTable DtParty = view.ToTable(true, "UniqueNo", "FillingNo", "Casetype", "Caseno", "CaseYear", "Court", "Petitioner", "Flag", "Status", "PartyName");
+                        //DataTable DtOriginal = view.ToTable(true, "UniqueNo", "FillingNo", "Casetype", "Casetype_ID", "Caseno", "CaseYear", "Court", "CourtTypeID", "CourtLocation_ID", "Flag", "Status");
+                        //DataTable newDt = DtOriginal.Copy();
+                        //System.Data.DataColumn newColumn = new System.Data.DataColumn("PartyName", typeof(System.String));
 
-                        DataTable DtOriginal = view.ToTable(true, "UniqueNo", "FillingNo", "Casetype", "Casetype_ID", "Caseno", "CaseYear", "Court", "CourtTypeID", "CourtLocation_ID", "Flag", "Status");
-                        DataTable newDt = DtOriginal.Copy();
-                        System.Data.DataColumn newColumn = new System.Data.DataColumn("PartyName", typeof(System.String));
-
-                        newDt.Columns.Add(newColumn);
-                        for (int i = 0; i < DtOriginal.Rows.Count; i++)
-                        {
-                            var PRes = (from emp in DtParty.AsEnumerable()
-                                        where emp.Field<string>("UniqueNo").Trim() == DtOriginal.Rows[i]["UniqueNo"].ToString()
-                                        select new
-                                        {
-                                            PartyName = emp.Field<string>("PartyName")
-                                        }).ToList();
-                            if (PRes.Count > 0)
-                            {
-                                newDt.Rows[i]["PartyName"] = PRes[0].PartyName; // Here Remove Duplicate Record(Means Delete Second Dulpicate Record)
-                            }
-                            else
-                            {
-                                newDt.Rows[i]["PartyName"] = null;
-                            }
-                        }
-
-                        //DataTable DtMain = view.ToTable(true, "UniqueNo", "FillingNo", "Casetype", "Caseno", "CaseYear", "Court", "Petitioner", "Flag", "Status");
+                        //newDt.Columns.Add(newColumn);
+                        //for (int i = 0; i < DtOriginal.Rows.Count; i++)
+                        //{
+                        //    var PRes = (from emp in DtParty.AsEnumerable()
+                        //                where emp.Field<string>("UniqueNo").Trim() == DtOriginal.Rows[i]["UniqueNo"].ToString()
+                        //                select new
+                        //                {
+                        //                    PartyName = emp.Field<string>("PartyName")
+                        //                }).ToList();
+                        //    if (PRes.Count > 0)
+                        //    {
+                        //        newDt.Rows[i]["PartyName"] = PRes[0].PartyName; // Here Remove Duplicate Record(Means Delete Second Dulpicate Record)
+                        //    }
+                        //    else
+                        //    {
+                        //        newDt.Rows[i]["PartyName"] = null;
+                        //    }
+                        //}
+                        DataView view = new DataView(dt1); // Here Filter Main Detail From Dt Without Duplicacy.                      
+                        DataTable DtMain = view.ToTable(true, "UniqueNo", "FillingNo", "Casetype", "Casetype_ID", "Caseno", "CaseYear", "Court", "CourtTypeID", "CourtLocation_ID", "Flag", "Status");
                         DataTable dtPetitioner = view.ToTable(true, "UniqueNo", "Petitioner"); // Here Only Petitoner Dtl Filter.
                         //dtPetitioner.Columns.Remove("FillingNo"); dtPetitioner.Columns.Remove("Status");
                         //dtPetitioner.Columns.Remove("Casetype"); dtPetitioner.Columns.Remove("Flag");
@@ -254,15 +254,19 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
                         ViewState["dtPetitioner"] = dtPetitioner;//It Keep Petitioner Dtl For Save.
                         //newDt.Columns.Remove("Petitioner");
                         // newDt.AcceptChanges();
-                        ViewState["DtMain"] = newDt; // It Keep Main Dtl For Save.
+                        ViewState["DtMain"] = DtMain; // It Keep Main Dtl For Save.
 
                         DataView view1 = new DataView(dt1);// Here Filter Respondent BY Unique No.
                         DataTable DtRes = view1.ToTable(true, "UniqueNo", "Respondent", "Department", "Address");
                         ViewState["DtRes"] = DtRes; // It Keep Respondet Data for Save.
+                        //this is second method it takes lower time to first.
+                        //DataTable dtDoc1 = view1.ToTable("Selected", false, "UniqueNo", "DocName", "PDFLink");
+
                         DataTable DtDoc = dt1.Copy();
                         DtDoc.Columns.Remove("FillingNo"); DtDoc.Columns.Remove("Casetype"); DtDoc.Columns.Remove("Casetype_ID");
                         DtDoc.Columns.Remove("Caseno"); DtDoc.Columns.Remove("Court"); DtDoc.Columns.Remove("Petitioner");
-                        DtDoc.Columns.Remove("PartyName"); DtDoc.Columns.Remove("Department"); DtDoc.Columns.Remove("CaseYear");
+                        //DtDoc.Columns.Remove("PartyName");
+                        DtDoc.Columns.Remove("Department"); DtDoc.Columns.Remove("CaseYear");
                         DtDoc.Columns.Remove("Address"); DtDoc.Columns.Remove("Status"); DtDoc.Columns.Remove("CourtLocation_ID");
                         DtDoc.Columns.Remove("srno"); DtDoc.Columns.Remove("Flag"); DtDoc.Columns.Remove("CourtTypeID");
                         DtDoc.Columns.Remove("Respondent");
@@ -278,16 +282,15 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
                         foreach (DataColumn col in dt1.Columns)
                         {
                             if (col.ToString() != "srno" && col.ToString() != "FillingNo" && col.ToString() != "Casetype" && col.ToString() != "Caseno" && col.ToString() != "CaseYear"
-                                && col.ToString() != "Court" && col.ToString() != "Petitioner" && col.ToString() != "Respondent" && col.ToString() != "PartyName" && col.ToString() != "Address" &&
+                                && col.ToString() != "Court" && col.ToString() != "Petitioner" && col.ToString() != "Respondent"  && col.ToString() != "Address" &&
                                 col.ToString() != "Department" && col.ToString() != "Status" && col.ToString() != "DocName" && col.ToString() != "PDFLink" && col.ToString() != "Flag" &&
                                  col.ToString() != "UniqueNo" && col.ToString() != "CourtTypeID" && col.ToString() != "CourtLocation_ID" && col.ToString() != "Casetype_ID")
                             {
-                                ErrColumn += col.ToString() + Environment.NewLine;
+                                ErrColumn += col.ToString() + ", ";
                             }
                         }
-                        if (ErrorColumnName != "")
+                        if (ErrColumn == "")
                         {
-
                             if (!dt1.Columns.Contains("srno"))
                             {
                                 ErrorColumnName += "srno, ";
@@ -320,10 +323,10 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
                             {
                                 ErrorColumnName += "Respondent, ";
                             }
-                            if (!dt1.Columns.Contains("PartyName"))
-                            {
-                                ErrorColumnName += "PartyName, ";
-                            }
+                            //if (!dt1.Columns.Contains("PartyName"))
+                            //{
+                            //    ErrorColumnName += "PartyName, ";
+                            //}
                             if (!dt1.Columns.Contains("Address"))
                             {
                                 ErrorColumnName += "Address, ";
@@ -439,10 +442,10 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
                                 }
                                 btnSave.Visible = true; // Visible Save Button If Everything Ok.
                                 divFill.Visible = false;
-                                GrdNewRecord.HeaderRow.TableSection = TableRowSection.TableHeader;
-                                GrdNewRecord.UseAccessibleHeader = true;
-                                GrdExistRecord.HeaderRow.TableSection = TableRowSection.TableHeader;
-                                GrdExistRecord.UseAccessibleHeader = true;
+                                //GrdNewRecord.HeaderRow.TableSection = TableRowSection.TableHeader;
+                                //GrdNewRecord.UseAccessibleHeader = true;
+                                //GrdExistRecord.HeaderRow.TableSection = TableRowSection.TableHeader;
+                                //GrdExistRecord.UseAccessibleHeader = true;
                             }
                             else
                             {
@@ -451,21 +454,13 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
                         }
                         else
                         {
-                            // Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert(" + ErrColumn + ")", true);
-                            ClientScript.RegisterStartupScript(typeof(Page), "alertMessage", "<script type='text/javascript'>alert(" + ErrColumn + ");</script>");
-                            // ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "Msg", "MessageAlert("+ErrColumn+");", false);
-                            //lblMsg.Text = obj.Alert("fa-exclamation", "alert-info", "Invalid Columns Names ", "Invalid File Format " + ErrColumn + "column name not found.");
-                            // ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert(" + ErrColumn + ")", true);
+                            lblMsg.Text = obj.Alert("fa-exclamation", "alert-warning", "Invalid Columns Names ", "Invalid File Format " + ErrColumn + "column name not found.");
                         }
                     }
                     else
                     {
-                        ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "Msg", "MessageAlert('shobhit');", true);
-                        //ScriptManager.RegisterClientScriptBlock(this,this.GetType(), "alertMessage", "alert(" + ErrMsg + ")", true);
-                        // Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert(" + ErrMsg + ")", true);
-                        // ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(),"Msg", "alert('errr'"+Environment.NewLine+"'shobhit');", true);
+                        lblMsg.Text = obj.Alert("fa-exclamation", "alert-warning", "Invalid Columns Names ", "Invalid File Format " + ErrMsg + "column name not found.");
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -715,6 +710,9 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
                             divFill.Visible = true;
                             divPassword.Visible = true;
                             divNote.Visible = true;
+                            divFill.Visible = false;
+                            Field_ExistRecord.Visible = false;
+                            Field_NewRecord.Visible = false;
                         }
                         else
                         {

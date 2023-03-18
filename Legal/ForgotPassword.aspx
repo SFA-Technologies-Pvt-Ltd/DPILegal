@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>PHE Legal</title>
+    <title>School Edu Legal</title>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -57,8 +57,8 @@
                     <div class="col-lg-12 p-5 shadow-sm border rounded-5 border-primary bg-white" style="border: none !important">
                         <h2 class="text-center mb-4 text-primary" style="margin-top: -12px;">
                             <img runat="server" src="../image/logo/ssmsLogo.png" alt="" style="width: 80px;" /></h2>
-                        <h5 style="text-align: center; color: #59afd9; font-size: 25px; font-family: 'Times New Roman';">Public Health Engineering Department</h5>
-                        <h5 style="text-align: center; color: #f98023; font-size: 21px;">Legal Cases Monitoring System</h5>
+                        <h5 style="text-align: center; color: #154c79; font-size: 25px; font-family: 'Calibri';">School Education Department</h5>
+                        <h5 style="text-align: center; color: #f98023; font-size: 18px; font-family: 'Calibri';">Legal Cases Monitoring System</h5>
                         <div class="mb-5">
                             <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
                         </div>
@@ -78,7 +78,7 @@
                                 <asp:Button ID="btnForgotPassword" runat="server" CssClass="btn btn-warning1 col-lg-8" ValidationGroup="Save" Text="Forgot Password" OnClick="btnForgotPassword_Click" />
                             </div>
                              <div class="d-grid pt-3">
-                            <a href="../Login.aspx"  style="text-align: left; color:#0c59e7; font-size: 18px; font-family: 'Times New Roman';text-decoration:none;width: 50px;">Login</a>
+                            <a href="../Login.aspx"  style="text-align: center; color:#0c59e7; font-size: 18px; font-family: 'Calibri';text-decoration:none;">Back to Login</a>
                         </div>
                         </div>
                     </div>

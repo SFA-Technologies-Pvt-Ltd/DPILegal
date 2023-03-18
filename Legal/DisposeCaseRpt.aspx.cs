@@ -26,6 +26,7 @@ public partial class Legal_DisposeCaseRpt : System.Web.UI.Page
             Response.Redirect("/Login.aspx");
         }
     }
+    #region Get Case Dispose Type
     private void GetCaseDisposeType()
     {
         try
@@ -47,11 +48,14 @@ public partial class Legal_DisposeCaseRpt : System.Web.UI.Page
                 ddlDisposetype.Items.Insert(0, new ListItem("Select", "0"));
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            ErrorLogCls.SendErrorToText(ex);
         }
 
     }
+    #endregion
+    #region Get Case Type
     private void GetCaseType()
     {
         try
@@ -73,34 +77,54 @@ public partial class Legal_DisposeCaseRpt : System.Web.UI.Page
                 ddlCaseType.Items.Insert(0, new ListItem("Select", "0"));
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            ErrorLogCls.SendErrorToText(ex);
         }
 
     }
+    #endregion
+    #region Bing Grid
     protected void BindGrid()
     {
         try
         {
-            ds = obj.ByProcedure("USP_Legal_CaseRpt", new string[] { "flag", "Casetype_ID", "CaseDisposeType_Id" }, new string[] { "9", ddlCaseType.SelectedItem.Value, ddlDisposetype.SelectedItem.Value }, "dataset");
-                if (ds.Tables[0].Rows.Count > 0)
-                {
-                    grdSubjectWiseCasedtl.DataSource = ds;
-                    grdSubjectWiseCasedtl.DataBind();
-                }
-                else
-                {
-                    grdSubjectWiseCasedtl.DataSource = null;
-                    grdSubjectWiseCasedtl.DataBind();
-                }
+            string OIC = "";
+            grdSubjectWiseCasedtl.DataSource = null;
+            grdSubjectWiseCasedtl.DataBind();
+            string Compliance = ddlCompliaceSt.SelectedIndex > 0 ? ddlCompliaceSt.SelectedItem.Value : null;
+
+            if (Session["OICMaster_ID"] != "")
+            {
+                ds = obj.ByProcedure("USP_Select_CaseDisposalRpt", new string[] { "Casetype_ID", "CaseDisposeType_Id", "Compliance_Status", "OICMaster_Id", "flag" },
+                    new string[] { ddlCaseType.SelectedItem.Value, ddlDisposetype.SelectedItem.Value, Compliance, Session["OICMaster_ID"].ToString(), "1" }, "dataset");
+            }
+            else
+            {
+                ds = obj.ByProcedure("USP_Select_CaseDisposalRpt", new string[] { "Casetype_ID", "CaseDisposeType_Id", "Compliance_Status", "flag" },
+                    new string[] { ddlCaseType.SelectedItem.Value, ddlDisposetype.SelectedItem.Value, Compliance, "2" }, "dataset");
+            }
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                grdSubjectWiseCasedtl.DataSource = ds;
+                grdSubjectWiseCasedtl.DataBind();
+                grdSubjectWiseCasedtl.HeaderRow.TableSection = TableRowSection.TableHeader;
+                grdSubjectWiseCasedtl.UseAccessibleHeader = true;
+            }
+            else
+            {
+                grdSubjectWiseCasedtl.DataSource = null;
+                grdSubjectWiseCasedtl.DataBind();
+            }
+         
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            
-            throw;
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
-
+    #endregion
+    #region Btn Search
     protected void btnSearch_Click(object sender, EventArgs e)
     {
         try
@@ -113,58 +137,31 @@ public partial class Legal_DisposeCaseRpt : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
+    #endregion
+    #region Row Command
     protected void grdSubjectWiseCasedtl_RowCommand(object sender, GridViewCommandEventArgs e)
     {
-        lblMsg.Text = "";
-        if (e.CommandName == "ViewDtl")
+        try
         {
-            GridViewRow row = (GridViewRow)((LinkButton)e.CommandSource).NamingContainer;
-
-            Label lblCaseSubject = (Label)row.FindControl("lblCaseSubject");
-            Label lblOICName = (Label)row.FindControl("LabelOICName");
-            Label lblOICMObile = (Label)row.FindControl("LabelOICMObile");
-            Label lblOICEmail = (Label)row.FindControl("LabelOICEmail");
-            Label lblNodalName = (Label)row.FindControl("LabelNodalName");
-            Label lblNodalMobile = (Label)row.FindControl("LabelNodalMobile");
-            Label lblNodalEmail = (Label)row.FindControl("LabelNodalEmail");
-            Label lblAdvocateName = (Label)row.FindControl("LabelAdvocateName");
-            Label lblAdvocateMobile = (Label)row.FindControl("LabelAdvocateMobile");
-            Label lblAdvocateEmail = (Label)row.FindControl("LabelAdvocateEmail");
-            Label lblHearingDate = (Label)row.FindControl("LabelHearingDate");
-            Label lblRespondertype = (Label)row.FindControl("LabelRespondertype");
-            Label lblCaseNO = (Label)row.FindControl("lblCaseNO");
-            Label lblPetitionerName = (Label)row.FindControl("lblPetitionerName");
-            Label lblCourtName = (Label)row.FindControl("lblCourtName");
-            Label lblCaseDetail = (Label)row.FindControl("lblCaseDetail");
-            Label lblCasetype = (Label)row.FindControl("lblCasetype");
-            Label lblRespondentName = (Label)row.FindControl("lblRespondentName");
-            Label lblRespondentMobileNo = (Label)row.FindControl("lblRespondentMobileNo");
-
-            txtCaseno.Text = lblCaseNO.Text;
-            txtCourtName.Text = lblCourtName.Text;
-            txtRespondertype.Text = lblRespondertype.Text;
-            txtRespondentName.Text = lblRespondentName.Text;
-            txtRespondentMobileno.Text = lblRespondentMobileNo.Text;
-            txtNodalName.Text = lblNodalName.Text;
-            txtNodalMobile.Text = lblNodalMobile.Text;
-            txtNodalEmailID.Text = lblNodalEmail.Text;
-            txtOICName.Text = lblOICName.Text;
-            txtOICMObile.Text = lblOICMObile.Text;
-            txtOICEmail.Text = lblOICEmail.Text;
-            //txtAdvocatename.Text = lblAdvocateName.Text;
-            //txtAdvocatemobile.Text = lblAdvocateMobile.Text;
-            //txtAdvocateEmailID.Text = lblAdvocateEmail.Text;
-            // txtNextHearingDate.Text = lblHearingDate.Text;
-            txtPetitionerName.Text = lblPetitionerName.Text;
-            txtCasesubject.Text = lblCaseSubject.Text;
-            txtCaseDtl.Text = lblCaseDetail.Text;
-            txtCasetype.Text = lblCasetype.Text;
-            Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "myModal()", true);
+            lblMsg.Text = "";
+            if (e.CommandName == "ViewDtl")
+            {
+                GridViewRow row = (GridViewRow)((LinkButton)e.CommandSource).NamingContainer;
+                string ID = e.CommandArgument.ToString();
+                string pageID = "4";
+                Response.Redirect("../Legal/ViewWPPendingCaseDetail.aspx?CaseID=" + Server.UrlEncode(ID) + "&pageID=" + pageID, false);
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
+    #endregion
+    #region Page Index Changing
     protected void grdSubjectWiseCasedtl_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         try
@@ -173,10 +170,30 @@ public partial class Legal_DisposeCaseRpt : System.Web.UI.Page
             grdSubjectWiseCasedtl.PageIndex = e.NewPageIndex;
             BindGrid();
         }
-        catch (Exception )
+        catch (Exception ex)
         {
-            
-            throw;
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
+    #endregion
+    #region ddlDisposetype Selected Index Changed
+    protected void ddlDisposetype_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            lblMsg.Text = "";
+            ddlCompliaceSt.ClearSelection();
+            if (ddlDisposetype.SelectedIndex == 1)
+            {
+                
+                ComplianceSt_Div.Visible = true;
+            }
+            else { ComplianceSt_Div.Visible = false; }
+        }
+        catch (Exception ex)
+        {
+            ErrorLogCls.SendErrorToText(ex);
+        }
+    }
+    #endregion
 }

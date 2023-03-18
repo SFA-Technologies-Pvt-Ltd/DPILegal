@@ -1,9 +1,12 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="OldCaseDashBoard.aspx.cs" Inherits="mis_Legal_OldCaseDashBoard" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-
+    <link href="../Main_plugins/fontawesome-free/css/fontawesome.min.css" rel="stylesheet" />
+    <script src="../Main_plugins/fontawesome-free/js/fontawesome.min.js"></script>
+    <script src="../Main_plugins/fontawesome-free/js/fontawesome.js"></script>
+    <link href="../Main_plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <link href="../Main_plugins/fontawesome-free/css/fontawesome.css" rel="stylesheet" />
     <style>
-     
         #myModal {
             padding-right: 256px;
             /*padding: 0 256px 0 0;*/
@@ -102,7 +105,6 @@
 
         .Buttons {
             border-radius: 21%;
-
             background-color: white;
         }
 
@@ -114,14 +116,11 @@
             font-size: 18px;
             font-weight: bold;
             color: blue;
-           
         }
 
         .Space {
             margin-bottom: 0rem;
-           
-        /*     padding:1rem;*/
-             
+            /*     padding:1rem;*/
         }
 
         .NewCaseCourtImage {
@@ -137,10 +136,12 @@
         }
 
 
-        svg{
-                border-radius: 1.1rem;
-        }
 
+        svg {
+            border-radius: 1.1rem;
+            border: 2px solid #3366CB;
+            box-shadow: 5px 10px;
+        }
     </style>
 
     <script type="text/javascript">
@@ -148,69 +149,43 @@
             document.forms[0].target = "_blank";
         }
     </script>
-    
+
     <style>
-   
-  
-        .dvpading{
-            margin-top:0.5rem;
-            margin-bottom:0.5rem;
+        .dvpading {
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
         }
 
-        .card-body-custom-Color{
-         background: linear-gradient(to bottom, #e5e781 0%, #cece91 100%);
+        .card-body-custom-Color {
+            background: linear-gradient(to bottom, #fffeb6 0%, #fffeb6 100%);
         }
+
         fieldset {
-    font-family: sans-serif;
-    border: 2px solid #1F497D;
-    border-radius:0.7rem;
-    padding: 15px;
-    margin-top:1rem;
-}
+            font-family: sans-serif;
+            border: 2px solid #1F497D;
+            border-radius: 0.7rem;
+            padding: 15px;
+            margin-top: 1rem;
+        }
 
-    fieldset legend {
-        background: #1F497D;
-        color: #fff;
-        padding: 5px 10px;
-        font-size: 0.9rem;
-        border-radius: 5px;
-        box-shadow: 0 0 0 5px #ddd;
-        margin-left: 1.2rem;
-    }
-    legend{
-        width:auto !important;
-        max-width:50%;
-    }
+            fieldset legend {
+                background: #1F497D;
+                color: #fff;
+                padding: 5px 10px;
+                font-size: 0.9rem;
+                border-radius: 5px;
+                box-shadow: 0 0 0 5px #ddd;
+                margin-left: 1.2rem;
+            }
+
+        legend {
+            width: auto !important;
+            max-width: 50%;
+        }
     </style>
 
 
-    <%-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                                <script type="text/javascript">
-                                    google.charts.load('current', { 'packages': ['corechart'] });
-                                    google.charts.setOnLoadCallback(drawChart);
-
-                                    function drawChart() {
-
-                                        var data = google.visualization.arrayToDataTable([
-                                          ['Task', 'Hours per Day'],
-                                          ['Work', 11],
-                                          ['Eat', 2],
-                                          ['Commute', 2],
-                                          ['Watch TV', 2],
-                                          ['Sleep', 7]
-                                        ]);
-
-                                        var options = {
-                                            title: 'My Daily Activities'
-                                        };
-
-                                        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-                                        chart.draw(data, options);
-                                    }
-                                </script>
-
-          graph                      <div id="piechart" style="width: 900px; height: 500px;"></div>--%>
+ 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
     <asp:ScriptManager runat="server" />
@@ -275,108 +250,125 @@
             <div class="container-fluid">
                 <asp:Label ID="lblMsg" runat="server"></asp:Label>
                 <div class="card">
-                    <div class="card-header" style="text-align: left;">
-                        <span style="font-size: 18px; color: #e5e5e5"> Cases Dashboard</span>
+                    <div class="card-header" style="text-align: center;">
+                        <span style="font-size: 18px; color: #e5e5e5">Cases Dashboard</span>
                     </div>
 
-                    <div class="align-items-center;" style="border: 5px solid; text-align: center;">
+                    <div class="align-items-center;" style="text-align: center;">
 
                         <div class="card-body card-body-custom-Color">
+
                             <div class="row form-group">
-                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">HIGH PRIORITY CASE :</span>
-                                    <asp:LinkButton ID="btnHighPriorityCase" runat="server" CssClass="btn-sm label label-warning" OnClick="btnHighPriorityCase_Click">TOTAL <span id="spnhighpriorityCase" runat="server" style="font-weight: bold; font-size: 18px;"></span></asp:LinkButton>
+                                 <div class="col-lg-6 col-md-6 col-sm-6">
+
+                                    <i class="fa-solid fa-magnifying-glass" style="font-size: x-large"></i>
+                                    
+                                     <a href="WPCaseList.aspx" class="Heading" target="_blank">SEARCH CASES</a>
                                 </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+
+                                    <i class="fa-solid fa-star" style="font-size: x-large"></i>
+                                    <%--<img src="../image/Legal%201.png" style="height: 25px;" />--%>&nbsp;&nbsp;<span class="Heading">HIGH PRIORITY CASE :</span>
+                                    <asp:LinkButton ID="btnHighPriorityCase" runat="server" CssClass="btn-sm label label-warning" OnClick="btnHighPriorityCase_Click">TOTAL <span id="spnhighpriorityCase" runat="server" style="font-weight: bold; font-size: 18px;"></span></asp:LinkButton>
+
+                                </div>
+
                             </div>
+                            <br />
 
-                      
 
-                        <div class="row form-group">
-                            <div class="col-lg-6 col-md-12 col-sm-12 ">
+                            <div class="row form-group" style="text-align: left;">
+                                <div class="col-lg-6 col-md-12 col-sm-12 mt-2 ">
 
-                           
-                                <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;
-                                <span class="Heading">COURT WISE :
+                                    <i class="fa-solid fa-scale-unbalanced-flip" style="font-size: x-large"></i>&nbsp;&nbsp;
+                                   
+                                    <%-- <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;--%>
+                                    <span class="Heading">COURT WISE :
                                     <asp:Label ID="lblCaseCount" runat="server" CssClass="Heading" Style="color: #201f1e;" />
-                                </span>
-                                <div id="sbid" runat="server" class="dvpading"></div>
+                                    </span>
+                                    <div id="sbid" runat="server" class="dvpading"></div>
 
-                            </div>
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-
-                                <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">COURT WISE ORDER BY DIRECTION :
+                                </div>
+                                <div class="col-lg-6 col-md-12 col-sm-12" style="font-size: x-large">
+                                    <i class="fa-solid fa-arrows-turn-to-dots"></i>
+                                    <%--<img src="../image/Legal%201.png" style="height: 25px;" />--%>&nbsp;&nbsp;<span class="Heading">COURT WISE ORDER BY DIRECTION :
                                     <asp:Label ID="lblCaseCount1" runat="server" CssClass="Heading" Style="color: #201f1e;" />
-                                </span>
-                           
-                                <div id="sbid1" runat="server" class="dvpading" ></div>
+                                    </span>
+
+                                    <div id="sbid1" runat="server" class="dvpading"></div>
+
+                                </div>
 
                             </div>
-
-                        </div>
-                        <div class="row form-group">
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">CASE SUBJECT WISE :
+                            <div class="row form-group" style="text-align: left; margin-top: 2.5rem;">
+                                <div class="col-lg-6 col-md-12 col-sm-12" style="display: none;">
+                                    <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">CASE SUBJECT WISE :
                                     <asp:Label ID="lblCaseCount2" runat="server" CssClass="Heading" Style="color: #201f1e;" />
-                                </span>
-                                <div id="sbid2" runat="server" class="dvpading"></div>
-                            </div>
+                                    </span>
+                                    <div id="sbid2" runat="server" class="dvpading"></div>
+                                </div>
 
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                <img src="../image/Legal%201.png" style="height: 30px;" />&nbsp;&nbsp;<span class="Heading">COURT WISE CONTEMPT CASES:
+                                <div class="col-lg-6 col-md-12 col-sm-12" style="font-size: larger">
+                                    <i class="fa-solid fa-gavel" style="font-size: x-large"></i>
+                                    <%--<img src="../image/Legal%201.png" style="height: 30px;" />--%>&nbsp;&nbsp;<span class="Heading">COURT WISE CONTEMPT CASES:
                                     <asp:Label ID="lblConcCount" runat="server" CssClass="Heading" Style="color: #201f1e;" />
-                                </span>
-                                <div id="cwcc" runat="server" class="dvpading"></div>
-                            </div>
-                        </div>
-                        <div class="row form-group">
+                                    </span>
+                                    <div id="cwcc" runat="server" class="dvpading"></div>
+                                </div>
 
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                <img src="../image/Legal%201.png" style="height: 25px;" />&nbsp;&nbsp;<span class="Heading">ORDER BY DIRECTION COMPLAINES :
+
+
+                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <i class="fa-solid fa-thumbs-up" style="font-size: x-large"></i>
+                                    <%--<img src="../image/Legal%201.png" style="height: 25px;" />--%>&nbsp;&nbsp;<span class="Heading">ORDER BY DIRECTION COMPLAINES :
                                     <asp:Label ID="lblCaseCount3" runat="server" CssClass="Heading" Style="color: #201f1e;" />
-                                </span>
-                                <div id="sbid3" runat="server" class="dvpading"></div>
-                            </div>
+                                    </span>
+                                    <div id="sbid3" runat="server" class="dvpading"></div>
+                                </div>
 
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                <%--<img src="../image/Legal%201.png" style="height: 30px;" />&nbsp;&nbsp;<span class="Heading">
+                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <%--<img src="../image/Legal%201.png" style="height: 30px;" />&nbsp;&nbsp;<span class="Heading">
                                     <asp:Label ID="Label2" runat="server" CssClass="Heading" Style="color: #201f1e;" />
                                 </span>--%>
-                                <div id="Div2" runat="server" class="dvpading"></div>
+                                    <div id="Div2" runat="server" class="dvpading"></div>
+                                </div>
+
+
                             </div>
-
-
                         </div>
-                              </div>
-                </div>
+                    </div>
                 </div>
 
             </div>
-            <div class="container-fluid">
-                <div class="card card-body" style="background:linear-gradient(to bottom, #fbfb9d 0%, #ffffc2a3 100%);">
+            <%-- this Div Comment By Bhanu on 28/02/2023 due to order by Utkarsh sir  --%>
+            <div class="container-fluid" style="display: none;">
+                <div class="card card-body" style="background: linear-gradient(to bottom, #fffeb6 0%, #fffeb6 100%);">
                     <fieldset>
                         <legend>Live Informations</legend>
                         <div class="row form-group ">
 
                             <div class="col-lg-6 col-md-12 col-sm-12">
-                                <img src="../image/Legal%201.png" style="height: 25px;" />
+                                <i class="fa-solid fa-bars" style="font-size: x-large"></i>
+                                <%--<img src="../image/Legal%201.png" style="height: 25px;" />--%>
                                 &nbsp;&nbsp;<span class="Heading">CASE TYPE WISE :<asp:Label ID="lblCasetypeCountno" runat="server" class="Heading" Style="color: #201f1e;"></asp:Label>
                                 </span>
                                 <div id="CasetypeCountID1" runat="server" style="50%"></div>
                             </div>
                             <div class="col-lg-6 col-md-12 col-sm-12">
-                                <img src="../image/Legal%201.png" style="height: 25px;" />
+                                <i class="fa-regular fa-arrow-alt-circle-up" style="font-size: x-large"></i>
+                                <%--<img src="../image/Legal%201.png" style="height: 25px;" />--%>
                                 &nbsp;&nbsp;<span class="Heading">ORDER BY DIRECTION :<asp:Label ID="lblOrderByDirectionalCases" runat="server" class="Heading" Style="color: #201f1e;"></asp:Label>
                                 </span>
                                 <div id="CasetypeCountID2" runat="server" style="50%"></div>
                             </div>
                         </div>
                     </fieldset>
-                
-            </div>
-            </div>
-            
 
-            
+                </div>
+            </div>
+
+
+
 
 
         </section>

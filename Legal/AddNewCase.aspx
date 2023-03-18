@@ -159,6 +159,29 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
+                                        <label>Case Belongs To</label>
+                                        <span style="color: red;"><b>*</b></span>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator6" ValidationGroup="CaseDtl"
+                                            ErrorMessage="Select Department." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="ddlDepartment" Display="Dynamic" runat="server" InitialValue="0">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:DropDownList ID="ddlDepartment" runat="server" CssClass="form-control"></asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Case District Location<span style="color: red;"> *</span></label>
+                                        <span class="pull-right">
+                                            <asp:RequiredFieldValidator ID="Rfv_division" ValidationGroup="Save"
+                                                ErrorMessage="Select Division" Text="<i class='fa fa-exclamation-circle' title='Select District'></i>"
+                                                ControlToValidate="ddlDistrict" ForeColor="Red" Display="Dynamic" runat="server" InitialValue="0">
+                                            </asp:RequiredFieldValidator>
+                                        </span>
+                                        <asp:DropDownList runat="server" ID="ddlDistrict" CssClass="form-control"></asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
                                         <label>
                                             Party Name</label>
                                         <asp:DropDownList ID="ddlParty" runat="server" CssClass="form-control">
@@ -177,7 +200,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>
-                                            Case Detail/Remarks<span style="color: red;">*</span></label>
+                                            Case Matter Detail/Remarks<span style="color: red;">*</span></label>
                                         <asp:RequiredFieldValidator ID="rfvCasedetail" ValidationGroup="Save"
                                             ErrorMessage="Enter Case Detail." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="txtCaseDetail" Display="Dynamic" runat="server">
@@ -197,10 +220,10 @@
                                     <fieldset>
                                         <legend>Officer Incharge of Department</legend>
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label>
-                                                        OIC
+                                                        OIC/District Location
                                                         <span style="color: red;"><b>*</b></span></label>
                                                     <asp:RequiredFieldValidator runat="server" ID="rfvOICName" ForeColor="Red" Display="Dynamic"
                                                         ControlToValidate="ddlOicName" ValidationGroup="Save" ErrorMessage="Select OIC Name."
@@ -211,17 +234,52 @@
                                                     </asp:DropDownList>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label>Mobile No.</label>
                                                     <asp:TextBox ID="txtOICMobileNo" runat="server" ReadOnly="true" CssClass="form-control" MaxLength="10" AutoComplete="off" onkeypress="return NumberOnly();"></asp:TextBox>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label>
                                                         Email-ID.</label>
                                                     <asp:TextBox runat="server" ID="txtEmailID" CssClass="form-control" ReadOnly="true"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>OIC Order Number<span style="color: red;"> *</span></label>
+                                                    <span class="pull-right">
+                                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator11" ValidationGroup="Save"
+                                                            ErrorMessage="Enter OIC case number" Text="<i class='fa fa-exclamation-circle' title='Enter OIC case number'></i>"
+                                                            ControlToValidate="txtOICcaseNumber" ForeColor="Red" Display="Dynamic" runat="server">
+                                                        </asp:RequiredFieldValidator>
+                                                    </span>
+                                                    <asp:TextBox runat="server" ID="txtOICcaseNumber" CssClass="form-control" MaxLength="45"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3" id="div1" runat="server">
+                                                <div class="form-group">
+                                                    <label>OIC Order Date<span style="color: red;"> *</span></label>
+                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator14" ValidationGroup="CaseDtl"
+                                                        ErrorMessage="Enter OIC Order Date" Text="<i class='fa fa-exclamation-circle' title='Enter OIC Order Date'></i>"
+                                                        ControlToValidate="txtOICDate" ForeColor="Red" Display="Dynamic" runat="server">
+                                                    </asp:RequiredFieldValidator>
+                                                    <asp:TextBox ID="txtOICDate" runat="server" data-provide="datepicker" placeholder="DD/MM/YYYY" CssClass="form-control disableFuturedate" data-date-format="dd/mm/yyyy" data-date-autoclose="true" AutoComplete="off"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>OIC Order Documnet<span style="color: red;"> *</span></label>
+                                                    <span class="pull-right">
+                                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator12" ValidationGroup="Save"
+                                                            ErrorMessage="Uplode OICDocument" Text="<i class='fa fa-exclamation-circle' title='Uplode OICDocument'></i>"
+                                                            ControlToValidate="fuOICDocument" ForeColor="Red" Display="Dynamic" runat="server">
+                                                        </asp:RequiredFieldValidator>
+                                                    </span>
+
+                                                    <asp:FileUpload runat="server" ID="fuOICDocument" CssClass="form-control"></asp:FileUpload>
                                                 </div>
                                             </div>
                                         </div>
@@ -342,12 +400,12 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>
-                                            Address<span style="color: red"><b>*</b></span></label>
+                                            Present posting address<span style="color: red"><b>*</b></span></label>
                                         <asp:RequiredFieldValidator runat="server" ID="rfvPetiAdd" Display="Dynamic" ForeColor="Red" SetFocusOnError="true"
-                                            ControlToValidate="txtPetiAddRess" ValidationGroup="Petitioner" ErrorMessage="Enter Petitioner Address"
+                                            ControlToValidate="txtPetiAddRess" ValidationGroup="Petitioner" ErrorMessage="Enter Present posting address"
                                             Text="<i class='fa fa-exclamation-circle' title='Required !'></i>">
                                         </asp:RequiredFieldValidator>
-                                        <asp:TextBox ID="txtPetiAddRess" runat="server" placeholder="Address" AutoComplete="off" CssClass="form-control" MaxLength="100" onkeyup="javascript:capFirst(this);"></asp:TextBox>
+                                        <asp:TextBox ID="txtPetiAddRess" runat="server" placeholder="Present posting address" AutoComplete="off" CssClass="form-control" MaxLength="100" onkeyup="javascript:capFirst(this);"></asp:TextBox>
                                         <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator3" Display="Dynamic" ControlToValidate="txtPetiAddRess"
                                             ValidationExpression="^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$" ValidationGroup="Petitioner" ForeColor="Red" ErrorMessage="Please Enter Valid Text">
                                         </asp:RegularExpressionValidator>
@@ -722,6 +780,35 @@
                                         </div>
                                     </div>
                                 </fieldset>
+                                <%--start here case action detail by raghav 02-03-2023--%>
+                                <fieldset runat="server" id="FieldCaseAction">
+                                    <legend>Case Action</legend>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Case Reply</label>
+                                                <asp:DropDownList runat="server" ID="ddlCaseReply" CssClass="form-control" OnSelectedIndexChanged="ddlCaseReply_SelectedIndexChanged" AutoPostBack="true">
+                                                    <asp:ListItem Value="0">Select</asp:ListItem>
+                                                    <asp:ListItem Value="1">Yes</asp:ListItem>
+                                                    <asp:ListItem Value="21">No</asp:ListItem>
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" id="divReplyDate" runat="server">
+                                            <div class="form-group">
+                                                <label>Reply Date</label>
+                                                <asp:TextBox ID="txtReplyDate" runat="server" data-provide="datepicker" placeholder="DD/MM/YYYY" CssClass="form-control disableFuturedate" data-date-format="dd/mm/yyyy" data-date-autoclose="true" AutoComplete="off"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Reply Remark</label>
+                                                <asp:TextBox runat="server" ID="txtReplyCaseRemark" CssClass="form-control" placeholder="Case Reply Remark" TextMode="MultiLine" MaxLength="500"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <%--End here case action detail by raghav 02-03-2023--%>
                                 <fieldset>
                                     <legend>Old Case Detail</legend>
                                     <div class="row">

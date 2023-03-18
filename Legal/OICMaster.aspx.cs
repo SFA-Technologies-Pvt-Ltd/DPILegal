@@ -50,7 +50,8 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
                 gridoicmaster.DataSource = null;
                 gridoicmaster.DataBind();
             }
-
+            gridoicmaster.HeaderRow.TableSection = TableRowSection.TableHeader;
+            gridoicmaster.UseAccessibleHeader = true;
         }
         catch (Exception ex)
         {
@@ -157,11 +158,13 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
                         txtoicnme.Text = "";
                         txtmobileno.Text = "";
                         ViewState["OICID"] = "";
-                        lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
+                        //lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', '" + ErrMsg + "', 'success')", true);
                     }
                     else
                     {
-                        lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ErrMsg);
+                        //lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ErrMsg);
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','" + ErrMsg + "' , 'warning')", true);
                     }
                 }
                 else
@@ -170,11 +173,15 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
                 }
                 FillGrid();
                 btnSave.Text = "Save";
+                ddlDepartment.ClearSelection();
                 ddlzone.ClearSelection();
                 ddlcircle.ClearSelection();
                 ddldivision.ClearSelection();
+                ddlDesignation.ClearSelection();
+                txtEmailID.Text = "";
                 txtoicnme.Text = "";
                 txtmobileno.Text = "";
+                ViewState["OICID"] = "";
             }
         }
         catch (Exception ex)
@@ -273,6 +280,8 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
                 obj.ByTextQuery("delete from tblOICMaster where OICMaster_ID=" + OICMaster_ID);
                 FillGrid();
             }
+            gridoicmaster.HeaderRow.TableSection = TableRowSection.TableHeader;
+            gridoicmaster.UseAccessibleHeader = true;
         }
         catch (Exception ex)
         {

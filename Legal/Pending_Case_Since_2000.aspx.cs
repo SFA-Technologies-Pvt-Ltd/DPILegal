@@ -71,12 +71,10 @@ public partial class Legal_Pending_Case_Since_2000 : System.Web.UI.Page
     {
         try
         {
-            dsCase = obj.ByDataSet("select distinct UniqueNo," +
-                "IsNUll((select distinct CaseType+'/'+CaseNo+'/'+CAST(year as varchar(4))+'-'+Court from  tbl_OldCaseNewEntry where UniqueNo= a.UniqueNo),'') OldFilingNo," +
-                "FilingNo,Court,Petitioner,Respondent,RespondentOffice,OICId,OICMobileNo,CaseSubjectId,Remarks,HearingDate,CaseNo," +
-                "(select string_agg(PartyName,',') from (select PartyName,row_number() over (partition by PartyName order by PartyName) rn from tbl_OldCaseDetail where UniqueNo =  a.UniqueNo)a  where rn = 1 ) PartyName, " +
-                "(select string_agg(department,',') from (select department,row_number() over (partition by department order by department) rn from tbl_OldCaseDetail where UniqueNo = a.UniqueNo)a where rn = 1) Department " +
-                " from tbl_OldCaseDetail a where CaseType='" + Convert.ToString(CaseType) + "' order by HearingDate Desc");
+            //dsCase = obj.ByDataSet("select distinct UniqueNo," +
+            //    "IsNUll((select distinct CaseType+'/'+CaseNo+'/'+CAST(year as varchar(4))+'-'+Court from  tbl_OldCaseNewEntry where UniqueNo= a.UniqueNo),'') OldFilingNo," +
+            //    "FilingNo,Court,Petitioner,Respondent,RespondentOffice,OICId,OICMobileNo,CaseSubjectId,Remarks,HearingDate,CaseNo from tbl_OldCaseDetail a where CaseType='" + Convert.ToString(CaseType) + "' order by HearingDate Desc");
+            dsCase = obj.ByProcedure("USP_Select_OldCase", new string[] { "CaseType" }, new string[] { CaseType }, "dataset");
             if (dsCase.Tables[0].Rows.Count > 0)
             {
                 ViewState["dt"] = null;
@@ -107,23 +105,15 @@ public partial class Legal_Pending_Case_Since_2000 : System.Web.UI.Page
             lblMsg.Text = "";
             if (e.CommandName == "EditDetails")
             {
+        
                 GridViewRow row = (GridViewRow)((LinkButton)e.CommandSource).NamingContainer;
                 Label lblUnique = (Label)row.FindControl("lblUniqueNo");
                 string ID = lblUnique.Text;
                 Response.Redirect("../Legal/EditOld_PendingCases.aspx?ID=" + Server.UrlEncode(ID), false);
-            }
-            //if (e.CommandName == "ViewDetails")
-            //{
-
-            //    GridViewRow row = (GridViewRow)((LinkButton)e.CommandSource).NamingContainer;
-            //    Label lblUnique = (Label)row.FindControl("lblUniqueNo");
-            //    string ID = lblUnique.Text;
-            //    Response.Redirect("../ViewDocumentByUniqNo.aspx?ID=" + Server.UrlEncode(ID),false);
-            //}
-
+             }
         }
         catch (Exception ex)
-        {
+        {    
             throw ex;
         }
     }
@@ -513,18 +503,14 @@ public partial class Legal_Pending_Case_Since_2000 : System.Web.UI.Page
     }
 
     protected void btnSearch_Click(object sender, EventArgs e)
+    
     {
         try
         {
             try
             {
-                dsCase = obj.ByDataSet("select distinct UniqueNo," +
-                "IsNUll((select distinct CaseType+'/'+CaseNo+'/'+CAST(year as varchar(4))+'-'+Court from  tbl_OldCaseNewEntry where UniqueNo= a.UniqueNo),'') OldFilingNo," +
-                "FilingNo,Court,Petitioner,Respondent,RespondentOffice,OICId,OICMobileNo,CaseSubjectId,Remarks,HearingDate,CaseNo from tbl_OldCaseDetail a " +
-                "where CaseType='" + Convert.ToString(Request.QueryString["CaseType"]) + "' and FilingNo like '%" + Convert.ToString(txtSearch.Text.Trim()) + "%' order by HearingDate Desc");
-                //dsCase = obj.ByDataSet("Select distinct UniqueNo,FilingNo,Court,Petitioner,Respondent,RespondentOffice,OICId,OICMobileNo," +
-                //    "CaseSubjectId,Remarks,HearingDate,CaseNo from tbl_OldCaseDetail " +
-                //    "where FilingNo like '%" + Convert.ToString(txtSearch.Text.Trim()) + "%'  order by HearingDate Desc");
+                dsCase = obj.ByDataSet("Select distinct UniqueNo,FilingNo,Court,Petitioner,Respondent,RespondentOffice,OICId,OICMobileNo," +
+                    "CaseSubjectId,Remarks,HearingDate,CaseNo from tbl_OldCaseDetail where FilingNo like '%" + Convert.ToString(txtSearch.Text.Trim()) + "%'  order by HearingDate Desc");
                 if (dsCase.Tables[0].Rows.Count > 0)
                 {
                     ViewState["dtsearch"] = null;
@@ -557,25 +543,44 @@ public partial class Legal_Pending_Case_Since_2000 : System.Web.UI.Page
         BindGrid(Request.QueryString["CaseType"]);
         txtSearch.Text = "";
     }
-
+    public string convertQuotes(string str)
+    {
+        return str.Replace("'", "''");
+    }
     protected void grdCaseTypeDetail_RowDataBound(object sender, GridViewRowEventArgs e)
     {
-        if (Request.QueryString["CaseType"].ToString() != "CONC")
+        int OICId = 0;
+        //int CaseSubjectId = 0;
+        //int RespondentOfficeId = 0;
+        string RES_Office = string.Empty;
+        if (e.Row.RowType == DataControlRowType.DataRow)
         {
-            if (e.Row.RowType == DataControlRowType.Header)
+            Label lblRespondentOffice = (Label)e.Row.FindControl("txtRespondentOffice");
+
+            if (!string.IsNullOrEmpty(lblRespondentOffice.Text))
             {
-                e.Row.Cells[1].Visible = false;
+
+                string[] RespondentOfficeStr = convertQuotes(lblRespondentOffice.Text).Trim().Split(',');
+
+                for (int i = 0; i < RespondentOfficeStr.Length; i++)
+                {
+                    dsCase = obj.ByDataSet("select Respondent_Office,Respondent_office_Id from  tblRespondentOffice where Respondent_office_Id=" + Convert.ToInt32(RespondentOfficeStr[i]));
+                    if (dsCase.Tables.Count > 0 && dsCase.Tables[0].Rows.Count > 0)
+                        RES_Office = RES_Office + dsCase.Tables[0].Rows[0]["Respondent_Office"].ToString() + ",";
+                }
             }
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                e.Row.Cells[1].Visible = false;
-            }
+            lblRespondentOffice.Text = RES_Office;
+            // Label lblOICName = (Label)e.Row.FindControl("lblOICName");
+            // if (lblOICName.Text != "")
+            // {
+                // OICId = Convert.ToInt32(lblOICName.Text);
+                // dsCase = obj.ByDataSet("select OICMaster_ID,OICName,OICEmailID,OICMobileNo,Office_ID,Zone_ID,Circle_ID,Division_ID from tblOICMaster where OICMaster_ID=" + OICId + " and Isactive=1");
+                // if (dsCase.Tables.Count > 0 && dsCase.Tables[0].Rows.Count > 0)
+                    // lblOICName.Text = dsCase.Tables[0].Rows[0]["OICName"].ToString();
+            // }
+
+
         }
-    }
-
-    protected void lnkViewDocument_Click(object sender, EventArgs e)
-    {
-
     }
 }
 

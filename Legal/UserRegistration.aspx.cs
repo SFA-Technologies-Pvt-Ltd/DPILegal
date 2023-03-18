@@ -35,6 +35,7 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
         {
             Response.Redirect("../Login.aspx");
         }
+
     }
 
     protected void Page_PreRender(object sender, EventArgs e)
@@ -68,17 +69,15 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
         {
             grdUserDetails.DataSource = null;
             grdUserDetails.DataBind();
-            ds = obj.ByProcedure("USP_Select_UserMaster", new string[] { }, new string[] { }, "dataset");
+            ds = obj.ByProcedure("USP_Select_UserMaster", new string[] { "CreatedBy" }, new string[] { Session["Emp_Id"].ToString() }, "dataset");
             if (ds != null && ds.Tables[0].Rows.Count > 0)
             {
                 grdUserDetails.DataSource = ds;
                 grdUserDetails.DataBind();
+                grdUserDetails.HeaderRow.TableSection = TableRowSection.TableHeader;
+                grdUserDetails.UseAccessibleHeader = true;
             }
-            else
-            {
-                grdUserDetails.DataSource = ds;
-                grdUserDetails.DataBind();
-            }
+
         }
         catch (Exception ex)
         {
@@ -91,15 +90,33 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
         try
         {
             ddlofficetype.Items.Clear();
-            ds = obj.ByDataSet("select OfficeType_Id,OfficeType_Name from tblOfficeTypeMaster");
-            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            if (Session["Role_ID"].ToString() == "4")
             {
-                ddlofficetype.DataTextField = "OfficeType_Name";
-                ddlofficetype.DataValueField = "OfficeType_Id";
-                ddlofficetype.DataSource = ds;
-                ddlofficetype.DataBind();
+                ds = obj.ByDataSet("select OfficeType_Id,OfficeType_Name from tblOfficeTypeMaster where OfficeType_Id not in (1,2,3,11)");
+                ddlofficetype.Enabled = false;
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
+                {
+                    ddlofficetype.DataTextField = "OfficeType_Name";
+                    ddlofficetype.DataValueField = "OfficeType_Id";
+                    ddlofficetype.DataSource = ds;
+                    ddlofficetype.DataBind();
+                }
+                BindOfficeName();
             }
-            ddlofficetype.Items.Insert(0, new ListItem("Select", "0"));
+            else
+            {
+                ds = obj.ByDataSet("select OfficeType_Id,OfficeType_Name from tblOfficeTypeMaster");
+                ddlofficetype.Enabled = true;
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
+                {
+                    ddlofficetype.DataTextField = "OfficeType_Name";
+                    ddlofficetype.DataValueField = "OfficeType_Id";
+                    ddlofficetype.DataSource = ds;
+                    ddlofficetype.DataBind();
+                }
+                ddlofficetype.Items.Insert(0, new ListItem("Select", "0"));
+            }
+           
         }
         catch (Exception ex)
         {
@@ -133,31 +150,40 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
                     if (btnSave.Text == "Save")
                     {
                         string email = txtUserEmail.Text.Trim();
-
+                        string EMPName = "";
                         //ds = obj.ByDataSet("select * from tblUserMaster where UserEmail='" + txtUserEmail.Text.Trim() + "'  order by UserId desc");
                         string password = ConvertText_SHA512_And_Salt(txtPassword.Text.Trim());
-                        string EMPName = ddlOICYesOrNot.SelectedIndex > 0 ? ddlOICList.SelectedItem.Text.Trim() : txtEmpployeeName.Text.Trim();
+                        //string EMPName = ddlOICYesOrNot.SelectedIndex > 0 ? ddlOICList.SelectedItem.Text.Trim() : txtEmpployeeName.Text.Trim();
+                        if (ddlOICYesOrNot.SelectedValue == "1")
+                        {
+                            EMPName = ddlOICYesOrNot.SelectedIndex > 0 ? ddlOICList.SelectedItem.Text.Trim() : txtEmpployeeName.Text.Trim();
+                        }
+                        else
+                        {
+                            EMPName = txtEmpployeeName.Text.Trim();
+                        }
                         string OIc_ID = ddlOICYesOrNot.SelectedIndex > 0 ? ddlOICList.SelectedValue : null;
 
                         ds = obj.ByProcedure("USP_Insert_UserMaster", new string[] { "OICMaster_ID", "EMPName", "UserEmail", "UserName", "UserPassword", "MobileNo", "Office_Id", "UserType_Id", "CreatedBy", "CreatedByIP" }
-                            , new string[] { OIc_ID, EMPName, txtUserEmail.Text.Trim(), txtUserName.Text.Trim(), password, txtMobileNo.Text.Trim(), ddlOfficeName.SelectedValue, ddlUsertype.SelectedValue, "1", obj.GetLocalIPAddress() }, "dataset");
+                            , new string[] { OIc_ID, EMPName, txtUserEmail.Text.Trim(), txtUserName.Text.Trim(), password, txtMobileNo.Text.Trim(), ddlOfficeName.SelectedValue, ddlUsertype.SelectedValue, Session["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
                     }
                     else if (btnSave.Text == "Update" && ViewState["UserId"].ToString() != "" && ViewState["UserId"].ToString() != null)
                     {
                         //string EMPName = ddlOICYesOrNot.SelectedIndex > 0 ? ddlOICList.SelectedItem.Text.Trim() : txtEmpployeeName.Text.Trim();
                         //string OIc_ID = ddlOICYesOrNot.SelectedIndex > 0 ? ddlOICList.SelectedValue : null;
 
-                        ds = obj.ByProcedure("USP_Update_UserMaster", new string[] { "OICMaster_ID","EMPName","Designation_Id","MobileNo","OfficeType_Id","Office_Id","LastupdatedBy","LastUpdatedByIP","UserId" }
-                              , new string[] { ddlOICList.SelectedValue, txtEmpployeeName.Text.Trim(), ddlUsertype.SelectedValue, txtMobileNo.Text.Trim(), ddlofficetype.SelectedValue, ddlOfficeName.SelectedValue,"1", obj.GetLocalIPAddress(), ViewState["UserId"].ToString() }, "dataset");
+                        ds = obj.ByProcedure("USP_Update_UserMaster", new string[] { "OICMaster_ID", "EMPName", "Designation_Id", "MobileNo", "OfficeType_Id", "Office_Id", "LastupdatedBy", "LastUpdatedByIP", "UserId" ,"UserName","UserEmail"}
+                              , new string[] { ddlOICList.SelectedValue, txtEmpployeeName.Text.Trim(), ddlUsertype.SelectedValue, txtMobileNo.Text.Trim(), ddlofficetype.SelectedValue, ddlOfficeName.SelectedValue, Session["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ViewState["UserId"].ToString(),txtUserName.Text.Trim(),txtUserEmail.Text.Trim() }, "dataset");
                     }
                     if (ds != null && ds.Tables[0].Rows.Count > 0)
                     {
                         string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
                         if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
                         {
-                            lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
+                            //lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
+                            ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', '" + ErrMsg + "', 'success')", true);
                             string AdminEmail = Session["UserEmail"].ToString();
-                            sendmail(AdminEmail);
+                            //sendmail(AdminEmail);
                             ddlUsertype.ClearSelection();
                             ddlOfficeName.ClearSelection();
                             txtEmpployeeName.Text = "";
@@ -168,10 +194,7 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
                             txtUserName.Text = "";
                             txtPassword.Text = "";
                             txtUserEmail.Enabled = true;
-                            txtUserName.Enabled = true;
-                            txtPassword.Enabled = true;
                             rfvUserName.Enabled = true;
-                            txtConfirmPassword.Enabled = true;
                             rfvPassword.Enabled = true;
                             rfvpasswordCon.Enabled = true;
                             cvdPasscon.Enabled = true;
@@ -180,12 +203,14 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
                         }
                         else
                         {
-                            lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ErrMsg);
+                            //lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ErrMsg);
+                            ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','" + ErrMsg + "' , 'warning')", true);
                         }
                     }
                     else
                     {
-                        lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ds.Tables[0].Rows[0]["ErrMsg"].ToString());
+                        //lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ds.Tables[0].Rows[0]["ErrMsg"].ToString());
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','" + ds.Tables[0].Rows[0]["ErrMsg"].ToString() + "' , 'warning')", true);
                     }
 
 
@@ -197,10 +222,15 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            //lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
             ErrorLogCls.SendErrorToText(ex);
         }
     }
     protected void ddlofficetype_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        BindOfficeName();
+    }
+    private void BindOfficeName()
     {
         try
         {
@@ -215,6 +245,11 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
                 ddlOfficeName.DataSource = ds;
                 ddlOfficeName.DataBind();
             }
+            if (Session["Role_ID"].ToString() == "4")
+            {
+                ddlOfficeName.Items.FindByValue(Session["Office_Id"].ToString()).Selected=true;
+                ddlOfficeName.Enabled = false;
+            }
             if (ds != null && ds.Tables[1].Rows.Count > 0)
             {
                 ddlUsertype.DataTextField = "UserType_Name";
@@ -224,13 +259,14 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
             }
             ddlUsertype.Items.Insert(0, new ListItem("Select", "0"));
             ddlOfficeName.Items.Insert(0, new ListItem("Select", "0"));
+            grdUserDetails.HeaderRow.TableSection = TableRowSection.TableHeader;
+            grdUserDetails.UseAccessibleHeader = true;
         }
         catch (Exception ex)
         {
             ErrorLogCls.SendErrorToText(ex);
         }
     }
-
     private void sendmail(string CC)
     {
         try
@@ -383,7 +419,7 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
             {
                 EmpName_Div.Visible = true;
                 OICName_Div.Visible = false;
-                txtMobileNo.Text = "";
+                //txtMobileNo.Text = "";
                 txtMobileNo.ReadOnly = false;
                 ddlOICList.SelectedIndex = 0;
             }
@@ -420,21 +456,27 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
                 txtUserName.Text = lblUserNameID.Text;
                 txtUserEmail.Text = lblEmailID.Text;
                 txtPassword.Text = lbluserPass.Text;
-                //ddlOICYesOrNot.ClearSelection();
-                //ddlOICYesOrNot.Items.FindByValue("1").Selected = true;
+
+                if (lblOicID.Text != "0")
+                {
+                    ddlOICYesOrNot.ClearSelection();
+                    ddlOICYesOrNot.Items.FindByValue("1").Selected = true;
+                }
+
                 if (!string.IsNullOrEmpty(lblOicID.Text))
                 {
                     checkOic_CheckedChanged(sender, e);
                     ddlOICList.ClearSelection();
                     ddlOICList.Items.FindByValue(lblOicID.Text).Selected = true;
                 }
+
                 if (!string.IsNullOrEmpty(lblOfficetypeId.Text))
                 {
                     ddlofficetype.ClearSelection();
                     ddlofficetype.Items.FindByValue(lblOfficetypeId.Text).Selected = true;
                 }
 
-                if (!string.IsNullOrEmpty(lblOfficeId.Text))
+                if (!string.IsNullOrEmpty(lblDesignationType_ID.Text))
                 {
                     ddlofficetype_SelectedIndexChanged(sender, e);
                     ddlOfficeName.ClearSelection();
@@ -447,8 +489,9 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
                     ddlUsertype.ClearSelection();
                     ddlUsertype.Items.FindByValue(lblDesignationType_ID.Text).Selected = true;
                 }
-                txtUserEmail.Enabled = false;
-                txtUserName.Enabled = false;
+
+                //txtUserEmail.Enabled = false;
+                //txtUserName.Enabled = false;
                 txtPassword.Enabled = false;
                 txtConfirmPassword.Enabled = false;
                 rfvEmailID.Enabled = false;
@@ -460,12 +503,48 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
                 Div_Confpass.Visible = false;
 
             }
-            if (e.CommandName == "DeleteDetails")
+            else if (e.CommandName == "DeleteDetails")
             {
-                int UserId = Convert.ToInt32(e.CommandArgument);
-                obj.ByTextQuery("delete from tblUserMaster where UserId=" + UserId);
-                BindUserDetails();
+                //int UserId = Convert.ToInt32(e.CommandArgument);
+                //obj.ByTextQuery("delete from tblUserMaster where UserId=" + UserId);
+                //BindUserDetails();
             }
+            else if (e.CommandName == "btnDelete")
+            {
+                lblMsg.Text = "";
+                GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+                Label lIsActive = (Label)row.FindControl("lblIsActive");
+                string activeStuts = "1";
+                if (lIsActive.Text == "True")
+                {
+                    activeStuts = "0";
+                }
+                ds = obj.ByProcedure("USP_tblUserMaster_Update_ISActive", new string[] { "UserId", "LastIsActiveBy", "LastIsActiveByIP", "IsActive" },
+                     new string[] { e.CommandArgument.ToString(), Session["Emp_Id"].ToString(), obj.GetLocalIPAddress(), activeStuts }, "dataset");
+                if (ds != null)
+                {
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            if (ds.Tables[0].Rows[0]["Msg"].ToString() == "ok")
+                            {
+
+                                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', '" + ds.Tables[0].Rows[0]["ErrorMsg"].ToString() + "', 'success')", true);
+                                BindUserDetails();
+                            }
+                            else
+                            {
+                                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','" + ds.Tables[0].Rows[0]["ErrorMsg"].ToString() + "' , 'warning')", true);
+                            }
+                        }
+                    }
+                }
+
+
+            }
+
+
         }
         catch (Exception ex)
         {
@@ -485,6 +564,8 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
                 txtMobileNo.ReadOnly = true;
                 txtUserEmail.ReadOnly = true;
             }
+            grdUserDetails.HeaderRow.TableSection = TableRowSection.TableHeader;
+            grdUserDetails.UseAccessibleHeader = true;
         }
         catch (Exception ex)
         {

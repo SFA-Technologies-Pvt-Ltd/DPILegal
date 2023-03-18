@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="zonetocircle.aspx.cs" Inherits="Legal_zonetocircle" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="~/Legal/zonetocircle.aspx.cs" Inherits="Legal_zonetocircle" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
@@ -80,7 +80,7 @@
                                                     ErrorMessage="Select Office Level." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                     ControlToValidate="ddlOfficeLevel" Display="Dynamic" runat="server" InitialValue="0">
                                                 </asp:RequiredFieldValidator>
-                                                <asp:DropDownList ID="ddlOfficeLevel" runat="server" CssClass="form-control"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlOfficeLevel" runat="server" CssClass="form-control" OnSelectedIndexChanged="ddlOfficeLevel_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -169,7 +169,8 @@
                                                         </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Action" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                             <ItemTemplate>
-                                                                <asp:LinkButton ID="lnkEditView" runat="server" CommandArgument='<%# Eval("Circle_ID") %>' CommandName="EditDetails" ToolTip="Edit"><i class="fa fa-edit"></i></asp:LinkButton>
+                                                                <asp:LinkButton ID="lnkEditView" runat="server" CommandArgument='<%# Eval("Circle_ID") %>' CommandName="EditDetails" ToolTip="Edit"><i class="fa fa-edit"></i></asp:LinkButton>&nbsp;
+                                                                <asp:LinkButton ID="lnkbtndelete" runat="server" CommandName="DeleteDetails" CommandArgument='<%# Eval("Circle_ID") %>' ToolTip="Delete" CssClass="" OnClientClick="return confirm('Are you sure you want to delete this record?');"><i class="fa fa-trash"></i></asp:LinkButton>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
                                                     </Columns>

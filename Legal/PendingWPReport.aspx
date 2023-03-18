@@ -1,7 +1,7 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="PendingWPReport.aspx.cs" Inherits="mis_Legal_PendingWPReport" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master"  AutoEventWireup="true" CodeFile="PendingWPReport.aspx.cs" Inherits="mis_Legal_PendingWPReport" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-   <link href="../DataTable_CssJs/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="../DataTable_CssJs/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="../DataTable_CssJs/buttons.dataTables.min.css" rel="stylesheet" />
     <link href="../DataTable_CssJs/jquery.dataTables.min.css" rel="stylesheet" />
     <style>
@@ -115,7 +115,7 @@
                 <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
                 <div class="card">
                     <div class="card-header">
-                        Pending WP Report
+                        Pending Case Report
                     </div>
                     <div class="card-body">
                         <fieldset>
@@ -125,8 +125,21 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>
-                                            From Date<span style="color: red;"><b> *</b></span>
-                                            <asp:RequiredFieldValidator ID="Rfvdate" ValidationGroup="Save"
+                                            Case Year<span style="color: red;"><b> *</b></span>
+                                           <asp:RequiredFieldValidator ID="rfvCaseyear" ValidationGroup="Save"
+                                            ErrorMessage="Select Case year." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="ddlCaseYear" Display="Dynamic" runat="server" InitialValue="0">
+                                        </asp:RequiredFieldValidator><br />
+                                           प्रकरण वर्ष</label>
+                                       <asp:DropDownList ID="ddlCaseYear" runat="server" CssClass="form-control select2"></asp:DropDownList>
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="display:none">
+                                    <div class="form-group">
+                                        <label>
+                                            Case Year<span style="color: red;"><b> *</b></span>
+                                            <asp:RequiredFieldValidator Enabled="false" ID="Rfvdate" ValidationGroup="Save"
                                                 ErrorMessage="Enter From Date." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                 ControlToValidate="txtFromdate" Display="Dynamic" runat="server">
                                             </asp:RequiredFieldValidator><br />
@@ -135,16 +148,28 @@
                                     </div>
 
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3" style="display:none">
                                     <div class="form-group">
                                         <label>
                                             To Date<span style="color: red;"><b> *</b></span>
-                                            <asp:RequiredFieldValidator ID="RfvEndDate" ValidationGroup="Save"
+                                            <asp:RequiredFieldValidator Enabled="false" ID="RfvEndDate" ValidationGroup="Save"
                                                 ErrorMessage="Enter End Date." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                 ControlToValidate="txtTodate" Display="Dynamic" runat="server">
                                             </asp:RequiredFieldValidator><br />
                                             अंतिम तिथि</label>
                                         <asp:TextBox ID="txtTodate" runat="server" CssClass="form-control disableFuturedate" data-date-end-date="0d" data-provide="datepicker" data-date-autoclose="true" data-date-format="dd/mm/yyyy" placeholder="DD/MM/YYYY" AutoComplete="off"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            Case type<span style="color: red;"><b> *</b></span>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="Save"
+                                                ErrorMessage="Select Case type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                ControlToValidate="ddlCasetype" Display="Dynamic" runat="server" InitialValue="0">
+                                            </asp:RequiredFieldValidator><br />
+                                           प्रकरण का प्रकार</label>
+                                        <asp:DropDownList ID="ddlCasetype" runat="server" CssClass="form-control select2" ></asp:DropDownList>
                                     </div>
                                 </div>
                                 <div class="col-md-3 " style="padding: 5.5% 0 0 0">
@@ -179,35 +204,31 @@
                                                 </asp:TemplateField>
                                                <%-- <asp:TemplateField HeaderText="Case Year">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblCaseYear" runat="server" Text='<%# Eval("WPCaseYear") %>'></asp:Label>
+                                                        <asp:Label ID="lblCaseYear" runat="server" Text='<%# Eval("CaseYear") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>--%>
                                                 <asp:TemplateField HeaderText="Petitioner Name">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblPetitionerName" runat="server" Text='<%# Eval("Petitoner_Name") %>'></asp:Label>
+                                                        <asp:Label ID="lblPetitionerName" runat="server" Text='<%# Eval("PetitonerName") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Office Name">
+                                                <asp:TemplateField HeaderText="Respondent Name">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblOfficeName" runat="server" Text='<%# Eval("OfficeName") %>'></asp:Label>
+                                                        <asp:Label ID="lblRespondentName" runat="server" Text='<%# Eval("RespondentName") %>'></asp:Label>
                                                     </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Case Subject">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblCasesubject" runat="server" Text='<%# Eval("CaseSubject") %>'></asp:Label>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
+                                                </asp:TemplateField>             
                                                 <asp:TemplateField HeaderText="Case Status">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblCaseStatus" runat="server" Font-Bold="true" ForeColor='<%# Eval("CaseStatus").ToString() == "Pending" ? System.Drawing.Color.Red : System.Drawing.Color.Green %>' Text='<%# Eval("CaseStatus") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Action" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                <asp:TemplateField HeaderText="View" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
                                                         <asp:LinkButton ID="lnkbtnView" runat="server"  CommandName="ViewDetail" CommandArgument='<%# Eval("Case_ID") %>' ToolTip="View"><i class="fa fa-eye"></i></asp:LinkButton>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>
+                                            <EmptyDataTemplate>No record Found</EmptyDataTemplate>
                                         </asp:GridView>
                                     </div>
                                 </div>
@@ -251,7 +272,7 @@
                     text: '<i class="fa fa-print"></i> Print',
                     title: $('h3').text(),
                     exportOptions: {
-                        columns: [0, 1, 2, 3]
+                        columns: [0, 1, 2, 3, 4, 5]
                     },
                     footer: true,
                     autoPrint: true
@@ -260,7 +281,7 @@
                     text: '<i class="fa fa-file-excel-o"></i> Excel',
                     title: $('h3').text(),
                     exportOptions: {
-                        columns: [0, 1, 2, 3]
+                        columns: [0, 1, 2, 3,4,5]
                     },
                     footer: true
                 }],
