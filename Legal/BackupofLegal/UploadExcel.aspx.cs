@@ -14,6 +14,7 @@ using System.Web.UI.WebControls;
 //using Microsoft.Office.Interop.Excel;
 using System.Text.RegularExpressions;
 using ClosedXML.Excel;
+
 using System.Reflection;
 
 
@@ -35,6 +36,8 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
             {
                 if (!IsPostBack)
                 {
+                   
+                    //LoadExcel();
                     //ViewState["Office_Id"] =  Session["Office_Id"];
                     //ViewState["Emp_Id"] =  Session["Emp_Id"];
                     divFill.Visible = false;
@@ -105,6 +108,7 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
     {
         if (FUExcel.HasFile)
         {
+
             string FileName = Path.GetFileName(FUExcel.PostedFile.FileName);
             string fileExtension = Path.GetExtension(FUExcel.FileName).ToLower();
             string connStr = "";
@@ -155,27 +159,27 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
                         {
                             if (!System.Text.RegularExpressions.Regex.IsMatch(dt1.Rows[i]["srno"].ToString().Trim(), @"^[0-9]+$"))
                             {
-                                ErrMsg += "Invalid SrNo, ";
+                                ErrMsg += "Invalid Sr. No. \n";
                             }
                             if (!System.Text.RegularExpressions.Regex.IsMatch(dt1.Rows[i]["FillingNo"].ToString().Trim(), @"^[A-Za-z]+[/]+[0-9]+[/]+[0-9]+[-]+[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$"))
                             {
-                                ErrMsg += "Invalid Filling number, ";
+                                ErrMsg += "Invalid Filling number. \n";
                             }
                             if (!System.Text.RegularExpressions.Regex.IsMatch(dt1.Rows[i]["Casetype"].ToString().Trim(), @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$"))
                             {
-                                ErrMsg += "Invalid Case type, ";
+                                ErrMsg += "Invalid Case type. \n";
                             }
                             if (!System.Text.RegularExpressions.Regex.IsMatch(dt1.Rows[i]["Caseno"].ToString().Trim(), @"^[0-9]+$"))
                             {
-                                ErrMsg += "Invalid Case No, ";
+                                ErrMsg += "Invalid Case No. \n";
                             }
                             if (!System.Text.RegularExpressions.Regex.IsMatch(dt1.Rows[i]["CaseYear"].ToString().Trim(), @"^[0-9]+$"))
                             {
-                                ErrMsg += "Invalid Court Name, ";
+                                ErrMsg += "Invalid Court Name, \n";
                             }
                             if (!System.Text.RegularExpressions.Regex.IsMatch(dt1.Rows[i]["Court"].ToString().Trim(), @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$"))
                             {
-                                ErrMsg += "Invalid Case Year, ";
+                                ErrMsg += "Invalid Case Year \n";
                             }
                         }
 
@@ -183,7 +187,6 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
                     #endregion
                     if (ErrMsg == "")
                     {
-                        // Add New Column in Existing table.
                         dt1.Columns.Add("CourtTypeID");
                         dt1.Columns.Add("CourtLocation_ID");
                         dt1.Columns.Add("UniqueNo");
@@ -215,34 +218,34 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
                                 s.SetField<Int32>("Casetype_ID", m.Field<Int32>("Casetype_ID"));
                             });
                         });
-                        // when party name Multiple.
-                        //DataView view = new DataView(dt1); // Here Filter Main Detail From Dt Without Duplicacy.
-                        //DataTable DtParty = view.ToTable(true, "UniqueNo", "FillingNo", "Casetype", "Caseno", "CaseYear", "Court", "Petitioner", "Flag", "Status", "PartyName");
 
-                        //DataTable DtOriginal = view.ToTable(true, "UniqueNo", "FillingNo", "Casetype", "Casetype_ID", "Caseno", "CaseYear", "Court", "CourtTypeID", "CourtLocation_ID", "Flag", "Status");
-                        //DataTable newDt = DtOriginal.Copy();
-                        //System.Data.DataColumn newColumn = new System.Data.DataColumn("PartyName", typeof(System.String));
+                        DataView view = new DataView(dt1); // Here Filter Main Detail From Dt Without Duplicacy.
+                        DataTable DtParty = view.ToTable(true, "UniqueNo", "FillingNo", "Casetype", "Caseno", "CaseYear", "Court", "Petitioner", "Flag", "Status", "PartyName");
 
-                        //newDt.Columns.Add(newColumn);
-                        //for (int i = 0; i < DtOriginal.Rows.Count; i++)
-                        //{
-                        //    var PRes = (from emp in DtParty.AsEnumerable()
-                        //                where emp.Field<string>("UniqueNo").Trim() == DtOriginal.Rows[i]["UniqueNo"].ToString()
-                        //                select new
-                        //                {
-                        //                    PartyName = emp.Field<string>("PartyName")
-                        //                }).ToList();
-                        //    if (PRes.Count > 0)
-                        //    {
-                        //        newDt.Rows[i]["PartyName"] = PRes[0].PartyName; // Here Remove Duplicate Record(Means Delete Second Dulpicate Record)
-                        //    }
-                        //    else
-                        //    {
-                        //        newDt.Rows[i]["PartyName"] = null;
-                        //    }
-                        //}
-                        DataView view = new DataView(dt1); // Here Filter Main Detail From Dt Without Duplicacy.                      
-                        DataTable DtMain = view.ToTable(true, "UniqueNo", "FillingNo", "Casetype", "Casetype_ID", "Caseno", "CaseYear", "Court", "CourtTypeID", "CourtLocation_ID", "Flag", "Status");
+                        DataTable DtOriginal = view.ToTable(true, "UniqueNo", "FillingNo", "Casetype", "Casetype_ID", "Caseno", "CaseYear", "Court", "CourtTypeID", "CourtLocation_ID", "Flag", "Status");
+                        DataTable newDt = DtOriginal.Copy();
+                        System.Data.DataColumn newColumn = new System.Data.DataColumn("PartyName", typeof(System.String));
+
+                        newDt.Columns.Add(newColumn);
+                        for (int i = 0; i < DtOriginal.Rows.Count; i++)
+                        {
+                            var PRes = (from emp in DtParty.AsEnumerable()
+                                        where emp.Field<string>("UniqueNo").Trim() == DtOriginal.Rows[i]["UniqueNo"].ToString()
+                                        select new
+                                        {
+                                            PartyName = emp.Field<string>("PartyName")
+                                        }).ToList();
+                            if (PRes.Count > 0)
+                            {
+                                newDt.Rows[i]["PartyName"] = PRes[0].PartyName; // Here Remove Duplicate Record(Means Delete Second Dulpicate Record)
+                            }
+                            else
+                            {
+                                newDt.Rows[i]["PartyName"] = null;
+                            }
+                        }
+
+                        //DataTable DtMain = view.ToTable(true, "UniqueNo", "FillingNo", "Casetype", "Caseno", "CaseYear", "Court", "Petitioner", "Flag", "Status");
                         DataTable dtPetitioner = view.ToTable(true, "UniqueNo", "Petitioner"); // Here Only Petitoner Dtl Filter.
                         //dtPetitioner.Columns.Remove("FillingNo"); dtPetitioner.Columns.Remove("Status");
                         //dtPetitioner.Columns.Remove("Casetype"); dtPetitioner.Columns.Remove("Flag");
@@ -253,19 +256,15 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
                         ViewState["dtPetitioner"] = dtPetitioner;//It Keep Petitioner Dtl For Save.
                         //newDt.Columns.Remove("Petitioner");
                         // newDt.AcceptChanges();
-                        ViewState["DtMain"] = DtMain; // It Keep Main Dtl For Save.
-                        lblCaseCount.Text = (DtMain.Rows.Count).ToString();
+                        ViewState["DtMain"] = newDt; // It Keep Main Dtl For Save.
+
                         DataView view1 = new DataView(dt1);// Here Filter Respondent BY Unique No.
                         DataTable DtRes = view1.ToTable(true, "UniqueNo", "Respondent", "Department", "Address");
                         ViewState["DtRes"] = DtRes; // It Keep Respondet Data for Save.
-                        //this is second method it takes lower time to first.
-                        //DataTable dtDoc1 = view1.ToTable("Selected", false, "UniqueNo", "DocName", "PDFLink");
-
                         DataTable DtDoc = dt1.Copy();
                         DtDoc.Columns.Remove("FillingNo"); DtDoc.Columns.Remove("Casetype"); DtDoc.Columns.Remove("Casetype_ID");
                         DtDoc.Columns.Remove("Caseno"); DtDoc.Columns.Remove("Court"); DtDoc.Columns.Remove("Petitioner");
-                        //DtDoc.Columns.Remove("PartyName");
-                        DtDoc.Columns.Remove("Department"); DtDoc.Columns.Remove("CaseYear");
+                        DtDoc.Columns.Remove("PartyName"); DtDoc.Columns.Remove("Department"); DtDoc.Columns.Remove("CaseYear");
                         DtDoc.Columns.Remove("Address"); DtDoc.Columns.Remove("Status"); DtDoc.Columns.Remove("CourtLocation_ID");
                         DtDoc.Columns.Remove("srno"); DtDoc.Columns.Remove("Flag"); DtDoc.Columns.Remove("CourtTypeID");
                         DtDoc.Columns.Remove("Respondent");
@@ -277,193 +276,186 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
                         ViewState["DtDoc"] = DtDoc; // It Keep Case Document For Save.
 
                         string ErrorColumnName = "";
-                        string ErrColumn = "";
                         foreach (DataColumn col in dt1.Columns)
                         {
                             if (col.ToString() != "srno" && col.ToString() != "FillingNo" && col.ToString() != "Casetype" && col.ToString() != "Caseno" && col.ToString() != "CaseYear"
-                                && col.ToString() != "Court" && col.ToString() != "Petitioner" && col.ToString() != "Respondent" && col.ToString() != "Address" &&
+                                && col.ToString() != "Court" && col.ToString() != "Petitioner" && col.ToString() != "Respondent" && col.ToString() != "PartyName" && col.ToString() != "Address" &&
                                 col.ToString() != "Department" && col.ToString() != "Status" && col.ToString() != "DocName" && col.ToString() != "PDFLink" && col.ToString() != "Flag" &&
                                  col.ToString() != "UniqueNo" && col.ToString() != "CourtTypeID" && col.ToString() != "CourtLocation_ID" && col.ToString() != "Casetype_ID")
                             {
-                                ErrColumn += col.ToString() + ", ";
+                                ErrorColumnName += col.ToString() + ", ";
                             }
                         }
-                        if (ErrColumn == "")
+                        if (ErrorColumnName != "")
                         {
-                            if (!dt1.Columns.Contains("srno"))
-                            {
-                                ErrorColumnName += "srno, ";
-                            }
-                            if (!dt1.Columns.Contains("FillingNo"))
-                            {
-                                ErrorColumnName += "FillingNo, ";
-                            }
-                            if (!dt1.Columns.Contains("Casetype"))
-                            {
-                                ErrorColumnName += "Casetype, ";
-                            }
-                            if (!dt1.Columns.Contains("Caseno"))
-                            {
-                                ErrorColumnName += "Caseno, ";
-                            }
-                            if (!dt1.Columns.Contains("CaseYear"))
-                            {
-                                ErrorColumnName += "CaseYear, ";
-                            }
-                            if (!dt1.Columns.Contains("Court"))
-                            {
-                                ErrorColumnName += "Court, ";
-                            }
-                            if (!dt1.Columns.Contains("Petitioner"))
-                            {
-                                ErrorColumnName += "Petitioner, ";
-                            }
-                            if (!dt1.Columns.Contains("Respondent"))
-                            {
-                                ErrorColumnName += "Respondent, ";
-                            }
-                            //if (!dt1.Columns.Contains("PartyName"))
-                            //{
-                            //    ErrorColumnName += "PartyName, ";
-                            //}
-                            if (!dt1.Columns.Contains("Address"))
-                            {
-                                ErrorColumnName += "Address, ";
-                            }
-                            if (!dt1.Columns.Contains("Department"))
-                            {
-                                ErrorColumnName += "Department, ";
-                            }
-                            if (!dt1.Columns.Contains("Status"))
-                            {
-                                ErrorColumnName += "Status, ";
-                            }
-                            if (!dt1.Columns.Contains("DocName"))
-                            {
-                                ErrorColumnName += "DocName, ";
-                            }
-                            if (!dt1.Columns.Contains("PDFLink"))
-                            {
-                                ErrorColumnName += "PDFLink, ";
-                            }
-                            if (!dt1.Columns.Contains("Flag"))
-                            {
-                                ErrorColumnName += "Flag, ";
-                            }
-                            if (!dt1.Columns.Contains("CourtTypeID"))
-                            {
-                                ErrorColumnName += "CourtTypeID, ";
-                            }
-                            if (!dt1.Columns.Contains("CourtLocation_ID"))
-                            {
-                                ErrorColumnName += "CourtLocation_ID, ";
-                            }
-                            if (!dt1.Columns.Contains("UniqueNo"))
-                            {
-                                ErrorColumnName += "UniqueNo, ";
-                            }
-                            if (!dt1.Columns.Contains("Casetype_ID"))
-                            {
-                                ErrorColumnName += "Casetype_ID, ";
-                            }
-                            if (ErrorColumnName == "")
-                            {
-                                // To Check Exists Record
-                                DataSet DsRecord = obj.ByDataSet("select Case_ID, UniqueNo, FilingNo, CourtName,CasetypeName, CaseNo, CaseYear from tblLegalCaseRegistration");
-                                DataTable dt_ds = DsRecord.Tables[0];
-                                List<ExistRecord> Erobj = new List<ExistRecord>();
+                            lblMsg.Text = obj.Alert("fa-exclamation", "alert-info", "Invalid Columns Names ", "Invalid File Format " + ErrorColumnName + "column name missed match.");
+                            return;
+                        }
+                        if (!dt1.Columns.Contains("srno"))
+                        {
+                            ErrorColumnName += "srno, ";
+                        }
+                        if (!dt1.Columns.Contains("FillingNo"))
+                        {
+                            ErrorColumnName += "FillingNo, ";
+                        }
+                        if (!dt1.Columns.Contains("Casetype"))
+                        {
+                            ErrorColumnName += "Casetype, ";
+                        }
+                        if (!dt1.Columns.Contains("Caseno"))
+                        {
+                            ErrorColumnName += "Caseno, ";
+                        }
+                        if (!dt1.Columns.Contains("CaseYear"))
+                        {
+                            ErrorColumnName += "CaseYear, ";
+                        }
+                        if (!dt1.Columns.Contains("Court"))
+                        {
+                            ErrorColumnName += "Court, ";
+                        }
+                        if (!dt1.Columns.Contains("Petitioner"))
+                        {
+                            ErrorColumnName += "Petitioner, ";
+                        }
+                        if (!dt1.Columns.Contains("Respondent"))
+                        {
+                            ErrorColumnName += "Respondent, ";
+                        }
+                        if (!dt1.Columns.Contains("PartyName"))
+                        {
+                            ErrorColumnName += "PartyName, ";
+                        }
+                        if (!dt1.Columns.Contains("Address"))
+                        {
+                            ErrorColumnName += "Address, ";
+                        }
+                        if (!dt1.Columns.Contains("Department"))
+                        {
+                            ErrorColumnName += "Department, ";
+                        }
+                        if (!dt1.Columns.Contains("Status"))
+                        {
+                            ErrorColumnName += "Status, ";
+                        }
+                        if (!dt1.Columns.Contains("DocName"))
+                        {
+                            ErrorColumnName += "DocName, ";
+                        }
+                        if (!dt1.Columns.Contains("PDFLink"))
+                        {
+                            ErrorColumnName += "PDFLink, ";
+                        }
+                        if (!dt1.Columns.Contains("Flag"))
+                        {
+                            ErrorColumnName += "Flag, ";
+                        }
+                        if (!dt1.Columns.Contains("CourtTypeID"))
+                        {
+                            ErrorColumnName += "CourtTypeID, ";
+                        }
+                        if (!dt1.Columns.Contains("CourtLocation_ID"))
+                        {
+                            ErrorColumnName += "CourtLocation_ID, ";
+                        }
+                        if (!dt1.Columns.Contains("UniqueNo"))
+                        {
+                            ErrorColumnName += "UniqueNo, ";
+                        }
+                        if (!dt1.Columns.Contains("Casetype_ID"))
+                        {
+                            ErrorColumnName += "Casetype_ID, ";
+                        }
+                        if (ErrorColumnName == "")
+                        {
+                            // To Check Exists Record
+                            DataSet DsRecord = obj.ByDataSet("select Case_ID, UniqueNo, FilingNo, CourtName,CasetypeName, CaseNo, CaseYear from tblLegalCaseRegistration");
+                            DataTable dt_ds = DsRecord.Tables[0];
+                            List<ExistRecord> Erobj = new List<ExistRecord>();
 
-                                var Joinresult = (from p in dt1.AsEnumerable()
-                                                  join t in dt_ds.AsEnumerable()
-                                                  on p.Field<string>("UniqueNo").Trim() equals t.Field<string>("UniqueNo").Trim()
-                                                  where p.Field<string>("FillingNo").Trim() == t.Field<string>("FilingNo").Trim()
-                                                  select new
-                                                  {     // Exist Record From database.
-                                                      UniqueNo = t.Field<string>("UniqueNo"),
-                                                      FilingNo = t.Field<string>("FilingNo"),
-                                                      CaseNo = t.Field<string>("CaseNo"),
-                                                      CaseYear = t.Field<string>("CaseYear"),
-                                                      CasetypeName = t.Field<string>("CasetypeName"),
-                                                      CourtName = t.Field<string>("CourtName"),
-                                                      // Exist Record From Uploaded Excel.
-                                                      NewUniqueNo = p.Field<string>("UniqueNo"),
-                                                      NewFilingNo = p.Field<string>("FillingNo"),
-                                                      NewCaseNo = (p.Field<string>("Caseno")).ToString(),
-                                                      NewCaseYear = (p.Field<string>("CaseYear")).ToString(),
-                                                      NewCasetypeName = p.Field<string>("Casetype"),
-                                                      NewCourtName = p.Field<string>("Court")
+                            var Joinresult = (from p in dt1.AsEnumerable()
+                                              join t in dt_ds.AsEnumerable()
+                                              on p.Field<string>("UniqueNo").Trim() equals t.Field<string>("UniqueNo").Trim()
+                                              where p.Field<string>("FillingNo").Trim() == t.Field<string>("FilingNo").Trim()
+                                              select new
+                                              {     // Exist Record From database.
+                                                  UniqueNo = t.Field<string>("UniqueNo"),
+                                                  FilingNo = t.Field<string>("FilingNo"),
+                                                  CaseNo = t.Field<string>("CaseNo"),
+                                                  CaseYear = t.Field<string>("CaseYear"),
+                                                  CasetypeName = t.Field<string>("CasetypeName"),
+                                                  CourtName = t.Field<string>("CourtName"),
+                                                  // Exist Record From Uploaded Excel.
+                                                  NewUniqueNo = p.Field<string>("UniqueNo"),
+                                                  NewFilingNo = p.Field<string>("FillingNo"),
+                                                  NewCaseNo = (p.Field<string>("Caseno")).ToString(),
+                                                  NewCaseYear = (p.Field<string>("CaseYear")).ToString(),
+                                                  NewCasetypeName = p.Field<string>("Casetype"),
+                                                  NewCourtName = p.Field<string>("Court")
 
-                                                  }).Distinct().ToList();
-                                DataSet dsDoc = null;
-                                if (Joinresult.Count > 0)
+                                              }).Distinct().ToList();
+                            DataSet dsDoc = null;
+                            if (Joinresult.Count > 0)
+                            {
+                                foreach (var item in Joinresult)
                                 {
-                                    foreach (var item in Joinresult)
-                                    {
-                                        ExistRecord er = new ExistRecord();
-                                        er.UniqueNo = item.UniqueNo;
-                                        er.FilingNo = item.FilingNo;
-                                        er.CaseNo = item.CaseNo;
-                                        er.CaseYear = item.CaseYear;
-                                        er.CasetypeName = item.CasetypeName;
-                                        er.CourtName = item.CourtName;
-                                        // Exist Record From Uploaded Excel.
-                                        er.NewUniqueNo = item.NewUniqueNo;
-                                        er.NewFilingNo = item.NewFilingNo;
-                                        er.NewCaseNo = item.NewCaseNo;
-                                        er.NewCaseYear = item.NewCaseYear;
-                                        er.NewCasetypeName = item.NewCasetypeName;
-                                        er.NewCourtName = item.NewCourtName;
-                                        dsDoc = obj.ByDataSet("select COUNT(UniqueNo) as DocCount from tbl_LegalCaseDocDetail Where UniqueNo = '" + item.UniqueNo + "'  GROUP BY UniqueNo,Case_ID");
-                                        er.pdfCount = dsDoc.Tables[0].Rows[0]["DocCount"].ToString();
-                                        Erobj.Add(er);
-                                    }
+                                    ExistRecord er = new ExistRecord();
+                                    er.UniqueNo = item.UniqueNo;
+                                    er.FilingNo = item.FilingNo;
+                                    er.CaseNo = item.CaseNo;
+                                    er.CaseYear = item.CaseYear;
+                                    er.CasetypeName = item.CasetypeName;
+                                    er.CourtName = item.CourtName;
+                                    // Exist Record From Uploaded Excel.
+                                    er.NewUniqueNo = item.NewUniqueNo;
+                                    er.NewFilingNo = item.NewFilingNo;
+                                    er.NewCaseNo = item.NewCaseNo;
+                                    er.NewCaseYear = item.NewCaseYear;
+                                    er.NewCasetypeName = item.NewCasetypeName;
+                                    er.NewCourtName = item.NewCourtName;
+                                    dsDoc = obj.ByDataSet("select COUNT(UniqueNo) as DocCount from tbl_LegalCaseDocDetail Where UniqueNo = '" + item.UniqueNo + "'  GROUP BY UniqueNo,Case_ID");
+                                    er.pdfCount = dsDoc.Tables[0].Rows[0]["DocCount"].ToString();
+                                    Erobj.Add(er);
                                 }
-                                // var item2 = it keep for Group By in Datatable
-                                //(from a in dt1.AsEnumerable()
-                                // where Erobj.Any(x => a.Field<string>("UniqueNo").Contains(x.NewUniqueNo))
-                                // select a.Field<string>("PDFLink")).Distinct().ToList();
+                            }
+                            // var item2 = it keep for Group By in Datatable
+                            //(from a in dt1.AsEnumerable()
+                            // where Erobj.Any(x => a.Field<string>("UniqueNo").Contains(x.NewUniqueNo))
+                            // select a.Field<string>("PDFLink")).Distinct().ToList();
 
-                                if (Erobj.Count > 0)
-                                {
-                                    // Existing Record From DB.
-                                    //ViewState["Erobj"] = Erobj;
-                                    GrdExistRecord.DataSource = Erobj;
-                                    GrdExistRecord.DataBind();
-                                    GrdExistRecord.HeaderRow.TableSection = TableRowSection.TableHeader;
-                                    GrdExistRecord.UseAccessibleHeader = true;
-                                    // Existing Record From Excel.
-                                    GrdNewRecord.DataSource = Erobj;
-                                    GrdNewRecord.DataBind();
-                                    GrdNewRecord.HeaderRow.TableSection = TableRowSection.TableHeader;
-                                    GrdNewRecord.UseAccessibleHeader = true;
-                                    Field_ExistRecord.Visible = true;
-                                    Field_NewRecord.Visible = true;
-                                }
-                                btnSave.Visible = true; // Visible Save Button If Everything Ok.
-                                divFill.Visible = false;
-                                Div_CaseCount.Visible = true;
-                                //GrdNewRecord.HeaderRow.TableSection = TableRowSection.TableHeader;
-                                //GrdNewRecord.UseAccessibleHeader = true;
-                                //GrdExistRecord.HeaderRow.TableSection = TableRowSection.TableHeader;
-                                //GrdExistRecord.UseAccessibleHeader = true;
-                            }
-                            else
+                            if (Erobj.Count > 0)
                             {
-                                lblMsg.Text = obj.Alert("fa-exclamation", "alert-info", "Invalid Columns Names ", "Invalid File Format " + ErrorColumnName + "column name not found.");
-                                if (File.Exists(filelocation)) File.Delete(filelocation);
+                                // Existing Record From DB.
+                                //ViewState["Erobj"] = Erobj;
+                                GrdExistRecord.DataSource = Erobj;
+                                GrdExistRecord.DataBind();
+                                GrdExistRecord.HeaderRow.TableSection = TableRowSection.TableHeader;
+                                GrdExistRecord.UseAccessibleHeader = true;
+                                // Existing Record From Excel.
+                                GrdNewRecord.DataSource = Erobj;
+                                GrdNewRecord.DataBind();
+                                GrdNewRecord.HeaderRow.TableSection = TableRowSection.TableHeader;
+                                GrdNewRecord.UseAccessibleHeader = true;
+                                Field_ExistRecord.Visible = true;
+                                Field_NewRecord.Visible = true;
                             }
+                            btnSave.Visible = true; // Visible Save Button If Everything Ok.
+                            divFill.Visible = false;
                         }
                         else
                         {
-                            lblMsg.Text = obj.Alert("fa-exclamation", "alert-warning", "Invalid Columns Names ", "Invalid File Format " + ErrColumn + "column name not found.");
-                            if (File.Exists(filelocation)) File.Delete(filelocation);
+                            lblMsg.Text = obj.Alert("fa-exclamation", "alert-info", "Invalid Columns Names ", "Invalid File Format " + ErrorColumnName + "column name not found.");
                         }
                     }
                     else
                     {
-                        lblMsg.Text = obj.Alert("fa-exclamation", "alert-warning", "Invalid Columns Names ", "Invalid File Format " + ErrMsg + "column name not found.");
-                        if (File.Exists(filelocation)) File.Delete(filelocation);
+                        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert(" + ErrMsg + ")", true);
                     }
+                    GrdNewRecord.HeaderRow.TableSection = TableRowSection.TableHeader;
+                    GrdNewRecord.UseAccessibleHeader = true;
+                    GrdExistRecord.HeaderRow.TableSection = TableRowSection.TableHeader;
+                    GrdExistRecord.UseAccessibleHeader = true;
                 }
                 catch (Exception ex)
                 {
@@ -711,11 +703,6 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
                             GrdNewRecord.DataSource = null;
                             GrdNewRecord.DataBind();
                             divFill.Visible = true;
-                            divPassword.Visible = true;
-                            divNote.Visible = true;
-                            divFill.Visible = false;
-                            Field_ExistRecord.Visible = false;
-                            Field_NewRecord.Visible = false;
                         }
                         else
                         {
@@ -754,12 +741,11 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
 
     protected void btnPassword_Click(object sender, EventArgs e)
     {
-        lblMsg.Text = "";
         if (txtPassword.Text == PasswordChx)
         {
-            divFill.Visible = true;
+            divFill.Visible= true;
             divPassword.Visible = false;
-            divNote.Visible = false;
+            divNote.Visible = false; 
         }
         else
         {
@@ -772,33 +758,6 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
     protected void btnReset_Click(object sender, EventArgs e)
     {
         txtPassword.Text = "";
-    }
-    protected void btnDwnload_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            string FileName = "Template";
-            string path = "\\Legal\\UploadPetition\\" + FileName + ".xlsx";
-            System.IO.FileInfo file = new System.IO.FileInfo(path);
-            string Outgoingfile = FileName + ".xlsx";
-            if (file.Exists)
-            {
-                Response.Clear();
-                Response.AddHeader("Content-Disposition", "attachment; filename=" + Outgoingfile);
-                Response.AddHeader("Content-Length", file.Length.ToString());
-                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                Response.WriteFile(file.FullName);
-
-            }
-            else
-            {
-                Response.Write("This file does not exist.");
-            }
-        }
-        catch (Exception ex)
-        {
-            ErrorLogCls.SendErrorToText(ex);
-        }
     }
 }
 

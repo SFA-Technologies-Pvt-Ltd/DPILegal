@@ -5,6 +5,10 @@
         label {
             font-size: 15px;
         }
+        .docDetails {
+            height: 260px;
+            overflow: auto;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
@@ -175,6 +179,35 @@
                                 </div>
                             </div>
                         </fieldset>
+                          <fieldset>
+                            <legend>Case Disposal Status</legend>
+                           <div class="row" id="divCsaeDisposal" runat="server" visible="false">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <asp:GridView ID="grdCaseDisposal" runat="server" CssClass="table table-bordered" AutoGenerateColumns="false" EmptyDataText="NO RECORD FOUND">
+                                            <Columns>
+                                                <asp:TemplateField HeaderText="S.No.">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                      <asp:BoundField HeaderText="Case Status" DataField="CaseStatus" />
+                                                <asp:BoundField HeaderText="Case Disposal Type" DataField="CaseDisposeType" />
+                                                <asp:BoundField HeaderText="Compliance Status" DataField="Compliance_Status" />
+                                                <asp:BoundField HeaderText="Disposal Date" DataField="OICOrderDate" />
+                                                <asp:BoundField HeaderText="Case Disposal Timeline" DataField="CaseDisposal_Timeline" />
+                                                <asp:BoundField HeaderText="Order Summary" DataField="OrderSummary" />
+                                                <asp:TemplateField HeaderText="Disposal Document">
+                                                    <ItemTemplate>
+                                                           <asp:HyperLink ID="hyperView" runat="server" CssClass="fa fa-eye" Target="_blank" NavigateUrl='<%# "DisposalDocs/" + Eval("CaseDisposal_Doc") %>'></asp:HyperLink>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                            </Columns>
+                                        </asp:GridView>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
                         <fieldset>
                             <legend>Advocate Details</legend>
                             <div class="row">
@@ -281,7 +314,7 @@
                                     <legend>Document Detail</legend>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div class="table-responsive">
+                                            <div class="table-responsive docDetails">
                                                 <asp:GridView ID="GrdDocument" runat="server" CssClass="table" AutoGenerateColumns="false" EmptyDataText="NO RECORD FOUND" OnRowDataBound="GrdDocument_RowDataBound">
                                                     <Columns>
                                                         <asp:TemplateField HeaderText="S.No." ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">

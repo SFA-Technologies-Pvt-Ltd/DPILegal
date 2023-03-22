@@ -34,7 +34,7 @@
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="../Main_plugins/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" />
     <!-- sweetalert picker -->
-   \<script src="../Main_plugins/custom_css/sweetalert.min.js"></script>
+    \<script src="../Main_plugins/custom_css/sweetalert.min.js"></script>
     <%--    <link rel="stylesheet" href="../Main_plugins/plugins/daterangepicker/daterangepicker.css" />--%>
     <!-- summernote -->
     <link href="../Main_plugins/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
@@ -167,7 +167,8 @@
             color: white !important;
         }
     </style>
-	 <style>/* Thise Style For Datatable On Full Page.*/
+    <style>
+        /* Thise Style For Datatable On Full Page.*/
         .form-inline {
             display: block;
             -ms-flex-flow: row wrap;
@@ -175,13 +176,36 @@
             -ms-flex-align: center;
             align-items: center;
         }
+        #load{
+    width:100%;
+    height:100%;
+    position:fixed;
+    z-index:9999;
+    background:url(../image/logo/Preloaderunscreen.gif) no-repeat center center rgba(0,0,0,0.25)
+}
+        
     </style>
+    <script type="text/javascript">
+        document.onreadystatechange = function () {
+            var state = document.readyState
+            if (state == 'interactive') {
+                document.getElementById('contents').style.visibility = "hidden";
+            } else if (state == 'complete') {
+                setTimeout(function () {
+                    document.getElementById('interactive');
+                    document.getElementById('load').style.visibility = "hidden";
+                    document.getElementById('contents').style.visibility = "visible";
+                }, 100);
+            }
+        }
+    </script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 <body style="height: auto; min-height: 100%;" class="sidebar-mini">
     <form id="form1" runat="server">
         <div>
+            <div id="load"></div>
             <div class="wrapper">
 
                 <!-- Navbar -->
@@ -194,9 +218,9 @@
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item ">
-                            <h5 class="brand-text font-weight-bold text-light float-left" style="font-weight: bold;padding-top:4px">Welcome :</h5>
+                            <h5 class="brand-text font-weight-bold text-light float-left" style="font-weight: bold; padding-top: 4px">Welcome :</h5>
                             &nbsp;
-                            <span id="spnUsername" runat="server" style="text-transform: uppercase; font-weight: bold; font-size:x-large" class="brand-text h6 text-light"></span>
+                            <span id="spnUsername" runat="server" style="text-transform: uppercase; font-weight: bold; font-size: x-large" class="brand-text h6 text-light"></span>
 
                         </li>
                     </ul>
@@ -215,7 +239,7 @@
                         </li>
                         <li class="nav-item">
                             <%--<asp:Button Text="Logout !" Font-Bold="true" ForeColor="Red" ID="btnlogout" OnClick="btnlogout_Click" runat="server" CssClass="fa fa-sign-out-alt btn" />--%>
-                            <asp:LinkButton Font-Bold="true" ID="btnlogout"  ForeColor="White" Font-Size="Larger" OnClick="btnlogout_Click" runat="server" CssClass="btn"><i class="fas fa-sign-out-alt"></i></asp:LinkButton>
+                            <asp:LinkButton Font-Bold="true" ID="btnlogout" ForeColor="White" Font-Size="Larger" OnClick="btnlogout_Click" runat="server" CssClass="btn"><i class="fas fa-sign-out-alt"></i></asp:LinkButton>
                             <%--  <a class="nav-link" href="../Home.aspx">
                                 <i class="fa fa-sign-out-alt text-light">Logout</i>
                             </a>--%>
@@ -252,7 +276,7 @@
                         <nav class="mt-2">
                             <section class="sidebar" runat="server" id="Navigation">
                             </section>
-                           <%-- <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                            <%-- <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                                 <li class="nav-item">
                                     <a href="../legal/legaldashboard.aspx" class="nav-link">
                                         <i class="nav-icon fas fa-list-ul text-light"></i>
@@ -543,10 +567,10 @@
                     <!-- /.sidebar -->
                 </aside>
 
-               
+
                 <asp:ContentPlaceHolder ID="body" runat="server">
                 </asp:ContentPlaceHolder>
-                
+
                 <!-- /.content-wrapper -->
                 <%--<footer class="main-footer" style="background-color: #f5f5f5; text-align: center">
                     <strong>Design & Developed by <a href="#">Sfa Technologies</a></strong>

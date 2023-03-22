@@ -213,7 +213,7 @@
                                     <div class="table-responsive">
                                         <asp:GridView ID="GrdDesignation" runat="server" CssClass="datatable table table-bordered table-hover" AutoGenerateColumns="false" OnPageIndexChanging="GrdDesignation_PageIndexChanging" OnRowCommand="GrdDesignation_RowCommand" DataKeyNames="Designation_Id">
                                             <Columns>
-                                                <asp:TemplateField HeaderText="S.No." ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                <asp:TemplateField HeaderText="S.No." ItemStyle-HorizontalAlign="Left" ItemStyle-Width="5%">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblsrno" runat="server" Text='<%# Container.DataItemIndex +1 %>'></asp:Label>
                                                         <asp:Label ID="lblID" runat="server" Text='<%# Eval("Designation_Id") %>' Visible="false"></asp:Label>
@@ -231,12 +231,12 @@
                                                         <asp:Label ID="lblOfficeID" runat="server" Text='<%# Eval("Office_Id") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Designation Name" ItemStyle-HorizontalAlign="Center">
+                                                <asp:TemplateField HeaderText="Designation Name" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblDesignationName" runat="server" Text='<%# Eval("Designation_Name") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Office Level" ItemStyle-HorizontalAlign="Center">
+                                                <asp:TemplateField HeaderText="Office Level" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                       <asp:Label ID="lblOfficelevelID" runat="server" Text='<%# Eval("OfficeLevel_Id") %>' Visible="false"></asp:Label>
                                                         <asp:Label ID="lblOfficelevelName" runat="server" Text='<%# Eval("OfficeLevelName") %>'></asp:Label>

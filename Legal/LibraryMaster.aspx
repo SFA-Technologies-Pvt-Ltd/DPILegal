@@ -177,18 +177,18 @@
                                                 <RowStyle HorizontalAlign="Center" />
                                                 <HeaderStyle Font-Bold="true" HorizontalAlign="Center" />
                                                 <Columns>
-                                                    <asp:TemplateField HeaderText="S.No.">
+                                                    <asp:TemplateField HeaderText="S.No." ItemStyle-HorizontalAlign="Left">
                                                         <ItemTemplate>
                                                             <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex +1 %>'></asp:Label>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                    <asp:BoundField DataField="CaseNo" HeaderText="Case No." HeaderStyle-HorizontalAlign="Center" />
-                                                    <asp:BoundField DataField="CaseSubject" HeaderText="Case Subject" HeaderStyle-HorizontalAlign="Center" />
-                                                    <asp:BoundField DataField="CaseType" HeaderText="Case Type" HeaderStyle-HorizontalAlign="Center" />
-                                                    <asp:BoundField DataField="PartyName" HeaderText="Petitioner Name" HeaderStyle-HorizontalAlign="Center" />
-                                                    <asp:BoundField DataField="RespondentName" HeaderText="Respondent Name" HeaderStyle-HorizontalAlign="Center" />
-                                                    <asp:BoundField DataField="RelatedOffice" HeaderText="Related Office" HeaderStyle-HorizontalAlign="Center" />
-                                                    <asp:BoundField DataField="Case_Infavourof" HeaderText="Decision in Favour of" HeaderStyle-HorizontalAlign="Center"  />
+                                                    <asp:BoundField DataField="CaseNo" HeaderText="Case No." ItemStyle-HorizontalAlign="Left" />
+                                                    <asp:BoundField DataField="CaseSubject" HeaderText="Case Subject" ItemStyle-HorizontalAlign="Left" />
+                                                    <asp:BoundField DataField="CaseType" HeaderText="Case Type" ItemStyle-HorizontalAlign="Left" />
+                                                    <asp:BoundField DataField="PartyName" HeaderText="Petitioner Name" ItemStyle-HorizontalAlign="Left" />
+                                                    <asp:BoundField DataField="RespondentName" HeaderText="Respondent Name" ItemStyle-HorizontalAlign="Left"/>
+                                                    <asp:BoundField DataField="RelatedOffice" HeaderText="Related Office" ItemStyle-HorizontalAlign="Left" />
+                                                    <asp:BoundField DataField="Case_Infavourof" HeaderText="Decision in Favour of" ItemStyle-HorizontalAlign="Left"  />
                                                     <asp:TemplateField HeaderText="Decision Date">
                                                         <ItemTemplate>
                                                             <%# Convert.ToDateTime(Eval("DecisionDate")).ToString("dd/MM/yyyy") %>

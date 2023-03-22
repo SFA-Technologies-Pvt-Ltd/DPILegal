@@ -88,13 +88,13 @@
                                                     <div class="table-responsive">
                                                          <asp:GridView ID="grdOfficelevelMst" runat="server" CssClass="table table-bordered table-hover" DataKeyNames="OfficeLevel_Id" AutoGenerateColumns="false" AllowPaging="true" OnPageIndexChanging="grdOfficelevelMst_PageIndexChanging" OnRowCommand="grdOfficelevelMst_RowCommand">
                                                             <Columns>
-                                                                <asp:TemplateField HeaderText="Sr#" ItemStyle-Width="5%">
+                                                                <asp:TemplateField HeaderText="Sr#" ItemStyle-Width="5%" ItemStyle-HorizontalAlign="Left" >
                                                                     <ItemTemplate>
                                                                         <asp:Label ID="lblId" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
                                                                         <asp:Label ID="lblOfficelevelID" runat="server" Text='<%# Eval("OfficeLevel_Id") %>' Visible="false"></asp:Label>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
-                                                                <asp:TemplateField HeaderText="Office Level">
+                                                                <asp:TemplateField HeaderText="Office Level" ItemStyle-HorizontalAlign="Left" >
                                                                     <ItemTemplate>
                                                                         <asp:Label ID="lblOfficelevelName" runat="server" Text='<%# Eval("OfficeLevelName") %>'></asp:Label>
                                                                     </ItemTemplate>

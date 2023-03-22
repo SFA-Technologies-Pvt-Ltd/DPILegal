@@ -88,13 +88,13 @@
                                                     <div class="table-responsive">
                                                         <asp:GridView ID="grdOfficetypeMst" runat="server" CssClass="table table-bordered table-hover" DataKeyNames="OfficeType_Id" AutoGenerateColumns="false" AllowPaging="true" OnPageIndexChanging="grdOfficetypeMst_PageIndexChanging" OnRowCommand="grdOfficetypeMst_RowCommand">
                                                             <Columns>
-                                                                <asp:TemplateField HeaderText="Sr#" ItemStyle-Width="5%" ItemStyle-HorizontalAlign="Center">
+                                                                <asp:TemplateField HeaderText="Sr#" ItemStyle-Width="5%" ItemStyle-HorizontalAlign="Left">
                                                                     <ItemTemplate>
                                                                         <asp:Label ID="lblId" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
                                                                         <asp:Label ID="lblOfficetypeID" runat="server" Text='<%# Eval("OfficeType_Id") %>' Visible="false"></asp:Label>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
-                                                                <asp:TemplateField HeaderText="Office type Name" ItemStyle-HorizontalAlign="Center">
+                                                                <asp:TemplateField HeaderText="Office type Name" ItemStyle-HorizontalAlign="Left">
                                                                     <ItemTemplate>
                                                                         <asp:Label ID="lblOfficetypeName" runat="server" Text='<%# Eval("OfficeType_Name") %>'></asp:Label>
                                                                     </ItemTemplate>

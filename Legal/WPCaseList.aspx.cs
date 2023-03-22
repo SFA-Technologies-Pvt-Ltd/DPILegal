@@ -22,7 +22,7 @@ public partial class Legal_WPCaseList : System.Web.UI.Page
                 ViewState["Emp_Id"] = Session["Emp_Id"].ToString();
                 ViewState["Office_Id"] = Session["Office_Id"].ToString();
                 FillCasetype();
-                FillCaseNo();
+                
                 FillCourt();
                 FillYear();
             }
@@ -126,7 +126,8 @@ public partial class Legal_WPCaseList : System.Web.UI.Page
                 }
                 else
                 {
-                    dtCN = CaseNo.GetCaseNo() as DataTable;
+                    string CourtType_Id = ddlCourt.SelectedValue;
+                    dtCN = CaseNo.GetCaseNoByCourt(CourtType_Id) as DataTable;
 
                 }
             }
@@ -254,6 +255,10 @@ public partial class Legal_WPCaseList : System.Web.UI.Page
         {
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
+    }
+    protected void ddlCourt_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        FillCaseNo();
     }
 
 }

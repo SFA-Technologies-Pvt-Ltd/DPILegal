@@ -191,33 +191,33 @@
                                     <div class="table-responsive">
                                         <asp:GridView ID="GrdConcludeReport" runat="server" CssClass="datatable table table-bordered" AutoGenerateColumns="false" DataKeyNames="Case_ID" OnRowCommand="GrdConcludeReport_RowCommand" EmptyDataText="NO RECORD FOUND">
                                             <Columns>
-                                                <asp:TemplateField HeaderText="S.No." ItemStyle-HorizontalAlign="Center">
+                                                <asp:TemplateField HeaderText="S.No." ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
                                                         <asp:Label ID="lblCaseId" runat="server" Text='<%# Eval("Case_ID") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Case No." ItemStyle-HorizontalAlign="Center">
+                                                <asp:TemplateField HeaderText="Case No." ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblWpCaseNo" runat="server" Text='<%# Eval("CaseNo") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                 <asp:TemplateField HeaderText="Case Year" ItemStyle-HorizontalAlign="Center">
+                                                 <asp:TemplateField HeaderText="Case Year" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblCaseYear" runat="server" Text='<%# Eval("CaseYear") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Petitioner Name" ItemStyle-HorizontalAlign="Center">
+                                                <asp:TemplateField HeaderText="Petitioner Name" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblPetitionerName" runat="server" Text='<%# Eval("PetitonerName") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                 <asp:TemplateField HeaderText="Case type" ItemStyle-HorizontalAlign="Center">
+                                                 <asp:TemplateField HeaderText="Case type" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblOfficeName" runat="server" Text='<%# Eval("Casetype_Name") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>       
-                                                <asp:TemplateField HeaderText="Case Status" ItemStyle-HorizontalAlign="Center">
+                                                <asp:TemplateField HeaderText="Case Status" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblCaseStatus" runat="server" Font-Bold="true" ForeColor='<%# Eval("CaseStatus").ToString() == "Pending" ? System.Drawing.Color.Red : System.Drawing.Color.Green %>' Text='<%# Eval("CaseStatus") %>'></asp:Label>
                                                     </ItemTemplate>

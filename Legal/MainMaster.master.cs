@@ -231,8 +231,9 @@ public partial class Legal_MainMaster : System.Web.UI.MasterPage
     protected void btnlogout_Click(object sender, EventArgs e)
     {
 
-        Session.Abandon();
+      Session.Abandon();
         Session.Clear();
+        // Response.Redirect("~/Login.aspx");
         Response.Redirect("~/Login.aspx", false);
     }
 }

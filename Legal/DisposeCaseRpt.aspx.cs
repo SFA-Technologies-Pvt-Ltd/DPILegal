@@ -94,15 +94,30 @@ public partial class Legal_DisposeCaseRpt : System.Web.UI.Page
             grdSubjectWiseCasedtl.DataBind();
             string Compliance = ddlCompliaceSt.SelectedIndex > 0 ? ddlCompliaceSt.SelectedItem.Value : null;
 
-            if (Session["OICMaster_ID"] != "")
+            if (Session["Role_ID"].ToString() == "3")
             {
                 ds = obj.ByProcedure("USP_Select_CaseDisposalRpt", new string[] { "Casetype_ID", "CaseDisposeType_Id", "Compliance_Status", "OICMaster_Id", "flag" },
                     new string[] { ddlCaseType.SelectedItem.Value, ddlDisposetype.SelectedItem.Value, Compliance, Session["OICMaster_ID"].ToString(), "1" }, "dataset");
             }
-            else
+            else if (Session["Role_ID"].ToString() == "1")
             {
                 ds = obj.ByProcedure("USP_Select_CaseDisposalRpt", new string[] { "Casetype_ID", "CaseDisposeType_Id", "Compliance_Status", "flag" },
                     new string[] { ddlCaseType.SelectedItem.Value, ddlDisposetype.SelectedItem.Value, Compliance, "2" }, "dataset");
+            }
+            else if (Session["Role_ID"].ToString() == "4")
+            {
+                ds = obj.ByProcedure("USP_Select_CaseDisposalRpt", new string[] { "Casetype_ID", "CaseDisposeType_Id", "Compliance_Status", "flag","District_ID" },
+                    new string[] { ddlCaseType.SelectedItem.Value, ddlDisposetype.SelectedItem.Value, Compliance, "3", Session["District_Id"].ToString() }, "dataset");
+            }
+            else if (Session["Role_ID"].ToString() == "2")
+            {
+                ds = obj.ByProcedure("USP_Select_CaseDisposalRpt", new string[] { "Casetype_ID", "CaseDisposeType_Id", "Compliance_Status", "flag", "Division_ID" },
+                    new string[] { ddlCaseType.SelectedItem.Value, ddlDisposetype.SelectedItem.Value, Compliance, "4", Session["Division_Id"].ToString() }, "dataset");
+            }
+            else if (Session["Role_ID"].ToString() == "5")
+            {
+                ds = obj.ByProcedure("USP_Select_CaseDisposalRpt", new string[] { "Casetype_ID", "CaseDisposeType_Id", "Compliance_Status", "flag", "CourtLocation_Id" },
+                    new string[] { ddlCaseType.SelectedItem.Value, ddlDisposetype.SelectedItem.Value, Compliance, "5", Session["District_Id"].ToString() }, "dataset");
             }
             if (ds.Tables[0].Rows.Count > 0)
             {

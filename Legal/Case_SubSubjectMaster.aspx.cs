@@ -42,8 +42,6 @@ public partial class Legal_Case_SubSubjectMaster : System.Web.UI.Page
                 grdSub_Subect.DataSource = ds;
                 grdSub_Subect.DataBind();
             }
-            grdSub_Subect.HeaderRow.TableSection = TableRowSection.TableHeader;
-            grdSub_Subect.UseAccessibleHeader = true;
             
         }
         catch (Exception ex)
@@ -91,8 +89,7 @@ public partial class Legal_Case_SubSubjectMaster : System.Web.UI.Page
                 {
                     lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry !", ds.Tables[0].Rows[0]["ErrMsg"].ToString());
                 }
-                grdSub_Subect.HeaderRow.TableSection = TableRowSection.TableHeader;
-                grdSub_Subect.UseAccessibleHeader = true;
+
             }
         }
         catch (Exception ex)
@@ -161,8 +158,6 @@ public partial class Legal_Case_SubSubjectMaster : System.Web.UI.Page
                 objdb.ByTextQuery("delete from tbl_CaseSubSubjectMaster where CaseSubSubj_Id=" + CaseSubSubj_Id);
                 BindGrid();
             }
-            grdSub_Subect.HeaderRow.TableSection = TableRowSection.TableHeader;
-            grdSub_Subect.UseAccessibleHeader = true;
         }
         catch (Exception ex)
         {

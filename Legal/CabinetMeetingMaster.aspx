@@ -124,17 +124,17 @@
                                                             <asp:Label ID="lblCabinetId" runat="server" Visible="false" Text='<%#Eval("CabinetId").ToString() %>'></asp:Label>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Meeting Date" ItemStyle-HorizontalAlign="Center">
+                                                    <asp:TemplateField HeaderText="Meeting Date" ItemStyle-HorizontalAlign="Left">
                                                         <ItemTemplate>
                                                             <asp:Label ID="lblMeetingDate" Text='<%# Eval("MeetingDate") %>' runat="server"></asp:Label>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Detail" ItemStyle-HorizontalAlign="Center" >
+                                                    <asp:TemplateField HeaderText="Detail" ItemStyle-HorizontalAlign="Left" >
                                                         <ItemTemplate>
                                                             <asp:Label ID="lblCabinetDetail" Text='<%# Eval("CabinetDetail") %>' runat="server"></asp:Label>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Refrence<br /> Documents" HeaderStyle-Width="5%" ItemStyle-HorizontalAlign="Center">
+                                                    <asp:TemplateField HeaderText="Refrence<br /> Documents" HeaderStyle-Width="5%" ItemStyle-HorizontalAlign="Left">
                                                         <ItemTemplate>
                                                             <asp:HyperLink ID="HyperLink_ID" runat="server" Text="View" NavigateUrl='<% #"../Legal/CabinetMeetingDoc/" + Eval("CabinetDocument")%>' CssClass="btn-sm label  label-primary" Target="_blank"><i class="fa fa-eye"></i></asp:HyperLink>
                                                             <asp:Label ID="lblFileUpload" runat="server" Text='<%# Eval("CabinetDocument") %>' Visible="false"></asp:Label>

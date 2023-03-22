@@ -231,23 +231,23 @@
                                                 <RowStyle HorizontalAlign="Center" />
                                                 <HeaderStyle Font-Bold="true" HorizontalAlign="Center" />
                                                 <Columns>
-                                                    <asp:TemplateField HeaderText="S.No." ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                    <asp:TemplateField HeaderText="S.No." ItemStyle-HorizontalAlign="Left" ItemStyle-Width="5%">
                                                         <ItemTemplate>
                                                             <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex +1 %>'></asp:Label>
                                                             <asp:HiddenField ID="hdnCaseSubjectID" runat="server" Value='<%#Eval("CaseSubjectID") %>' />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Case Subject Code">
+                                                    <asp:TemplateField HeaderText="Case Subject Code" ItemStyle-HorizontalAlign="Left">
                                                         <ItemTemplate>
                                                             <asp:Label ID="lblCaseSubjectCode" runat="server" Text='<%# Eval("CaseSubjectCode") %>'></asp:Label>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Case Subject">
+                                                    <asp:TemplateField HeaderText="Case Subject" ItemStyle-HorizontalAlign="Left">
                                                         <ItemTemplate>
                                                             <asp:Label ID="lblCaseSubject" runat="server" Text='<%# Eval("CaseSubject") %>'></asp:Label>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Case Subject Detail">
+                                                    <asp:TemplateField HeaderText="Case Subject Detail" ItemStyle-HorizontalAlign="Left">
                                                         <ItemTemplate>
                                                             <asp:Label ID="lblCaseSubjectDetail" runat="server" Text='<%# Eval("CaseSubjectDetail") %>'></asp:Label>
                                                         </ItemTemplate>

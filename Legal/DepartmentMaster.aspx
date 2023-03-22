@@ -77,15 +77,15 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="table-responsive">
-                                                <asp:GridView ID="GrddeptMaster" runat="server" AutoGenerateColumns="false" DataKeyNames="Dept_ID" CssClass="table table-bordered text-center" OnRowCommand="GrddeptMaster_RowCommand" AllowPaging="true" OnPageIndexChanging="GrddeptMaster_PageIndexChanging" EmptyDataText="NO RECORD FOUND">
+                                                <asp:GridView ID="GrddeptMaster" runat="server" AutoGenerateColumns="false" DataKeyNames="Dept_ID" CssClass="table table-bordered" OnRowCommand="GrddeptMaster_RowCommand" AllowPaging="true" OnPageIndexChanging="GrddeptMaster_PageIndexChanging" EmptyDataText="NO RECORD FOUND">
                                                     <Columns>
-                                                        <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                        <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="5%">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblId" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
                                                                 <asp:Label ID="lbldeptID" runat="server" Text='<%# Eval("Dept_ID") %>' Visible="false"></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
-                                                        <asp:TemplateField HeaderText="Department Name">
+                                                        <asp:TemplateField HeaderText="Department Name" ItemStyle-HorizontalAlign="Left" >
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblDeptName" runat="server" Text='<%# Eval("Dept_Name") %>'></asp:Label>
                                                             </ItemTemplate>

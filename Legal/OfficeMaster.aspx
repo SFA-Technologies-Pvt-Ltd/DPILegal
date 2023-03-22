@@ -235,40 +235,40 @@
                                     <div class="table-responsive">
                                         <asp:GridView ID="GrdOfficeMaster" runat="server" CssClass=" datatable table table-bordered table-hover" AutoGenerateColumns="false" EmptyDataText="NO RECORD FOUND" DataKeyNames="Office_Id" OnPageIndexChanging="GrdOfficeMaster_PageIndexChanging" OnRowCommand="GrdOfficeMaster_RowCommand">
                                             <Columns>
-                                                <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="5%">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblId" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
                                                         <asp:Label ID="lblOfficeID" runat="server" Text='<%# Eval("Office_Id") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Office Type" ItemStyle-HorizontalAlign="Center">
+                                                <asp:TemplateField HeaderText="Office Type" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblOfficeType" runat="server" Text='<%# Eval("OfficeType_Name") %>'></asp:Label>
                                                         <asp:Label ID="lblOfficeTypeID" runat="server" Text='<%# Eval("OfficeType_Id") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                 <asp:TemplateField HeaderText="HOD" ItemStyle-HorizontalAlign="Center">
+                                                 <asp:TemplateField HeaderText="HOD" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblDept_Name" runat="server" Text='<%# Eval("Dept_Name") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Office Name" ItemStyle-HorizontalAlign="Center">
+                                                <asp:TemplateField HeaderText="Office Name" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblOficeName" runat="server" Text='<%# Eval("OfficeName") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Office loaction" ItemStyle-HorizontalAlign="Center">
+                                                <asp:TemplateField HeaderText="Office loaction" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblOficelocation" runat="server" Text='<%# Eval("Officelocation") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Division" ItemStyle-HorizontalAlign="Center">
+                                                <asp:TemplateField HeaderText="Division" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblDivision_Name" runat="server" Text='<%# Eval("Division_Name") %>'></asp:Label>
                                                         <asp:Label ID="lblDivision_Id" Visible="false" runat="server" Text='<%# Eval("Division_Id") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="District" ItemStyle-HorizontalAlign="Center">
+                                                <asp:TemplateField HeaderText="District" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblDistrict_Name" runat="server" Text='<%# Eval("District_Name") %>'></asp:Label>
                                                         <asp:Label ID="lblDistrict_Id" Visible="false" runat="server" Text='<%# Eval("District_Id") %>'></asp:Label>

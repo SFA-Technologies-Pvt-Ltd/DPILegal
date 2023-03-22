@@ -176,7 +176,7 @@
                                         <asp:DropDownList ID="ddlCaseStatus" runat="server" CssClass="form-control">
                                             <asp:ListItem Value="0">Select</asp:ListItem>
                                             <asp:ListItem Value="1">Pending</asp:ListItem>
-                                            <asp:ListItem Value="2">Dispose</asp:ListItem>
+                                            <asp:ListItem Value="2">Disposed</asp:ListItem>
                                         </asp:DropDownList>
                                     </div>                                    
                                 </div>
@@ -207,15 +207,15 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
-                                        <asp:GridView ID="GrdCaseDetails" runat="server" AutoGenerateColumns="false" DataKeyNames="Case_ID" CssClass="datatable table table-bordered text-center" EmptyDataText="NO RECORD FOUND">
+                                        <asp:GridView ID="GrdCaseDetails" runat="server" AutoGenerateColumns="false" DataKeyNames="Case_ID" CssClass="datatable table table-bordered" EmptyDataText="NO RECORD FOUND">
                                             <Columns>
-                                                <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="5%">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblId" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
                                                   
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Case No.">
+                                                <asp:TemplateField HeaderText="Case No." ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblCasetype" runat="server" Text='<%# Eval("Casetype_Name") %>'></asp:Label>/
                                                         <asp:Label ID="lblCaseNo" runat="server" Text='<%# Eval("CaseNo") %>'></asp:Label>/
@@ -224,32 +224,32 @@
                                                         <asp:Label ID="lblCourt" runat="server" Text='<%# Eval("CourtName") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Petitioner Name">
+                                                <asp:TemplateField HeaderText="Petitioner Name" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblPetitionerName" runat="server" Text='<%# Eval("PetitionerName") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Respondent Name">
+                                                <asp:TemplateField HeaderText="Respondent Name" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblRespondentName" runat="server" Text='<%# Eval("RespondentName") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="OIC Allocation Status">
+                                                <asp:TemplateField HeaderText="OIC Allocation Status" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblStatus" runat="server" Text='<%# Eval("OICName").ToString()=="" ? "NO" : Eval("OICName").ToString()!="" ? "Yes" : "Not Active" %>' Font-Bold="true"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>                                               
                                             </Columns>
                                         </asp:GridView>
-                                        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="false" DataKeyNames="Case_ID" CssClass="datatable table table-bordered text-center" EmptyDataText="NO RECORD FOUND">
+                                        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="false" DataKeyNames="Case_ID" CssClass="datatable table table-bordered" EmptyDataText="NO RECORD FOUND">
                                             <Columns>
-                                                <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="5%">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblId" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
                                                   
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Case No.">
+                                                <asp:TemplateField HeaderText="Case No." ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblCasetype" runat="server" Text='<%# Eval("Casetype_Name") %>'></asp:Label>/
                                                         <asp:Label ID="lblCaseNo" runat="server" Text='<%# Eval("CaseNo") %>'></asp:Label>/
@@ -258,18 +258,18 @@
                                                         <asp:Label ID="lblCourt" runat="server" Text='<%# Eval("CourtName") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Petitioner Name">
+                                                <asp:TemplateField HeaderText="Petitioner Name" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblPetitionerName" runat="server" Text='<%# Eval("PetitionerName") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Respondent Name">
+                                                <asp:TemplateField HeaderText="Respondent Name" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblRespondentName" runat="server" Text='<%# Eval("RespondentName") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
 
-                                                <asp:TemplateField HeaderText="OIC Name">
+                                                <asp:TemplateField HeaderText="OIC Name" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblStatus" runat="server" Text='<%# Eval("OICName").ToString() %>'></asp:Label>
                                                     </ItemTemplate>

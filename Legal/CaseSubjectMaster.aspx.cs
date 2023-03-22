@@ -45,8 +45,6 @@ public partial class Legal_CaseSubjectMaster : System.Web.UI.Page
                 DataTable dt = ds.Tables[0];
                 grdCaseSubject.DataSource = dt;
                 grdCaseSubject.DataBind();
-                grdCaseSubject.HeaderRow.TableSection = TableRowSection.TableHeader;
-                grdCaseSubject.UseAccessibleHeader = true;
             }
         }
         catch (Exception ex)
@@ -85,8 +83,6 @@ public partial class Legal_CaseSubjectMaster : System.Web.UI.Page
                 }
                 BindGridCaseSubject();
                 btnSave.Text = "Save";
-                grdCaseSubject.HeaderRow.TableSection = TableRowSection.TableHeader;
-                grdCaseSubject.UseAccessibleHeader = true;
             }
         }
         catch (Exception ex)
@@ -125,8 +121,6 @@ public partial class Legal_CaseSubjectMaster : System.Web.UI.Page
                 objdb.ByTextQuery("delete from tbl_LegalMstCaseSubject where CaseSubjectID=" + SubjectID);
                 BindGridCaseSubject();
             }
-            grdCaseSubject.HeaderRow.TableSection = TableRowSection.TableHeader;
-            grdCaseSubject.UseAccessibleHeader = true;
         }
         catch (Exception ex)
         {

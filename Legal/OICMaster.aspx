@@ -284,7 +284,7 @@
                                                     <RowStyle HorizontalAlign="Center" />
                                                     <HeaderStyle Font-Bold="true" HorizontalAlign="Center" />
                                                     <Columns>
-                                                        <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                        <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="5%">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblId" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
                                                                 <asp:Label ID="lblOICID" runat="server" Text='<%# Eval("OICMaster_ID") %>' Visible="false"></asp:Label>
@@ -302,35 +302,35 @@
                                                                 <asp:Label ID="lblCircleID" runat="server" Text='<%# Eval("Circle_Id") %>' Visible="false"></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
-                                                        <asp:TemplateField HeaderText="District Name">
+                                                        <asp:TemplateField HeaderText="District Name" ItemStyle-HorizontalAlign="Left">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblDivisionName" runat="server" Text='<%# Eval("District_Name") %>'></asp:Label>
                                                                 <asp:Label ID="lblDivisionID" runat="server" Text='<%# Eval("District_Id") %>' Visible="false"></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
-                                                        <asp:TemplateField HeaderText="OIC Name">
+                                                        <asp:TemplateField HeaderText="OIC Name" ItemStyle-HorizontalAlign="Left">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblOICName" runat="server" Text='<%# Eval("OICName") %>'></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
-                                                        <asp:TemplateField HeaderText="Designation Name">
+                                                        <asp:TemplateField HeaderText="Designation Name" ItemStyle-HorizontalAlign="Left">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblDesignationName" runat="server" Text='<%# Eval("Designation_Name") %>'></asp:Label>
                                                                 <asp:Label ID="lblDesignationId" runat="server" Text='<%# Eval("Designation_ID") %>' Visible="false"></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
-                                                        <asp:TemplateField HeaderText="Department">
+                                                        <asp:TemplateField HeaderText="Department" ItemStyle-HorizontalAlign="Left">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblDepartmentName" runat="server" Text='<%# Eval("Dept_Name") %>'></asp:Label>
                                                                 <asp:Label ID="lblDepartmentId" runat="server" Text='<%# Eval("Dept_ID") %>' Visible="false"></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
-                                                        <asp:TemplateField HeaderText="Mobile No">
+                                                        <asp:TemplateField HeaderText="Mobile No" ItemStyle-HorizontalAlign="Left">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblMobileNo" runat="server" Text='<%# Eval("OICMobileNo") %>'></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
-                                                        <asp:TemplateField HeaderText="Email-ID">
+                                                        <asp:TemplateField HeaderText="Email-ID" ItemStyle-HorizontalAlign="Left">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblEmailID" runat="server" Text='<%# Eval("OICEmailID") %>'></asp:Label>
                                                             </ItemTemplate>

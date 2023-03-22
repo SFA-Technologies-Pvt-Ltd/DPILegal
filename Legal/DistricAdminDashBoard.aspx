@@ -251,7 +251,7 @@
                 <asp:Label ID="lblMsg" runat="server"></asp:Label>
                 <div class="card">
                     <div class="card-header" style="text-align: center;">
-                        <span style="font-size: 18px; color: #e5e5e5">District Admin Dashboard</span><span style="font-size: 18px; color: #e5e5e5" runat="server" id="divCardHeader"></span>
+                        <span style="font-size: 18px; color: #e5e5e5">District Admin Dashboard - </span><span style="font-size: 18px; color: #e5e5e5" runat="server" id="divCardHeader"></span>
                     </div>
 
                     <div class="align-items-center;" style="border: 5px solid; text-align: center;">

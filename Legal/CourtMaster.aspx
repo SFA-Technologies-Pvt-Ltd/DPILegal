@@ -92,14 +92,14 @@
                                                         <RowStyle HorizontalAlign="Center" />
                                                         <HeaderStyle Font-Bold="true" HorizontalAlign="Center" />
                                                         <Columns>
-                                                            <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                            <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="5%">
                                                                 <ItemTemplate>
                                                                     <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex +1 %>'></asp:Label>
                                                                     <asp:Label ID="lblCourtNameID" runat="server" Text='<%#Eval("CourtName_ID") %>' Visible="false" />
                                                                 </ItemTemplate>
 
                                                             </asp:TemplateField>
-                                                              <asp:TemplateField HeaderText="Court Name" ItemStyle-HorizontalAlign="Center">
+                                                              <asp:TemplateField HeaderText="Court Name" ItemStyle-HorizontalAlign="Left">
                                                                     <ItemTemplate>
                                                                         <asp:Label ID="lblCourtName" runat="server" Text='<%# Eval("CourtName") %>'></asp:Label>
                                                                         <asp:Label ID="lblCourtName_ID" runat="server" Text='<%# Eval("CourtName") %>' Visible="false"></asp:Label>
