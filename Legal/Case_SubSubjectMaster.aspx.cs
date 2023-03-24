@@ -41,6 +41,8 @@ public partial class Legal_Case_SubSubjectMaster : System.Web.UI.Page
             {
                 grdSub_Subect.DataSource = ds;
                 grdSub_Subect.DataBind();
+                grdSub_Subect.HeaderRow.TableSection = TableRowSection.TableHeader;
+                grdSub_Subect.UseAccessibleHeader = true;
             }
             
         }
@@ -72,11 +74,11 @@ public partial class Legal_Case_SubSubjectMaster : System.Web.UI.Page
                     string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
                     if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
                     {
-                        //lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                         txtSubsubject.Text = "";
                         ddlcaseSubject.ClearSelection();
                         BindGrid();
                         btnSave.Text = "Save";
+                        //lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                         ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', '" + ErrMsg + "', 'success')", true);
                     }
                     else
@@ -148,6 +150,8 @@ public partial class Legal_Case_SubSubjectMaster : System.Web.UI.Page
                 Label lblCaseSubjectID = (Label)row.FindControl("lblSubjectID");
                 btnSave.Text = "Update";
                 ViewState["EditID"] = e.CommandArgument;
+                grdSub_Subect.HeaderRow.TableSection = TableRowSection.TableHeader;
+                grdSub_Subect.UseAccessibleHeader = true;
                 txtSubsubject.Text = lblCaseSub_Subject.Text;
                 ddlcaseSubject.ClearSelection();
                 ddlcaseSubject.Items.FindByValue(lblCaseSubjectID.Text).Selected = true;

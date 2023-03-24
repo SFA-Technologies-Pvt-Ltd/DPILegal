@@ -9,6 +9,9 @@ using System.Net;
 using System.Net.Configuration;
 using System.Net.Mail;
 using System.Configuration;
+using System.Web;
+using System.Security.Cryptography;
+using System.Text;
 
 public partial class Legal_EditCaseDetail : System.Web.UI.Page
 {
@@ -23,9 +26,13 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
         {
             if (!IsPostBack)
             {
+                string multiCharString = Request.QueryString.ToString();
+                string[] multiArray = multiCharString.Split(new Char[] { '=', '&' });
+                string CaseID = Decrypt(HttpUtility.UrlDecode(multiArray[1]));
+                string Uniqueno = Decrypt(HttpUtility.UrlDecode(multiArray[3]));
                 divReplyDate.Visible = false;
-                ViewState["ID"] = Request.QueryString["ID"];
-                ViewState["UniqueNO"] = Request.QueryString["UniqueNO"];
+                ViewState["ID"] = CaseID;
+                ViewState["UniqueNO"] = Uniqueno;
                 ViewState["Emp_Id"] = Session["Emp_Id"].ToString();
                 ViewState["Office_Id"] = Session["Office_Id"].ToString();
                 Session["PAGETOKEN"] = Server.UrlEncode(System.DateTime.Now.ToString());
@@ -35,22 +42,21 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                 BindDisposalType();
                 FillParty();
                 FillCaseSubject();
-               
+
                 FillDesignation();
                 BindOfficeType();
                 CaseDisposeStatus(); // by deafult Case Dispose on NO text.
                 FillCasetype();
                 FillDepartment();
-               
+
                 BindDetails(sender, e);
                 ManagVisiblity();
                 FieldViewOldCaseDtl.Visible = false;
-
             }
         }
         else
         {
-            Response.Redirect("../Login.aspx");
+            Response.Redirect("../Login.aspx", false);
         }
 
     }
@@ -148,7 +154,7 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                 break;
 
             }
-            caseDisposeYes.Visible = true;
+            caseDisposeYes.Visible = false;
             OrderBy1.Visible = false;
             OrderBy2.Visible = false;
             HearingDtl_CaseDispose.Visible = false;
@@ -299,7 +305,7 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
         }
     }
     #endregion
-  
+
     #region Fill CourtName
     protected void BindCourtName()
     {
@@ -531,9 +537,16 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                 if (ds.Tables[8].Rows.Count > 0) GrdPetiAdv.DataSource = ds.Tables[8]; GrdPetiAdv.DataBind();
                 if (ds.Tables[6].Rows[0]["CaseDisposal_Status"].ToString() != "")
                 {
+                    // if Case Dispose Once nothing show case Dispose Controls
                     GrdCaseDispose.DataSource = ds.Tables[6]; GrdCaseDispose.DataBind(); DisposalStatus.Visible = false;
+                    caseDisposeYes.Visible = false;
+                    CimplianceSt_Div.Visible = false;
+                    OrderBy1.Visible = false;
+                    DivOrderTimeline.Visible = false;
+                    OrderSummary_Div.Visible = false;
+                    OrderBy2.Visible = false;
                 }
-               
+
                 if (ds.Tables[0].Rows[0]["OICOrderNumber"].ToString() != "")
                 {
                     txtOICcaseNumber.Text = ds.Tables[0].Rows[0]["OICOrderNumber"].ToString();
@@ -2084,5 +2097,27 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
         {
             ErrorLogCls.SendErrorToText(ex);
         }
+    }
+    private string Decrypt(string cipherText)
+    {
+        string EncryptionKey = "MAKV2SPBNI99212";
+        cipherText = cipherText.Replace(" ", "+");
+        byte[] cipherBytes = Convert.FromBase64String(cipherText);
+        using (Aes encryptor = Aes.Create())
+        {
+            Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+            encryptor.Key = pdb.GetBytes(32);
+            encryptor.IV = pdb.GetBytes(16);
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
+                {
+                    cs.Write(cipherBytes, 0, cipherBytes.Length);
+                    cs.Close();
+                }
+                cipherText = Encoding.Unicode.GetString(ms.ToArray());
+            }
+        }
+        return cipherText;
     }
 }

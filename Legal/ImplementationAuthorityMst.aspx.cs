@@ -144,7 +144,6 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
                     string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
                     if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
                     {
-                        //lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                         txtAuthorityName.Text = "";
                         txtMobileNo.Text = "";
                         txtEmailID.Text = "";
@@ -152,6 +151,7 @@ public partial class Legal_ImplementationAuthorityMst : System.Web.UI.Page
                         ddlLocation.ClearSelection();
                         ddlOfficeName.ClearSelection();
                         ddlOfficetype.ClearSelection();
+                        //lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                         ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', '" + ErrMsg + "', 'success')", true);
                     }
                     else

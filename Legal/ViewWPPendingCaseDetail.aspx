@@ -90,24 +90,18 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>OIC Mobile Name</label>
-                                        <span style="color: red;"><b>*</b></span>
-                                        <asp:TextBox ID="txtOicMobileNo" runat="server" onkeypress="return NumberOnly();" CssClass="form-control" AutoComplete="off" MaxLength="10" ReadOnly="true"></asp:TextBox>
+                                        <asp:TextBox ID="txtOicMobileNo" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>OIC Email-ID</label>
-                                        <span style="color: red;"><b>*</b></span>
                                         <asp:TextBox ID="txtOicEmailId" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-3" id="div1" runat="server">
                                     <div class="form-group">
-                                        <label>OIC Order Date<span style="color: red;"> *</span></label>
-                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator14" ValidationGroup="CaseDtl"
-                                            ErrorMessage="Enter OIC Order Date" Text="<i class='fa fa-exclamation-circle' title='Enter OIC Order Date'></i>"
-                                            ControlToValidate="txtOICDate" ForeColor="Red" Display="Dynamic" runat="server">
-                                        </asp:RequiredFieldValidator>
+                                        <label>OIC Order Date</label>
                                         <asp:TextBox ID="txtOICDate" runat="server" ReadOnly="true"  placeholder="DD/MM/YYYY" CssClass="form-control disableFuturedate" data-date-format="dd/mm/yyyy" data-date-autoclose="true" AutoComplete="off"></asp:TextBox>
                                     </div>
                                 </div>
@@ -274,7 +268,7 @@
                                                 <asp:BoundField HeaderText="Responder Name" DataField="RespondentName" />
                                                 <asp:BoundField HeaderText="Designation" DataField="Designation_Name" />
                                                 <asp:BoundField HeaderText="Mobile No." DataField="RespondentMobileNo" />
-                                                <asp:BoundField HeaderText="Departent" DataField="Department" />
+                                                <asp:BoundField HeaderText="Department" DataField="Department" />
                                                 <asp:BoundField HeaderText="Address" DataField="Address" />
                                             </Columns>
                                         </asp:GridView>

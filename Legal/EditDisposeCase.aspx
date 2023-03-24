@@ -121,15 +121,15 @@
                                     <div class="row">
                                         <div class="col-md-2" runat="server" id="DisposalStatus">
                                             <div class="form-group">
-                                                <label>
+                                               <%-- <label>
                                                     Case Disposal</label><span style="color: red;"><b> *</b></span><br />
                                                 <asp:RadioButtonList ID="rdCaseDispose" runat="server" CssClass="rbl form-control" RepeatDirection="Horizontal" AutoPostBack="true" OnSelectedIndexChanged="rdCaseDispose_SelectedIndexChanged">
                                                     <asp:ListItem Value="1">Yes</asp:ListItem>
                                                     <asp:ListItem Value="2">No</asp:ListItem>
-                                                </asp:RadioButtonList>
+                                                </asp:RadioButtonList>--%>
                                             </div>
                                         </div>
-                                        <div class="col-md-3" id="caseDisposeYes" runat="server" visible="false">
+                                        <div class="col-md-4" id="caseDisposeYes" runat="server" visible="false">
                                             <div class="form-group">
                                                 <label>
                                                     Disposal Type
@@ -180,11 +180,6 @@
                                                 <label>
                                                     Compliance Timeline(In Days)
                                                 </label>
-                                                <%--<span style="color: red;"><b>*</b></span>
-                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator6" ValidationGroup="CaseDispose"
-                                                    ErrorMessage="Enter Compliance Timeline (In Days)." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
-                                                    ControlToValidate="txtOrderimpletimeline" Display="Dynamic" runat="server">
-                                                </asp:RequiredFieldValidator>--%>
                                                 <asp:TextBox ID="txtOrderimpletimeline" runat="server" onkeypress="return NumberOnly();" AutoComplete="off" CssClass="form-control">
                                                 </asp:TextBox>
                                             </div>
@@ -215,11 +210,11 @@
                                                 <span style="color: red; font-size: 13px; font-weight: 700;">Only PDF Files Accepted and size 200kb.</span>
                                             </div>
                                         </div>
-                                        <div class="col-md-1" id="HearingDtl_CaseDispose" runat="server" visible="false" style="padding-top: 2rem ! important;">
+                                        <div class="col-md-1" id="HearingDtl_CaseDispose" runat="server" visible="false" style="padding-top: 0.5rem ! important;">
                                             <asp:Button ID="btnCaseDispose" runat="server" CssClass="btn btn-primary" ValidationGroup="CaseDispose" Text="Disposal" OnClick="btnCaseDispose_Click" />
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row mt-2">
                                         <div class="col-md-12">
                                             <div class="table-responsive">
                                                 <asp:GridView ID="GrdCaseDispose" runat="server" AutoGenerateColumns="false" CssClass="table table-bordered text-center" OnRowCommand="GrdCaseDispose_RowCommand" DataKeyNames="Case_ID" AutoGenerateRows="false" EmptyDataText="NO RECORD FOUND">
@@ -861,7 +856,7 @@
                                                 <asp:TextBox ID="txtReplyDate" runat="server" data-provide="datepicker" placeholder="DD/MM/YYYY" CssClass="form-control disableFuturedate" data-date-format="dd/mm/yyyy" data-date-autoclose="true" AutoComplete="off"></asp:TextBox>
                                             </div>
                                         </div>
-                                        <div class="col-md-5">
+                                        <div class="col-md-5" id="divReplyRemark" runat="server">
                                             <div class="form-group">
                                                 <label>Reply Remark</label>
                                                 <asp:TextBox runat="server" ID="txtReplyCaseRemark" CssClass="form-control" placeholder="Case Reply Remark" TextMode="MultiLine" MaxLength="500"></asp:TextBox>

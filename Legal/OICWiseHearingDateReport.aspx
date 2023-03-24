@@ -16,11 +16,11 @@
                 <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
                 <div class="card">
                     <div class="card-header">
-                        Today Hearing Detail
+                        Hearing Detail
                     </div>
                     <div class="card-body">
                         <fieldset>
-                            <legend>Search</legend>
+                            <legend>Search Details</legend>
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
@@ -65,13 +65,13 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <div class="form-group">
-                                        <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary" Text="Search" OnClick="btnSearch_Click" />
-                                        <%-- </div>--%>
-                                        <%-- </div>
-                                <div class="col-md-3">--%>
-                                        <%--<div class="form-group">--%>
-                                        <a href="OICWiseHearingDateReport.aspx" class="btn btn-default">Clear</a>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary" Text="Search" OnClick="btnSearch_Click" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <a href="OICWiseHearingDateReport.aspx" class="btn btn-default btn-block">Clear</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
                                                         <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex +1 %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:BoundField DataField="OICName" HeaderText="OIC Name" ItemStyle-HorizontalAlign="Left"/>
+                                                <asp:BoundField DataField="OICName" HeaderText="OIC Name" ItemStyle-HorizontalAlign="Left" />
                                                 <asp:TemplateField HeaderText="उक्त समय से लम्बित प्रकरण" HeaderStyle-HorizontalAlign="Center">
                                                     <ItemTemplate>
                                                         <asp:HyperLink runat="server" NavigateUrl='<%# string.Format("OICWiseHearingDateShow.aspx?U={0}&F={1}&O={2}&C={3}&HF={4}&HT={5}",

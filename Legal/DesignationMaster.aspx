@@ -263,7 +263,7 @@
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Fotter" runat="Server">
-    <script src="../DataTable_CssJs/jquery.js"></script>
+    <%--<script src="../DataTable_CssJs/jquery.js"></script>--%>
     <script src="../DataTable_CssJs/jquery.dataTables.min.js"></script>
     <script src="../DataTable_CssJs/dataTables.bootstrap.min.js"></script>
     <script src="../DataTable_CssJs/dataTables.buttons.min.js"></script>

@@ -60,12 +60,12 @@ public partial class Legal_OICWiseHearingDateReport : System.Web.UI.Page
         {
             ds = new DataSet();
             // ds = obj.ByDataSet("select * from tbl_LegalCourtType order by CourtTypeName");
-            ds = obj.ByDataSet("select distinct Court from tbl_OldCaseDetail order by Court");
+            ds = obj.ByDataSet("select CourtType_ID, CourtTypeName from tbl_LegalCourtType");
             if (ds.Tables[0].Rows.Count > 0)
             {
                 ddlCourtType.DataSource = ds.Tables[0];
-                ddlCourtType.DataTextField = "Court";
-                ddlCourtType.DataValueField = "Court";
+                ddlCourtType.DataTextField = "CourtTypeName";
+                ddlCourtType.DataValueField = "CourtType_ID";
                 ddlCourtType.DataBind();
                 ddlCourtType.Items.Insert(0, new ListItem("Select", "0"));
             }

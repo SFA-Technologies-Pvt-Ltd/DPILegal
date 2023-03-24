@@ -131,7 +131,7 @@
                                         <asp:DropDownList ID="ddlWeek" runat="server" CssClass="form-control">
                                             <asp:ListItem Value="0">Select</asp:ListItem>
                                             <asp:ListItem Value="1">Current Week</asp:ListItem>
-                                            <asp:ListItem Value="2">Comming Week</asp:ListItem>
+                                            <asp:ListItem Value="2">Coming Week</asp:ListItem>
                                         </asp:DropDownList>
                                     </div>
                                 </div>

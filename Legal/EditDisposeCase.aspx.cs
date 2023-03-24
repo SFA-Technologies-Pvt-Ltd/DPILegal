@@ -11,6 +11,10 @@ using System.Net;
 using System.Net.Configuration;
 using System.Net.Mail;
 using System.Configuration;
+using System.Security.Cryptography;
+using System.Text;
+//using System.Net.Sockets;
+
 
 public partial class Legal_EditDisposeCase : System.Web.UI.Page
 {
@@ -25,9 +29,24 @@ public partial class Legal_EditDisposeCase : System.Web.UI.Page
         {
             if (!IsPostBack)
             {
+                //string localIPAddress = string.Empty;
+                //string hostName1 = System.Net.Dns.GetHostName();
+                //var ips = System.Net.Dns.GetHostEntry(hostName1);
+                //for (var i = 0; i <= ips.AddressList.Length - 1; i++)
+                //{
+                //    if (ips.AddressList[i].AddressFamily == AddressFamily.InterNetwork)
+                //        localIPAddress = ips.AddressList[i].ToString();
+                //}
+
+                string multiCharString = Request.QueryString.ToString();
+                string[] multiArray = multiCharString.Split(new Char[] { '=', '&' });
+                string CaseID = Decrypt(HttpUtility.UrlDecode(multiArray[1]));
+                string Uniqueno = Decrypt(HttpUtility.UrlDecode(multiArray[3]));
+
                 divReplyDate.Visible = false;
-                ViewState["ID"] = Request.QueryString["ID"];
-                ViewState["UniqueNO"] = Request.QueryString["UniqueNO"];
+                divReplyRemark.Visible = false;
+                ViewState["ID"] = CaseID;
+                ViewState["UniqueNO"] = Uniqueno;
                 ViewState["Emp_Id"] = Session["Emp_Id"].ToString();
                 ViewState["Office_Id"] = Session["Office_Id"].ToString();
                 Session["PAGETOKEN"] = Server.UrlEncode(System.DateTime.Now.ToString());
@@ -37,16 +56,18 @@ public partial class Legal_EditDisposeCase : System.Web.UI.Page
                 BindDisposalType();
                 FillParty();
                 FillCaseSubject();
-             
+
                 FillDesignation();
                 BindOfficeType();
-                CaseDisposeStatus(); // by deafult Case Dispose on NO text.
                 FillCasetype();
                 FillDepartment();
-               
+
                 BindDetails(sender, e);
                 ManagVisiblity();
                 FieldViewOldCaseDtl.Visible = false;
+
+
+
 
             }
         }
@@ -139,25 +160,6 @@ public partial class Legal_EditDisposeCase : System.Web.UI.Page
     {
         ViewState["UPAGETOKEN"] = Session["PAGETOKEN"];
     }
-    #region Fill CaseDispose Status
-    protected void CaseDisposeStatus() // Case Dispose By Default On NO condtiton
-    {
-        foreach (ListItem item in rdCaseDispose.Items)
-        {
-            if (item.Text.Contains("No"))
-            {
-                item.Selected = true;
-                break;
-
-            }
-            caseDisposeYes.Visible = true;
-            OrderBy1.Visible = false;
-            OrderBy2.Visible = false;
-            HearingDtl_CaseDispose.Visible = false;
-            CimplianceSt_Div.Visible = false;
-        }
-    }
-    #endregion
     #region Fill Case DisposeType
     protected void BindDisposalType()
     {
@@ -556,7 +558,7 @@ public partial class Legal_EditDisposeCase : System.Web.UI.Page
                 {
                     GrdCaseDispose.DataSource = ds.Tables[6]; GrdCaseDispose.DataBind(); DisposalStatus.Visible = false;
                 }
-                
+
                 if (ds.Tables[0].Rows[0]["OICOrderNumber"].ToString() != "")
                 {
                     txtOICcaseNumber.Text = ds.Tables[0].Rows[0]["OICOrderNumber"].ToString();
@@ -1478,33 +1480,33 @@ public partial class Legal_EditDisposeCase : System.Web.UI.Page
             lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
     }
-    protected void rdCaseDispose_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        try
-        {
-            lblMsg.Text = "";
-            caseDisposeYes.Visible = false;
-            if (rdCaseDispose.SelectedValue == "1")
-            {
-                caseDisposeYes.Visible = true;
-            }
-            else
-            {
-                caseDisposeYes.Visible = true;
-                OrderBy1.Visible = false;
-                OrderBy2.Visible = false;
-                DivOrderTimeline.Visible = false;
-                ddlDisponsType.ClearSelection();
-                HearingDtl_CaseDispose.Visible = false;
-                OrderSummary_Div.Visible = false;
-                CimplianceSt_Div.Visible = false;
-            }
-        }
-        catch (Exception ex)
-        {
-            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
-        }
-    }
+    //protected void rdCaseDispose_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    try
+    //    {
+    //        lblMsg.Text = "";
+    //        //caseDisposeYes.Visible = false;
+    //        //if (rdCaseDispose.SelectedValue == "1")
+    //        //{
+    //        //    caseDisposeYes.Visible = true;
+    //        //}
+    //        //else
+    //        //{
+    //            caseDisposeYes.Visible = false;
+    //            OrderBy1.Visible = false;
+    //            OrderBy2.Visible = false;
+    //            DivOrderTimeline.Visible = false;
+    //            ddlDisponsType.ClearSelection();
+    //            HearingDtl_CaseDispose.Visible = false;
+    //            OrderSummary_Div.Visible = false;
+    //            CimplianceSt_Div.Visible = false;
+    //      //  }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+    //    }
+    //}
     protected void btnCaseDispose_Click(object sender, EventArgs e)
     {
         try
@@ -1559,16 +1561,10 @@ public partial class Legal_EditDisposeCase : System.Web.UI.Page
 
                 if (errormsg == "")
                 {
-                    if (btnCaseDispose.Text == "Disposal")
+                    if (btnCaseDispose.Text == "Update")
                     {
-                        string DisposalDate = txtCaseDisposeDate.Text != "" ? Convert.ToDateTime(txtCaseDisposeDate.Text, cult).ToString("yyyy/MM/dd") : "";
-                        ds = obj.ByProcedure("USP_Update_CaseRegisDtl", new string[] { "flag", "Case_ID", "UniqueNo", "CaseDisposal_Status", "Compliance_Status", "CaseDisposalType_Id", "CaseDisposal_Date", "CaseDisposal_Timeline", "CaseDisposal_Doc", "OrderSummary", "LastupdatedBy", "LastupdatedByIP" }
-                            , new string[] { "2", ViewState["ID"].ToString(), ViewState["UniqueNO"].ToString(), rdCaseDispose.SelectedItem.Text, ddlCompliaceSt.SelectedValue, ddlDisponsType.SelectedValue, DisposalDate, txtOrderimpletimeline.Text.Trim(), ViewState["DisposeDOC"].ToString(), txtorderSummary.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
-                    }
-                    else if (btnCaseDispose.Text == "Update")
-                    {
-                        ds = obj.ByProcedure("USP_UpdateCaseDisOrderByDirec", new string[] { "Compliance_Status", "OrderSummary",  "LastupdatedBy", "LastupdatedByIp", "Case_ID" }
-                        , new string[] { ddlCompliaceSt.SelectedValue, txtorderSummary.Text.Trim(),Session["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ViewState["Dispose_ID"].ToString() }, "dataset");
+                        ds = obj.ByProcedure("USP_UpdateCaseDisOrderByDirec", new string[] { "Compliance_Status", "OrderSummary", "LastupdatedBy", "LastupdatedByIp", "Case_ID" }
+                        , new string[] { ddlCompliaceSt.SelectedValue, txtorderSummary.Text.Trim(), Session["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ViewState["Dispose_ID"].ToString() }, "dataset");
                     }
                     if (ds != null && ds.Tables[0].Rows.Count > 0)
                     {
@@ -1577,14 +1573,17 @@ public partial class Legal_EditDisposeCase : System.Web.UI.Page
                         {
                             //lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                             txtOrderimpletimeline.Text = "";
-                            rdCaseDispose.ClearSelection();
                             ddlDisponsType.ClearSelection();
                             ddlCompliaceSt.ClearSelection();
                             txtCaseDisposeDate.Text = "";
                             ViewState["DisposeDOC"] = "";
                             BindDetails(sender, e);
                             btnCaseDispose.Text = "Disposal";
-                            rdCaseDispose_SelectedIndexChanged(sender, e);
+                            caseDisposeYes.Visible = false;
+                            ddlDisponsType.ClearSelection();
+                            HearingDtl_CaseDispose.Visible = false;
+                            OrderSummary_Div.Visible = false;
+                            CimplianceSt_Div.Visible = false;
                             ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', '" + ErrMsg + "', 'success')", true);
                         }
                         else
@@ -1617,6 +1616,7 @@ public partial class Legal_EditDisposeCase : System.Web.UI.Page
                 Label lblorderSummary = (Label)row.FindControl("lblorderSummary");
                 if (lblDisposaltype_Id.Text != "")
                 {
+                    caseDisposeYes.Visible = true;
                     ddlDisponsType.ClearSelection();
                     ddlDisponsType.Items.FindByValue(lblDisposaltype_Id.Text).Selected = true;
                 }
@@ -1625,6 +1625,7 @@ public partial class Legal_EditDisposeCase : System.Web.UI.Page
                 {
                     if (lblComplianseSts_ID.Text != "")
                     {
+
                         ddlDisponsType.Enabled = false;
                         ddlCompliaceSt.ClearSelection();
                         ddlCompliaceSt.Items.FindByValue(lblComplianseSts_ID.Text).Selected = true; CimplianceSt_Div.Visible = true;
@@ -2046,10 +2047,12 @@ public partial class Legal_EditDisposeCase : System.Web.UI.Page
             if (ddlCaseReply.SelectedValue == "1")
             {
                 divReplyDate.Visible = true;
+                divReplyRemark.Visible = true;
             }
             else
             {
                 divReplyDate.Visible = false;
+                divReplyRemark.Visible = false;
             }
         }
         catch (Exception ex)
@@ -2140,7 +2143,28 @@ public partial class Legal_EditDisposeCase : System.Web.UI.Page
             ErrorLogCls.SendErrorToText(ex);
         }
     }
-    
+    private string Decrypt(string cipherText)
+    {
+        string EncryptionKey = "MAKV2SPBNI99212";
+        cipherText = cipherText.Replace(" ", "+");
+        byte[] cipherBytes = Convert.FromBase64String(cipherText);
+        using (Aes encryptor = Aes.Create())
+        {
+            Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+            encryptor.Key = pdb.GetBytes(32);
+            encryptor.IV = pdb.GetBytes(16);
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
+                {
+                    cs.Write(cipherBytes, 0, cipherBytes.Length);
+                    cs.Close();
+                }
+                cipherText = Encoding.Unicode.GetString(ms.ToArray());
+            }
+        }
+        return cipherText;
+    }
 }
 
 

@@ -869,7 +869,7 @@
                                                         </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="View" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                             <ItemTemplate>
-                                                                <asp:HyperLink ID="hyperViewDoc" runat="server" Visible="false" CssClass="fa fa-eye" Target="_blank" Enabled='<%#  Eval("Doc_Path").ToString() == "" ? false : true %>' NavigateUrl='<%# "../Legal/AddNewCaseCourtDoc/" +  Eval("Doc_Path") %>'></asp:HyperLink>
+                                                                <asp:HyperLink ID="hyperViewDoc" runat="server" Visible="false" CssClass="fa fa-eye" Target="_blank"  Enabled='<%#  Eval("Doc_Path").ToString() == "" ? false : true %>' NavigateUrl='<%# "../Legal/AddNewCaseCourtDoc/" + Eval("Doc_Path")  %>'></asp:HyperLink>
                                                                 <asp:Label ID="lblDocPath" runat="server" Text='<%# Eval("Doc_Path") %>' Visible="false"></asp:Label>
                                                                 <asp:HyperLink ID="hyperViewLink" runat="server" CssClass="fa fa-eye" Visible="false" Target="_blank" NavigateUrl='<%# Eval("Doc_Path") %>'></asp:HyperLink>
                                                             </ItemTemplate>
@@ -958,7 +958,7 @@
                                                     ErrorMessage="Enter Compliance Timeline (In Days)." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                     ControlToValidate="txtOrderimpletimeline" Display="Dynamic" runat="server">
                                                 </asp:RequiredFieldValidator>--%>
-                                                <asp:TextBox ID="txtOrderimpletimeline" runat="server" onkeypress="return NumberOnly();" AutoComplete="off" CssClass="form-control">
+                                                <asp:TextBox ID="txtOrderimpletimeline" runat="server" placeholder="Compliance Timeline" onkeypress="return NumberOnly();" AutoComplete="off" CssClass="form-control">
                                                 </asp:TextBox>
                                             </div>
                                         </div>
@@ -971,7 +971,7 @@
                                                     ErrorMessage="Enter Order Summary" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                     ControlToValidate="txtorderSummary" Display="Dynamic" runat="server">
                                                 </asp:RequiredFieldValidator>
-                                                <asp:TextBox ID="txtorderSummary" runat="server" MaxLength="500" AutoComplete="off" TextMode="MultiLine" CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtorderSummary" placeholder="Order Summary" runat="server" MaxLength="500" AutoComplete="off" TextMode="MultiLine" CssClass="form-control"></asp:TextBox>
                                                 <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator6" Display="Dynamic" ControlToValidate="txtorderSummary"
                                                     ValidationExpression="^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$" ValidationGroup="CaseDispose" ForeColor="Red" ErrorMessage="Please Enter Valid Text">
                                                 </asp:RegularExpressionValidator>

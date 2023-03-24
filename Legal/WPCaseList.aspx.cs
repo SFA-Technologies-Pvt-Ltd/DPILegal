@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -22,7 +25,7 @@ public partial class Legal_WPCaseList : System.Web.UI.Page
                 ViewState["Emp_Id"] = Session["Emp_Id"].ToString();
                 ViewState["Office_Id"] = Session["Office_Id"].ToString();
                 FillCasetype();
-                
+
                 FillCourt();
                 FillYear();
             }
@@ -240,15 +243,17 @@ public partial class Legal_WPCaseList : System.Web.UI.Page
             GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
             Label lblUniqueNo = (Label)row.FindControl("lblUniqueNo");
             Label lblStatus = (Label)row.FindControl("lblStatus");
-            string UniqueNO = lblUniqueNo.Text;
-            string ID = e.CommandArgument.ToString();
+            string ID = HttpUtility.UrlEncode(Encrypt(e.CommandArgument.ToString()));
+            string UniqueNO = HttpUtility.UrlEncode(Encrypt(lblUniqueNo.Text));
+            string CaseID = HttpUtility.UrlEncode(Encrypt("CaseID"));
+            string pageID = HttpUtility.UrlEncode(Encrypt("pageID"));
             if (lblStatus.Text == "Pending")
             {
-                Response.Redirect("../Legal/EditCaseDetail.aspx?ID=" + Server.UrlEncode(ID) + "&UniqueNO=" + UniqueNO, false);
+                Response.Redirect("~/Legal/EditCaseDetail.aspx?" + CaseID + "=" + ID + "&" + pageID + "=" + UniqueNO, false);
             }
             else if (lblStatus.Text == "Dispose")
             {
-                Response.Redirect("../Legal/EditDisposeCase.aspx?ID=" + Server.UrlEncode(ID) + "&UniqueNO=" + UniqueNO, false);
+                Response.Redirect("~/Legal/EditDisposeCase.aspx?" + CaseID + "=" + ID + "&" + pageID + "=" + UniqueNO, false);
             }
         }
         catch (Exception ex)
@@ -260,5 +265,25 @@ public partial class Legal_WPCaseList : System.Web.UI.Page
     {
         FillCaseNo();
     }
-
+    private string Encrypt(string clearText)
+    {
+        string EncryptionKey = "MAKV2SPBNI99212";
+        byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
+        using (Aes encryptor = Aes.Create())
+        {
+            Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+            encryptor.Key = pdb.GetBytes(32);
+            encryptor.IV = pdb.GetBytes(16);
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
+                {
+                    cs.Write(clearBytes, 0, clearBytes.Length);
+                    cs.Close();
+                }
+                clearText = Convert.ToBase64String(ms.ToArray());
+            }
+        }
+        return clearText;
+    }
 }

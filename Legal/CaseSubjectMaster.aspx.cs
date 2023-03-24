@@ -45,6 +45,8 @@ public partial class Legal_CaseSubjectMaster : System.Web.UI.Page
                 DataTable dt = ds.Tables[0];
                 grdCaseSubject.DataSource = dt;
                 grdCaseSubject.DataBind();
+                grdCaseSubject.HeaderRow.TableSection = TableRowSection.TableHeader;
+                grdCaseSubject.UseAccessibleHeader = true;
             }
         }
         catch (Exception ex)
@@ -74,10 +76,10 @@ public partial class Legal_CaseSubjectMaster : System.Web.UI.Page
                     string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
                     if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
                     {
-                        //lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                         txtCaseSubject.Text = "";
                         txtCaseSubjectCode.Text = "";
                         txtCaseSubjectDetail.Text = "";
+                        //lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                         ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', '" + ErrMsg + "', 'success')", true);
                     }
                 }
@@ -114,6 +116,8 @@ public partial class Legal_CaseSubjectMaster : System.Web.UI.Page
                 txtCaseSubjectDetail.Text = lblCaseSubjectDetail.Text;
                 btnSave.Text = "Update";
                 ViewState["EditID"] = e.CommandArgument;
+                grdCaseSubject.HeaderRow.TableSection = TableRowSection.TableHeader;
+                grdCaseSubject.UseAccessibleHeader = true;
             }
             if (e.CommandName == "DeleteDetails")
             {

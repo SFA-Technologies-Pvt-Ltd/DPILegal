@@ -125,22 +125,22 @@ public partial class Legal_DesignationMaster : System.Web.UI.Page
                     string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
                     if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
                     {
-                        //lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                         txtDeDesignation.Text = "";
                         ddlOfficetypename.ClearSelection();
                         ddlOfficeName.ClearSelection();
                         ddlOfficeLevel.ClearSelection();
                         BindGrid();
                         btnSave.Text = "Save";
+                        //lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                         ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', '" + ErrMsg + "', 'success')", true);
                     }
                     else
                     {
-                        //lblMsg.Text = obj.Alert("fa-check", "alert-warning", "Warning !", ErrMsg);
                         txtDeDesignation.Text = "";
                         ddlOfficetypename.ClearSelection();
                         ddlOfficeName.ClearSelection();
                         ddlOfficeLevel.ClearSelection();
+                        //lblMsg.Text = obj.Alert("fa-check", "alert-warning", "Warning !", ErrMsg);
                         ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','" + ErrMsg + "' , 'warning')", true);
                     }
 

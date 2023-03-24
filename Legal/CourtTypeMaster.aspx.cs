@@ -42,6 +42,8 @@ public partial class Legal_CourtTypeMaster : System.Web.UI.Page
             {
                 grdCourtType.DataSource = ds;
                 grdCourtType.DataBind();
+                grdCourtType.HeaderRow.TableSection = TableRowSection.TableHeader;
+                grdCourtType.UseAccessibleHeader = true;
             }
         }
         catch (Exception ex)
@@ -155,6 +157,8 @@ public partial class Legal_CourtTypeMaster : System.Web.UI.Page
                 Label lblOtherlocation = (Label)row.FindControl("lblOtherlocation");
                 btnSave.Text = "Update";
                 ViewState["CourtId"] = e.CommandArgument;
+                grdCourtType.HeaderRow.TableSection = TableRowSection.TableHeader;
+                grdCourtType.UseAccessibleHeader = true;
                 if (!string.IsNullOrEmpty(lblCourtNameID.Text))
                 {
                     ddlCourtType.ClearSelection();

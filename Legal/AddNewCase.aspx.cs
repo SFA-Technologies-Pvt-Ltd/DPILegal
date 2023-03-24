@@ -1175,6 +1175,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                         //lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thanks!", ErrMsg);
                         ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', '" + ErrMsg + "', 'success')", true);
                         ClearText();
+                        ddlDepartment.ClearSelection(); ddlDistrict.ClearSelection();
                     }
                     else
                     {

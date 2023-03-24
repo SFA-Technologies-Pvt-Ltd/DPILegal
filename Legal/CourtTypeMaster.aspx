@@ -1,6 +1,106 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="CourtTypeMaster.aspx.cs" Inherits="Legal_CourtTypeMaster" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+    <link href="../DataTable_CssJs/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="../DataTable_CssJs/buttons.dataTables.min.css" rel="stylesheet" />
+    <link href="../DataTable_CssJs/jquery.dataTables.min.css" rel="stylesheet" />
+    <style>
+        /*.datepicker tbody {
+            background-color: #ecfce6 !important;
+            color: black;
+        }
+
+        .datepicker th {
+            background-color: #608640 !important;
+        }*/
+
+        .label-orange {
+            background-color: #f5ac45;
+        }
+
+        .label {
+            display: inline;
+            padding: 0.2em 0.6em 0.3em;
+            font-size: 80%;
+            font-weight: 700;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.25em;
+        }
+
+        a.btn.btn-default.buttons-excel.buttons-html5 {
+            background: #066205;
+            color: white;
+            border-radius: unset;
+            box-shadow: 2px 2px 2px #808080;
+            margin-left: 6px;
+            border: none;
+            margin-top: 4%;
+        }
+
+        a.btn.btn-default.buttons-print {
+            background: #1e79e9;
+            color: white;
+            border-radius: unset;
+            box-shadow: 2px 2px 2px #808080;
+            border: none;
+            margin-top: 4%;
+        }
+
+        th.sorting, th.sorting_asc, th.sorting_desc {
+            background: teal !important;
+            color: white !important;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            padding: 8px 5px;
+        }
+
+        a.btn.btn-default.buttons-excel.buttons-html5 {
+            background: #ff5722c2;
+            color: white;
+            border-radius: unset;
+            box-shadow: 2px 2px 2px #808080;
+            margin-left: 6px;
+            border: none;
+        }
+
+        a.btn.btn-default.buttons-pdf.buttons-html5 {
+            background: #009688c9;
+            color: white;
+            border-radius: unset;
+            box-shadow: 2px 2px 2px #808080;
+            margin-left: 6px;
+            border: none;
+        }
+
+        a.btn.btn-default.buttons-print {
+            background: #e91e639e;
+            color: white;
+            border-radius: unset;
+            box-shadow: 2px 2px 2px #808080;
+            border: none;
+        }
+
+            a.btn.btn-default.buttons-print:hover, a.btn.btn-default.buttons-pdf.buttons-html5:hover, a.btn.btn-default.buttons-excel.buttons-html5:hover {
+                box-shadow: 1px 1px 1px #808080;
+            }
+
+            a.btn.btn-default.buttons-print:active, a.btn.btn-default.buttons-pdf.buttons-html5:active, a.btn.btn-default.buttons-excel.buttons-html5:active {
+                box-shadow: 1px 1px 1px #808080;
+            }
+
+        .box.box-pramod {
+            border-top-color: #1ca79a;
+        }
+
+        .box {
+            min-height: auto;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
     <asp:ValidationSummary ID="vs" runat="server" ValidationGroup="Save" ShowMessageBox="true" ShowSummary="false" />
@@ -74,7 +174,7 @@
                                                 <asp:DropDownList runat="server" CssClass="form-control select2" ID="ddlCourtlocation"></asp:DropDownList>
                                             </div>
                                         </div>
-                                     <%--   <div class="col-md-3" id="otherDiv" runat="server" visible="false">
+                                        <%--   <div class="col-md-3" id="otherDiv" runat="server" visible="false">
                                             <div class="form-group">
                                                 <label>Others</label><span style="color: red;"> *</span>
                                                 <asp:RequiredFieldValidator ID="rfvother" ValidationGroup="Save"
@@ -105,7 +205,7 @@
                                         <div class="col-md-12">
                                             <asp:Label ID="lblRecord" runat="server" Text="" ForeColor="Red"></asp:Label>
                                             <asp:GridView Width="100%" ID="grdCourtType" AutoGenerateColumns="false" runat="server"
-                                                CssClass="table table-bordered table-hover" PageSize="10" AllowPaging="true" OnPageIndexChanging="grdCaseSubject_PageIndexChanging" OnRowCommand="grdCourtType_RowCommand" DataKeyNames="CourtType_ID" EmptyDataText="NO RECORD FOUND">
+                                                CssClass="datatable table table-bordered table-hover" OnPageIndexChanging="grdCaseSubject_PageIndexChanging" OnRowCommand="grdCourtType_RowCommand" DataKeyNames="CourtType_ID" EmptyDataText="NO RECORD FOUND">
                                                 <RowStyle HorizontalAlign="Center" />
                                                 <HeaderStyle Font-Bold="true" HorizontalAlign="Center" />
                                                 <Columns>
@@ -127,7 +227,7 @@
                                                             <asp:HiddenField ID="hdnDistrictID" Value='<%#Eval("District_Id") %>' runat="server" />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                   <%--  <asp:TemplateField HeaderText="Other Location">
+                                                    <%--  <asp:TemplateField HeaderText="Other Location">
                                                         <ItemTemplate>
                                                             <asp:Label ID="lblOtherlocation" runat="server" Text='<%#Eval("OtherLocation") %>'></asp:Label>
                                                         </ItemTemplate>
@@ -136,7 +236,7 @@
                                                         <ItemTemplate>
                                                             <asp:LinkButton ID="btnEdit" runat="server" CommandArgument='<%#Eval("CourtType_ID") %>' CommandName="EditDetails" ToolTip="Edit" CssClass="fa fa-edit"></asp:LinkButton>&nbsp;
                                                             <asp:LinkButton ID="lnkbtndelete" runat="server" CommandName="DeleteDetails" CommandArgument='<%# Eval("CourtType_ID") %>'
-                                                                    OnClientClick="return confirm('Are you sure you want to delete this record?');" ToolTip="Delete" CssClass=""><i class="fa fa-trash"></i></asp:LinkButton>
+                                                                OnClientClick="return confirm('Are you sure you want to delete this record?');" ToolTip="Delete" CssClass=""><i class="fa fa-trash"></i></asp:LinkButton>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                 </Columns>
@@ -154,6 +254,60 @@
     </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Fotter" runat="Server">
+      <script src="../DataTable_CssJs/jquery.dataTables.min.js"></script>
+    <script src="../DataTable_CssJs/dataTables.bootstrap.min.js"></script>
+    <script src="../DataTable_CssJs/dataTables.buttons.min.js"></script>
+    <script src="../DataTable_CssJs/buttons.flash.min.js"></script>
+    <script src="../DataTable_CssJs/jszip.min.js"></script>
+    <script src="../DataTable_CssJs/pdfmake.min.js"></script>
+    <script src="../DataTable_CssJs/vfs_fonts.js"></script>
+    <script src="../DataTable_CssJs/buttons.html5.min.js"></script>
+    <script src="../DataTable_CssJs/buttons.print.min.js"></script>
+    <script src="../DataTable_CssJs/buttons.colVis.min.js"></script>
+    <script type="text/javascript">
+        $('.datatable').DataTable({
+            paging: true,
+            PageLength: 15,
+            columnDefs: [{
+                targets: 'no-sort',
+                orderable: false
+            }],
+            dom: '<"row"<"col-sm-6"Bl><"col-sm-6"f>>' +
+              '<"row"<"col-sm-12"<"table-responsive"tr>>>' +
+              '<"row"<"col-sm-5"i><"col-sm-7"p>>',
+            fixedHeader: {
+                header: true
+            },
+            buttons: {
+                buttons: [{
+                    extend: 'print',
+                    text: '<i class="fa fa-print"></i> Print',
+                    title: $('h3').text(),
+                    exportOptions: {
+                        columns: [0, 1, 2]
+                    },
+                    footer: true,
+                    autoPrint: true
+                }, {
+                    extend: 'excel',
+                    text: '<i class="fa fa-file-excel-o"></i> Excel',
+                    title: $('h3').text(),
+                    exportOptions: {
+                        columns: [0, 1, 2]
+                    },
+                    footer: true
+                }],
+                dom: {
+                    container: {
+                        className: 'dt-buttons'
+                    },
+                    button: {
+                        className: 'btn btn-default'
+                    }
+                }
+            }
+        });
+    </script>
     <script type="text/javascript">
         function NumberOnly() { //only Numeric required.
             var charcd = event.keyCode;
