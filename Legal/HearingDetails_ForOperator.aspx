@@ -1,11 +1,11 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/mis/MainMaster.master" AutoEventWireup="true" CodeFile="HearingDetails_ForOperator.aspx.cs" Inherits="mis_Legal_HearingDetails_ForOperator" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="HearingDetails_ForOperator.aspx.cs" Inherits="mis_Legal_HearingDetails_ForOperator" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentHeader" runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <%--  <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../assets/js/bootstrap.min.js"></script>--%>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentBody" runat="Server">
+<asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
    <%-- <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>--%>
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -755,7 +755,7 @@
         <!-- /.content -->
     </div>
 </asp:Content>
-<asp:Content ID="Content3" ContentPlaceHolderID="ContentFooter" runat="Server">
+<asp:Content ID="Content3" ContentPlaceHolderID="Fotter" runat="Server">
     <script src="../js/jQuery-2.2.0.min.js"></script>
     <script src="../js/bootstrap-datepicker.js"></script>
     <script src="../js/bootstrap.min.js"></script>

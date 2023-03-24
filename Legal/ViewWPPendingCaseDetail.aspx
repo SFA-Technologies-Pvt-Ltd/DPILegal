@@ -83,20 +83,20 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Oic Name</label>
+                                        <label>OIC Name</label>
                                         <asp:TextBox ID="txtOicName" runat="server" CssClass="form-control" ReadOnly="true" AutoPostBack="true" OnSelectedIndexChanged="ddlOicName_SelectedIndexChanged"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Oic Mobile Name</label>
+                                        <label>OIC Mobile Name</label>
                                         <span style="color: red;"><b>*</b></span>
                                         <asp:TextBox ID="txtOicMobileNo" runat="server" onkeypress="return NumberOnly();" CssClass="form-control" AutoComplete="off" MaxLength="10" ReadOnly="true"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Oic Email-ID</label>
+                                        <label>OIC Email-ID</label>
                                         <span style="color: red;"><b>*</b></span>
                                         <asp:TextBox ID="txtOicEmailId" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
                                     </div>

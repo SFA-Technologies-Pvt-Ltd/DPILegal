@@ -289,7 +289,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
         {
             Helper oic = new Helper();
             ddlOicName.Items.Clear();
-            DataTable dtOic = oic.GetOIC() as DataTable;
+            DataTable dtOic = oic.GetOICAll() as DataTable;
             if (dtOic != null && dtOic.Rows.Count > 0)
             {
                 ddlOicName.DataTextField = "OICName";
@@ -405,138 +405,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
         }
     }
     #endregion
-    #region SubmitButton
-    protected void btnSubmit_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            if (Page.IsValid)
-            {
-                lblMsg.Text = "";
-                if (btnSubmit.Text == "Save")
-                {
-                    DataTable dtDoc = ViewState["DocData"] as DataTable;
-                    DataTable dtresponder = ViewState["dt"] as DataTable;
-                    DataTable dtPetitioner = ViewState["Petitioner"] as DataTable;
-                    DataTable dtDeptAdv = ViewState["AdvData"] as DataTable;
-                    DataTable Hdt = ViewState["NextHearingDtl"] as DataTable;
-                    DataTable dt6 = ViewState["Dt5"] as DataTable;
-                    DataTable dt8 = ViewState["dt7"] as DataTable;
-                    int DocFailedCntExt = 0;
-                    int DocFailedCntSize = 0;
-                    string strFileName = "";
-                    string strExtension = "";
-                    string strTimeStamp = "";
-                    string OICDocument = "";
-                    if (GrdViewDoc.Rows.Count > 0 && GrdRespondent.Rows.Count > 0)
-                    {
-                        if (GrdPetitionerDtl.Rows.Count > 0 && grdDeptAdvocate.Rows.Count > 0)
-                        {
-                            if (fuOICDocument.HasFile)
-                            {
-                                string fileExt = System.IO.Path.GetExtension(fuOICDocument.FileName).Substring(1);
-                                string[] supportedTypes = { "PDF", "pdf" };
-                                if (!supportedTypes.Contains(fileExt))
-                                {
-                                    DocFailedCntExt += 1;
-                                }
-                                else if (fuOICDocument.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
-                                {
-                                    DocFailedCntSize += 1;
-                                }
-                                else
-                                {
-                                    strFileName = fuOICDocument.FileName.ToString();
-                                    strExtension = Path.GetExtension(strFileName);
-                                    strTimeStamp = DateTime.Now.ToString();
-                                    strTimeStamp = strTimeStamp.Replace("/", "-");
-                                    strTimeStamp = strTimeStamp.Replace(" ", "-");
-                                    strTimeStamp = strTimeStamp.Replace(":", "-");
-                                    string strName = Path.GetFileNameWithoutExtension(strFileName);
-                                    strFileName = strName + "OICOrderDoc-" + strTimeStamp + strExtension;
-                                    string path = Path.Combine(Server.MapPath("~/Legal/OICOrderDoc"), strFileName);
-                                    fuOICDocument.SaveAs(path);
 
-                                    OICDocument = strFileName;
-                                    path = "";
-                                    strFileName = "";
-                                    strName = "";
-                                }
-                            }
-                            string errormsg = "";
-                            if (DocFailedCntExt > 0) { errormsg += "Only upload Document in( PDF) Formate.\\n"; }
-                            if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 200 KB \\n"; }
-
-                            if (errormsg == "")
-                            {
-                                string OICDate = txtOICDate.Text != "" ? Convert.ToDateTime(txtOICDate.Text, cult).ToString("yyyy/MM/dd") : "";
-                                string PartyMaster = ddlParty.SelectedIndex > 0 ? ddlParty.SelectedValue : "";
-                                string HighPriorityCase = ddlHighprioritycase.SelectedIndex > 0 ? ddlHighprioritycase.SelectedItem.Text : "";
-                                string RegDate = txtDateOfCaseReg.Text != "" ? Convert.ToDateTime(txtDateOfCaseReg.Text, cult).ToString("yyyy/MM/dd") : "";
-                                string LastHearingDate = txtDateOfLastHearing.Text != "" ? Convert.ToDateTime(txtDateOfLastHearing.Text, cult).ToString("yyyy/MM/dd") : "";
-
-                                string ReplyDate = txtReplyDate.Text != "" ? Convert.ToDateTime(txtReplyDate.Text, cult).ToString("yyyy/MM/dd") : "";
-                                // Insert data into Main table
-                                ds = objdb.ByProcedure("USP_Insert_NewCaseReg", new string[] {"CaseNo", "Casetype_ID","CasetypeName", "CaseYear", "CourtType_Id", "CourtName",
-                                "CourtLocation_Id", "CaseSubject_Id", 
-                                "CaseSubSubj_Id", "CaseRegDate", "lastHearingDate", "HighPriorityCase_Status","Department_Id","District_ID", "PetitonerName", "Designation_Id", "PetitionerMobileNo", 
-                                "PetitionerAddress", "PetiAdvocateName", "PetiAdvocateMobile", "OICMaster_Id","OICOrderNumber","OICOrderDate","OICOrderDoc", "Party_Id", "DeptAdvocateName", 
-                                "DeptAdvocateMobileNo", "Office_Id","CaseDetail","CaseReplyStatus","CaseReplyDate","CaseReplyRemark", "CreatedBy", "CreatedByIP" },
-                                    new string[] {txtCaseNo.Text.Trim(),ddlCasetype.SelectedValue,ddlCasetype.SelectedItem.Text.Trim(),ddlCaseYear.SelectedItem.Text.Trim(),ddlCourtType.SelectedValue,ddlCourtType.SelectedItem.Text.Trim(),ddlCourtLocation.SelectedValue,
-                                    ddlCaseSubject.SelectedValue,
-                                ddlSubSubject.SelectedValue,RegDate,LastHearingDate,HighPriorityCase,ddlDepartment.SelectedValue,ddlDistrict.SelectedValue,txtPetiName.Text.Trim(),ddlPetiDesigNation.SelectedValue,txtPetiMobileNo.Text.Trim(),
-                                txtPetiAddRess.Text.Trim(),txtPetiAdvocateName.Text.Trim(),txtPetiAdvocateMobileNo.Text.Trim(),ddlOicName.SelectedValue,txtOICcaseNumber.Text.Trim(),OICDate,OICDocument, PartyMaster,txtDeptAdvocateName.Text.Trim(),
-                                txtDeptAdvocateMobileNo.Text.Trim(),ViewState["Office_ID"].ToString(),txtCaseDetail.Text.Trim(),ddlCaseReply.SelectedValue,ReplyDate,txtReplyCaseRemark.Text.Trim(),ViewState["Emp_ID"].ToString(), objdb.GetLocalIPAddress()},
-                                    new string[] { "type_RespondentDtl", "type_DocumentDtl", "type_PetitionerForCaseRegis", "type_DeptAdvForCaseRegis", "type_NextHearingForCaseRegis", "type_PetitiAdvocateForCaseRegis", "type_OldCaseDtlForCaseRegis" }
-                                    , new DataTable[] { dtresponder, dtDoc, dtPetitioner, dtDeptAdv, Hdt, dt6, dt8 }, "dataset");
-                            }
-                            else
-                            {
-                                ViewState["fuOICDocument"] = "";
-                                ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "alertMessage", "alert('Please Select \\n " + errormsg + "')", true);
-                            }
-                        }
-                        else
-                        {
-                            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('please Add Dept Advocate Detail & Petitioner Detail');", true);
-                        }
-                    }
-                    else
-                    {
-                        ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('please Add Document & Respondent Detail');", true);
-                    }
-                }
-
-                if (ds != null && ds.Tables[0].Rows.Count > 0)
-                {
-                    string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
-                    if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
-                    {
-                        //lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thanks!", ErrMsg);
-                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', '" + ErrMsg + "', 'success')", true);
-                        ClearText();
-                    }
-                    else
-                    {
-                        //lblMsg.Text = objdb.Alert("fa-check", "alert-warning", "Warning!", ErrMsg);
-                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','" + ErrMsg + "' , 'warning')", true);
-                    }
-                }
-                else
-                {
-
-                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','" + ds.Tables[0].Rows[0]["ErrMsg"].ToString() + "' , 'warning')", true);
-                    //lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ds.Tables[0].Rows[0]["ErrMsg"].ToString());
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            ErrorLogCls.SendErrorToText(ex);
-            //lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
-        }
-    }
-    #endregion
     #region ClearButton
     protected void btnClear_Click(object sender, EventArgs e)
     {
@@ -623,87 +492,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
         }
     }
     #endregion
-    #region AddDoc
-    protected void btnAddDoc_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            ViewState["AddNewCaseDoc"] = "";
-            int DocFailedCntExt = 0;
-            int DocFailedCntSize = 0;
-            string strFileName = "";
-            string strExtension = "";
-            string strTimeStamp = "";
-            if (FileUpload10.HasFile)     // CHECK IF ANY FILE HAS BEEN SELECTED.
-            {
-
-                string fileExt = System.IO.Path.GetExtension(FileUpload10.FileName).Substring(1);
-                string[] supportedTypes = { "PDF", "pdf" };
-                if (!supportedTypes.Contains(fileExt))
-                {
-                    DocFailedCntExt += 1;
-                }
-                else if (FileUpload10.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
-                {
-                    DocFailedCntSize += 1;
-                }
-                else
-                {
-                    strFileName = FileUpload10.FileName.ToString();
-                    strExtension = Path.GetExtension(strFileName);
-                    strTimeStamp = DateTime.Now.ToString();
-                    strTimeStamp = strTimeStamp.Replace("/", "-");
-                    strTimeStamp = strTimeStamp.Replace(" ", "-");
-                    strTimeStamp = strTimeStamp.Replace(":", "-");
-                    string strName = Path.GetFileNameWithoutExtension(strFileName);
-                    strFileName = strName + "NewCase-" + strTimeStamp + strExtension;
-                    string path = Path.Combine(Server.MapPath("../Legal/AddNewCaseCourtDoc/"), strFileName);
-                    FileUpload10.SaveAs(path);
-
-                    ViewState["AddNewCaseDoc"] = strFileName;
-                    path = "";
-                    strFileName = "";
-                    strName = "";
-                }
-            }
-            string errormsg = "";
-            if (DocFailedCntExt > 0) { errormsg += "Only upload Document in( PDF) Formate.\\n"; }
-            if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 200 KB \\n"; }
-
-            if (errormsg == "")
-            {
-                DataTable dt = ViewState["dtcol"] as DataTable;
-                if (dt.Columns.Count > 0)
-                {
-                    dt.Rows.Add(txtDocName.Text.Trim(), ViewState["AddNewCaseDoc"].ToString());
-                }
-                if (dt != null && dt.Rows.Count > 0)
-                {
-                    ViewState["DocData"] = dt;
-                    GrdViewDoc.DataSource = dt;
-                    GrdViewDoc.DataBind();
-                    txtDocName.Text = "";
-                    ViewState["AddNewCaseDoc"] = "";
-
-                }
-                else
-                {
-                    GrdViewDoc.DataSource = null;
-                    GrdViewDoc.DataBind();
-                }
-            }
-            else
-            {
-                ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "alertMessage", "alert('Please Select \\n " + errormsg + "')", true);
-            }
-        }
-        catch (Exception ex)
-        {
-            ErrorLogCls.SendErrorToText(ex);
-            //lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
-        }
-    }
-    #endregion
+    
     #region  Respondent Column
     protected void FillColumn()
     {
@@ -827,29 +616,8 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
         }
     }
     #endregion
-    protected void ddlCaseSubject_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        try
-        {
-            lblMsg.Text = "";
-            ddlSubSubject.Items.Clear();
-            DataSet DsSubs = objdb.ByDataSet("select CaseSubSubj_Id, CaseSubSubject from tbl_CaseSubSubjectMaster where CaseSubjectID=" + ddlCaseSubject.SelectedValue);
-            if (DsSubs != null && DsSubs.Tables[0].Rows.Count > 0)
-            {
-                ddlSubSubject.DataTextField = "CaseSubSubject";
-                ddlSubSubject.DataValueField = "CaseSubSubj_Id";
-                ddlSubSubject.DataSource = DsSubs;
-                ddlSubSubject.DataBind();
-            }
-            ddlSubSubject.Items.Insert(0, new ListItem("Select", "0"));
 
-        }
-        catch (Exception ex)
-        {
-            ErrorLogCls.SendErrorToText(ex);
-            //lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
-        }
-    }
+    #region Add DeptAdv
     protected void btnAdvocate_Click(object sender, EventArgs e)
     {
         try
@@ -875,6 +643,8 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
             ErrorLogCls.SendErrorToText(ex);
         }
     }
+    #endregion
+    #region Add Petitioner
     protected void btnPetitioner_Click(object sender, EventArgs e)
     {
         try
@@ -900,48 +670,8 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
             ErrorLogCls.SendErrorToText(ex);
         }
     }
-    protected void ddloldCaseCourt_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        try
-        {
-            ddloldCourtLoca_Id.Items.Clear();
-            ds = objdb.ByDataSet("select  CT.District_Id, District_Name  from tbl_LegalCourtType CT INNER Join Mst_District DM on DM.District_ID = CT.District_Id where CourtType_ID = " + ddloldCaseCourt.SelectedValue);
-            if (ds != null && ds.Tables[0].Rows.Count > 0)
-            {
-
-                ddloldCourtLoca_Id.DataTextField = "District_Name";
-                ddloldCourtLoca_Id.DataValueField = "District_ID";
-                ddloldCourtLoca_Id.DataSource = ds;
-                ddloldCourtLoca_Id.DataBind();
-            }
-            ddloldCourtLoca_Id.Items.Insert(0, new ListItem("Select", "0"));
-        }
-        catch (Exception ex)
-        {
-            ErrorLogCls.SendErrorToText(ex);
-        }
-    }
-
-    protected void ddlCourtType_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        try
-        {
-            ddlCourtLocation.Items.Clear();
-            ds = objdb.ByDataSet("select  CT.District_Id, District_Name  from tbl_LegalCourtType CT INNER Join Mst_District DM on DM.District_ID = CT.District_Id where CourtType_ID = " + ddlCourtType.SelectedValue);
-            if (ds != null && ds.Tables[0].Rows.Count > 0)
-            {
-                ddlCourtLocation.DataTextField = "District_Name";
-                ddlCourtLocation.DataValueField = "District_Id";
-                ddlCourtLocation.DataSource = ds;
-                ddlCourtLocation.DataBind();
-            }
-            ddlCourtLocation.Items.Insert(0, new ListItem("Select", "0"));
-        }
-        catch (Exception ex)
-        {
-            ErrorLogCls.SendErrorToText(ex);
-        }
-    }
+    #endregion
+    #region Add Hearing
     protected void btnAddHeairng_Click(object sender, EventArgs e)
     {
         try
@@ -1008,6 +738,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                 else
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('" + errormsg + "');", true);
+                    if (ViewState["HearingDoc"] != "") { if (File.Exists(ViewState["HearingDoc"].ToString())) { File.Delete(ViewState["HearingDoc"].ToString()); } ViewState["HearingDoc"] = ""; }
                 }
             }
         }
@@ -1016,6 +747,8 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
             ErrorLogCls.SendErrorToText(ex);
         }
     }
+    #endregion
+    #region Add PetiAdv
     protected void btnPetiAdvSave_Click(object sender, EventArgs e)
     {
         try
@@ -1043,6 +776,89 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
             throw;
         }
     }
+    #endregion
+    #region AddDoc
+    protected void btnAddDoc_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            ViewState["AddNewCaseDoc"] = "";
+            int DocFailedCntExt = 0;
+            int DocFailedCntSize = 0;
+            string strFileName = "";
+            string strExtension = "";
+            string strTimeStamp = "";
+            if (FileUpload10.HasFile)     // CHECK IF ANY FILE HAS BEEN SELECTED.
+            {
+
+                string fileExt = System.IO.Path.GetExtension(FileUpload10.FileName).Substring(1);
+                string[] supportedTypes = { "PDF", "pdf" };
+                if (!supportedTypes.Contains(fileExt))
+                {
+                    DocFailedCntExt += 1;
+                }
+                else if (FileUpload10.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
+                {
+                    DocFailedCntSize += 1;
+                }
+                else
+                {
+                    strFileName = FileUpload10.FileName.ToString();
+                    strExtension = Path.GetExtension(strFileName);
+                    strTimeStamp = DateTime.Now.ToString();
+                    strTimeStamp = strTimeStamp.Replace("/", "-");
+                    strTimeStamp = strTimeStamp.Replace(" ", "-");
+                    strTimeStamp = strTimeStamp.Replace(":", "-");
+                    string strName = Path.GetFileNameWithoutExtension(strFileName);
+                    strFileName = strName + "NewCase-" + strTimeStamp + strExtension;
+                    string path = Path.Combine(Server.MapPath("../Legal/AddNewCaseCourtDoc/"), strFileName);
+                    FileUpload10.SaveAs(path);
+
+                    ViewState["AddNewCaseDoc"] = strFileName;
+                    path = "";
+                    strFileName = "";
+                    strName = "";
+                }
+            }
+            string errormsg = "";
+            if (DocFailedCntExt > 0) { errormsg += "Only upload Document in( PDF) Formate.\\n"; }
+            if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 200 KB \\n"; }
+
+            if (errormsg == "")
+            {
+                DataTable dt = ViewState["dtcol"] as DataTable;
+                if (dt.Columns.Count > 0)
+                {
+                    dt.Rows.Add(txtDocName.Text.Trim(), ViewState["AddNewCaseDoc"].ToString());
+                }
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    ViewState["DocData"] = dt;
+                    GrdViewDoc.DataSource = dt;
+                    GrdViewDoc.DataBind();
+                    txtDocName.Text = "";
+                    ViewState["AddNewCaseDoc"] = "";
+                }
+                else
+                {
+                    GrdViewDoc.DataSource = null;
+                    GrdViewDoc.DataBind();
+                }
+            }
+            else
+            {
+                ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "alertMessage", "alert('Please Select \\n " + errormsg + "')", true);
+                if (ViewState["AddNewCaseDoc"] != "") { if (File.Exists(ViewState["AddNewCaseDoc"].ToString())) { File.Delete(ViewState["AddNewCaseDoc"].ToString()); } ViewState["AddNewCaseDoc"] = ""; }
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorLogCls.SendErrorToText(ex);
+            //lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
+        }
+    }
+    #endregion
+    #region Add oldCaseDtl
     protected void btnSaveOldCase_Click(object sender, EventArgs e)
     {
         try
@@ -1235,10 +1051,187 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                 }
                 else
                 {
-                    ViewState["FU1"] = ""; ViewState["FU2"] = ""; ViewState["FU3"] = ""; ViewState["FU4"] = "";
                     ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "alertMessage", "alert('Please Select \\n " + errormsg + "')", true);
+                    if (ViewState["FU1"] != "") { if (File.Exists(ViewState["FU1"].ToString())) { File.Delete(ViewState["FU1"].ToString()); } ViewState["FU1"] = ""; }
+                    if (ViewState["FU2"] != "") { if (File.Exists(ViewState["FU2"].ToString())) { File.Delete(ViewState["FU2"].ToString()); } ViewState["FU2"] = ""; }
+                    if (ViewState["FU3"] != "") { if (File.Exists(ViewState["FU3"].ToString())) { File.Delete(ViewState["FU3"].ToString()); } ViewState["FU3"] = ""; }
+                    if (ViewState["FU4"] != "") { if (File.Exists(ViewState["FU4"].ToString())) { File.Delete(ViewState["FU4"].ToString()); } ViewState["FU4"] = ""; }
                 }
             }
+        }
+        catch (Exception ex)
+        {
+            ErrorLogCls.SendErrorToText(ex);
+        }
+    }
+    #endregion
+    #region SubmitButton
+    protected void btnSubmit_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (Page.IsValid)
+            {
+                lblMsg.Text = "";
+                if (btnSubmit.Text == "Save")
+                {
+                    DataTable dtDoc = ViewState["DocData"] as DataTable;
+                    DataTable dtresponder = ViewState["dt"] as DataTable;
+                    DataTable dtPetitioner = ViewState["Petitioner"] as DataTable;
+                    DataTable dtDeptAdv = ViewState["AdvData"] as DataTable;
+                    DataTable Hdt = ViewState["NextHearingDtl"] as DataTable;
+                    DataTable dt6 = ViewState["Dt5"] as DataTable;
+                    DataTable dt8 = ViewState["dt7"] as DataTable;
+                    int DocFailedCntExt = 0;
+                    int DocFailedCntSize = 0;
+                    string strFileName = "";
+                    string strExtension = "";
+                    string strTimeStamp = "";
+                    string OICDocument = "";
+                    if (GrdViewDoc.Rows.Count > 0 && GrdRespondent.Rows.Count > 0)
+                    {
+                        if (GrdPetitionerDtl.Rows.Count > 0 && grdDeptAdvocate.Rows.Count > 0)
+                        {
+                            if (fuOICDocument.HasFile)
+                            {
+                                string fileExt = System.IO.Path.GetExtension(fuOICDocument.FileName).Substring(1);
+                                string[] supportedTypes = { "PDF", "pdf" };
+                                if (!supportedTypes.Contains(fileExt))
+                                {
+                                    DocFailedCntExt += 1;
+                                }
+                                else if (fuOICDocument.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
+                                {
+                                    DocFailedCntSize += 1;
+                                }
+                                else
+                                {
+                                    strFileName = fuOICDocument.FileName.ToString();
+                                    strExtension = Path.GetExtension(strFileName);
+                                    strTimeStamp = DateTime.Now.ToString();
+                                    strTimeStamp = strTimeStamp.Replace("/", "-");
+                                    strTimeStamp = strTimeStamp.Replace(" ", "-");
+                                    strTimeStamp = strTimeStamp.Replace(":", "-");
+                                    string strName = Path.GetFileNameWithoutExtension(strFileName);
+                                    strFileName = strName + "OICOrderDoc-" + strTimeStamp + strExtension;
+                                    string path = Path.Combine(Server.MapPath("~/Legal/OICOrderDoc"), strFileName);
+                                    fuOICDocument.SaveAs(path);
+
+                                    OICDocument = strFileName;
+                                    path = "";
+                                    strFileName = "";
+                                    strName = "";
+                                }
+                            }
+                            string errormsg = "";
+                            if (DocFailedCntExt > 0) { errormsg += "Only upload Document in( PDF) Formate.\\n"; }
+                            if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 200 KB \\n"; }
+
+                            if (errormsg == "")
+                            {
+                                string OICDate = txtOICDate.Text != "" ? Convert.ToDateTime(txtOICDate.Text, cult).ToString("yyyy/MM/dd") : "";
+                                string PartyMaster = ddlParty.SelectedIndex > 0 ? ddlParty.SelectedValue : "";
+                                string HighPriorityCase = ddlHighprioritycase.SelectedIndex > 0 ? ddlHighprioritycase.SelectedItem.Text : "";
+                                string RegDate = txtDateOfCaseReg.Text != "" ? Convert.ToDateTime(txtDateOfCaseReg.Text, cult).ToString("yyyy/MM/dd") : "";
+                                string LastHearingDate = txtDateOfLastHearing.Text != "" ? Convert.ToDateTime(txtDateOfLastHearing.Text, cult).ToString("yyyy/MM/dd") : "";
+
+                                string ReplyDate = txtReplyDate.Text != "" ? Convert.ToDateTime(txtReplyDate.Text, cult).ToString("yyyy/MM/dd") : "";
+                                // Insert data into Main table
+                                ds = objdb.ByProcedure("USP_Insert_NewCaseReg", new string[] {"CaseNo", "Casetype_ID","CasetypeName", "CaseYear", "CourtType_Id", "CourtName",
+                                "CourtLocation_Id", "CaseSubject_Id", 
+                                "CaseSubSubj_Id", "CaseRegDate", "lastHearingDate", "HighPriorityCase_Status","Department_Id","District_ID", "PetitonerName", "Designation_Id", "PetitionerMobileNo", 
+                                "PetitionerAddress", "PetiAdvocateName", "PetiAdvocateMobile", "OICMaster_Id","OICOrderNumber","OICOrderDate","OICOrderDoc", "Party_Id", "DeptAdvocateName", 
+                                "DeptAdvocateMobileNo", "Office_Id","CaseDetail","CaseReplyStatus","CaseReplyDate","CaseReplyRemark", "CreatedBy", "CreatedByIP" },
+                                    new string[] {txtCaseNo.Text.Trim(),ddlCasetype.SelectedValue,ddlCasetype.SelectedItem.Text.Trim(),ddlCaseYear.SelectedItem.Text.Trim(),ddlCourtType.SelectedValue,ddlCourtType.SelectedItem.Text.Trim(),ddlCourtLocation.SelectedValue,
+                                    ddlCaseSubject.SelectedValue,
+                                ddlSubSubject.SelectedValue,RegDate,LastHearingDate,HighPriorityCase,ddlDepartment.SelectedValue,ddlDistrict.SelectedValue,txtPetiName.Text.Trim(),ddlPetiDesigNation.SelectedValue,txtPetiMobileNo.Text.Trim(),
+                                txtPetiAddRess.Text.Trim(),txtPetiAdvocateName.Text.Trim(),txtPetiAdvocateMobileNo.Text.Trim(),ddlOicName.SelectedValue,txtOICcaseNumber.Text.Trim(),OICDate,OICDocument, PartyMaster,txtDeptAdvocateName.Text.Trim(),
+                                txtDeptAdvocateMobileNo.Text.Trim(),ViewState["Office_ID"].ToString(),txtCaseDetail.Text.Trim(),ddlCaseReply.SelectedValue,ReplyDate,txtReplyCaseRemark.Text.Trim(),ViewState["Emp_ID"].ToString(), objdb.GetLocalIPAddress()},
+                                    new string[] { "type_RespondentDtl", "type_DocumentDtl", "type_PetitionerForCaseRegis", "type_DeptAdvForCaseRegis", "type_NextHearingForCaseRegis", "type_PetitiAdvocateForCaseRegis", "type_OldCaseDtlForCaseRegis" }
+                                    , new DataTable[] { dtresponder, dtDoc, dtPetitioner, dtDeptAdv, Hdt, dt6, dt8 }, "dataset");
+                            }
+                            else
+                            {
+                                ViewState["fuOICDocument"] = "";
+                                ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "alertMessage", "alert('Please Select \\n " + errormsg + "')", true);
+                            }
+                        }
+                        else
+                        {
+                            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('please Add Dept Advocate Detail & Petitioner Detail');", true);
+                        }
+                    }
+                    else
+                    {
+                        ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('please Add Document & Respondent Detail');", true);
+                    }
+                }
+
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
+                {
+                    string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
+                    if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
+                    {
+                        //lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thanks!", ErrMsg);
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', '" + ErrMsg + "', 'success')", true);
+                        ClearText();
+                    }
+                    else
+                    {
+                        //lblMsg.Text = objdb.Alert("fa-check", "alert-warning", "Warning!", ErrMsg);
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','" + ErrMsg + "' , 'warning')", true);
+                    }
+                }
+                else
+                {
+
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','" + ds.Tables[0].Rows[0]["ErrMsg"].ToString() + "' , 'warning')", true);
+                    //lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ds.Tables[0].Rows[0]["ErrMsg"].ToString());
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorLogCls.SendErrorToText(ex);
+            //lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
+        }
+    }
+    #endregion
+    protected void ddloldCaseCourt_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            ddloldCourtLoca_Id.Items.Clear();
+            ds = objdb.ByDataSet("select  CT.District_Id, District_Name  from tbl_LegalCourtType CT INNER Join Mst_District DM on DM.District_ID = CT.District_Id where CourtType_ID = " + ddloldCaseCourt.SelectedValue);
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            {
+
+                ddloldCourtLoca_Id.DataTextField = "District_Name";
+                ddloldCourtLoca_Id.DataValueField = "District_ID";
+                ddloldCourtLoca_Id.DataSource = ds;
+                ddloldCourtLoca_Id.DataBind();
+            }
+            ddloldCourtLoca_Id.Items.Insert(0, new ListItem("Select", "0"));
+        }
+        catch (Exception ex)
+        {
+            ErrorLogCls.SendErrorToText(ex);
+        }
+    }
+    protected void ddlCourtType_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            ddlCourtLocation.Items.Clear();
+            ds = objdb.ByDataSet("select  CT.District_Id, District_Name  from tbl_LegalCourtType CT INNER Join Mst_District DM on DM.District_ID = CT.District_Id where CourtType_ID = " + ddlCourtType.SelectedValue);
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            {
+                ddlCourtLocation.DataTextField = "District_Name";
+                ddlCourtLocation.DataValueField = "District_Id";
+                ddlCourtLocation.DataSource = ds;
+                ddlCourtLocation.DataBind();
+            }
+            ddlCourtLocation.Items.Insert(0, new ListItem("Select", "0"));
         }
         catch (Exception ex)
         {
@@ -1264,5 +1257,29 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
             throw;
         }
     }
+    protected void ddlCaseSubject_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            lblMsg.Text = "";
+            ddlSubSubject.Items.Clear();
+            DataSet DsSubs = objdb.ByDataSet("select CaseSubSubj_Id, CaseSubSubject from tbl_CaseSubSubjectMaster where CaseSubjectID=" + ddlCaseSubject.SelectedValue);
+            if (DsSubs != null && DsSubs.Tables[0].Rows.Count > 0)
+            {
+                ddlSubSubject.DataTextField = "CaseSubSubject";
+                ddlSubSubject.DataValueField = "CaseSubSubj_Id";
+                ddlSubSubject.DataSource = DsSubs;
+                ddlSubSubject.DataBind();
+            }
+            ddlSubSubject.Items.Insert(0, new ListItem("Select", "0"));
+
+        }
+        catch (Exception ex)
+        {
+            ErrorLogCls.SendErrorToText(ex);
+            //lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+        }
+    }
+
 }
 

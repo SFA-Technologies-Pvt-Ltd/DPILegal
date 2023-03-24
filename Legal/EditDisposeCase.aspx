@@ -735,7 +735,7 @@
                                                         ControlToValidate="ddlDistrict" ForeColor="Red" Display="Dynamic" runat="server" InitialValue="0">
                                                     </asp:RequiredFieldValidator>
                                                 </span>
-                                                <asp:DropDownList runat="server" ID="ddlDistrict" CssClass="form-control"></asp:DropDownList>
+                                                <asp:DropDownList runat="server" ID="ddlDistrict" CssClass="form-control select2"></asp:DropDownList>
                                             </div>
                                         </div>
                                     </div>
@@ -749,7 +749,7 @@
                                                     ErrorMessage="Select Case Subject." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                     ControlToValidate="ddlCaseSubject" Display="Dynamic" runat="server" InitialValue="0">
                                                 </asp:RequiredFieldValidator>
-                                                <asp:DropDownList ID="ddlCaseSubject" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlCaseSubject_SelectedIndexChanged"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlCaseSubject" runat="server" CssClass="form-control select2" AutoPostBack="true" OnSelectedIndexChanged="ddlCaseSubject_SelectedIndexChanged"></asp:DropDownList>
                                             </div>
                                         </div>
                                         <div class="col-md-5">
@@ -760,7 +760,7 @@
                                                     ErrorMessage="Select Case Sub Subject" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                     ControlToValidate="ddlCaseSubSubject" Display="Dynamic" runat="server" InitialValue="0">
                                                 </asp:RequiredFieldValidator>
-                                                <asp:DropDownList ID="ddlCaseSubSubject" runat="server" CssClass="form-control"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlCaseSubSubject" runat="server" CssClass="form-control select2"></asp:DropDownList>
                                             </div>
                                         </div>
                                     </div>
@@ -773,7 +773,7 @@
                                                     ErrorMessage="Enter OIC Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                     ControlToValidate="ddlOicName" Display="Dynamic" runat="server" InitialValue="0">
                                                 </asp:RequiredFieldValidator>
-                                                <asp:DropDownList ID="ddlOicName" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlOicName_SelectedIndexChanged"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlOicName" runat="server" CssClass="form-control select2" AutoPostBack="true" OnSelectedIndexChanged="ddlOicName_SelectedIndexChanged"></asp:DropDownList>
                                             </div>
                                         </div>
 

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
@@ -10,9 +8,6 @@ using System.IO;
 using System.Net;
 using System.Net.Configuration;
 using System.Net.Mail;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using System.Configuration;
 
 public partial class Legal_EditCaseDetail : System.Web.UI.Page
@@ -40,13 +35,13 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                 BindDisposalType();
                 FillParty();
                 FillCaseSubject();
-                FillOicName();
+               
                 FillDesignation();
                 BindOfficeType();
                 CaseDisposeStatus(); // by deafult Case Dispose on NO text.
                 FillCasetype();
                 FillDepartment();
-                FillDitrict();
+               
                 BindDetails(sender, e);
                 ManagVisiblity();
                 FieldViewOldCaseDtl.Visible = false;
@@ -65,7 +60,8 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
         try
         {
             ddlDistrict.Items.Clear();
-            ds = obj.ByDataSet("select District_ID, District_Name from  Mst_District");
+            ds = obj.ByDataSet("select DM.District_ID, District_Name from  Mst_District DM inner join tbl_DistrictCourtMaping_Mst CMM on DM.District_ID=CMM.District_ID " +
+            "where CMM.CourtName_ID=" + ddlCourtType.SelectedValue);
             if (ds != null && ds.Tables[0].Rows.Count > 0)
             {
                 ddlDistrict.DataTextField = "District_Name";
@@ -213,7 +209,7 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
         {
             Helper oic = new Helper();
             ddlOicName.Items.Clear();
-            DataTable dtOic = oic.GetOIC() as DataTable;
+            DataTable dtOic = oic.GetOIC(ddlCourtType.SelectedValue) as DataTable;
             if (dtOic != null && dtOic.Rows.Count > 0)
             {
                 ddlOicName.DataTextField = "OICName";
@@ -303,30 +299,7 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
         }
     }
     #endregion
-    #region Fill OICName
-    protected void BiunOicName()
-    {
-        try
-        {
-            Helper oic = new Helper();
-            ddlOicName.Items.Clear();
-            DataTable dtOic = oic.GetOIC() as DataTable;
-            if (dtOic != null && dtOic.Rows.Count > 0)
-            {
-                ddlOicName.DataTextField = "OICName";
-                ddlOicName.DataValueField = "OICMaster_ID";
-                ddlOicName.DataSource = dtOic;
-                ddlOicName.DataBind();
-            }
-            ddlOicName.Items.Insert(0, new ListItem("Select", "0"));
-        }
-        catch (Exception ex)
-        {
-            ErrorLogCls.SendErrorToText(ex);
-            //lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
-        }
-    }
-    #endregion
+  
     #region Fill CourtName
     protected void BindCourtName()
     {
@@ -514,6 +487,7 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                     ddlParty.ClearSelection();
                     ddlParty.Items.FindByValue(ds.Tables[0].Rows[0]["Party_Id"].ToString().Trim()).Selected = true;
                 }
+                FillOicName();
                 if (ds.Tables[0].Rows[0]["OICMaster_Id"].ToString() != "")
                 {
                     ddlOicName.ClearSelection();
@@ -559,12 +533,7 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                 {
                     GrdCaseDispose.DataSource = ds.Tables[6]; GrdCaseDispose.DataBind(); DisposalStatus.Visible = false;
                 }
-                if (ds.Tables[0].Rows[0]["District_ID"].ToString() != "")
-                {
-
-                    ddlDistrict.ClearSelection();
-                    ddlDistrict.Items.FindByValue(ds.Tables[0].Rows[0]["District_ID"].ToString()).Selected = true;
-                }
+               
                 if (ds.Tables[0].Rows[0]["OICOrderNumber"].ToString() != "")
                 {
                     txtOICcaseNumber.Text = ds.Tables[0].Rows[0]["OICOrderNumber"].ToString();
@@ -589,7 +558,13 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                     ViewState["oldOICDoc"] = "NA";
                     hyperlinkOICdoc.Visible = false;
                 }
+                FillDitrict();
+                if (ds.Tables[0].Rows[0]["District_ID"].ToString() != "")
+                {
 
+                    ddlDistrict.ClearSelection();
+                    ddlDistrict.Items.FindByValue(ds.Tables[0].Rows[0]["District_ID"].ToString()).Selected = true;
+                }
             }
         }
         catch (Exception ex)
@@ -1562,15 +1537,15 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                 {
                     if (btnCaseDispose.Text == "Disposal")
                     {
-                        if (ViewState["Department"] != "NA")
+                        if (ViewState["Department"] == "NA")
                         {
                             ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', 'Fill Case Details', 'info')", true);
                         }
                         else
-                        { 
-                        string DisposalDate = txtCaseDisposeDate.Text != "" ? Convert.ToDateTime(txtCaseDisposeDate.Text, cult).ToString("yyyy/MM/dd") : "";
-                        ds = obj.ByProcedure("USP_Update_CaseRegisDtl", new string[] { "flag", "Case_ID", "UniqueNo", "CaseDisposal_Status", "Compliance_Status", "CaseDisposalType_Id", "CaseDisposal_Date", "CaseDisposal_Timeline", "CaseDisposal_Doc", "OrderSummary", "LastupdatedBy", "LastupdatedByIP" }
-                            , new string[] { "2", ViewState["ID"].ToString(), ViewState["UniqueNO"].ToString(), rdCaseDispose.SelectedItem.Text, ddlCompliaceSt.SelectedValue, ddlDisponsType.SelectedValue, DisposalDate, txtOrderimpletimeline.Text.Trim(), ViewState["DisposeDOC"].ToString(), txtorderSummary.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
+                        {
+                            string DisposalDate = txtCaseDisposeDate.Text != "" ? Convert.ToDateTime(txtCaseDisposeDate.Text, cult).ToString("yyyy/MM/dd") : "";
+                            ds = obj.ByProcedure("USP_Update_CaseRegisDtl", new string[] { "flag", "Case_ID", "UniqueNo", "CaseDisposal_Status", "Compliance_Status", "CaseDisposalType_Id", "CaseDisposal_Date", "CaseDisposal_Timeline", "CaseDisposal_Doc", "OrderSummary", "LastupdatedBy", "LastupdatedByIP" }
+                                , new string[] { "2", ViewState["ID"].ToString(), ViewState["UniqueNO"].ToString(), rdCaseDispose.SelectedItem.Text, ddlCompliaceSt.SelectedValue, ddlDisponsType.SelectedValue, DisposalDate, txtOrderimpletimeline.Text.Trim(), ViewState["DisposeDOC"].ToString(), txtorderSummary.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
                         }
                     }
                     if (ds != null)

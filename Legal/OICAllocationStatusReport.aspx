@@ -109,11 +109,11 @@
                 <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
                 <div class="card">
                     <div class="card-header">
-                        Pending Case Detail
+                        OIC Allocation Detail
                     </div>
                     <div class="card-body">
                         <fieldset>
-                            <legend>Case Report</legend>
+                            <legend>Search Detail</legend>
                             <div class="row">
                                 <div class="col-md-3 col-sm" style="display: none;">
                                     <div class="form-group">
@@ -203,16 +203,15 @@
                             </div>
                         </fieldset>
                         <fieldset>
-                            <legend>Report</legend>
+                            <legend>Details</legend>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
                                         <asp:GridView ID="GrdCaseDetails" runat="server" AutoGenerateColumns="false" DataKeyNames="Case_ID" CssClass="datatable table table-bordered" EmptyDataText="NO RECORD FOUND">
                                             <Columns>
-                                                <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="5%">
+                                                <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblId" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
-                                                  
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Case No." ItemStyle-HorizontalAlign="Left">
@@ -243,7 +242,7 @@
                                         </asp:GridView>
                                         <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="false" DataKeyNames="Case_ID" CssClass="datatable table table-bordered" EmptyDataText="NO RECORD FOUND">
                                             <Columns>
-                                                <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="5%">
+                                                <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblId" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
                                                   

@@ -153,7 +153,7 @@
                                     <div class="col-md-4">
                                         <span style="color: red;"><b>NOTE: Excel Template to upload cases</b></span>
                                     </div>
-                                      <div class="col-md-1" style="left: 86%; position:fixed; display:inline;">
+                                    <div class="col-md-1" style="left: 86%; position: fixed; display: inline;">
                                         <a href="../Legal/Template.xlsx" class="fa fa-download">Download</a>
                                     </div>
                                 </div>
@@ -174,7 +174,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-2"></div>
-                                  
+
                                 </div>
                                 <div class="row" id="divFill" runat="server">
                                     <div class="col-md-12">
@@ -300,10 +300,15 @@
                                 </fieldset>
                                 <div class="row">
                                     <div class="col-md-12" id="Div_CaseCount" runat="server" visible="false">
-                                        <span style="color:green;"><b>NOTE: Total " <asp:Label ID="lblCaseCount" runat="server"></asp:Label> " Cases Going to upload on System. </b></span>
+                                        <span style="color: green;"><b>NOTE: Total "
+                                            <asp:Label ID="lblCaseCount" runat="server"></asp:Label>
+                                            " Cases Going to upload on System.</b></span>
                                     </div>
                                     <div class="col-md-1 mt-1">
                                         <asp:Button ID="btnSave" runat="server" CssClass="btn btn-primary btn-block" Visible="false" Text="Save" OnClick="btnSave_Click" OnClientClick="return confirm('Are you sure you want to Save records?');" />
+                                    </div>
+                                    <div class="col-md-1 mt-1" id="DivCancelUpload" runat="server" visible="false">
+                                        <a href="UploadExcel.aspx" class="btn btn-danger">Cancel</a>
                                     </div>
                                 </div>
                             </div>
@@ -315,10 +320,7 @@
     </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Fotter" runat="Server">
-
     <script>
-
-        
         <%-- function ValidatePage() {
             if (typeof (Page_ClientValidate) == 'function') {
                 Page_ClientValidate('Save');

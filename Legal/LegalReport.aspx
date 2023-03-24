@@ -1,6 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/mis/MainMaster.master" AutoEventWireup="true" CodeFile="LegalReport.aspx.cs" Inherits="mis_Legal_LegalReport" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="LegalReport.aspx.cs" Inherits="mis_Legal_LegalReport" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentHeader" runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="assets/css/Dashboard.css" rel="stylesheet" />
     <style>
         .box {
@@ -8,7 +8,7 @@
         }
     </style>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentBody" runat="Server">
+<asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
     <div class="content-wrapper">
 
         <section class="content-header">
@@ -136,7 +136,7 @@
 
     </div>
 </asp:Content>
-<asp:Content ID="Content3" ContentPlaceHolderID="ContentFooter" runat="Server">
+<asp:Content ID="Content3" ContentPlaceHolderID="Fotter" runat="Server">
     <link href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap.min.css" rel="stylesheet" />
     <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap.min.js"></script>

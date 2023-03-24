@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -22,12 +25,19 @@ public partial class Legal_ViewWPPendingCaseDetail : System.Web.UI.Page
 
                 if (!IsPostBack)
                 {
-                    if (!string.IsNullOrEmpty(Request.QueryString["CaseID"]))
+
+                    string multiCharString = Request.QueryString.ToString();
+                    string[] multiArray = multiCharString.Split(new Char[] { '=', '&' });
+
+                   string CaseID = Decrypt(HttpUtility.UrlDecode(multiArray[1]));
+                    string PageID = Decrypt(HttpUtility.UrlDecode(multiArray[3]));
+                    ViewState["Page"] = PageID.ToString();
+                    if (!string.IsNullOrEmpty(CaseID))
                     {
-                        ViewState["CaseID"] = Request.QueryString["CaseID"].ToString();
+                        ViewState["CaseID"] = CaseID;
                         BindCaseDetail();
                         txtOICDate.Attributes.Add("readonly", "readonly");
-                        if (Request.QueryString["pageID"] == "2" || Request.QueryString["pageID"] == "4")
+                        if (PageID == "2" || PageID == "4")
                         {
                             dvOrderSummary.Visible = true;
                             dvCaseDisposalType.Visible = true;
@@ -96,7 +106,7 @@ public partial class Legal_ViewWPPendingCaseDetail : System.Web.UI.Page
                 if (ds.Tables[3].Rows.Count > 0) GrdDeptAdv.DataSource = ds.Tables[3]; GrdDeptAdv.DataBind();
                 if (ds.Tables[4].Rows.Count > 0) GrdResponderDtl.DataSource = ds.Tables[4]; GrdResponderDtl.DataBind();
                 if (ds.Tables[5].Rows[0]["CaseDoc_ID"].ToString() != "") GrdDocument.DataSource = ds.Tables[5]; GrdDocument.DataBind();
-                if(ds.Tables[6].Rows.Count > 0)
+                if (ds.Tables[6].Rows.Count > 0)
                 {
                     if (ds.Tables[6].Rows[0]["NextHearing_ID"].ToString() != "") GrdHearingDtl.DataSource = ds.Tables[6]; GrdHearingDtl.DataBind();
 
@@ -147,13 +157,14 @@ public partial class Legal_ViewWPPendingCaseDetail : System.Web.UI.Page
     {
         try
         {
-            if (Request.QueryString["pageID"] == "1") Response.Redirect("../Legal/pendingwpreport.aspx", false); //Pendig Rpt
-            if (Request.QueryString["pageID"] == "2") Response.Redirect("../Legal/ConcludedwpReport.aspx", false);//Concolude Rpt
-            if (Request.QueryString["pageID"] == "3") Response.Redirect("../Legal/SubjectWiseCaseDtl.aspx", false);// SubjectWise Case Rpt
-            if (Request.QueryString["pageID"] == "4") Response.Redirect("../Legal/disposecaserpt.aspx", false);// Disposal Case Rpt
-            if (Request.QueryString["pageID"] == "5") Response.Redirect("../Legal/MonthlyHearingDtl.aspx", false);// Monthly Hearing Case Rpt
-            if (Request.QueryString["pageID"] == "6") Response.Redirect("../Legal/WeekelyHearingCaseRpt.aspx", false);// Weekely Hearing Case Rpt
-            if (Request.QueryString["pageID"] == "7") Response.Redirect("../Legal/LongPendingCaseRpt.aspx", false);// Long Pendinh Case Rpt
+            if (ViewState["Page"].ToString() == "1") Response.Redirect("../Legal/pendingwpreport.aspx", false); //Pendig Rpt
+            if (ViewState["Page"].ToString() == "2") Response.Redirect("../Legal/ConcludedwpReport.aspx", false);//Concolude Rpt
+            if (ViewState["Page"].ToString() == "3") Response.Redirect("../Legal/SubjectWiseCaseDtl.aspx", false);// SubjectWise Case Rpt
+            if (ViewState["Page"].ToString() == "4") Response.Redirect("../Legal/disposecaserpt.aspx", false);// Disposal Case Rpt
+            if (ViewState["Page"].ToString() == "5") Response.Redirect("../Legal/MonthlyHearingDtl.aspx", false);// Monthly Hearing Case Rpt
+            if (ViewState["Page"].ToString() == "6") Response.Redirect("../Legal/WeekelyHearingCaseRpt.aspx", false);// Weekely Hearing Case Rpt
+            if (ViewState["Page"].ToString() == "7") Response.Redirect("../Legal/LongPendingCaseRpt.aspx", false);// Long Pendinh Case Rpt
+            if (ViewState["Page"].ToString() == "8") Response.Redirect("../Legal/respondentwisecaserpt.aspx", false);
         }
         catch (Exception ex)
         {
@@ -161,4 +172,26 @@ public partial class Legal_ViewWPPendingCaseDetail : System.Web.UI.Page
         }
     }
     #endregion
+    private string Decrypt(string cipherText)
+    {
+        string EncryptionKey = "MAKV2SPBNI99212";
+        cipherText = cipherText.Replace(" ", "+");
+        byte[] cipherBytes = Convert.FromBase64String(cipherText);
+        using (Aes encryptor = Aes.Create())
+        {
+            Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+            encryptor.Key = pdb.GetBytes(32);
+            encryptor.IV = pdb.GetBytes(16);
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
+                {
+                    cs.Write(cipherBytes, 0, cipherBytes.Length);
+                    cs.Close();
+                }
+                cipherText = Encoding.Unicode.GetString(ms.ToArray());
+            }
+        }
+        return cipherText;
+    }
 }

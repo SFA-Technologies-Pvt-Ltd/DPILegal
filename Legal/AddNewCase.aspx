@@ -205,15 +205,14 @@
                                             ErrorMessage="Enter Case Detail." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="txtCaseDetail" Display="Dynamic" runat="server">
                                         </asp:RequiredFieldValidator>
-                                        <asp:TextBox ID="txtCaseDetail" runat="server" class="form-control" onkeyup="javascript:capFirst(this);" TextMode="MultiLine"></asp:TextBox>
-                                        <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator" Display="Dynamic" ControlToValidate="txtCaseDetail"
+                                        <asp:TextBox ID="txtCaseDetail" runat="server" class="form-control" placeholder="Remark" onkeyup="javascript:capFirst(this);" MaxLength="500" TextMode="MultiLine"></asp:TextBox>
+                                     <%--   <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator" Display="Dynamic" ControlToValidate="txtCaseDetail"
                                             ValidationExpression="^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$" ValidationGroup="Save" ForeColor="Red" ErrorMessage="Please Enter Valid Text">
-                                        </asp:RegularExpressionValidator>
+                                        </asp:RegularExpressionValidator>--%>
                                     </div>
                                 </div>
                             </div>
                         </fieldset>
-
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="box-body">
@@ -237,14 +236,14 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label>Mobile No.</label>
-                                                    <asp:TextBox ID="txtOICMobileNo" runat="server" ReadOnly="true" CssClass="form-control" MaxLength="10" AutoComplete="off" onkeypress="return NumberOnly();"></asp:TextBox>
+                                                    <asp:TextBox ID="txtOICMobileNo" runat="server" ReadOnly="true" placeholder="Mobile No." CssClass="form-control"></asp:TextBox>
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label>
                                                         Email-ID.</label>
-                                                    <asp:TextBox runat="server" ID="txtEmailID" CssClass="form-control" ReadOnly="true"></asp:TextBox>
+                                                    <asp:TextBox runat="server" ID="txtEmailID" CssClass="form-control" ReadOnly="true" placeholder="Email-Id"></asp:TextBox>
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
@@ -256,7 +255,7 @@
                                                             ControlToValidate="txtOICcaseNumber" ForeColor="Red" Display="Dynamic" runat="server">
                                                         </asp:RequiredFieldValidator>
                                                     </span>
-                                                    <asp:TextBox runat="server" ID="txtOICcaseNumber" CssClass="form-control" MaxLength="45"></asp:TextBox>
+                                                    <asp:TextBox runat="server" ID="txtOICcaseNumber" CssClass="form-control" MaxLength="10" AutoComplete="off" placeholder="Order Number"></asp:TextBox>
                                                 </div>
                                             </div>
                                             <div class="col-md-3" id="div1" runat="server">
@@ -274,7 +273,7 @@
                                                     <label>OIC Order Documnet<span style="color: red;"> *</span></label>
                                                     <span class="pull-right">
                                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator12" ValidationGroup="Save"
-                                                            ErrorMessage="Uplode OICDocument" Text="<i class='fa fa-exclamation-circle' title='Uplode OICDocument'></i>"
+                                                            ErrorMessage="Upload OIC Document" Text="<i class='fa fa-exclamation-circle' title='Uplode OICDocument'></i>"
                                                             ControlToValidate="fuOICDocument" ForeColor="Red" Display="Dynamic" runat="server">
                                                         </asp:RequiredFieldValidator>
                                                     </span>
@@ -301,7 +300,7 @@
                                                         ControlToValidate="txtDeptAdvocateName" ValidationGroup="DeptADV" ErrorMessage="Enter Name."
                                                         Text="<i class='fa fa-exclamation-circle' title='Required !'></i>">
                                                     </asp:RequiredFieldValidator>
-                                                    <asp:TextBox ID="txtDeptAdvocateName" runat="server" AutoComplete="off" placeholder="Advocate Name" onkeyup="javascript:capFirst(this);" onkeypress="return chcode();" CssClass="form-control" MaxLength="70"></asp:TextBox>
+                                                    <asp:TextBox ID="txtDeptAdvocateName" runat="server" AutoComplete="off" placeholder="Name" onkeyup="javascript:capFirst(this);" onkeypress="return chcode();" CssClass="form-control" MaxLength="70"></asp:TextBox>
                                                     <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator1" Display="Dynamic" ControlToValidate="txtDeptAdvocateName"
                                                         ValidationExpression="^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$" ValidationGroup="DeptADV" ForeColor="Red" ErrorMessage="Please Enter Valid Text">
                                                     </asp:RegularExpressionValidator>
@@ -391,7 +390,7 @@
                                             ControlToValidate="txtPetiMobileNo" ValidationGroup="Petitioner" ErrorMessage="Enter Mobile No."
                                             Text="<i class='fa fa-exclamation-circle' title='Required !'></i>">
                                         </asp:RequiredFieldValidator>
-                                        <asp:TextBox ID="txtPetiMobileNo" runat="server" placeholder="Mobile No" AutoComplete="off" CssClass="form-control MobileNo1" MaxLength="10" onkeypress="return NumberOnly();"></asp:TextBox>
+                                        <asp:TextBox ID="txtPetiMobileNo" runat="server" placeholder="Mobile No." AutoComplete="off" CssClass="form-control MobileNo1" MaxLength="10" onkeypress="return NumberOnly();"></asp:TextBox>
                                         <asp:RegularExpressionValidator ID="rfvPetiadvocatemobile" ValidationGroup="Petitioner" runat="server" Display="Dynamic" ControlToValidate="txtPetiMobileNo"
                                             ErrorMessage="Invalid Mobile No." SetFocusOnError="true"
                                             ForeColor="Red" ValidationExpression="^([6-9]{1}[0-9]{9})$"></asp:RegularExpressionValidator>
@@ -405,7 +404,7 @@
                                             ControlToValidate="txtPetiAddRess" ValidationGroup="Petitioner" ErrorMessage="Enter Present posting address"
                                             Text="<i class='fa fa-exclamation-circle' title='Required !'></i>">
                                         </asp:RequiredFieldValidator>
-                                        <asp:TextBox ID="txtPetiAddRess" runat="server" placeholder="Present posting address" AutoComplete="off" CssClass="form-control" MaxLength="100" onkeyup="javascript:capFirst(this);"></asp:TextBox>
+                                        <asp:TextBox ID="txtPetiAddRess" runat="server" placeholder="Address" AutoComplete="off" CssClass="form-control" MaxLength="100" onkeyup="javascript:capFirst(this);"></asp:TextBox>
                                         <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator3" Display="Dynamic" ControlToValidate="txtPetiAddRess"
                                             ValidationExpression="^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$" ValidationGroup="Petitioner" ForeColor="Red" ErrorMessage="Please Enter Valid Text">
                                         </asp:RegularExpressionValidator>
@@ -478,7 +477,7 @@
                                             ErrorMessage="Enter Mobile No." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="txtPetiAdvocateMobileNo" Display="Dynamic" runat="server">
                                         </asp:RequiredFieldValidator>
-                                        <asp:TextBox ID="txtPetiAdvocateMobileNo" runat="server" placeholder="Mobile" AutoComplete="off" CssClass="form-control MobileNo" onkeypress="return NumberOnly();" MaxLength="10"></asp:TextBox>
+                                        <asp:TextBox ID="txtPetiAdvocateMobileNo" runat="server" placeholder="Mobile No." AutoComplete="off" CssClass="form-control MobileNo" onkeypress="return NumberOnly();" MaxLength="10"></asp:TextBox>
                                         <asp:RegularExpressionValidator ID="rfv" ValidationGroup="PetiAdv" runat="server" Display="Dynamic" ControlToValidate="txtPetiAdvocateMobileNo"
                                             ErrorMessage="Invalid Mobile No." SetFocusOnError="true"
                                             ForeColor="Red" ValidationExpression="^([6-9]{1}[0-9]{9})$"></asp:RegularExpressionValidator>
@@ -564,7 +563,7 @@
                                                     ErrorMessage="Enter Responder Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                     ControlToValidate="txtResponderName" Display="Dynamic" runat="server">
                                                 </asp:RequiredFieldValidator>
-                                                <asp:TextBox ID="txtResponderName" runat="server" onkeyup="javascript:capFirst(this);" CssClass="form-control" onkeypress="return chcode();" AutoComplete="off" MaxLength="70"></asp:TextBox>
+                                                <asp:TextBox ID="txtResponderName" runat="server" placeholder="Name" onkeyup="javascript:capFirst(this);" CssClass="form-control" onkeypress="return chcode();" AutoComplete="off" MaxLength="70"></asp:TextBox>
                                                 <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator5" Display="Dynamic" ControlToValidate="txtResponderName"
                                                     ValidationExpression="^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$" ValidationGroup="Responder" ForeColor="Red" ErrorMessage="Please Enter Valid Text">
                                                 </asp:RegularExpressionValidator>
@@ -578,7 +577,7 @@
                                                     ErrorMessage="Enter Mobile No." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                     ControlToValidate="txtMobileNo" Display="Dynamic" runat="server">
                                                 </asp:RequiredFieldValidator>
-                                                <asp:TextBox ID="txtMobileNo" onkeypress="return NumberOnly();" runat="server" CssClass="form-control" AutoComplete="off" MaxLength="10"></asp:TextBox>
+                                                <asp:TextBox ID="txtMobileNo" onkeypress="return NumberOnly();" placeholder="Mobile No." runat="server" CssClass="form-control" AutoComplete="off" MaxLength="10"></asp:TextBox>
                                                 <asp:RegularExpressionValidator ID="RexNodalOfficerMobileNo" ValidationGroup="Responder" runat="server" Display="Dynamic" ControlToValidate="txtMobileNo"
                                                     ErrorMessage="Invalid Mobile No." SetFocusOnError="true"
                                                     ForeColor="Red" ValidationExpression="^([6-9]{1}[0-9]{9})$"></asp:RegularExpressionValidator>
@@ -591,7 +590,7 @@
                                                     ErrorMessage="Enter Department Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                     ControlToValidate="txtDepartment" Display="Dynamic" runat="server">
                                                 </asp:RequiredFieldValidator>
-                                                <asp:TextBox ID="txtDepartment" runat="server" onkeyup="javascript:capFirst(this);" CssClass="form-control" onkeypress="return chcode();" AutoComplete="off" MaxLength="70"></asp:TextBox>
+                                                <asp:TextBox ID="txtDepartment" runat="server" placeholder="Department" onkeyup="javascript:capFirst(this);" CssClass="form-control" onkeypress="return chcode();" AutoComplete="off" MaxLength="70"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -601,7 +600,7 @@
                                                     ErrorMessage="Enter Address." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                     ControlToValidate="txtAddress" Display="Dynamic" runat="server">
                                                 </asp:RequiredFieldValidator>
-                                                <asp:TextBox ID="txtAddress" runat="server" CssClass="form-control" onkeyup="javascript:capFirst(this);" AutoComplete="off" MaxLength="70"></asp:TextBox>
+                                                <asp:TextBox ID="txtAddress" runat="server" placeholder="Address" CssClass="form-control" onkeyup="javascript:capFirst(this);" AutoComplete="off" MaxLength="70"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-md-1" style="padding-top: 2rem! important;">
@@ -673,7 +672,7 @@
                                                         <asp:RequiredFieldValidator runat="server" ID="rfvDocumentName" ForeColor="Red" Display="Dynamic"
                                                             ControlToValidate="txtDocName" ValidationGroup="Add" ErrorMessage="Enter Document Name." Text="<i class='fa fa-exclamation-circle' title='Required !'></i>">
                                                         </asp:RequiredFieldValidator>
-                                                        <asp:TextBox ID="txtDocName" placeholder="Enter Document Name" onkeyup="javascript:capFirst(this);" onkeypress="return chcode();" runat="server" MaxLength="50" AutoComplete="off" CssClass="form-control"></asp:TextBox>
+                                                        <asp:TextBox ID="txtDocName" placeholder="Document Name" onkeyup="javascript:capFirst(this);" onkeypress="return chcode();" runat="server" MaxLength="50" AutoComplete="off" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -771,7 +770,7 @@
                                                         </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="View" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                             <ItemTemplate>
-                                                                <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%# "../Legal/HearingDoc/" +  Eval("HearingDoc") %>' Target="_blank" CssClass="btn-sm label label-primary">View</asp:HyperLink>
+                                                                <asp:HyperLink ID="HyperLink1" runat="server" Enabled='<%#  Eval("HearingDoc").ToString() == "" ? false : true %>' NavigateUrl='<%# "../Legal/HearingDoc/" +  Eval("HearingDoc") %>' Target="_blank" CssClass="fa fa-eye"></asp:HyperLink>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
                                                     </Columns>
@@ -810,7 +809,7 @@
                                 </fieldset>
                                 <%--End here case action detail by raghav 02-03-2023--%>
                                 <fieldset>
-                                    <legend>Old Case Detail</legend>
+                                    <legend>Did You have Any Old Case Detail</legend>
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
@@ -819,7 +818,7 @@
                                                     ErrorMessage="Enter Old Case No." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                     ControlToValidate="txtoldCaseNo" Display="Dynamic" runat="server">
                                                 </asp:RequiredFieldValidator>
-                                                <asp:TextBox ID="txtoldCaseNo" runat="server" CssClass="form-control" MaxLength="10" AutoComplete="off" onkeypress="return NumberOnly();"></asp:TextBox>
+                                                <asp:TextBox ID="txtoldCaseNo" runat="server" placeholder="Old Case No." CssClass="form-control" MaxLength="10" AutoComplete="off" onkeypress="return NumberOnly();"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-md-3">

@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="HighPriCase_ForOldDashb.aspx.cs" Inherits="Legal_HighPriCase_ForOldDashb" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-     <link href="../DataTable_CssJs/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="../DataTable_CssJs/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="../DataTable_CssJs/buttons.dataTables.min.css" rel="stylesheet" />
     <link href="../DataTable_CssJs/jquery.dataTables.min.css" rel="stylesheet" />
     <style>
@@ -108,40 +108,41 @@
             <div class="container-fluid">
                 <asp:Label ID="lblMsg" runat="server"></asp:Label>
                 <div class="card">
-                    <div class="card-header" style="text-align: center;">
-                        <span style="font-size: 18px; color: #e5e5e5">High Priority Case</span>
-                    </div>
-                    <div style="text-align:end">
-                        <a href="OldCaseDashBoard.aspx" class="btn btn-danger">Back</a>
+                    <div class="card-header">
+                        <div style="display: inline;" class="float-left">
+                            <span style="color: #e5e5e5">High Priority Case</span>
+                        </div>
+                        <div class="float-right">
+                            <a href="OldCaseDashBoard.aspx" class="btn label label-danger">Back</a>
+                        </div>
                     </div>
                     <fieldset>
                         <legend>High Priority Case list</legend>
                         <div class="row">
                             <div class="col-lg col-md col-sm">
-                                <div class="table-responsive">
-                                  
-                                            <asp:GridView ID="GrdHighpriorityCase" runat="server" CssClass="datatable table-responsive" Width="100%"
-                                                AutoGenerateColumns="false">
-                                                <Columns>
-                                                    <asp:TemplateField HeaderText="S.No.">
-                                                        <ItemTemplate>
-                                                            <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex +1 %>'></asp:Label>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:BoundField DataField="FilingNo" HeaderText="Filing No" />
-                                                    <asp:BoundField DataField="Court" HeaderText="Court" />
-                                                    <asp:BoundField DataField="Petitioner" HeaderText="Petitioner" />
-                                                    <asp:BoundField DataField="Respondent" HeaderText="Respondent" />
-                                                    <asp:BoundField DataField="HearingDate" HeaderText="HearingDate" />
-                                                    <asp:BoundField DataField="CaseSubject" HeaderText="CaseSubject" />
-                                                    <asp:BoundField DataField="OICName" HeaderText="OICName" />
-                                                </Columns>
-                                            </asp:GridView>
-                                        
+                                <div class="">
+
+                                    <asp:GridView ID="GrdHighpriorityCase" runat="server" CssClass="datatable table-responsive" Width="100%"
+                                        AutoGenerateColumns="false" EmptyDataText="NO RECORD FOUND">
+                                        <Columns>
+                                            <asp:TemplateField HeaderText="S.No.">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex +1 %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:BoundField DataField="FilingNo" HeaderText="Filing No" />
+                                            <asp:BoundField DataField="Court" HeaderText="Court" />
+                                            <asp:BoundField DataField="Petitioner" HeaderText="Petitioner" />
+                                            <asp:BoundField DataField="Respondent" HeaderText="Respondent" />
+                                            <asp:BoundField DataField="HearingDate" HeaderText="HearingDate" />
+                                            <asp:BoundField DataField="CaseSubject" HeaderText="CaseSubject" />
+                                            <asp:BoundField DataField="OICName" HeaderText="OICName" />
+                                        </Columns>
+                                    </asp:GridView>
+
                                 </div>
                             </div>
                         </div>
-
                     </fieldset>
                 </div>
             </div>
@@ -180,7 +181,7 @@
                     text: '<i class="fa fa-print"></i> Print',
                     title: $('h3').text(),
                     exportOptions: {
-                        columns: [0, 1, 2, 3,4,5,6,7]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
                     },
                     footer: true,
                     autoPrint: true

@@ -121,7 +121,7 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
         {
             Helper oic = new Helper();
             ddlOicName.Items.Clear();
-            DataTable dtOic = oic.GetOIC() as DataTable;
+            DataTable dtOic = oic.GetOIC(ddlCourtType.SelectedValue) as DataTable;
             if (dtOic != null && dtOic.Rows.Count > 0)
             {
                 ddlOicName.DataTextField = "OICName";
@@ -184,7 +184,7 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
         {
             Helper oic = new Helper();
             ddlOicName.Items.Clear();
-            DataTable dtOic = oic.GetOIC() as DataTable;
+            DataTable dtOic = oic.GetOIC(ddlCourtType.SelectedValue) as DataTable;
             if (dtOic != null && dtOic.Rows.Count > 0)
             {
                 ddlOicName.DataTextField = "OICName";

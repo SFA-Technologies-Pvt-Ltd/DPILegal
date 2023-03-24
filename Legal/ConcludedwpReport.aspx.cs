@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
-using System.Linq;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -10,6 +11,7 @@ using System.Web.UI.WebControls;
 public partial class mis_Legal_ConcludedwpReport : System.Web.UI.Page
 {
     APIProcedure obj = new APIProcedure();
+   
     DataSet ds = new DataSet();
     CultureInfo cult = new CultureInfo("gu-IN");
 
@@ -145,12 +147,17 @@ public partial class mis_Legal_ConcludedwpReport : System.Web.UI.Page
         {
             if (e.CommandName == "ViewDetail")
             {
+               
                 GridViewRow row = (GridViewRow)((LinkButton)e.CommandSource).NamingContainer;
                 GrdConcludeReport.HeaderRow.TableSection = TableRowSection.TableHeader;
                 GrdConcludeReport.UseAccessibleHeader = true;
-                string ID = e.CommandArgument.ToString();
-                string pageID = "2";
-                Response.Redirect("../Legal/ViewWPPendingCaseDetail.aspx?CaseID=" + Server.UrlEncode(ID) + "&pageID=" + pageID, false);
+                string ID = HttpUtility.UrlEncode(Encrypt(e.CommandArgument.ToString()));
+                string pageID = HttpUtility.UrlEncode(Encrypt("pageID"));
+                string page_ID = HttpUtility.UrlEncode(Encrypt("1"));
+                string CaseID = HttpUtility.UrlEncode(Encrypt("CaseID"));
+                Response.Redirect("../Legal/ViewWPPendingCaseDetail.aspx?"+CaseID+"=" + ID + "&"+pageID+"=" + page_ID, false);
+
+             
             }
         }
         catch (Exception ex)
@@ -159,5 +166,25 @@ public partial class mis_Legal_ConcludedwpReport : System.Web.UI.Page
         }
     }
     #endregion
-
+    public string Encrypt(string clearText)
+    {
+        string EncryptionKey = "MAKV2SPBNI99212";
+        byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
+        using (Aes encryptor = Aes.Create())
+        {
+            Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+            encryptor.Key = pdb.GetBytes(32);
+            encryptor.IV = pdb.GetBytes(16);
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
+                {
+                    cs.Write(clearBytes, 0, clearBytes.Length);
+                    cs.Close();
+                }
+                clearText = Convert.ToBase64String(ms.ToArray());
+            }
+        }
+        return clearText;
+    }
 }

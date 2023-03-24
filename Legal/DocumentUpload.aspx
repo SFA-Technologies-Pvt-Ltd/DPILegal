@@ -1,8 +1,8 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/mis/MainMaster.master" AutoEventWireup="true" CodeFile="DocumentUpload.aspx.cs" Inherits="Legal_DocumentUpload" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="DocumentUpload.aspx.cs" Inherits="Legal_DocumentUpload" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentHeader" runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentBody" runat="Server">
+<asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
     <div class="content-wrapper" style="min-height: 635px;">
 
         <!-- Main content -->
@@ -98,7 +98,7 @@
         <!-- /.content -->
     </div>
 </asp:Content>
-<asp:Content ID="Content3" ContentPlaceHolderID="ContentFooter" runat="Server">
+<asp:Content ID="Content3" ContentPlaceHolderID="Fotter" runat="Server">
     <script type="text/javascript">
         function validateform() {
             var msg = "";

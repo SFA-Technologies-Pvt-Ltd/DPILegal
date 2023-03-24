@@ -26,7 +26,7 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
                     CourtTypeCase1();
                     CourtTypeCase2();
                     CourtTypeCase3();
-                    BindCaseTypeCount();
+                   // BindCaseTypeCount();
                     CourtWiseContemptCases();
                   
                    
@@ -44,7 +44,7 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
         }
 
     }
-
+    // thise is not Usable Function.
     protected void BindCaseTypeCount()
     {
         DataSet dsCasecount = new DataSet();
@@ -168,6 +168,7 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
         #endregion
     }
 
+    // CourtWise Case Count.
     protected void CourtTypeCase()
     {
         try
@@ -296,7 +297,7 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
         }
 
     }
-
+    // NOt Usable.
     protected void CourtTypeCase2()
     {
         try
@@ -362,7 +363,7 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
         }
 
     }
-
+    //ORDER BY DIRECTION COMPLAINES
     protected void CourtTypeCase3()
     {
         try
@@ -426,7 +427,7 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
         }
 
     }
-
+    //COURT WISE CONTEMPT CASES
     protected void CourtWiseContemptCases()
     {
         try
@@ -444,10 +445,10 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
             Sb.Append("{");
             Sb.Append("var data = google.visualization.arrayToDataTable([");
             Sb.Append(" ['Court', 'Case No.'],");
-            for (int i = 0; i < dsCase.Tables[3].Rows.Count; i++)
+            for (int i = 0; i < dsCase.Tables[2].Rows.Count; i++)
             {
-                CaseCountCC = CaseCountCC + Convert.ToInt32(dsCase.Tables[3].Rows[i]["CourtWisePendingContemptCases"]);
-                Sb.Append(" ['" + dsCase.Tables[3].Rows[i]["court"].ToString() + "', " + dsCase.Tables[3].Rows[i]["CourtWisePendingContemptCases"].ToString() + " ],");
+                CaseCountCC = CaseCountCC + Convert.ToInt32(dsCase.Tables[2].Rows[i]["CourtWisePendingContemptCases"]);
+                Sb.Append(" ['" + dsCase.Tables[2].Rows[i]["court"].ToString() + "', " + dsCase.Tables[2].Rows[i]["CourtWisePendingContemptCases"].ToString() + " ],");
             }
             lblConcCount.Text = "(" + CaseCountCC.ToString() + " No's)";
             Sb.Append("]);");
@@ -557,11 +558,11 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
             //    lblTBCCases.Text = ds.Tables[0].Rows[0]["TBCCase"].ToString() + " No's";
             //}
             //else { lblTBCCases.Text = "00 No's"; }
-            if (ds.Tables.Count >= 1 && ds.Tables[2].Rows.Count > 0)
+            if (ds.Tables.Count >= 1 && ds.Tables[1].Rows.Count > 0)
             {
-                if (ds.Tables[2].Rows[0]["HighPriorityCase"].ToString() != "")
+                if (ds.Tables[1].Rows[0]["HighPriorityCase"].ToString() != "")
                 {
-                    spnhighpriorityCase.InnerHtml = "&nbsp;" + ds.Tables[2].Rows[0]["HighPriorityCase"].ToString() + " No's";
+                    spnhighpriorityCase.InnerHtml = "&nbsp;" + ds.Tables[1].Rows[0]["HighPriorityCase"].ToString() + " No's";
                 }
             }
             else

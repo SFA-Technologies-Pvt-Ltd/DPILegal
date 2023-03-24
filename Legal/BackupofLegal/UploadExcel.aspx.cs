@@ -36,7 +36,7 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
             {
                 if (!IsPostBack)
                 {
-                   
+
                     //LoadExcel();
                     //ViewState["Office_Id"] =  Session["Office_Id"];
                     //ViewState["Emp_Id"] =  Session["Emp_Id"];
@@ -111,7 +111,6 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
 
             string FileName = Path.GetFileName(FUExcel.PostedFile.FileName);
             string fileExtension = Path.GetExtension(FUExcel.FileName).ToLower();
-            string connStr = "";
             //getting the path of the file 
             string filelocation = Server.MapPath("~/Legal/UploadPetition/" + FileName);
             //saving the file inside the MyFolder of the server  
@@ -121,35 +120,6 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
             {
                 try
                 {
-
-                    //if (fileExtension == ".xls" || fileExtension == ".XLS")
-                    //{
-                    //    ViewState["connStr"] = null;
-                    //    //Console.WriteLine("Jet.OLEDB.4.0");
-                    //    connStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + filelocation + ";Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=2\"";
-                    //    ViewState["connStr"] = connStr;
-                    //}
-                    //else if (fileExtension == ".xlsx" || fileExtension == ".XLSX")
-                    //{
-                    //    ViewState["connStr"] = null;
-                    //    connStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filelocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=1\"";
-                    //    ViewState["connStr"] = connStr;
-                    //}
-
-                    //System.Data.DataTable dt = new System.Data.DataTable();
-                    //OleDbConnection conn = new OleDbConnection(connStr);
-                    //OleDbCommand cmd = new OleDbCommand();
-                    //cmd.Connection = conn;
-                    //OleDbDataAdapter da = new OleDbDataAdapter(cmd);
-                    //conn.Open();
-
-                    //System.Data.DataTable dtSheet = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                    //string sheetName = dtSheet.Rows[0]["table_name"].ToString();
-                    //cmd.CommandText = "select * from [" + sheetName + "]";
-                    //da.SelectCommand = cmd;
-                    //da.Fill(ds);
-
-                    //conn.Close();
                     string ErrMsg = "";
                     DataTable dt1 = ImportExcel(filelocation);
                     #region check excel data
@@ -743,9 +713,9 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
     {
         if (txtPassword.Text == PasswordChx)
         {
-            divFill.Visible= true;
+            divFill.Visible = true;
             divPassword.Visible = false;
-            divNote.Visible = false; 
+            divNote.Visible = false;
         }
         else
         {
