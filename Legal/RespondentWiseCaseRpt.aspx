@@ -100,6 +100,39 @@
         .box {
             min-height: auto;
         }
+        
+        .sorting,
+        .sorting_asc,
+        .sorting_desc,
+        .sorting_asc_disabled,
+        .sorting_desc_disabled {
+            cursor: pointer;
+            position: relative;
+            &:after;
+
+        {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            display: block;
+            font-family: 'Glyphicons Halflings';
+            opacity: 0.5;
+        }
+
+        }
+
+        .sorting:after {
+            opacity: 0.2;
+            content: "⏭" !important; /* sort */
+        }
+
+        .sorting_asc:after {
+            content: "⏬" !important; /* sort-by-attributes */
+        }
+
+        .sorting_desc:after {
+            content: "⏫" !important; /* sort-by-attributes-alt */
+        }
     </style>
     <style>
         label {

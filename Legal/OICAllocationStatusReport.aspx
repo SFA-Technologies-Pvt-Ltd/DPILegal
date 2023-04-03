@@ -100,6 +100,39 @@
         .box {
             min-height: auto;
         }
+
+        .sorting,
+        .sorting_asc,
+        .sorting_desc,
+        .sorting_asc_disabled,
+        .sorting_desc_disabled {
+            cursor: pointer;
+            position: relative;
+            &:after;
+
+        {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            display: block;
+            font-family: 'Glyphicons Halflings';
+            opacity: 0.5;
+        }
+
+        }
+
+        .sorting:after {
+            opacity: 0.2;
+            content: "⏭" !important; /* sort */
+        }
+
+        .sorting_asc:after {
+            content: "⏬" !important; /* sort-by-attributes */
+        }
+
+        .sorting_desc:after {
+            content: "⏫" !important; /* sort-by-attributes-alt */
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
@@ -172,19 +205,19 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Case Status </label>                                    
+                                        <label>Case Status </label>
                                         <asp:DropDownList ID="ddlCaseStatus" runat="server" CssClass="form-control">
                                             <asp:ListItem Value="0">Select</asp:ListItem>
                                             <asp:ListItem Value="1">Pending</asp:ListItem>
                                             <asp:ListItem Value="2">Disposed</asp:ListItem>
                                         </asp:DropDownList>
-                                    </div>                                    
+                                    </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>OIC Allocation Status </label>                                    
+                                        <label>OIC Allocation Status </label>
                                         <asp:DropDownList ID="ddlOICAllocated" runat="server" CssClass="form-control">
-                                          
+
                                             <asp:ListItem Value="1">Yes</asp:ListItem>
                                             <asp:ListItem Value="2">NO</asp:ListItem>
                                         </asp:DropDownList>
@@ -237,7 +270,7 @@
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblStatus" runat="server" Text='<%# Eval("OICName").ToString()=="" ? "NO" : Eval("OICName").ToString()!="" ? "Yes" : "Not Active" %>' Font-Bold="true"></asp:Label>
                                                     </ItemTemplate>
-                                                </asp:TemplateField>                                               
+                                                </asp:TemplateField>
                                             </Columns>
                                         </asp:GridView>
                                         <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="false" DataKeyNames="Case_ID" CssClass="datatable table table-bordered" EmptyDataText="NO RECORD FOUND">
@@ -245,7 +278,7 @@
                                                 <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblId" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
-                                                  
+
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Case No." ItemStyle-HorizontalAlign="Left">
@@ -272,8 +305,8 @@
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblStatus" runat="server" Text='<%# Eval("OICName").ToString() %>'></asp:Label>
                                                     </ItemTemplate>
-                                                </asp:TemplateField>    
-                                                                                         
+                                                </asp:TemplateField>
+
                                             </Columns>
                                         </asp:GridView>
                                     </div>
@@ -287,7 +320,7 @@
     </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Fotter" runat="Server">
-      <script src="../DataTable_CssJs/jquery.js"></script>
+    <script src="../DataTable_CssJs/jquery.js"></script>
     <script src="../DataTable_CssJs/jquery.dataTables.min.js"></script>
     <script src="../DataTable_CssJs/dataTables.bootstrap.min.js"></script>
     <script src="../DataTable_CssJs/dataTables.buttons.min.js"></script>
@@ -318,7 +351,7 @@
                     text: '<i class="fa fa-print"></i> Print',
                     title: $('h3').text(),
                     exportOptions: {
-                        columns: [0, 1, 2, 3,4]
+                        columns: [0, 1, 2, 3, 4]
                     },
                     footer: true,
                     autoPrint: true
@@ -327,7 +360,7 @@
                     text: '<i class="fa fa-file-excel-o"></i> Excel',
                     title: $('h3').text(),
                     exportOptions: {
-                        columns: [0, 1, 2, 3,4]
+                        columns: [0, 1, 2, 3, 4]
                     },
                     footer: true
                 }],

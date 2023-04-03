@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="Oicmaster.aspx.cs" Inherits="Legal_Oicmaster" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-     <link href="../DataTable_CssJs/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="../DataTable_CssJs/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="../DataTable_CssJs/buttons.dataTables.min.css" rel="stylesheet" />
     <link href="../DataTable_CssJs/jquery.dataTables.min.css" rel="stylesheet" />
     <style>
@@ -100,6 +100,39 @@
         .box {
             min-height: auto;
         }
+
+        .sorting,
+        .sorting_asc,
+        .sorting_desc,
+        .sorting_asc_disabled,
+        .sorting_desc_disabled {
+            cursor: pointer;
+            position: relative;
+            &:after;
+
+        {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            display: block;
+            font-family: 'Glyphicons Halflings';
+            opacity: 0.5;
+        }
+
+        }
+
+        .sorting:after {
+            opacity: 0.2;
+            content: "⏭" !important; /* sort */
+        }
+
+        .sorting_asc:after {
+            content: "⏬" !important; /* sort-by-attributes */
+        }
+
+        .sorting_desc:after {
+            content: "⏫" !important; /* sort-by-attributes-alt */
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
@@ -194,7 +227,7 @@
                                                         ControlToValidate="txtoicnme" ForeColor="Red" Display="Dynamic" runat="server">
                                                     </asp:RequiredFieldValidator>
                                                     <asp:RegularExpressionValidator ID="rexOfficetypeName" runat="server" ErrorMessage="Only Characters Allow" SetFocusOnError="true"
-                                                        Text="<i class='fa fa-exclamation-circle' title='Mobile No. is Not Valid'></i>" ValidationGroup="Save"
+                                                        Text="<i class='fa fa-exclamation-circle' title='Enter Valid Text'></i>" ValidationGroup="Save"
                                                         ValidationExpression="^[a-zA-Z ]*$" ControlToValidate="txtoicnme" Font-Bold="true" ForeColor="Red"></asp:RegularExpressionValidator>
                                                 </span>
                                                 <asp:TextBox runat="server" ID="txtoicnme" CssClass="form-control" onkeyup="javascript:capFirst(this);" onkeypress="return lettersOnly();" placeholder="Enter OIC Name" MaxLength="80" AutoComplete="off"></asp:TextBox>
@@ -239,7 +272,7 @@
                                                         ControlToValidate="txtmobileno" ForeColor="Red" Display="Dynamic" runat="server">
                                                     </asp:RequiredFieldValidator>
                                                 </span>
-                                                <asp:RegularExpressionValidator runat="server" ID="Rev_mobno" Display="Dynamic" ForeColor="Red" ControlToValidate="txtmobileno" SetFocusOnError="true"     
+                                                <asp:RegularExpressionValidator runat="server" ID="Rev_mobno" Display="Dynamic" ForeColor="Red" ControlToValidate="txtmobileno" SetFocusOnError="true"
                                                     ValidationExpression="[6-9]{1}[0-9]{5}[0-9]{4}" ErrorMessage="Mobile No. is Not Valid"
                                                     ValidationGroup="Save"></asp:RegularExpressionValidator>
                                                 <asp:TextBox runat="server" ID="txtmobileno" CssClass="form-control" onkeypress="return NumberOnly();" MaxLength="10" placeholder="Enter Mobile No" AutoComplete="off"></asp:TextBox>
@@ -339,7 +372,7 @@
                                                             <ItemTemplate>
                                                                 <asp:LinkButton ID="lnkEditView" runat="server" CommandArgument='<%# Eval("OICMaster_ID") %>' CommandName="EditDetails" ToolTip="Edit" CssClass=""><i class="fa fa-edit"></i></asp:LinkButton>&nbsp;
                                                                 <asp:LinkButton ID="lnkbtndelete" runat="server" CommandName="DeleteDetails" CommandArgument='<%# Eval("OICMaster_ID") %>'
-                                                                OnClientClick="return confirm('Are you sure you want to delete this record?');" ToolTip="Delete" CssClass=""><i class="fa fa-trash"></i></asp:LinkButton>
+                                                                    OnClientClick="return confirm('Are you sure you want to delete this record?');" ToolTip="Delete" CssClass=""><i class="fa fa-trash"></i></asp:LinkButton>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
                                                     </Columns>
@@ -359,7 +392,7 @@
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Fotter" runat="Server">
-     <%--<script src="../DataTable_CssJs/jquery.js"></script>--%>
+    <%--<script src="../DataTable_CssJs/jquery.js"></script>--%>
     <script src="../DataTable_CssJs/jquery.dataTables.min.js"></script>
     <script src="../DataTable_CssJs/dataTables.bootstrap.min.js"></script>
     <script src="../DataTable_CssJs/dataTables.buttons.min.js"></script>

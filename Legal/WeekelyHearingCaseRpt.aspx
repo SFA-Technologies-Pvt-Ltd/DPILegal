@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="WeekelyHearingCaseRpt.aspx.cs" Inherits="Legal_WeekelyHearingCaseRpt" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-     <link href="../DataTable_CssJs/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="../DataTable_CssJs/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="../DataTable_CssJs/buttons.dataTables.min.css" rel="stylesheet" />
     <link href="../DataTable_CssJs/jquery.dataTables.min.css" rel="stylesheet" />
     <style>
@@ -100,6 +100,39 @@
         .box {
             min-height: auto;
         }
+
+        .sorting,
+        .sorting_asc,
+        .sorting_desc,
+        .sorting_asc_disabled,
+        .sorting_desc_disabled {
+            cursor: pointer;
+            position: relative;
+            &:after;
+
+        {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            display: block;
+            font-family: 'Glyphicons Halflings';
+            opacity: 0.5;
+        }
+
+        }
+
+        .sorting:after {
+            opacity: 0.2;
+            content: "⏭" !important; /* sort */
+        }
+
+        .sorting_asc:after {
+            content: "⏬" !important; /* sort-by-attributes */
+        }
+
+        .sorting_desc:after {
+            content: "⏫" !important; /* sort-by-attributes-alt */
+        }
     </style>
     <style>
         label {
@@ -108,7 +141,7 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
-<asp:ValidationSummary ID="VDS" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Save" />  
+    <asp:ValidationSummary ID="VDS" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Save" />
     <div class="content-wrapper">
         <section class="content">
             <div class="container-fluid">
@@ -174,7 +207,7 @@
                                                         <asp:Label ID="lblCaseNO" runat="server" Text='<%# Eval("CaseNo") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                               <%-- <asp:TemplateField HeaderText="Case Year">
+                                                <%-- <asp:TemplateField HeaderText="Case Year">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblCaseYear" runat="server" Text='<%# Eval("CaseYear") %>'></asp:Label>
                                                     </ItemTemplate>
@@ -188,12 +221,12 @@
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblRespondentName" runat="server" Text='<%# Eval("RespondentName") %>'></asp:Label>
                                                     </ItemTemplate>
-                                                </asp:TemplateField>   
-                                                  <asp:TemplateField HeaderText="Case Status" ItemStyle-HorizontalAlign="Left">
-                                                        <ItemTemplate>
-                                                            <asp:Label ID="lblCaseStatus" runat="server" Font-Bold="true" ForeColor='<%# Eval("CaseStatus").ToString() == "Pending" ? System.Drawing.Color.Red : System.Drawing.Color.Green %>' Text='<%# Eval("CaseStatus") %>'></asp:Label>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Case Status" ItemStyle-HorizontalAlign="Left">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblCaseStatus" runat="server" Font-Bold="true" ForeColor='<%# Eval("CaseStatus").ToString() == "Pending" ? System.Drawing.Color.Red : System.Drawing.Color.Green %>' Text='<%# Eval("CaseStatus") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Action" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
                                                         <asp:LinkButton ID="btnView" runat="server" CssClass="" CommandName="ViewDtl" CommandArgument='<%# Eval("Case_ID") %>' ToolTip="View"><i class="fa fa-eye"></i></asp:LinkButton>
@@ -212,7 +245,7 @@
     </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Fotter" runat="Server">
-     <script src="../DataTable_CssJs/jquery.js"></script>
+    <script src="../DataTable_CssJs/jquery.js"></script>
     <script src="../DataTable_CssJs/jquery.dataTables.min.js"></script>
     <script src="../DataTable_CssJs/dataTables.bootstrap.min.js"></script>
     <script src="../DataTable_CssJs/dataTables.buttons.min.js"></script>

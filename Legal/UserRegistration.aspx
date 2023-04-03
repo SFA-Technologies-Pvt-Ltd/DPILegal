@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="UserRegistration.aspx.cs" Inherits="Legal_UserRegistration" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-       <link href="../DataTable_CssJs/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="../DataTable_CssJs/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="../DataTable_CssJs/buttons.dataTables.min.css" rel="stylesheet" />
     <link href="../DataTable_CssJs/jquery.dataTables.min.css" rel="stylesheet" />
     <style>
@@ -29,6 +29,7 @@
             white-space: nowrap;
             vertical-align: baseline;
             border-radius: 0.25em;
+            margin-left:10px;
         }
 
         a.btn.btn-default.buttons-excel.buttons-html5 {
@@ -99,6 +100,39 @@
 
         .box {
             min-height: auto;
+        }
+
+        .sorting,
+        .sorting_asc,
+        .sorting_desc,
+        .sorting_asc_disabled,
+        .sorting_desc_disabled {
+            cursor: pointer;
+            position: relative;
+            &:after;
+
+        {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            display: block;
+            font-family: 'Glyphicons Halflings';
+            opacity: 0.5;
+        }
+
+        }
+
+        .sorting:after {
+            opacity: 0.2;
+            content: "⏭" !important; /* sort */
+        }
+
+        .sorting_asc:after {
+            content: "⏬" !important; /* sort-by-attributes */
+        }
+
+        .sorting_desc:after {
+            content: "⏫" !important; /* sort-by-attributes-alt */
         }
     </style>
     <style>
@@ -180,6 +214,10 @@
                                                 ControlToValidate="txtEmpployeeName" Display="Dynamic" runat="server">
                                             </asp:RequiredFieldValidator></label>
                                         <asp:TextBox ID="txtEmpployeeName" onkeyup="javascript:capFirst(this);" onkeypress="return chcode();" runat="server" AutoComplete="off" MaxLength="70" CssClass="form-control"></asp:TextBox>
+                                        <asp:RegularExpressionValidator runat="server" ID="RevEmployeeName" ValidationExpression="^[a-zA-Z]+(([\s.][a-zA-Z])?[a-zA-Z]*)*$"
+                                            ControlToValidate="txtEmpployeeName" ForeColor="Red" Display="Dynamic" SetFocusOnError="true"
+                                            ErrorMessage="Enter Vaild Text." ValidationGroup="Save">
+                                        </asp:RegularExpressionValidator>
                                     </div>
                                 </div>
                                 <div class="col-md-3" id="OICName_Div" runat="server">
@@ -282,47 +320,47 @@
                                     <div class="table-responsive">
                                         <asp:GridView ID="grdUserDetails" runat="server" CssClass="datatable table table-bordered table-hover" AutoGenerateColumns="false" OnRowCommand="grdUserDetails_RowCommand">
                                             <Columns>
-                                                <asp:TemplateField HeaderText="S.No.<br />सरल क्र." ItemStyle-HorizontalAlign="Left">
+                                                <asp:TemplateField HeaderText="S.No." ItemStyle-HorizontalAlign="Center">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
                                                         <asp:Label ID="lblUserID" runat="server" Text='<%# Eval("UserId") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                 <asp:TemplateField HeaderText="Active Status <br />सक्रिय स्थिति" ItemStyle-HorizontalAlign="Left">
+                                                <asp:TemplateField HeaderText="Active Status" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
-                                                      <%--  <asp:CheckBox runat="server" ID="cbxactive" CssClass="black" ToolTip="Active" Checked='<%# Eval("Active_Status").ToString() == "True" ? true:false %>' OnCheckedChanged="cbxactive_CheckedChanged" AutoPostBack="true"></asp:CheckBox>--%>
-                                                          <asp:LinkButton runat="server" CommandName="btnDelete" 
-                                                              OnClientClick='<%# "return confirm(\"Are you sure you want to " + (Eval("IsActive").ToString() == "True" ? "Deactivate" :"Activate ") + " this user ?\");" %>' 
-                                                              CommandArgument='<%#Eval("UserId").ToString() %>' CssClass='<%# Eval("IsActive").ToString() == "True" ? "label label-success btn btn-sm" :"label label-danger btn btn-sm" %>' 
-                                                              Text='<%# Eval("IsActive").ToString() == "True" ? "Active" :"Deactive" %>'></asp:LinkButton>
-                                                     <asp:Label runat="server" ID="lblIsActive" Visible="false" Text='<%#Eval("IsActive").ToString() %>'></asp:Label>
+                                                        <%--  <asp:CheckBox runat="server" ID="cbxactive" CssClass="black" ToolTip="Active" Checked='<%# Eval("Active_Status").ToString() == "True" ? true:false %>' OnCheckedChanged="cbxactive_CheckedChanged" AutoPostBack="true"></asp:CheckBox>--%>
+                                                        <asp:LinkButton runat="server" CommandName="btnDelete"
+                                                            OnClientClick='<%# "return confirm(\"Are you sure you want to " + (Eval("IsActive").ToString() == "True" ? "Deactivate" :"Activate ") + " this user ?\");" %>'
+                                                            CommandArgument='<%#Eval("UserId").ToString() %>' CssClass='<%# Eval("IsActive").ToString() == "True" ? "label label-success btn btn-sm" :"label label-danger btn btn-sm" %>'
+                                                            Text='<%# Eval("IsActive").ToString() == "True" ? "Active" :"Deactive" %>'></asp:LinkButton>
+                                                        <asp:Label runat="server" ID="lblIsActive" Visible="false" Text='<%#Eval("IsActive").ToString() %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Office Type<br />कार्यालय का प्रकार" ItemStyle-HorizontalAlign="Left">
+                                                <asp:TemplateField HeaderText="Office Type" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblOfficetypeName" runat="server" Text='<%# Eval("OfficeType_Name") %>'></asp:Label>
                                                         <asp:Label ID="lblOfficetypeId" runat="server" Text='<%# Eval("OfficeType_Id") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Office Name<br />कार्यालय का नाम" ItemStyle-HorizontalAlign="Left">
+                                                <asp:TemplateField HeaderText="Office Name" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblOfficeName" runat="server" Text='<%# Eval("OfficeName") %>'></asp:Label>
                                                         <asp:Label ID="lblOfficeId" runat="server" Text='<%# Eval("Office_Id") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Designation Name<br />पद का नाम" ItemStyle-HorizontalAlign="Left">
+                                                <asp:TemplateField HeaderText="Designation Name" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblDesignationName" runat="server" Text='<%# Eval("UserType_Name") %>'></asp:Label>
                                                         <asp:Label ID="lblDesignationType_ID" runat="server" Text='<%# Eval("UserType_Id") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Employee Name<br />कर्मचारी का नाम" ItemStyle-HorizontalAlign="Left">
+                                                <asp:TemplateField HeaderText="Employee Name" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblEmployeeName" runat="server" Text='<%# Eval("EMPName") %>'></asp:Label>
                                                         <asp:Label ID="lblEmployeeNameID" runat="server" Text='<%# Eval("EMPName") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Mobile No.<br />मोबाइल नंबर" ItemStyle-HorizontalAlign="Left">
+                                                <asp:TemplateField HeaderText="Mobile No." ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblMobileNo" runat="server" Text='<%# Eval("MobileNo") %>'></asp:Label>
                                                         <asp:Label ID="lblMobileNoID" runat="server" Text='<%# Eval("MobileNo") %>' Visible="false"></asp:Label>
@@ -331,7 +369,7 @@
                                                         <asp:Label runat="server" ID="lblOicID" Text='<%# Eval("OICMaster_ID") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="User Name<br />उपयोगकर्ता का नाम" ItemStyle-HorizontalAlign="Left">
+                                                <asp:TemplateField HeaderText="User Name" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblUserName" runat="server" Text='<%# Eval("UserName") %>'></asp:Label>
                                                         <asp:Label ID="lblUserNameID" runat="server" Text='<%# Eval("UserName") %>' Visible="false"></asp:Label>
@@ -373,6 +411,13 @@
             else if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 8 || charCode == 32)
                 return true
         }
+        function NumberOnly() { //only Numeric required.
+            var charcd = event.keyCode;
+            if (charcd > 47 && charcd < 58)
+                return true
+            return false
+        }
+
     </script>
     <%--<script src="../DataTable_CssJs/jquery.js"></script>--%>
     <script src="../DataTable_CssJs/jquery.dataTables.min.js"></script>
@@ -414,7 +459,7 @@
                     text: '<i class="fa fa-file-excel-o"></i> Excel',
                     title: $('h3').text(),
                     exportOptions: {
-                        columns: [0, 2, 3,4,5,6,7]
+                        columns: [0, 2, 3, 4, 5, 6, 7]
                     },
                     footer: true
                 }],

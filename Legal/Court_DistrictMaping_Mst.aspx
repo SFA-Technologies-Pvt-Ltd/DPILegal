@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="Court_DistrictMaping_Mst.aspx.cs" Inherits="Legal_Court_DistrictMaping_Mst" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-     <link href="../DataTable_CssJs/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="../DataTable_CssJs/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="../DataTable_CssJs/buttons.dataTables.min.css" rel="stylesheet" />
     <link href="../DataTable_CssJs/jquery.dataTables.min.css" rel="stylesheet" />
     <style>
@@ -100,10 +100,43 @@
         .box {
             min-height: auto;
         }
+
+        .sorting,
+        .sorting_asc,
+        .sorting_desc,
+        .sorting_asc_disabled,
+        .sorting_desc_disabled {
+            cursor: pointer;
+            position: relative;
+            &:after;
+
+        {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            display: block;
+            font-family: 'Glyphicons Halflings';
+            opacity: 0.5;
+        }
+
+        }
+
+        .sorting:after {
+            opacity: 0.2;
+            content: "⏭" !important; /* sort */
+        }
+
+        .sorting_asc:after {
+            content: "⏬" !important; /* sort-by-attributes */
+        }
+
+        .sorting_desc:after {
+            content: "⏫" !important; /* sort-by-attributes-alt */
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
-      <asp:ValidationSummary ID="VDS" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="a" />
+    <asp:ValidationSummary ID="VDS" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="a" />
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div style="display: table; height: 100%; width: 100%;">
             <div class="modal-dialog" style="width: 340px; display: table-cell; vertical-align: middle;">
@@ -164,7 +197,7 @@
                                             <div class="form-group">
                                                 <label>District Name<span style="color: red">*</span></label>
                                                 <asp:RequiredFieldValidator ID="rfvDistrictName" ErrorMessage="Select District Name" ControlToValidate="ddlDistrictName" runat="server"
-                                                     Text="<i class='fa fa-exclamation-circle'></i>" ForeColor="Red" Display="Dynamic" InitialValue="0" ValidationGroup="a">
+                                                    Text="<i class='fa fa-exclamation-circle'></i>" ForeColor="Red" Display="Dynamic" InitialValue="0" ValidationGroup="a">
                                                 </asp:RequiredFieldValidator>
                                                 <asp:DropDownList runat="server" ID="ddlDistrictName" CssClass="form-control select2">
                                                 </asp:DropDownList>
@@ -182,43 +215,43 @@
                                         </div>
                                     </div>
                                 </fieldset>
-                                  <fieldset>
-                            <legend>Details</legend>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="table-responsive">
-                                        <asp:GridView ID="grdCourtDistrictMap" runat="server" CssClass="datatable table table-bordered table-hover" AutoGenerateColumns="false"  OnRowCommand="grdCourtDistrictMap_RowCommand" DataKeyNames="Map_ID" EmptyDataText="NO RECORD FOUND">
-                                            <Columns>
-                                                <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
-                                                        <asp:Label ID="lblId" runat="server" Text='<%# Eval("Map_ID") %>' Visible="false"></asp:Label>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Court Name" ItemStyle-HorizontalAlign="Center">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblCourtName_ID" runat="server" Text='<%# Eval("CourtName") %>'></asp:Label>
-                                                        <asp:Label ID="lblCourtNameID" runat="server" Text='<%# Eval("CourtName_ID") %>' Visible="false"></asp:Label>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="District Name" ItemStyle-HorizontalAlign="Center">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblDistrict_ID" runat="server" Text='<%# Eval("District_Name") %>'></asp:Label>
-                                                        <asp:Label ID="lblDistrictID" runat="server" Text='<%# Eval("District_ID") %>' Visible="false"></asp:Label>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Delete" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
-                                                    <ItemTemplate>
-                                                      <%--  <asp:LinkButton ID="btnEdit" runat="server" CssClass="fa fa-edit" CommandName="EditDtl" ToolTip="Edit" CommandArgument='<%# Eval("Map_ID") %>'></asp:LinkButton>&nbsp;--%>
-                                                        <asp:LinkButton ID="lnkbtndelete" runat="server" CommandName="DeleteDetails" CommandArgument='<%# Eval("Map_ID") %>' ToolTip="Delete" CssClass="" OnClientClick="return confirm('Are you sure you want to delete this record?');"><i class="fa fa-trash"></i></asp:LinkButton>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                            </Columns>
-                                        </asp:GridView>
+                                <fieldset>
+                                    <legend>Details</legend>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="table-responsive">
+                                                <asp:GridView ID="grdCourtDistrictMap" runat="server" CssClass="datatable table table-bordered table-hover" AutoGenerateColumns="false" OnRowCommand="grdCourtDistrictMap_RowCommand" DataKeyNames="Map_ID" EmptyDataText="NO RECORD FOUND">
+                                                    <Columns>
+                                                        <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
+                                                                <asp:Label ID="lblId" runat="server" Text='<%# Eval("Map_ID") %>' Visible="false"></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Court Name" ItemStyle-HorizontalAlign="Center">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblCourtName_ID" runat="server" Text='<%# Eval("CourtName") %>'></asp:Label>
+                                                                <asp:Label ID="lblCourtNameID" runat="server" Text='<%# Eval("CourtName_ID") %>' Visible="false"></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="District Name" ItemStyle-HorizontalAlign="Center">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblDistrict_ID" runat="server" Text='<%# Eval("District_Name") %>'></asp:Label>
+                                                                <asp:Label ID="lblDistrictID" runat="server" Text='<%# Eval("District_ID") %>' Visible="false"></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Delete" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                            <ItemTemplate>
+                                                                <%--  <asp:LinkButton ID="btnEdit" runat="server" CssClass="fa fa-edit" CommandName="EditDtl" ToolTip="Edit" CommandArgument='<%# Eval("Map_ID") %>'></asp:LinkButton>&nbsp;--%>
+                                                                <asp:LinkButton ID="lnkbtndelete" runat="server" CommandName="DeleteDetails" CommandArgument='<%# Eval("Map_ID") %>' ToolTip="Delete" CssClass="" OnClientClick="return confirm('Are you sure you want to delete this record?');"><i class="fa fa-trash"></i></asp:LinkButton>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                    </Columns>
+                                                </asp:GridView>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </fieldset>
+                                </fieldset>
                             </div>
                         </div>
                     </div>
@@ -229,20 +262,20 @@
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Fotter" runat="Server">
-     <script>
-         function ValidatePage() {
-             debugger;
-             if (typeof (Page_ClientValidate) == 'function') {
-                 Page_ClientValidate('a');
-             }
-             if (Page_IsValid) {
-                 if (document.getElementById('<%=btnMap.ClientID%>').value.trim() == "Update") {
-                    document.getElementById('<%=lblPopupAlert.ClientID%>').textContent = "Are you sure you want to Update this record?";
-                    $('#myModal').modal('show');
-                    return false;
-                }
-                if (document.getElementById('<%=btnMap.ClientID%>').value.trim() == "Map") {
-                    document.getElementById('<%=lblPopupAlert.ClientID%>').textContent = "Are you sure you want to Map this record?";
+    <script>
+        function ValidatePage() {
+            debugger;
+            if (typeof (Page_ClientValidate) == 'function') {
+                Page_ClientValidate('a');
+            }
+            if (Page_IsValid) {
+                if (document.getElementById('<%=btnMap.ClientID%>').value.trim() == "Update") {
+                     document.getElementById('<%=lblPopupAlert.ClientID%>').textContent = "Are you sure you want to Update this record?";
+                     $('#myModal').modal('show');
+                     return false;
+                 }
+                 if (document.getElementById('<%=btnMap.ClientID%>').value.trim() == "Map") {
+                     document.getElementById('<%=lblPopupAlert.ClientID%>').textContent = "Are you sure you want to Map this record?";
                     $('#myModal').modal('show');
                     return false;
                 }

@@ -34,7 +34,7 @@
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="../Main_plugins/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" />
     <!-- sweetalert picker -->
-    \<script src="../Main_plugins/custom_css/sweetalert.min.js"></script>
+    <script src="../Main_plugins/custom_css/sweetalert.min.js"></script>
     <%--    <link rel="stylesheet" href="../Main_plugins/plugins/daterangepicker/daterangepicker.css" />--%>
     <!-- summernote -->
     <link href="../Main_plugins/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />

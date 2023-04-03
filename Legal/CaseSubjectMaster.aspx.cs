@@ -82,6 +82,11 @@ public partial class Legal_CaseSubjectMaster : System.Web.UI.Page
                         //lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                         ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', '" + ErrMsg + "', 'success')", true);
                     }
+                    else
+                    {
+                        //lblMsg.Text = objdb.Alert("fa-ban", "alert-warning", "Warning !", ErrMsg);
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','" + ErrMsg + "' , 'warning')", true);
+                    }
                 }
                 BindGridCaseSubject();
                 btnSave.Text = "Save";

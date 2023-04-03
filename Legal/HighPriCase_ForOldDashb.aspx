@@ -100,6 +100,39 @@
         .box {
             min-height: auto;
         }
+
+
+        .sorting,
+        .sorting_asc,
+        .sorting_desc,
+        .sorting_asc_disabled,
+        .sorting_desc_disabled {
+            cursor: pointer;
+            position: relative;
+
+        {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            display: block;
+            font-family: 'Glyphicons Halflings';
+            opacity: 0.5;
+        }
+
+        }
+
+        .sorting:after {
+            opacity: 0.2;
+            content: "⏭" !important; /* sort */
+        }
+
+        .sorting_asc:after {
+            content: "⏬" !important; /* sort-by-attributes */
+        }
+
+        .sorting_desc:after {
+            content: "⏫" !important; /* sort-by-attributes-alt */
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
@@ -134,9 +167,9 @@
                                             <asp:BoundField DataField="Court" HeaderText="Court" />
                                             <asp:BoundField DataField="Petitioner" HeaderText="Petitioner" />
                                             <asp:BoundField DataField="Respondent" HeaderText="Respondent" />
-                                            <asp:BoundField DataField="HearingDate" HeaderText="HearingDate" />
-                                            <asp:BoundField DataField="CaseSubject" HeaderText="CaseSubject" />
-                                            <asp:BoundField DataField="OICName" HeaderText="OICName" />
+                                            <asp:BoundField DataField="HearingDate" HeaderText="Hearing Date" />
+                                            <asp:BoundField DataField="CaseSubject" HeaderText="Case Subject" />
+                                            <asp:BoundField DataField="OICName" HeaderText="OIC Name" />
                                         </Columns>
                                     </asp:GridView>
 

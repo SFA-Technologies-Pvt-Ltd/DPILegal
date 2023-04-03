@@ -25,6 +25,8 @@ public partial class Legal_LibraryMaster : System.Web.UI.Page
                     ViewState["Office_Id"] = Session["Office_Id"].ToString();
                     BindGridLibrary();
                     GetCaseSubject();
+                    FillCasetype();
+                    FillYear();
                     lblMsg.Text = "";
                     lblRecord.Text = "";
 
@@ -41,6 +43,42 @@ public partial class Legal_LibraryMaster : System.Web.UI.Page
         }
     }
 
+    #region CaseType
+    protected void FillCasetype()
+    {
+        try
+        {
+            ddlCasetype.Items.Clear();
+            ds = objdb.ByDataSet("select Casetype_ID, Casetype_Name from  tbl_Legal_Casetype");
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            {
+                ddlCasetype.DataTextField = "Casetype_Name";
+                ddlCasetype.DataValueField = "Casetype_ID";
+                ddlCasetype.DataSource = ds;
+                ddlCasetype.DataBind();
+            }
+            ddlCasetype.Items.Insert(0, new ListItem("Select", "0"));
+        }
+        catch (Exception ex)
+        {
+            ErrorLogCls.SendErrorToText(ex);
+            //lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
+        }
+    }
+    #endregion
+    #region Fill Year
+    protected void FillYear()
+    {
+        ddlCaseYear.Items.Clear();
+        for (int i = 2018; i <= DateTime.Now.Year; i++)
+        {
+            ddlCaseYear.Items.Add(i.ToString());
+        }
+        ddlCaseYear.Items.Insert(0, new ListItem("Select", "0"));
+
+    }
+    #endregion
+   
     private void BindGridLibrary()
     {
         try
@@ -100,8 +138,8 @@ public partial class Legal_LibraryMaster : System.Web.UI.Page
             }
             if (FU1.HasFile)
             {
-                ds = objdb.ByProcedure("Sp_librarydetail", new string[] { "flag", "CaseType", "PartyName", "CaseNo", "RelatedOffice", "DecisionDate", "Case_Year", "PDFViewLink", "RespondentName", "CaseSubjectId", "Case_Infavourof", "CreatedBy", "CreatedByIP" }, new string[] {
-                        "1",txtCasetype.Text,txtPartyName.Text,txtCaseNo.Text,txtRelatedOffice.Text, Convert.ToDateTime(txtDecisionDate.Text, cult).ToString("yyyy/MM/dd"),txtCaseYear.Text,"../PDF_Files/"+fileName, txtrespondentName.Text.Trim(),ddlCaseSubject.SelectedItem.Value, ddlDecisionFavourin.SelectedItem.Text.Trim(),ViewState["Emp_Id"].ToString(), objdb.GetLocalIPAddress()}, "dataset");
+                ds = objdb.ByProcedure("Sp_librarydetail", new string[] { "flag", "Casetype_ID", "PartyName", "CaseNo", "RelatedOffice", "DecisionDate", "CaseYear", "PDFViewLink", "RespondentName", "CaseSubjectId", "Case_Infavourof", "CreatedBy", "CreatedByIP" }, new string[] {
+                        "1",ddlCasetype.SelectedValue,txtPartyName.Text,txtCaseNo.Text,txtRelatedOffice.Text, Convert.ToDateTime(txtDecisionDate.Text, cult).ToString("yyyy/MM/dd"),ddlCaseYear.SelectedItem.Text,"../PDF_Files/"+fileName, txtrespondentName.Text.Trim(),ddlCaseSubject.SelectedItem.Value, ddlDecisionFavourin.SelectedItem.Text.Trim(),ViewState["Emp_Id"].ToString(), objdb.GetLocalIPAddress()}, "dataset");
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
                     string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
@@ -109,8 +147,8 @@ public partial class Legal_LibraryMaster : System.Web.UI.Page
                     {
                         //lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                         txtCaseNo.Text = "";
-                        txtCasetype.Text = "";
-                        txtCaseYear.Text = "";
+                        ddlCasetype.ClearSelection();
+                        ddlCaseYear.ClearSelection();
                         txtCaseNo.Text = "";
                         txtDecisionDate.Text = "";
                         txtPartyName.Text = "";

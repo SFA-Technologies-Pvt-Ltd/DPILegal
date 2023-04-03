@@ -74,7 +74,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Case Year</label>
-                                                <asp:DropDownList ID="ddlCaseYear" runat="server" CssClass="form-control"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlCaseYear" runat="server" CssClass="form-control" ReadOnly="true"></asp:DropDownList>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -86,7 +86,6 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Court Location</label>
-                                                <span style="color: red;"><b>*</b></span>
                                                 <asp:RequiredFieldValidator ID="RfvDistrict" ValidationGroup="CaseDtl"
                                                     ErrorMessage="Select Court Location." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                     ControlToValidate="ddlCourtLocation" Display="Dynamic" runat="server" InitialValue="0">
@@ -104,7 +103,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>
-                                                    Case Type</label><span style="color: red;"><b>*</b></span>
+                                                    Case Type</label>
                                                 <asp:RequiredFieldValidator ID="rfvCasetype" ValidationGroup="Save"
                                                     ErrorMessage="Select Case type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                     ControlToValidate="ddlCasetype" Display="Dynamic" runat="server" InitialValue="0">
@@ -137,7 +136,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>
-                                                    Desigantion<span style="color: red"><b>*</b></span></label>
+                                                    Designation<span style="color: red"><b>*</b></span></label>
                                                 <asp:RequiredFieldValidator runat="server" ID="rfvpetiDesign" Display="Dynamic" ForeColor="Red"
                                                     SetFocusOnError="true" ControlToValidate="ddlPetiDesigNation" ValidationGroup="Petitioner" ErrorMessage="Select Designation"
                                                     Text="<i class='fa fa-exclamation-circle' title='Required !'></i>" InitialValue="0">
@@ -259,7 +258,7 @@
                                         <div class="col-md-2 mt-3">
                                             <div class="row">
                                                 <div class="col-md-6 mt-3">
-                                                    <asp:Button ID="btnPetiAdvSave" runat="server" Text="Save" OnClick="btnPetiAdvSave_Click" ValidationGroup="PetiAdv" CssClass="btn btn-primary btn-block" />
+                                                    <asp:Button ID="btnPetiAdvSave" runat="server" Text="Save" OnClick="btnPetiAdvSave_Click" ValidationGroup="PetiAdv" CssClass="btn btn-primary" />
                                                 </div>
                                             </div>
                                         </div>
@@ -303,33 +302,35 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label>Office Type</label><span style="color: red;"><b> *</b></span>
-                                                <asp:RequiredFieldValidator ID="rfvOffice" ValidationGroup="Responder"
+                                                <label>Office Type</label>
+                                                <%--<span style="color: red;"><b> *</b></span><asp:RequiredFieldValidator ID="rfvOffice" ValidationGroup="Responder"
                                                     ErrorMessage="Select Office type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                     ControlToValidate="ddlResOfficetypeName" Display="Dynamic" runat="server" InitialValue="0">
-                                                </asp:RequiredFieldValidator>
+                                                </asp:RequiredFieldValidator>--%>
                                                 <asp:DropDownList ID="ddlResOfficetypeName" runat="server" OnSelectedIndexChanged="ddlResOfficetypeName_SelectedIndexChanged" AutoPostBack="true" CssClass="form-control">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label>Office Name</label><span style="color: red;"><b> *</b></span>
+                                                <label>Office Name</label>
+                                               <%-- <span style="color: red;"><b> *</b></span>
                                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="Responder"
                                                     ErrorMessage="Select Office Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                     ControlToValidate="ddlResOfficeName" Display="Dynamic" runat="server" InitialValue="0">
-                                                </asp:RequiredFieldValidator>
+                                                </asp:RequiredFieldValidator>--%>
                                                 <asp:DropDownList ID="ddlResOfficeName" runat="server" CssClass="form-control">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label>Designation</label><span style="color: red;"><b> *</b></span>
+                                                <label>Designation</label>
+                                             <%--   <span style="color: red;"><b> *</b></span>
                                                 <asp:RequiredFieldValidator ID="rfvDesignation" ValidationGroup="Responder"
                                                     ErrorMessage="Select Designation." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                     ControlToValidate="ddlResDesig" Display="Dynamic" runat="server" InitialValue="0">
-                                                </asp:RequiredFieldValidator>
+                                                </asp:RequiredFieldValidator>--%>
                                                 <asp:DropDownList ID="ddlResDesig" runat="server" CssClass="form-control">
                                                 </asp:DropDownList>
                                             </div>
@@ -343,7 +344,7 @@
                                                 </asp:RequiredFieldValidator>
                                                 <asp:TextBox ID="txtResName" runat="server" CssClass="form-control" onkeypress="return chcode();" onkeyup="javascript:capFirst(this);" AutoComplete="off" MaxLength="70"></asp:TextBox>
                                                 <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator2" Display="Dynamic" ControlToValidate="txtResName"
-                                                    ValidationExpression="^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$" ValidationGroup="Responder" ForeColor="Red" ErrorMessage="Please Enter Valid Text">
+                                                    ValidationExpression="^[a-zA-Z]+(([a-zA-Z\s])?[a-zA-Z]*)*$" ValidationGroup="Responder" ForeColor="Red" ErrorMessage="Please Enter Valid Text">
                                                 </asp:RegularExpressionValidator>
                                             </div>
                                         </div>
@@ -364,29 +365,30 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Department/HOD</label><span style="color: red;"><b> *</b></span>
-                                                <%--<asp:RequiredFieldValidator ID="rfvDeptname" ValidationGroup="Responder"
-                                                    ErrorMessage="Enter Department Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                <asp:RequiredFieldValidator ID="rfvDeptname" ValidationGroup="Responder"
+                                                    ErrorMessage="Select Department Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                    InitialValue="0" ControlToValidate="ddlResDepartment" Display="Dynamic" runat="server">
-                                                </asp:RequiredFieldValidator>--%>
+                                                </asp:RequiredFieldValidator>
                                                 <asp:DropDownList ID="ddlResDepartment" runat="server" CssClass="form-control"></asp:DropDownList>
                                                 
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Address</label><span style="color: red;"><b> *</b></span>
-                                               <%-- <asp:RequiredFieldValidator ID="rfvAdd" ValidationGroup="Responder"
+                                                <label>Address</label>
+                                               <%-- <span style="color: red;"><b> *</b></span>
+                                                <asp:RequiredFieldValidator ID="rfvAdd" ValidationGroup="Responder"
                                                     ErrorMessage="Enter Address." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                     ControlToValidate="txtResAddress" Display="Dynamic" runat="server">
                                                 </asp:RequiredFieldValidator>--%>
-                                                <asp:TextBox ID="txtResAddress" runat="server" CssClass="form-control" onkeyup="javascript:capFirst(this);" onkeypress="return chcode();" AutoComplete="off" MaxLength="70"></asp:TextBox>
+                                                <asp:TextBox ID="txtResAddress" runat="server" CssClass="form-control" onkeyup="javascript:capFirst(this);" onkeypress="return chcode();" AutoComplete="off" MaxLength="500"></asp:TextBox>
                                                <%-- <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator7" Display="Dynamic" ControlToValidate="txtResAddress"
                                                     ValidationExpression="^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$" ValidationGroup="Responder" ForeColor="Red" ErrorMessage="Please Enter Valid Text">
                                                 </asp:RegularExpressionValidator>--%>
                                             </div>
                                         </div>
                                         <div class="col-md-1" style="padding-top: 2rem! important;">
-                                            <asp:Button runat="server" CssClass="btn btn-primary btn-block" Text="Save" ID="btnRespondent" ValidationGroup="Responder" OnClick="btnRespondent_Click" />
+                                            <asp:Button runat="server" CssClass="btn btn-primary" Text="Save" ID="btnRespondent" ValidationGroup="Responder" OnClick="btnRespondent_Click" />
                                         </div>
                                     </div>
                                     <div class="row">
@@ -433,6 +435,7 @@
                                                         <asp:TemplateField HeaderText="Department">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblDepartment" runat="server" Text='<%# Eval("Department") %>'></asp:Label>
+                                                                <%--<asp:Label ID="lblDepartment" runat="server" Text='<%# Eval("Department_Id") %>' Visible="false"></asp:Label>--%>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Address">
@@ -486,7 +489,7 @@
                                         </div>
                                         <div class="col-md-1" style="margin-top: 2rem ! important;">
                                             <div class="form-group">
-                                                <asp:Button ID="btnDeptAdvocate" runat="server" CssClass="btn btn-primary btn-block" Text="Save" ValidationGroup="DeptADV" OnClick="btnDeptAdvocate_Click" />
+                                                <asp:Button ID="btnDeptAdvocate" runat="server" CssClass="btn btn-primary" Text="Save" ValidationGroup="DeptADV" OnClick="btnDeptAdvocate_Click" />
                                             </div>
                                         </div>
                                     </div>
@@ -768,7 +771,7 @@
                                         <div class="col-md-2 mt-3">
                                             <div class="row">
                                                 <div class="col-md-6 mt-3">
-                                                    <asp:Button ID="btnAddHeairng" runat="server" CssClass="btn btn-primary btn-block" ValidationGroup="Hearing" Text="Save" OnClick="btnAddHeairng_Click" />
+                                                    <asp:Button ID="btnAddHeairng" runat="server" CssClass="btn btn-primary" ValidationGroup="Hearing" Text="Save" OnClick="btnAddHeairng_Click" />
                                                 </div>
                                             </div>
                                         </div>
@@ -825,9 +828,9 @@
                                                 </asp:RequiredFieldValidator>
 
                                                 <asp:TextBox ID="txtDocumentName" placeholder="Enter Document Name" runat="server" CssClass="form-control" MaxLength="50" AutoComplete="off"></asp:TextBox>
-                                                <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator4" Display="Dynamic" ControlToValidate="txtDocumentName"
+                                                <%--<asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator4" Display="Dynamic" ControlToValidate="txtDocumentName"
                                                     ValidationExpression="^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$" ValidationGroup="Docs" ForeColor="Red" ErrorMessage="Please Enter Valid Text">
-                                                </asp:RegularExpressionValidator>
+                                                </asp:RegularExpressionValidator>--%>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -844,7 +847,7 @@
                                         <div class="col-md-2 mt-3">
                                             <div class="row">
                                                 <div class="col-md-6  mt-3">
-                                                    <asp:Button ID="btnSaveDoc" runat="server" ValidationGroup="Docs" CssClass="btn btn-primary btn-block" Text="Save" OnClick="btnSaveDoc_Click" />
+                                                    <asp:Button ID="btnSaveDoc" runat="server" ValidationGroup="Docs" CssClass="btn btn-primary" Text="Save" OnClick="btnSaveDoc_Click" />
                                                 </div>
                                             </div>
                                         </div>
@@ -972,9 +975,9 @@
                                                     ControlToValidate="txtorderSummary" Display="Dynamic" runat="server">
                                                 </asp:RequiredFieldValidator>
                                                 <asp:TextBox ID="txtorderSummary" placeholder="Order Summary" runat="server" MaxLength="500" AutoComplete="off" TextMode="MultiLine" CssClass="form-control"></asp:TextBox>
-                                                <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator6" Display="Dynamic" ControlToValidate="txtorderSummary"
+                                                <%--<asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator6" Display="Dynamic" ControlToValidate="txtorderSummary"
                                                     ValidationExpression="^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$" ValidationGroup="CaseDispose" ForeColor="Red" ErrorMessage="Please Enter Valid Text">
-                                                </asp:RegularExpressionValidator>
+                                                </asp:RegularExpressionValidator>--%>
                                             </div>
                                         </div>
                                     </div>
@@ -1035,6 +1038,8 @@
                                     </div>
                                 </fieldset>
                                 <%-- End Here Case Dispose Detail --%>
+
+                                <%--Start Here OldCase Detail --%>
                                 <fieldset id="fildAskForOldCase" runat="server">
                                     <legend>Did this case have any old case detail</legend>
                                     <div class=" row">
@@ -1047,11 +1052,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                </fieldset>
-                                <%--Start Here OldCase Detail --%>
-                                <fieldset id="FieldViewOldCaseDtl" runat="server">
-                                    <legend>Old Case No. Detail</legend>
-                                    <div class="row">
+                                    <div runat="server" id="FieldViewOldCaseDtl">
+                                         <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Old Case No</label><span style="color: red;"><b>*</b></span>
@@ -1109,23 +1111,31 @@
                                             </div>
                                         </div>
                                         <div class="col-md-3" id="Div_Doc1" runat="server">
-                                            <label>केस का विवरण</label><br />
+                                            <label>Case Details</label><br />
                                             <asp:FileUpload ID="FU1" runat="server" CssClass="form-control" />
                                         </div>
                                         <div class="col-md-3" id="Div_Doc2" runat="server">
-                                            <label>कार्यवाही का विवरण</label><br />
+                                            <label>Description Of Proceedings</label>
+                                             <%--<asp:RequiredFieldValidator ID="RfvFU2" ValidationGroup="OldCase"
+                                                    ErrorMessage="कार्यवाही का विवरण चुने!" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                    ControlToValidate="FU2" Display="Dynamic" runat="server">
+                                                </asp:RequiredFieldValidator>--%>
                                             <asp:FileUpload ID="FU2" runat="server" CssClass="form-control" />
                                         </div>
                                         <div class="col-md-3" id="Div_Doc3" runat="server">
-                                            <label>निर्णय</label><br />
+                                            <label>Decision</label>
+                                          <%--<asp:RequiredFieldValidator ID="RfvFU3" ValidationGroup="OldCase"
+                                                    ErrorMessage="निर्णय चुने!" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                    ControlToValidate="FU3" Display="Dynamic" runat="server">
+                                                </asp:RequiredFieldValidator>--%>
                                             <asp:FileUpload ID="FU3" runat="server" CssClass="form-control" />
                                         </div>
                                         <div class="col-md-3" id="Div_Doc4" runat="server">
-                                            <label>अन्य</label><br />
+                                            <label>Other</label><br />
                                             <asp:FileUpload ID="FU4" runat="server" CssClass="form-control" />
                                         </div>
                                         <div class="col-md-1 mt-3">
-                                            <asp:Button ID="btnOldCase" runat="server" Text="Save" OnClick="btnOldCase_Click" ValidationGroup="OldCase" CssClass="btn btn-primary btn-block mt-3" />
+                                            <asp:Button ID="btnOldCase" runat="server" Text="Save" OnClick="btnOldCase_Click" ValidationGroup="OldCase" CssClass="btn btn-primary mt-3" />
                                         </div>
                                     </div>
                                     <div class="row mt-3">
@@ -1189,11 +1199,9 @@
                                             </div>
                                         </div>
                                     </div>
+                                    </div>
                                 </fieldset>
-                                <%--End Here DeptAdv Detail --%>
                                 <%---End Here For Edit Case Details ---%>
-
-                                <%---Start Here For Add && Edit Documents ---%>
                             </div>
                         </div>
                     </div>

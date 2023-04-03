@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="DesignationMaster.aspx.cs" Inherits="Legal_DesignationMaster" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-     <link href="../DataTable_CssJs/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="../DataTable_CssJs/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="../DataTable_CssJs/buttons.dataTables.min.css" rel="stylesheet" />
     <link href="../DataTable_CssJs/jquery.dataTables.min.css" rel="stylesheet" />
     <style>
@@ -100,8 +100,41 @@
         .box {
             min-height: auto;
         }
+
+        .sorting,
+        .sorting_asc,
+        .sorting_desc,
+        .sorting_asc_disabled,
+        .sorting_desc_disabled {
+            cursor: pointer;
+            position: relative;
+            &:after;
+
+        {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            display: block;
+            font-family: 'Glyphicons Halflings';
+            opacity: 0.5;
+        }
+
+        }
+
+        .sorting:after {
+            opacity: 0.2;
+            content: "⏭" !important; /* sort */
+        }
+
+        .sorting_asc:after {
+            content: "⏬" !important; /* sort-by-attributes */
+        }
+
+        .sorting_desc:after {
+            content: "⏫" !important; /* sort-by-attributes-alt */
+        }
     </style>
-  
+
     <style>
         .pt-4 {
             padding-top: 1.9rem !important;
@@ -149,20 +182,20 @@
                         <fieldset>
                             <legend>Enter Details</legend>
                             <div class="row">
-                                <div class="col-md-3 col-sm"  style="display:none;">
+                                <div class="col-md-3 col-sm" style="display: none;">
                                     <div class="form-group">
                                         <label>Office Type Name</label><span style="color: red;"><b> *</b></span>
-                                        <asp:requiredfieldvalidator id="rfvofficetype" validationgroup="save"
-                                            errormessage="select office type name." forecolor="red" text="<i class='fa fa-exclamation-circle' title='required !'></i>"
-                                            controltovalidate="ddlofficetypename" display="dynamic" runat="server">
-                                        </asp:requiredfieldvalidator>
+                                        <asp:RequiredFieldValidator ID="rfvofficetype" ValidationGroup="save"
+                                            ErrorMessage="select office type name." ForeColor="red" Text="<i class='fa fa-exclamation-circle' title='required !'></i>"
+                                            ControlToValidate="ddlofficetypename" Display="dynamic" runat="server">
+                                        </asp:RequiredFieldValidator>
                                         <asp:DropDownList ID="ddlOfficetypename" runat="server" CssClass="form-control" OnSelectedIndexChanged="ddlOfficetypename_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-sm" style="display:none;">
+                                <div class="col-md-3 col-sm" style="display: none;">
                                     <div class="form-group">
                                         <label>Office Name</label><span style="color: red;"><b> *</b></span>
-                                       <%-- <asp:RequiredFieldValidator ID="rfvofficeName" ValidationGroup="Save"
+                                        <%-- <asp:RequiredFieldValidator ID="rfvofficeName" ValidationGroup="Save"
                                             ErrorMessage="Select Office Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="ddlOfficeName" Display="Dynamic" runat="server">
                                         </asp:RequiredFieldValidator>--%>
@@ -194,7 +227,7 @@
                                         <asp:DropDownList runat="server" ID="ddlOfficeLevel" CssClass="form-control"></asp:DropDownList>
                                     </div>
                                 </div>
-                              <div class="col-md-3 pt-4">
+                                <div class="col-md-3 pt-4">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <asp:Button ID="btnSave" runat="server" CssClass="btn btn-primary btn-block" Text="Save" OnClientClick="return ValidatePage();" ValidationGroup="Save" OnClick="btnSave_Click" />
@@ -206,7 +239,7 @@
                                 </div>
                             </div>
                         </fieldset>
-                         <fieldset>
+                        <fieldset>
                             <legend>Details</legend>
                             <div class="row">
                                 <div class="col-md-12">
@@ -238,9 +271,9 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Office Level" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
-                                                      <asp:Label ID="lblOfficelevelID" runat="server" Text='<%# Eval("OfficeLevel_Id") %>' Visible="false"></asp:Label>
+                                                        <asp:Label ID="lblOfficelevelID" runat="server" Text='<%# Eval("OfficeLevel_Id") %>' Visible="false"></asp:Label>
                                                         <asp:Label ID="lblOfficelevelName" runat="server" Text='<%# Eval("OfficeLevelName") %>'></asp:Label>
-                                          
+
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Action" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">

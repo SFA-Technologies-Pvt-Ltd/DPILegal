@@ -194,6 +194,10 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
                             txtUserName.Text = "";
                             txtPassword.Text = "";
                             txtUserEmail.Enabled = true;
+                            txtMobileNo.Enabled = true;
+                            txtUserName.Enabled = true;
+                            txtPassword.Enabled = true;
+                            txtConfirmPassword.Enabled = true;
                             rfvUserName.Enabled = true;
                             rfvPassword.Enabled = true;
                             rfvpasswordCon.Enabled = true;

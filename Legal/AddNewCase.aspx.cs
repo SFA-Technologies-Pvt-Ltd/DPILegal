@@ -38,7 +38,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                     FillYear();
                     FillColumn();
                     FillDesignation();
-                    BiunOicName();
+                //    BiunOicName();
                     FillParty();
                     FillOldCaseYear();
                     AdvDt();
@@ -47,7 +47,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                     PetiAdvDt();
                     OldCaseDt();
                     FillDepartment();
-                    FillDitrict();
+                    //FillDitrict();
                     divReplyDate.Visible = false;
                 }
             }
@@ -63,28 +63,28 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
         }
 
     }
-    #region Fill District
-    protected void FillDitrict()
-    {
-        try
-        {
-            ddlDistrict.Items.Clear();
-            ds = objdb.ByDataSet("select District_ID, District_Name from  Mst_District");
-            if (ds != null && ds.Tables[0].Rows.Count > 0)
-            {
-                ddlDistrict.DataTextField = "District_Name";
-                ddlDistrict.DataValueField = "District_ID";
-                ddlDistrict.DataSource = ds;
-                ddlDistrict.DataBind();
-            }
-            ddlDistrict.Items.Insert(0, new ListItem("Select", "0"));
-        }
-        catch (Exception ex)
-        {
-            lblMsg.Text = objdb.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
-        }
-    }
-    #endregion
+    //#region Fill District
+    //protected void FillDitrict()
+    //{
+    //    try
+    //    {
+    //        ddlDistrict.Items.Clear();
+    //        ds = objdb.ByDataSet("select District_ID, District_Name from  Mst_District");
+    //        if (ds != null && ds.Tables[0].Rows.Count > 0)
+    //        {
+    //            ddlDistrict.DataTextField = "District_Name";
+    //            ddlDistrict.DataValueField = "District_ID";
+    //            ddlDistrict.DataSource = ds;
+    //            ddlDistrict.DataBind();
+    //        }
+    //        ddlDistrict.Items.Insert(0, new ListItem("Select", "0"));
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        lblMsg.Text = objdb.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
+    //    }
+    //}
+    //#endregion
     private void FillDepartment()
     {
         try
@@ -207,7 +207,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
         {
             ddlDesignation.Items.Clear();
             ddlPetiDesigNation.Items.Clear();
-            ds = objdb.ByDataSet("select Designation_Id, Designation_Name from tblDesignationMaster");
+            ds = objdb.ByDataSet("SELECT Designation_Id ,Designation_Name FROM tblDesignationMaster ORDER BY Designation_Name ASC");
             if (ds != null && ds.Tables[0].Rows.Count > 0)
             {
                 ddlDesignation.DataTextField = "Designation_Name";
@@ -234,7 +234,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
     protected void FillYear()
     {
         ddlCaseYear.Items.Clear();
-        for (int i = 2018; i <= DateTime.Now.Year; i++)
+        for (int i = 1950; i <= DateTime.Now.Year; i++)
         {
             ddlCaseYear.Items.Add(i.ToString());
         }
@@ -283,28 +283,28 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
     }
     #endregion
     #region Fill OICName
-    protected void BiunOicName()
-    {
-        try
-        {
-            Helper oic = new Helper();
-            ddlOicName.Items.Clear();
-            DataTable dtOic = oic.GetOICAll() as DataTable;
-            if (dtOic != null && dtOic.Rows.Count > 0)
-            {
-                ddlOicName.DataTextField = "OICName";
-                ddlOicName.DataValueField = "OICMaster_ID";
-                ddlOicName.DataSource = dtOic;
-                ddlOicName.DataBind();
-            }
-            ddlOicName.Items.Insert(0, new ListItem("Select", "0"));
-        }
-        catch (Exception ex)
-        {
-            ErrorLogCls.SendErrorToText(ex);
-            //lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
-        }
-    }
+    //protected void BiunOicName()
+    //{
+    //    try
+    //    {
+    //        Helper oic = new Helper();
+    //        ddlOicName.Items.Clear();
+    //        DataTable dtOic = oic.GetOICAll() as DataTable;
+    //        if (dtOic != null && dtOic.Rows.Count > 0)
+    //        {
+    //            ddlOicName.DataTextField = "OICName";
+    //            ddlOicName.DataValueField = "OICMaster_ID";
+    //            ddlOicName.DataSource = dtOic;
+    //            ddlOicName.DataBind();
+    //        }
+    //        ddlOicName.Items.Insert(0, new ListItem("Select", "0"));
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        ErrorLogCls.SendErrorToText(ex);
+    //        //lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Sorry!", ex.Message.ToString());
+    //    }
+    //}
     #endregion
     #region Fill CourtName
     protected void BindCourtName()
@@ -410,7 +410,6 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
     protected void btnClear_Click(object sender, EventArgs e)
     {
         ClearText();
-
     }
     #endregion
     #region ClearAllControl
@@ -459,6 +458,17 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
         ddloldCasetype.ClearSelection();
         ddloldCourtLoca_Id.ClearSelection();
         ddloldCaseYear.ClearSelection();
+        ddlDepartment.ClearSelection();
+        ddlDistrict.ClearSelection();
+        txtEmailID.Text = "";
+        txtOICcaseNumber.Text = "";
+        txtOICDate.Text = "";
+        GrdPetiAdv.DataSource = null;
+        GrdPetiAdv.DataBind();
+        ddlCaseReply.ClearSelection();
+        txtReplyDate.Text = "";
+        divReplyDate.Visible = false;
+        txtReplyCaseRemark.Text = "";
     }
     #endregion
 
@@ -492,7 +502,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
         }
     }
     #endregion
-    
+
     #region  Respondent Column
     protected void FillColumn()
     {
@@ -719,7 +729,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                     }
                 }
                 string errormsg = "";
-                if (DocFailedCntExt > 0) { errormsg += "Only upload Document in( PDF) Formate.\\n"; }
+                if (DocFailedCntExt > 0) { errormsg += "Only upload Document in( PDF) Format.\\n"; }
                 if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 200 KB \\n"; }
 
                 if (errormsg == "")
@@ -1016,22 +1026,41 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                             if (FU1.HasFile)
                             {
                                 dt7.Rows.Add(OldFillingNo, txtoldCaseNo.Text.Trim(), ddloldCaseYear.SelectedItem.Text, ddloldCasetype.SelectedValue, ddloldCaseCourt.SelectedValue,
-                                   ddloldCourtLoca_Id.SelectedValue, "केस का विवरण", ViewState["FU1"].ToString(), ddloldCasetype.SelectedItem.Text, ddloldCaseCourt.SelectedItem.Text, ddloldCourtLoca_Id.SelectedItem.Text);
+                                   ddloldCourtLoca_Id.SelectedValue, "Case Details", ViewState["FU1"].ToString(), ddloldCasetype.SelectedItem.Text, ddloldCaseCourt.SelectedItem.Text, ddloldCourtLoca_Id.SelectedItem.Text);
                             }
                             if (FU2.HasFile)
                             {
                                 dt7.Rows.Add(OldFillingNo, txtoldCaseNo.Text.Trim(), ddloldCaseYear.SelectedItem.Text, ddloldCasetype.SelectedValue, ddloldCaseCourt.SelectedValue,
-                                   ddloldCourtLoca_Id.SelectedValue, "कार्यवाही का विवरण", ViewState["FU2"].ToString(), ddloldCasetype.SelectedItem.Text, ddloldCaseCourt.SelectedItem.Text, ddloldCourtLoca_Id.SelectedItem.Text);
+                                   ddloldCourtLoca_Id.SelectedValue, "Description Of Proceedings", ViewState["FU2"].ToString(), ddloldCasetype.SelectedItem.Text, ddloldCaseCourt.SelectedItem.Text, ddloldCourtLoca_Id.SelectedItem.Text);
                             }
                             if (FU3.HasFile)
                             {
                                 dt7.Rows.Add(OldFillingNo, txtoldCaseNo.Text.Trim(), ddloldCaseYear.SelectedItem.Text, ddloldCasetype.SelectedValue, ddloldCaseCourt.SelectedValue,
-                                   ddloldCourtLoca_Id.SelectedValue, "निर्णय", ViewState["FU3"].ToString(), ddloldCasetype.SelectedItem.Text, ddloldCaseCourt.SelectedItem.Text, ddloldCourtLoca_Id.SelectedItem.Text);
+                                   ddloldCourtLoca_Id.SelectedValue, "Decision", ViewState["FU3"].ToString(), ddloldCasetype.SelectedItem.Text, ddloldCaseCourt.SelectedItem.Text, ddloldCourtLoca_Id.SelectedItem.Text);
                             }
                             if (FU4.HasFile)
                             {
                                 dt7.Rows.Add(OldFillingNo, txtoldCaseNo.Text.Trim(), ddloldCaseYear.SelectedItem.Text, ddloldCasetype.SelectedValue, ddloldCaseCourt.SelectedValue,
-                                   ddloldCourtLoca_Id.SelectedValue, "अन्य", ViewState["FU4"].ToString(), ddloldCasetype.SelectedItem.Text, ddloldCaseCourt.SelectedItem.Text, ddloldCourtLoca_Id.SelectedItem.Text);
+                                   ddloldCourtLoca_Id.SelectedValue, "Other", ViewState["FU4"].ToString(), ddloldCasetype.SelectedItem.Text, ddloldCaseCourt.SelectedItem.Text, ddloldCourtLoca_Id.SelectedItem.Text);
+                            }
+                            if (ViewState["FU1"].ToString() == "" && ViewState["FU2"].ToString() == "" && ViewState["FU3"].ToString() == "" && ViewState["FU4"].ToString() == "")
+                            {
+                                //OldDt.Columns.Add("OldFillingNo", typeof(string));
+                                //OldDt.Columns.Add("OldCaseNo", typeof(string));
+                                //OldDt.Columns.Add("CaseYear", typeof(string));
+                                //OldDt.Columns.Add("Casetype_ID", typeof(int));
+                                //OldDt.Columns.Add("Court_ID", typeof(int));
+                                //OldDt.Columns.Add("CourtLocation_ID", typeof(int));
+                                //OldDt.Columns.Add("DocName", typeof(string));
+                                //OldDt.Columns.Add("Document", typeof(string));
+                                //OldDt.Columns.Add("Casetype", typeof(string));
+                                //OldDt.Columns.Add("Court", typeof(string));
+                                //OldDt.Columns.Add("CourtLocation", typeof(string));
+
+
+
+                                dt7.Rows.Add(OldFillingNo, txtoldCaseNo.Text.Trim(), ddloldCaseYear.SelectedItem.Text, ddloldCasetype.SelectedValue, ddloldCaseCourt.SelectedValue,
+                                  ddloldCourtLoca_Id.SelectedValue, "Not Available", "", ddloldCasetype.SelectedItem.Text, ddloldCaseCourt.SelectedItem.Text, ddloldCourtLoca_Id.SelectedItem.Text);
                             }
                         }
                     }
@@ -1158,12 +1187,12 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                         }
                         else
                         {
-                            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('please Add Dept Advocate Detail & Petitioner Detail');", true);
+                            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please Add Dept Advocate Detail & Petitioner Detail');", true);
                         }
                     }
                     else
                     {
-                        ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('please Add Document & Respondent Detail');", true);
+                        ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please Add Document & Respondent Detail');", true);
                     }
                 }
 
@@ -1224,15 +1253,22 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
         try
         {
             ddlCourtLocation.Items.Clear();
-            ds = objdb.ByDataSet("select  CT.District_Id, District_Name  from tbl_LegalCourtType CT INNER Join Mst_District DM on DM.District_ID = CT.District_Id where CourtType_ID = " + ddlCourtType.SelectedValue);
+            //ds = objdb.ByDataSet("select  CT.District_Id, District_Name  from tbl_LegalCourtType CT INNER Join Mst_District DM on DM.District_ID = CT.District_Id where CourtType_ID = " + ddlCourtType.SelectedValue);
+            ds = objdb.ByProcedure("Usp_Select_CourtDistrictLocation", new string[] { "CourtType_ID" }, new string[] { ddlCourtType.SelectedValue }, "dataset");
             if (ds != null && ds.Tables[0].Rows.Count > 0)
             {
                 ddlCourtLocation.DataTextField = "District_Name";
                 ddlCourtLocation.DataValueField = "District_Id";
-                ddlCourtLocation.DataSource = ds;
+                ddlCourtLocation.DataSource = ds.Tables[1];
                 ddlCourtLocation.DataBind();
+
+                ddlDistrict.DataTextField = "District_Name";
+                ddlDistrict.DataValueField = "District_ID";
+                ddlDistrict.DataSource = ds.Tables[0];
+                ddlDistrict.DataBind();
             }
             ddlCourtLocation.Items.Insert(0, new ListItem("Select", "0"));
+            ddlDistrict.Items.Insert(0, new ListItem("Select", "0"));
         }
         catch (Exception ex)
         {
@@ -1282,5 +1318,26 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
         }
     }
 
+    protected void ddlDistrict_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        try
+        {
+            lblMsg.Text = "";
+            ddlOicName.Items.Clear();
+            DataSet dsOICbyDistrict = objdb.ByDataSet("select OICMaster_ID, OICName from tblOICMaster where District_Id =" + ddlDistrict.SelectedValue);
+            if (dsOICbyDistrict.Tables[0].Rows.Count > 0 && dsOICbyDistrict.Tables.Count > 0)
+            {
+                ddlOicName.DataTextField = "OICName";
+                ddlOicName.DataValueField = "OICMaster_ID";
+                ddlOicName.DataSource = dsOICbyDistrict;
+                ddlOicName.DataBind();
+                ddlOicName.Items.Insert(0, new ListItem("Select", "0"));
+            }          
+        }
+        catch (Exception ex)
+        {
+            ErrorLogCls.SendErrorToText(ex);
+        }
+    }
 }
 

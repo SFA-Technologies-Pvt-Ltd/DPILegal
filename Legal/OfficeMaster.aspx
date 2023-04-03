@@ -100,6 +100,38 @@
         .box {
             min-height: auto;
         }
+          .sorting,
+        .sorting_asc,
+        .sorting_desc,
+        .sorting_asc_disabled,
+        .sorting_desc_disabled {
+            cursor: pointer;
+            position: relative;
+            &:after;
+
+        {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            display: block;
+            font-family: 'Glyphicons Halflings';
+            opacity: 0.5;
+        }
+
+        }
+
+        .sorting:after {
+            opacity: 0.2;
+            content: "⏭" !important; /* sort */
+        }
+
+        .sorting_asc:after {
+            content: "⏬" !important; /* sort-by-attributes */
+        }
+
+        .sorting_desc:after {
+            content: "⏫" !important; /* sort-by-attributes-alt */
+        }
     </style>
 
 </asp:Content>
@@ -191,9 +223,9 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-3" id="DivDivision" runat="server">
                                     <div class="form-group">
-                                        <label>Division</label>
+                                        <label>Division</label><span style="color: red;"><b>*</b></span>
                                          <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="Save"
                                             ErrorMessage="Select Division" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="ddlDivision" Display="Dynamic" runat="server" InitialValue="0">
@@ -204,7 +236,7 @@
                                 </div>
                                 <div class="col-md-3" runat="server" id="divDistrict">
                                     <div class="form-group">
-                                        <label>District</label>
+                                        <label>District<span style="color: red;"><b>*</b></span></label>
                                          <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ValidationGroup="Save"
                                             ErrorMessage="Select District" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="ddlDistrict" Display="Dynamic" runat="server" InitialValue="0">

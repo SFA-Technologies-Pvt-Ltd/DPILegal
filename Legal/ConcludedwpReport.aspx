@@ -100,6 +100,38 @@
         .box {
             min-height: auto;
         }
+          .sorting,
+        .sorting_asc,
+        .sorting_desc,
+        .sorting_asc_disabled,
+        .sorting_desc_disabled {
+            cursor: pointer;
+            position: relative;
+            &:after;
+
+        {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            display: block;
+            font-family: 'Glyphicons Halflings';
+            opacity: 0.5;
+        }
+
+        }
+
+        .sorting:after {
+            opacity: 0.2;
+            content: "⏭" !important; /* sort */
+        }
+
+        .sorting_asc:after {
+            content: "⏬" !important; /* sort-by-attributes */
+        }
+
+        .sorting_desc:after {
+            content: "⏫" !important; /* sort-by-attributes-alt */
+        }
     </style>
     <style>
         label {
@@ -130,7 +162,7 @@
                                             ErrorMessage="Select Case year." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="ddlCaseYear" Display="Dynamic" runat="server" InitialValue="0">
                                         </asp:RequiredFieldValidator><br />
-                                            प्रकरण वर्ष</label>
+                                            </label>
                                        <asp:DropDownList ID="ddlCaseYear" runat="server" CssClass="form-control select2"></asp:DropDownList>
                                     </div>
                                 </div>
@@ -142,7 +174,7 @@
                                                 ErrorMessage="Enter From Date." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                 ControlToValidate="txtFromdate" Display="Dynamic" runat="server">
                                             </asp:RequiredFieldValidator><br />
-                                            प्रारंभिक तिथि</label>
+                                            </label>
                                         <asp:TextBox ID="txtFromdate" runat="server" CssClass="form-control disableFuturedate" data-provide="datepicker" data-date-autoclose="true" data-date-format="dd/mm/yyyy" placeholder="DD/MM/YYYY" AutoComplete="off"></asp:TextBox>
                                     </div>
                                 
@@ -156,7 +188,7 @@
                                             ErrorMessage="Enter End Date." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="txtTodate" Display="Dynamic" runat="server">
                                         </asp:RequiredFieldValidator><br />
-                                        अंतिम तिथि</label>
+                                        </label>
                                     <asp:TextBox ID="txtTodate" runat="server" CssClass="form-control disableFuturedate" data-date-end-date="0d" data-provide="datepicker" data-date-autoclose="true" data-date-format="dd/mm/yyyy" placeholder="DD/MM/YYYY" AutoComplete="off"></asp:TextBox>
                                 </div>
                             </div>
@@ -168,7 +200,7 @@
                                                 ErrorMessage="Select Case type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                 ControlToValidate="ddlCasetype" Display="Dynamic" runat="server" InitialValue="0">
                                             </asp:RequiredFieldValidator><br />
-                                           प्रकरण का प्रकार</label>
+                                           </label>
                                         <asp:DropDownList ID="ddlCasetype" runat="server" CssClass="form-control select2" ></asp:DropDownList>
                                     </div>
                                 </div>

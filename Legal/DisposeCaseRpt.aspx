@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="DisposeCaseRpt.aspx.cs" Inherits="Legal_DisposeCaseRpt" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-     <link href="../DataTable_CssJs/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="../DataTable_CssJs/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="../DataTable_CssJs/buttons.dataTables.min.css" rel="stylesheet" />
     <link href="../DataTable_CssJs/jquery.dataTables.min.css" rel="stylesheet" />
     <style>
@@ -100,6 +100,39 @@
         .box {
             min-height: auto;
         }
+
+        .sorting,
+        .sorting_asc,
+        .sorting_desc,
+        .sorting_asc_disabled,
+        .sorting_desc_disabled {
+            cursor: pointer;
+            position: relative;
+            &:after;
+
+        {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            display: block;
+            font-family: 'Glyphicons Halflings';
+            opacity: 0.5;
+        }
+
+        }
+
+        .sorting:after {
+            opacity: 0.2;
+            content: "⏭" !important; /* sort */
+        }
+
+        .sorting_asc:after {
+            content: "⏬" !important; /* sort-by-attributes */
+        }
+
+        .sorting_desc:after {
+            content: "⏫" !important; /* sort-by-attributes-alt */
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
@@ -123,28 +156,28 @@
                                             ErrorMessage="Select Case Dispose type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="ddlDisposetype" Display="Dynamic" runat="server" InitialValue="0">
                                         </asp:RequiredFieldValidator>
-                                        <asp:DropDownList ID="ddlDisposetype" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlDisposetype_SelectedIndexChanged">   
+                                        <asp:DropDownList ID="ddlDisposetype" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlDisposetype_SelectedIndexChanged">
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                 <div class="col-md-3" id="ComplianceSt_Div" runat="server" visible="false">
-                                            <div class="form-group">
-                                                <label>
-                                                    Compliance Status
-                                                </label>
-                                                <span style="color: red;"><b>*</b></span>
-                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator6" ValidationGroup="CaseDispose" Enabled="false"
-                                                    ErrorMessage="Select Compliance" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
-                                                    ControlToValidate="ddlCompliaceSt" Display="Dynamic" InitialValue="0" runat="server">
-                                                </asp:RequiredFieldValidator>
-                                                <asp:DropDownList ID="ddlCompliaceSt" runat="server" CssClass="form-control">
-                                                    <asp:ListItem Value="0">Select</asp:ListItem>
-                                                    <asp:ListItem Value="1">Yes</asp:ListItem>
-                                                    <asp:ListItem Value="2">No</asp:ListItem>
-                                                    <asp:ListItem Value="3">Pending</asp:ListItem>
-                                                </asp:DropDownList>
-                                            </div>
-                                        </div>
+                                <div class="col-md-3" id="ComplianceSt_Div" runat="server" visible="false">
+                                    <div class="form-group">
+                                        <label>
+                                            Compliance Status
+                                        </label>
+                                        <span style="color: red;"><b>*</b></span>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator6" ValidationGroup="CaseDispose" Enabled="false"
+                                            ErrorMessage="Select Compliance" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="ddlCompliaceSt" Display="Dynamic" InitialValue="0" runat="server">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:DropDownList ID="ddlCompliaceSt" runat="server" CssClass="form-control">
+                                            <asp:ListItem Value="0">Select</asp:ListItem>
+                                            <asp:ListItem Value="1">Yes</asp:ListItem>
+                                            <asp:ListItem Value="2">No</asp:ListItem>
+                                            <asp:ListItem Value="3">Pending</asp:ListItem>
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Case type</label><span style="color: red;"><b> *</b></span>
@@ -184,15 +217,15 @@
                                                         <asp:Label ID="lblCaseNO" runat="server" Text='<%# Eval("CaseNo") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                 <asp:TemplateField HeaderText="Case Year" ItemStyle-HorizontalAlign="Center">
+                                                <asp:TemplateField HeaderText="Case Year" ItemStyle-HorizontalAlign="Center">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblCaseYear" runat="server" Text='<%# Eval("CaseYear") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Case Subject" Visible="false" >
+                                                <asp:TemplateField HeaderText="Case Subject" Visible="false">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblCaseSubject" runat="server" Text='<%# Eval("CaseSubject") %>' Visible="false"></asp:Label>
-                                                    <%--    <asp:Label ID="LabelOICName" runat="server" Text='<%# Eval("petiAdvocateName") %>' Visible="false"></asp:Label>
+                                                        <%--    <asp:Label ID="LabelOICName" runat="server" Text='<%# Eval("petiAdvocateName") %>' Visible="false"></asp:Label>
                                                         <asp:Label ID="LabelOICMObile" runat="server" Text='<%# Eval("petiAdvocateMobile") %>' Visible="false"></asp:Label>
                                                         <asp:Label ID="LabelOICEmail" runat="server" Text='<%# Eval("PetiAdvocateEmailID") %>' Visible="false"></asp:Label>
                                                         <asp:Label ID="LabelNodalName" runat="server" Text='<%# Eval("NodalOfficer_Name") %>' Visible="false"></asp:Label>
@@ -212,7 +245,7 @@
                                                 <asp:TemplateField HeaderText="Petitioner Name" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <%--<asp:Label ID="lblPetitionerName" runat="server" Text='<%# Eval("Petitoner_Name") %>'></asp:Label>--%>
-                                                         <asp:Label ID="lblPetitionerName" runat="server" Text='<%# Eval("PetitonerName") %>'></asp:Label>
+                                                        <asp:Label ID="lblPetitionerName" runat="server" Text='<%# Eval("PetitonerName") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Court Name" ItemStyle-HorizontalAlign="Left">
@@ -229,7 +262,7 @@
                                                     <ItemTemplate>
                                                         <asp:LinkButton ID="btnView" runat="server" CssClass="" CommandName="ViewDtl" CommandArgument='<%# Eval("Case_ID") %>' ToolTip="View"><i class="fa fa-eye"></i></asp:LinkButton>
                                                     </ItemTemplate>
-                                                </asp:TemplateField> 
+                                                </asp:TemplateField>
                                             </Columns>
                                         </asp:GridView>
                                     </div>
@@ -243,7 +276,7 @@
     </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Fotter" runat="Server">
-        <script src="../DataTable_CssJs/jquery.js"></script>
+    <script src="../DataTable_CssJs/jquery.js"></script>
     <script src="../DataTable_CssJs/jquery.dataTables.min.js"></script>
     <script src="../DataTable_CssJs/dataTables.bootstrap.min.js"></script>
     <script src="../DataTable_CssJs/dataTables.buttons.min.js"></script>

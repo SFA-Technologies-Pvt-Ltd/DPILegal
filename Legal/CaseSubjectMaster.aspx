@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="CaseSubjectMaster.aspx.cs" Inherits="Legal_CaseSubjectMaster" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-     <link href="../DataTable_CssJs/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="../DataTable_CssJs/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="../DataTable_CssJs/buttons.dataTables.min.css" rel="stylesheet" />
     <link href="../DataTable_CssJs/jquery.dataTables.min.css" rel="stylesheet" />
     <style>
@@ -17,7 +17,7 @@
             background-color: #548ac5;
         }
     </style>
-     <style>
+    <style>
         /*.datepicker tbody {
             background-color: #ecfce6 !important;
             color: black;
@@ -113,11 +113,44 @@
         .box {
             min-height: auto;
         }
+
+        .sorting,
+        .sorting_asc,
+        .sorting_desc,
+        .sorting_asc_disabled,
+        .sorting_desc_disabled {
+            cursor: pointer;
+            position: relative;
+            &:after;
+
+        {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            display: block;
+            font-family: 'Glyphicons Halflings';
+            opacity: 0.5;
+        }
+
+        }
+
+        .sorting:after {
+            opacity: 0.2;
+            content: "⏭" !important; /* sort */
+        }
+
+        .sorting_asc:after {
+            content: "⏬" !important; /* sort-by-attributes */
+        }
+
+        .sorting_desc:after {
+            content: "⏫" !important; /* sort-by-attributes-alt */
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
-      <asp:ValidationSummary ID="VDS" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Save" />   
-         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <asp:ValidationSummary ID="VDS" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Save" />
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div style="display: table; height: 100%; width: 100%;">
             <div class="modal-dialog" style="width: 340px; display: table-cell; vertical-align: middle;">
                 <div class="modal-content" style="width: inherit; height: inherit; margin: 0 auto;">
@@ -144,7 +177,7 @@
             </div>
         </div>
     </div>
-     <div class="content-wrapper">     
+    <div class="content-wrapper">
         <section class="content">
             <div class="container-fluid">
                 <div class="box">
@@ -171,36 +204,39 @@
                                                         ControlToValidate="txtCaseSubjectCode" ForeColor="Red" Display="Dynamic" runat="server">
                                                     </asp:RequiredFieldValidator>
                                                 </span>
-                                                <asp:TextBox runat="server" CssClass="form-control" ID="txtCaseSubjectCode" placeholder="Enter Case Subject Code" autocomplete="off"></asp:TextBox>
+                                                <asp:TextBox runat="server" CssClass="form-control" ID="txtCaseSubjectCode" placeholder="Enter Case Subject Code" onkeypress="return NumberOnly();" MaxLength="5" autocomplete="off"></asp:TextBox>
+                                                <asp:RegularExpressionValidator runat="server" ID="RevCaseSubject" ForeColor="Red" Display="Dynamic" ErrorMessage="Only Number Allow."
+                                                    SetFocusOnError="true" ControlToValidate="txtCaseSubjectCode" ValidationExpression="^[0-9]+?$" ValidationGroup="Save">
+                                                </asp:RegularExpressionValidator>
                                             </div>
                                         </div>
                                         <div class="col-md-9">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Case Subject<span style="color: red;"> *</span></label>
-                                                <span class="pull-right">
-                                                    <asp:RequiredFieldValidator ID="rfv1" ValidationGroup="Save"
-                                                        ErrorMessage="Enter Case Subject" Text="<i class='fa fa-exclamation-circle' title='Enter Case Subject'></i>"
-                                                        ControlToValidate="txtCaseSubject" ForeColor="Red" Display="Dynamic" runat="server">
-                                                    </asp:RequiredFieldValidator>
-                                                </span>
-                                                <asp:TextBox runat="server" CssClass="form-control" ID="txtCaseSubject" placeholder="Enter Case Subject" MaxLength="300" TextMode="MultiLine" autocomplete="off"></asp:TextBox>
-                                            </div>
-                                        </div>
+                                                    <div class="form-group">
+                                                        <label>Case Subject<span style="color: red;"> *</span></label>
+                                                        <span class="pull-right">
+                                                            <asp:RequiredFieldValidator ID="rfv1" ValidationGroup="Save"
+                                                                ErrorMessage="Enter Case Subject" Text="<i class='fa fa-exclamation-circle' title='Enter Case Subject'></i>"
+                                                                ControlToValidate="txtCaseSubject" ForeColor="Red" Display="Dynamic" runat="server">
+                                                            </asp:RequiredFieldValidator>
+                                                        </span>
+                                                        <asp:TextBox runat="server" CssClass="form-control" ID="txtCaseSubject" placeholder="Enter Case Subject" MaxLength="300" TextMode="MultiLine" autocomplete="off"></asp:TextBox>
+                                                    </div>
+                                                </div>
 
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Case Subject Detail<span style="color: red;"> *</span></label>
-                                                <span class="pull-right">
-                                                    <asp:RequiredFieldValidator ID="Tfv3" ValidationGroup="Save"
-                                                        ErrorMessage="Enter Case Subject Detail" Text="<i class='fa fa-exclamation-circle' title='Enter Case Subject Detail'></i>"
-                                                        ControlToValidate="txtCaseSubjectDetail" ForeColor="Red" Display="Dynamic" runat="server">
-                                                    </asp:RequiredFieldValidator>
-                                                </span>
-                                                <asp:TextBox runat="server" CssClass="form-control" ID="txtCaseSubjectDetail" placeholder="Enter Case Subject Detail" MaxLength="400" TextMode="MultiLine" autocomplete="off"></asp:TextBox>
-                                            </div>
-                                        </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Case Subject Detail<span style="color: red;"> *</span></label>
+                                                        <span class="pull-right">
+                                                            <asp:RequiredFieldValidator ID="Tfv3" ValidationGroup="Save"
+                                                                ErrorMessage="Enter Case Subject Detail" Text="<i class='fa fa-exclamation-circle' title='Enter Case Subject Detail'></i>"
+                                                                ControlToValidate="txtCaseSubjectDetail" ForeColor="Red" Display="Dynamic" runat="server">
+                                                            </asp:RequiredFieldValidator>
+                                                        </span>
+                                                        <asp:TextBox runat="server" CssClass="form-control" ID="txtCaseSubjectDetail" placeholder="Enter Case Subject Detail" MaxLength="400" TextMode="MultiLine" autocomplete="off"></asp:TextBox>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -272,7 +308,7 @@
     </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Fotter" runat="Server">
-     <%--<script src="../DataTable_CssJs/jquery.js"></script>--%>
+    <%--<script src="../DataTable_CssJs/jquery.js"></script>--%>
     <script src="../DataTable_CssJs/jquery.dataTables.min.js"></script>
     <script src="../datatable_cssjs/datatables.bootstrap.min.js"></script>
     <script src="../DataTable_CssJs/dataTables.buttons.min.js"></script>
@@ -283,25 +319,25 @@
     <script src="../DataTable_CssJs/buttons.html5.min.js"></script>
     <script src="../DataTable_CssJs/buttons.print.min.js"></script>
     <script src="../DataTable_CssJs/buttons.colVis.min.js"></script>
-     <script type="text/javascript">
-         function NumberOnly() { //only Numeric required.
-             var charcd = event.keyCode;
-             if (charcd > 47 && charcd < 58)
-                 return true
-             return false
-         }
+    <script type="text/javascript">
+        function NumberOnly() { //only Numeric required.
+            var charcd = event.keyCode;
+            if (charcd > 47 && charcd < 58)
+                return true
+            return false
+        }
 
-         function capFirst(cpt) { //only Capital First.
-             cpt.value = cpt.value[0].toUpperCase() + cpt.value.substring(1);
-         }
+        function capFirst(cpt) { //only Capital First.
+            cpt.value = cpt.value[0].toUpperCase() + cpt.value.substring(1);
+        }
 
-         function chcode() { // Only English or Hindi Required
-             var charcd = event.keyCode;
-             if (charcd > 47 && charcd < 58)
-                 return false
-             else if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 8 || charCode == 32)
-                 return true
-         }
+        function chcode() { // Only English or Hindi Required
+            var charcd = event.keyCode;
+            if (charcd > 47 && charcd < 58)
+                return false
+            else if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 8 || charCode == 32)
+                return true
+        }
     </script>
     <script>
         function ValidatePage() {
@@ -323,8 +359,7 @@
         }
     </script>
     <script>
-        function Comrfirm()
-        {
+        function Comrfirm() {
             "Are You Sure Delete Record"
             return true;
         }

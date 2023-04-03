@@ -51,10 +51,11 @@
                                                 <span class="pull-right">
                                                     <asp:RequiredFieldValidator ID="rfv1" ValidationGroup="a"
                                                         ErrorMessage="Enter Case Type" Text="<i class='fa fa-exclamation-circle' title='Enter Case Type'></i>"
-                                                        ControlToValidate="txtCasetype" ForeColor="Red" Display="Dynamic" runat="server">
+                                                        ControlToValidate="ddlCasetype" ForeColor="Red" Display="Dynamic" runat="server">
                                                     </asp:RequiredFieldValidator>
                                                 </span>
-                                                <asp:TextBox runat="server" CssClass="form-control" ID="txtCasetype" placeholder="Enter Case Type" autocomplete="off"></asp:TextBox>
+                                                <%--<asp:TextBox runat="server" CssClass="form-control" ID="txtCasetype" placeholder="Enter Case Type" autocomplete="off"></asp:TextBox>--%>
+                                            <asp:DropDownList ID="ddlCasetype" runat="server" CssClass="form-control"></asp:DropDownList>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -114,10 +115,11 @@
                                                 <span class="pull-right">
                                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator5" ValidationGroup="a"
                                                         ErrorMessage="Enter Case Year" Text="<i class='fa fa-exclamation-circle' title='Enter Case Year'></i>"
-                                                        ControlToValidate="txtCaseYear" ForeColor="Red" Display="Dynamic" runat="server">
+                                                        ControlToValidate="ddlCaseYear" ForeColor="Red" Display="Dynamic" runat="server">
                                                     </asp:RequiredFieldValidator>
                                                 </span>
-                                                <asp:TextBox runat="server" CssClass="form-control" ID="txtCaseYear" min="4" MaxLength="4" placeholder="Enter Form Path" autocomplete="off"></asp:TextBox>
+                                                <%--<asp:TextBox runat="server" CssClass="form-control" ID="txtCaseYear" min="4" MaxLength="4" placeholder="Enter Form Path" autocomplete="off"></asp:TextBox>--%>
+                                                <asp:DropDownList ID="ddlCaseYear" runat="server" CssClass="form-control select2"></asp:DropDownList>
                                             </div>
                                         </div>
                                     </div>
@@ -184,7 +186,7 @@
                                                     </asp:TemplateField>
                                                     <asp:BoundField DataField="CaseNo" HeaderText="Case No." ItemStyle-HorizontalAlign="Left" />
                                                     <asp:BoundField DataField="CaseSubject" HeaderText="Case Subject" ItemStyle-HorizontalAlign="Left" />
-                                                    <asp:BoundField DataField="CaseType" HeaderText="Case Type" ItemStyle-HorizontalAlign="Left" />
+                                                    <asp:BoundField DataField="Casetype_Name" HeaderText="Case Type" ItemStyle-HorizontalAlign="Left" />
                                                     <asp:BoundField DataField="PartyName" HeaderText="Petitioner Name" ItemStyle-HorizontalAlign="Left" />
                                                     <asp:BoundField DataField="RespondentName" HeaderText="Respondent Name" ItemStyle-HorizontalAlign="Left"/>
                                                     <asp:BoundField DataField="RelatedOffice" HeaderText="Related Office" ItemStyle-HorizontalAlign="Left" />

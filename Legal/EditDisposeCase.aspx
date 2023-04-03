@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" AutoEventWireup="true" CodeFile="EditDisposeCase.aspx.cs" Inherits="Legal_EditDisposeCase" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Legal/MainMaster.master" MaintainScrollPositionOnPostback="true" AutoEventWireup="true" CodeFile="EditDisposeCase.aspx.cs" Inherits="Legal_EditDisposeCase" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <style>
@@ -328,7 +328,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-1">
-                                            <asp:Button ID="btnPetitioner" runat="server" CssClass="btn btn-primary btn-block" Text="Save" ValidationGroup="Petitioner" OnClick="btnPetitioner_Click" />
+                                            <asp:Button ID="btnPetitioner" runat="server" CssClass="btn btn-primary" Text="Save" ValidationGroup="Petitioner" OnClick="btnPetitioner_Click" />
                                         </div>
                                     </div>
                                     <div class="row mt-3">
@@ -413,7 +413,7 @@
                                         <div class="col-md-2 mt-3">
                                             <div class="row">
                                                 <div class="col-md-6 mt-3">
-                                                    <asp:Button ID="btnPetiAdvSave" runat="server" Text="Save" OnClick="btnPetiAdvSave_Click" ValidationGroup="PetiAdv" CssClass="btn btn-primary btn-block" />
+                                                    <asp:Button ID="btnPetiAdvSave" runat="server" Text="Save" OnClick="btnPetiAdvSave_Click" ValidationGroup="PetiAdv" CssClass="btn btn-primary" />
                                                 </div>
                                             </div>
                                         </div>
@@ -540,7 +540,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-1" style="padding-top: 2rem! important;">
-                                            <asp:Button runat="server" CssClass="btn btn-primary btn-block" Text="Save" ID="btnRespondent" ValidationGroup="Responder" OnClick="btnRespondent_Click" />
+                                            <asp:Button runat="server" CssClass="btn btn-primary" Text="Save" ID="btnRespondent" ValidationGroup="Responder" OnClick="btnRespondent_Click" />
                                         </div>
                                     </div>
                                     <div class="row">
@@ -640,7 +640,7 @@
                                         </div>
                                         <div class="col-md-1" style="margin-top: 2rem ! important;">
                                             <div class="form-group">
-                                                <asp:Button ID="btnDeptAdvocate" runat="server" CssClass="btn btn-primary btn-block" Text="Save" ValidationGroup="DeptADV" OnClick="btnDeptAdvocate_Click" />
+                                                <asp:Button ID="btnDeptAdvocate" runat="server" CssClass="btn btn-primary " Text="Save" ValidationGroup="DeptADV" OnClick="btnDeptAdvocate_Click" />
                                             </div>
                                         </div>
                                     </div>
@@ -887,7 +887,7 @@
                                         <div class="col-md-3 mt-1">
                                             <div class="row">
                                                 <div class="col-md-6 mt-1">
-                                                    <asp:Button ID="btnUpdate" runat="server" CssClass="btn btn-primary btn-block" ValidationGroup="CaseDtl" Text="Update" OnClick="btnUpdate_Click" />
+                                                    <asp:Button ID="btnUpdate" runat="server" CssClass="btn btn-primary " ValidationGroup="CaseDtl" Text="Update" OnClick="btnUpdate_Click" />
                                                 </div>
 
                                             </div>
@@ -922,7 +922,7 @@
                                         <div class="col-md-2 mt-3">
                                             <div class="row">
                                                 <div class="col-md-6 mt-3">
-                                                    <asp:Button ID="btnAddHeairng" runat="server" CssClass="btn btn-primary btn-block" ValidationGroup="Hearing" Text="Save" OnClick="btnAddHeairng_Click" />
+                                                    <asp:Button ID="btnAddHeairng" runat="server" CssClass="btn btn-primary" ValidationGroup="Hearing" Text="Save" OnClick="btnAddHeairng_Click" />
                                                 </div>
                                             </div>
                                         </div>
@@ -998,7 +998,7 @@
                                         <div class="col-md-2 mt-3">
                                             <div class="row">
                                                 <div class="col-md-6  mt-3">
-                                                    <asp:Button ID="btnSaveDoc" runat="server" ValidationGroup="Docs" CssClass="btn btn-primary btn-block" Text="Save" OnClick="btnSaveDoc_Click" />
+                                                    <asp:Button ID="btnSaveDoc" runat="server" ValidationGroup="Docs" CssClass="btn btn-primary " Text="Save" OnClick="btnSaveDoc_Click" />
                                                 </div>
                                             </div>
                                         </div>
@@ -1054,11 +1054,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                </fieldset>
-                                <%--Start Here OldCase Detail --%>
-                                <fieldset id="FieldViewOldCaseDtl" runat="server">
-                                    <legend>Old Case No. Detail</legend>
-                                    <div class="row">
+                                    <%--Start Here OldCase Detail --%>
+                                    <div runat="server" id="FieldViewOldCaseDtl">
+                                          <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Old Case No</label><span style="color: red;"><b>*</b></span>
@@ -1116,23 +1114,23 @@
                                             </div>
                                         </div>
                                         <div class="col-md-3" id="Div_Doc1" runat="server">
-                                            <label>केस का विवरण</label><br />
+                                            <label>Case Details</label><br />
                                             <asp:FileUpload ID="FU1" runat="server" CssClass="form-control" />
                                         </div>
                                         <div class="col-md-3" id="Div_Doc2" runat="server">
-                                            <label>कार्यवाही का विवरण</label><br />
+                                            <label>Description Of Proceedings</label><br />
                                             <asp:FileUpload ID="FU2" runat="server" CssClass="form-control" />
                                         </div>
                                         <div class="col-md-3" id="Div_Doc3" runat="server">
-                                            <label>निर्णय</label><br />
+                                            <label>Decision</label><br />
                                             <asp:FileUpload ID="FU3" runat="server" CssClass="form-control" />
                                         </div>
                                         <div class="col-md-3" id="Div_Doc4" runat="server">
-                                            <label>अन्य</label><br />
+                                            <label>Other</label><br />
                                             <asp:FileUpload ID="FU4" runat="server" CssClass="form-control" />
                                         </div>
                                         <div class="col-md-1 mt-3">
-                                            <asp:Button ID="btnOldCase" runat="server" Text="Save" OnClick="btnOldCase_Click" ValidationGroup="OldCase" CssClass="btn btn-primary btn-block mt-3" />
+                                            <asp:Button ID="btnOldCase" runat="server" Text="Save" OnClick="btnOldCase_Click" ValidationGroup="OldCase" CssClass="btn btn-primary mt-3" />
                                         </div>
                                     </div>
                                     <div class="row mt-3">
@@ -1195,6 +1193,7 @@
                                                 </asp:GridView>
                                             </div>
                                         </div>
+                                    </div>
                                     </div>
                                 </fieldset>
                                 <%--End Here DeptAdv Detail --%>

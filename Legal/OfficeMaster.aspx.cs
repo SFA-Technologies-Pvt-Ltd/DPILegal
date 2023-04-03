@@ -94,7 +94,7 @@ public partial class Legal_OfficeMaster : System.Web.UI.Page
     protected void FillDistrict(string Division_ID)
     {
         ddlDistrict.Items.Clear();
-        ds = obj.ByDataSet("select District_ID, District_Name from  Mst_District where Division_ID = "+Division_ID+"");
+        ds = obj.ByDataSet("select District_ID, District_Name from  Mst_District where Division_ID = " + Division_ID + "");
         if (ds != null && ds.Tables[0].Rows.Count > 0)
         {
             ddlDistrict.DataTextField = "District_Name";
@@ -118,7 +118,7 @@ public partial class Legal_OfficeMaster : System.Web.UI.Page
                 if (btnSave.Text == "Save")
                 {
                     ds = obj.ByProcedure("USP_Insert_OfficeMaster", new string[] { "OfficeType_Id", "OfficeName", "Officelocation", "Division_Id", "District_Id", "CreatedBy", "CreatedByIP" }
-                        , new string[] { ddlOfficeType.SelectedValue, txtOfficeName.Text.Trim(), txtOfficelocation.Text.Trim(),ddlDivision.SelectedValue,ddlDistrict.SelectedValue,ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
+                        , new string[] { ddlOfficeType.SelectedValue, txtOfficeName.Text.Trim(), txtOfficelocation.Text.Trim(), ddlDivision.SelectedValue, ddlDistrict.SelectedValue, ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
                 }
                 else if (btnSave.Text == "Update" && ViewState["OfficeID"].ToString() != "" && ViewState["OfficeID"].ToString() != null)
                 {
@@ -136,6 +136,8 @@ public partial class Legal_OfficeMaster : System.Web.UI.Page
                         ddlOfficeType.ClearSelection();
                         FillGrid();
                         btnSave.Text = "Save";
+                        DivDivision.Visible = true;
+                        divDistrict.Visible = true;
                         ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', '" + ErrMsg + "', 'success')", true);
                     }
                     else
@@ -146,7 +148,7 @@ public partial class Legal_OfficeMaster : System.Web.UI.Page
                     }
 
                 }
-                
+
             }
             GrdOfficeMaster.HeaderRow.TableSection = TableRowSection.TableHeader;
             GrdOfficeMaster.UseAccessibleHeader = true;
@@ -189,13 +191,18 @@ public partial class Legal_OfficeMaster : System.Web.UI.Page
 
                 btnSave.Text = "Update";
                 ViewState["OfficeID"] = e.CommandArgument;
-                ddlOfficeType.ClearSelection();
-                ddlOfficeType.Items.FindByValue(lblOfficeTypeID.Text).Selected = true;
-                txtOfficeName.Text = lblOficeName.Text;
-                txtOfficelocation.Text = lblOficelocation.Text;
+                if (lblOfficeTypeID.Text != "")
+                {
+                    ddlOfficeType.ClearSelection();
+                    ddlOfficeType.Items.FindByValue(lblOfficeTypeID.Text).Selected = true;
+                    if (lblOfficeTypeID.Text == "1" || lblOfficeTypeID.Text == "2") divDistrict.Visible = false; DivDivision.Visible = false;
+                }
+                if (lblOficeName.Text != "") txtOfficeName.Text = lblOficeName.Text;
+                if (lblOficelocation.Text != "") txtOfficelocation.Text = lblOficelocation.Text;
+                if (lblDivision_Id.Text != ""){
                 FillDivision();
                 ddlDivision.ClearSelection();
-                ddlDivision.Items.FindByValue(lblDivision_Id.Text).Selected = true;
+                ddlDivision.Items.FindByValue(lblDivision_Id.Text).Selected = true;}
                 string Division = lblDivision_Id.Text;
                 if (ddlOfficeType.SelectedValue == "4")
                 {
@@ -236,12 +243,23 @@ public partial class Legal_OfficeMaster : System.Web.UI.Page
         if (ddlOfficeType.SelectedValue == "3")
         {
             divDistrict.Visible = false;
+            DivDivision.Visible = true;
         }
-
-        else
+        else if (ddlOfficeType.SelectedValue == "1")
         {
-            divDistrict.Visible = true;
+            DivDivision.Visible = false;
+            divDistrict.Visible = false;
+            RequiredFieldValidator1.Enabled = false;
+            RequiredFieldValidator2.Enabled = false;
         }
+        else if (ddlOfficeType.SelectedValue == "2")
+        {
+            DivDivision.Visible = false;
+            divDistrict.Visible = false;
+            RequiredFieldValidator1.Enabled = false;
+            RequiredFieldValidator2.Enabled = false;
+        }
+        
         GrdOfficeMaster.HeaderRow.TableSection = TableRowSection.TableHeader;
         GrdOfficeMaster.UseAccessibleHeader = true;
     }

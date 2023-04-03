@@ -55,7 +55,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="Refrence<br /> Documents" HeaderStyle-Width="5%" ItemStyle-HorizontalAlign="Center">
                                                         <ItemTemplate>
-                                                            <asp:HyperLink ID="HyperLink_ID" runat="server" Text="View" NavigateUrl='<% #"../Legal/CabinetMeetingDoc/" + Eval("CabinetDocument")%>' Enabled='<%# "../Legal/CabinetMeetingDoc/" + Eval("CabinetDocument").ToString() != null ? true : false %>' CssClass="btn-sm label  label-primary" Target="_blank">View</asp:HyperLink>
+                                                            <asp:HyperLink ID="HyperLink_ID" runat="server" NavigateUrl='<% #"../Legal/CabinetMeetingDoc/" + Eval("CabinetDocument")%>' Enabled='<%# "../Legal/CabinetMeetingDoc/" + Eval("CabinetDocument").ToString() != null ? true : false %>' CssClass="fa fa-eye" Target="_blank"></asp:HyperLink>
                                                             <asp:Label ID="lblFileUpload" runat="server" Text='<%# Eval("CabinetDocument") %>' Visible="false"></asp:Label>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
