@@ -204,12 +204,12 @@
                                         <asp:DropDownList ID="ddlCasetype" runat="server" CssClass="form-control select2" ></asp:DropDownList>
                                     </div>
                                 </div>
-                            <div class="col-md-3 mt-5">
+                            <div class="col-md-3" style="padding-top:2rem! important;">
                                 <div class="row">
-                                    <div class="col-md-6 mt-2">
+                                    <div class="col-md-6">
                                         <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary btn-block" ValidationGroup="Save" Text="Search" OnClick="btnSearch_Click" />
                                     </div>
-                                    <div class="col-md-6 mt-2">
+                                    <div class="col-md-6">
                                         <a href="ConcludedwpReport.aspx" class="btn btn-default btn-block">Clear</a>
                                     </div>
                                 </div>

@@ -1332,7 +1332,12 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                 ddlOicName.DataSource = dsOICbyDistrict;
                 ddlOicName.DataBind();
                 ddlOicName.Items.Insert(0, new ListItem("Select", "0"));
-            }          
+            }
+            else
+            {
+                txtOICMobileNo.Text = "";
+                txtEmailID.Text = "";
+            }
         }
         catch (Exception ex)
         {

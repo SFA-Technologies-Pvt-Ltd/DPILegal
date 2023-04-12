@@ -38,8 +38,8 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
     {
         try
         {
-            ds = obj.ByProcedure("USP_Select_OICMaster", new string[] { }
-                    , new string[] { }, "dataset");
+            ds = obj.ByProcedure("USP_Select_OICMaster", new string[] { "usertype_id", "Division_ID", "District_Id" }
+                    , new string[] { Session["OfficeType_Id"].ToString(), Session["Division_Id"].ToString(), Session["District_Id"].ToString()}, "dataset");
             if (ds != null && ds.Tables[0].Rows.Count > 0)
             {
                 gridoicmaster.DataSource = ds;

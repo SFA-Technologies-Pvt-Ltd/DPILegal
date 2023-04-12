@@ -28,7 +28,7 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
                 Session["PAGETOKEN"] = Server.UrlEncode(System.DateTime.Now.ToString());
                 FillOIC();
                 OICName_Div.Visible = false;
-                ddlOICYesOrNot.SelectedIndex = 2;
+                //ddlOICYesOrNot.SelectedIndex = 2;
             }
         }
         else
@@ -180,7 +180,7 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
                         string ErrMsg = ds.Tables[0].Rows[0]["ErrMsg"].ToString();
                         if (ds.Tables[0].Rows[0]["Msg"].ToString() == "OK")
                         {
-                             lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
+                            lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", ErrMsg);
                             //ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', '" + ErrMsg + "', 'success')", true);
                             string AdminEmail = Session["UserEmail"].ToString();
                             //sendmail(AdminEmail);
@@ -210,19 +210,21 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
                         else
                         {
                             lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", ErrMsg);
+                            BindUserDetails();
                             //ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','" + ErrMsg + "' , 'warning')", true);
                         }
                     }
                     else
                     {
                         lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ds.Tables[0].Rows[0]["ErrMsg"].ToString());
+                        BindUserDetails();
                         //ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','" + ds.Tables[0].Rows[0]["ErrMsg"].ToString() + "' , 'warning')", true);
                     }
 
 
                     Session["PAGETOKEN"] = Server.UrlEncode(System.DateTime.Now.ToString());
                 }
-                
+
             }
         }
         catch (Exception ex)
@@ -417,7 +419,8 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
             {
                 EmpName_Div.Visible = false;
                 OICName_Div.Visible = true;
-
+                grdUserDetails.HeaderRow.TableSection = TableRowSection.TableHeader;
+                grdUserDetails.UseAccessibleHeader = true;
             }
             else
             {
@@ -426,6 +429,8 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
                 //txtMobileNo.Text = "";
                 txtMobileNo.ReadOnly = false;
                 ddlOICList.SelectedIndex = 0;
+                grdUserDetails.HeaderRow.TableSection = TableRowSection.TableHeader;
+                grdUserDetails.UseAccessibleHeader = true;
             }
         }
         catch (Exception ex)
@@ -464,6 +469,11 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
                 {
                     ddlOICYesOrNot.ClearSelection();
                     ddlOICYesOrNot.Items.FindByValue("1").Selected = true;
+                }
+                else
+                {
+                    ddlOICYesOrNot.ClearSelection();
+                    ddlOICYesOrNot.Items.FindByValue("2").Selected = true;
                 }
                 if (!string.IsNullOrEmpty(lblOicID.Text))
                 {
@@ -540,10 +550,9 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
                         }
                     }
                 }
-
-
             }
-
+            grdUserDetails.HeaderRow.TableSection = TableRowSection.TableHeader;
+            grdUserDetails.UseAccessibleHeader = true;
 
         }
         catch (Exception ex)
