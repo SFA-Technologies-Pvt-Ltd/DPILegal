@@ -30,7 +30,7 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                 string[] multiArray = multiCharString.Split(new Char[] { '=', '&' });
                 string CaseID = Decrypt(HttpUtility.UrlDecode(multiArray[1]));
                 string Uniqueno = Decrypt(HttpUtility.UrlDecode(multiArray[3]));
-                divReplyDate.Visible = false; divReplyRemark.Visible = false;
+               // divReplyDate.Visible = false; divReplyRemark.Visible = false;
                 ViewState["ID"] = CaseID;
                 ViewState["UniqueNO"] = Uniqueno;
                 ViewState["Emp_Id"] = Session["Emp_Id"].ToString();
@@ -526,6 +526,7 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                 if (ds.Tables[0].Rows[0]["CaseReplyRemark"].ToString() != "")
                 {
                     txtReplyCaseRemark.Text = ds.Tables[0].Rows[0]["CaseReplyRemark"].ToString();
+                    divReplyRemark.Visible = true;
                 }
                 ddlCaseYear.ClearSelection();
                 if (ddlCaseYear.Items.Count > 0) ddlCaseYear.Items.FindByText(ds.Tables[0].Rows[0]["CaseYear"].ToString().Trim()).Selected = true; ddlCaseYear.Enabled = false;
@@ -538,6 +539,7 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                 //if (ds.Tables[6].Rows.Count > 0) GrdCaseDispose.DataSource = ds.Tables[6]; GrdCaseDispose.DataBind(); DisposalStatus.Visible = false;
                 if (ds.Tables[7].Rows.Count > 0)
                 {
+                    ddlAskForOldCase.ClearSelection();
                     ddlAskForOldCase.SelectedValue = "1";
                     ddlAskForOldCase_SelectedIndexChanged(this, EventArgs.Empty);
                     GrdOldCaseDtl.DataSource = ds.Tables[7];
@@ -545,6 +547,7 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                 }
                 else
                 {
+                    ddlAskForOldCase.ClearSelection();
                     ddlAskForOldCase.SelectedValue = "0";
                     ddlAskForOldCase_SelectedIndexChanged(this, EventArgs.Empty);
                     GrdOldCaseDtl.DataSource = ds.Tables[7];
@@ -672,18 +675,7 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                     {
                         string OICDate = txtOICDate.Text != "" ? Convert.ToDateTime(txtOICDate.Text, cult).ToString("yyyy/MM/dd") : "";
                         string ReplyDate = txtReplyDate.Text != "" ? Convert.ToDateTime(txtReplyDate.Text, cult).ToString("yyyy/MM/dd") : "";
-                        //ds = obj.ByProcedure("USP_Update_CaseRegisDtl",
-                        //      new string[] { "flag", "CaseSubject_Id", "CaseSubSubj_Id",
-                        //              "OICMaster_Id","OICOrderNumber","OICOrderDate","OICOrderDoc","Department_Id","District_ID" ,"Party_Id",
-                        //              "HighPriorityCase_Status", "CaseDetail", "Case_ID",
-                        //              "CaseReplyStatus","CaseReplyDate","CaseReplyRemark",
-                        //              "UniqueNo", "LastupdatedBy", "LastupdatedByIP" }
-                        //    , new string[] { "1", ddlCaseSubject.SelectedValue, ddlCaseSubSubject.SelectedValue,
-                        //    ddlOicName.SelectedValue,txtOICcaseNumber.Text.Trim(),OICDate,OICDocument, ddlDepartment.SelectedValue,ddlDistrict.SelectedValue,ddlParty.SelectedValue,
-                        //    ddlHighprioritycase.SelectedItem.Text.Trim(), txtCaseDetail.Text.Trim(), ViewState["ID"].ToString(),
-                        //    ddlCaseReply.SelectedValue,ReplyDate,txtReplyCaseRemark.Text.Trim(),
-                        //    ViewState["UniqueNO"].ToString(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
-                        ds = obj.ByProcedure("USP_Update_CaseRegisDtl",
+                        ds = obj.ByProcedure("USP_Update_CaseRegisDtl", 
                              new string[] { "flag",
                                       "OICMaster_Id","OICOrderNumber","OICOrderDate","OICOrderDoc",
                                        "Case_ID","CaseReplyStatus","CaseReplyDate","CaseReplyRemark","UniqueNo", "LastupdatedBy", "LastupdatedByIP" }
@@ -2201,6 +2193,7 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                         lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", Dsupdate.Tables[0].Rows[0]["ErrMsg"].ToString());
                         ddlDepartment.ClearSelection(); ddlDistrict.ClearSelection(); ddlCaseSubject.ClearSelection();
                         ddlCaseSubSubject.ClearSelection(); ddlHighprioritycase.ClearSelection(); txtCaseDetail.Text = "";
+                        BindDetails( sender,  e);
                     }
                     else lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", Dsupdate.Tables[0].Rows[0]["ErrMsg"].ToString());
                 }

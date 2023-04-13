@@ -22,7 +22,7 @@
                                             Case Year<span style="color: red;"><b> *</b></span></label>
                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="Save"
                                             ErrorMessage="Select Case Year." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
-                                            ControlToValidate="ddlCaseYear" Display="Dynamic" runat="server">
+                                            ControlToValidate="ddlCaseYear" Display="Dynamic" runat="server" InitialValue="0">
                                         </asp:RequiredFieldValidator>
                                         <asp:DropDownList ID="ddlCaseYear" runat="server" CssClass="form-control select2"></asp:DropDownList>
                                     </div>
@@ -33,7 +33,7 @@
                                             Department<span style="color: red;"><b> *</b></span></label>
                                         <asp:RequiredFieldValidator ID="RfvDept" ValidationGroup="Save"
                                             ErrorMessage="Select Department Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
-                                            ControlToValidate="ddlDepartment" Display="Dynamic" runat="server">
+                                            ControlToValidate="ddlDepartment" Display="Dynamic" runat="server" InitialValue="0">
                                         </asp:RequiredFieldValidator>
                                         <asp:DropDownList ID="ddlDepartment" runat="server" CssClass="form-control"></asp:DropDownList>
                                     </div>
@@ -44,7 +44,7 @@
                                             District<span style="color: red;"><b> *</b></span></label>
                                         <asp:RequiredFieldValidator ID="rfvDist" ValidationGroup="Save"
                                             ErrorMessage="Select District Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
-                                            ControlToValidate="ddlDistrict" Display="Dynamic" runat="server">
+                                            ControlToValidate="ddlDistrict" Display="Dynamic" runat="server" InitialValue="0">
                                         </asp:RequiredFieldValidator>
                                         <asp:DropDownList ID="ddlDistrict" runat="server" CssClass="form-control select2"></asp:DropDownList>
                                     </div>
@@ -52,7 +52,7 @@
                                 <div class="col-md-3 mt-3">
                                     <div class="row">
                                         <div class="col-md-6 mt-3">
-                                            <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary btn-block" Text="Export" OnClick="btnSearch_Click"/>
+                                            <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary btn-block" ValidationGroup="Save" Text="Export" OnClick="btnSearch_Click"/>
                                         </div>
                                         <div class="col-md-6 mt-3">
                                             <a href="DepartmentWiseMasterReport.aspx" class="btn btn-warning btn-block">Clear</a>

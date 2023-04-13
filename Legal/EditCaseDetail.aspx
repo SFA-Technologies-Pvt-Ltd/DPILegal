@@ -722,13 +722,13 @@
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
-                                        <div class="col-md-3" id="divReplyDate" runat="server">
+                                        <div class="col-md-3" id="divReplyDate" runat="server" visible="false">
                                             <div class="form-group">
                                                 <label>Reply Date</label>
                                                 <asp:TextBox ID="txtReplyDate" runat="server" data-provide="datepicker" placeholder="DD/MM/YYYY" CssClass="form-control disableFuturedate" data-date-format="dd/mm/yyyy" data-date-autoclose="true" AutoComplete="off"></asp:TextBox>
                                             </div>
                                         </div>
-                                        <div class="col-md-6" id="divReplyRemark" runat="server">
+                                        <div class="col-md-6" id="divReplyRemark" runat="server" visible="false">
                                             <div class="form-group">
                                                 <label>Reply Remark</label>
                                                 <asp:TextBox runat="server" ID="txtReplyCaseRemark" CssClass="form-control" placeholder="Case Reply Remark" TextMode="MultiLine" MaxLength="500"></asp:TextBox>
