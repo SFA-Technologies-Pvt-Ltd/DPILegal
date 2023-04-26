@@ -185,7 +185,7 @@
                                             ErrorMessage="Select Court Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="ddlCourt" Display="Dynamic" runat="server" InitialValue="0">
                                         </asp:RequiredFieldValidator>
-                                        <asp:DropDownList ID="ddlCourt" runat="server" CssClass="form-control select2" OnSelectedIndexChanged="ddlCourt_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                                        <asp:DropDownList ID="ddlCourt" runat="server" CssClass="form-control" OnSelectedIndexChanged="ddlCourt_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-sm">
@@ -257,7 +257,7 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Case No.">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblFilingNo" runat="server" Text='<%# Eval("FilingNo") %>'></asp:Label>/                                                       
+                                                        <asp:Label ID="lblFilingNo" runat="server" Text='<%# Eval("FilingNo") %>' Font-Bold='<%# Eval("CaseSubject_Id").ToString() != "" ? true : false %>' BackColor='<%# Eval("CaseSubject_Id").ToString() != "" ? System.Drawing.Color.LawnGreen : System.Drawing.Color.White  %>'>'></asp:Label>/                                                       
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Petitioner Name">

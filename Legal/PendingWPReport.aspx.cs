@@ -24,30 +24,119 @@ public partial class mis_Legal_PendingWPReport : System.Web.UI.Page
             {
                 FillCasetype();
                 FillYear();
+                FillCourt();
                 ViewState["OIC_ID"] = Session["OICMaster_ID"];
             }
         }
         else
         {
-            Response.Redirect("~/Legal/Login.aspx", false);
+            Response.Redirect("~/Login.aspx", false);
         }
     }
-    #region Fill Year
+    protected void FillCourt()
+    {
+        try
+        {
+            ddlCourtName.Items.Clear();
+            Helper court = new Helper();
+            DataTable dtCourt = new DataTable();
+            if (Session["Role_ID"].ToString() == "5")// JD Legal.
+            {
+                string District_Id = Session["District_Id"].ToString();
+                dtCourt = court.GetCourtForCourt(District_Id) as DataTable;
+            }
+            else if (Session["Role_ID"].ToString() == "4")// District Office.
+            {
+                string District_Id = Session["District_Id"].ToString();
+                dtCourt = court.GetCourtForCourt(District_Id) as DataTable;
+
+            }
+            else dtCourt = court.GetCourt() as DataTable;
+            if (dtCourt.Rows.Count > 0)
+            {
+                ddlCourtName.DataValueField = "CourtType_ID";
+                ddlCourtName.DataTextField = "CourtTypeName";
+                ddlCourtName.DataSource = dtCourt;
+                ddlCourtName.DataBind();
+                ddlCourtName.Items.Insert(0, new ListItem("Select", "0"));
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorLogCls.SendErrorToText(ex);
+        }
+    }
+
     protected void FillYear()
     {
-        ddlCaseYear.Items.Clear();
-        DataSet dsCase = obj.ByDataSet("with yearlist as (select 1950 as year union all select yl.year + 1 as year from yearlist yl where yl.year + 1 <= YEAR(GetDate())) select year from yearlist order by year desc");
-        if (dsCase.Tables.Count > 0 && dsCase.Tables[0].Rows.Count > 0)
+        try
         {
-            ddlCaseYear.DataSource = dsCase.Tables[0];
-            ddlCaseYear.DataTextField = "year";
-            ddlCaseYear.DataValueField = "year";
-            ddlCaseYear.DataBind();
+            ddlCaseYear.Items.Clear();
+            DataSet dsCase = obj.ByDataSet("with yearlist as (select 1950 as year union all select yl.year + 1 as year from yearlist yl where yl.year + 1 <= YEAR(GetDate())) select year from yearlist order by year desc");
+            if (dsCase.Tables.Count > 0 && dsCase.Tables[0].Rows.Count > 0)
+            {
+                ddlCaseYear.DataSource = dsCase.Tables[0];
+                ddlCaseYear.DataTextField = "year";
+                ddlCaseYear.DataValueField = "year";
+                ddlCaseYear.DataBind();
+            }
+            ddlCaseYear.Items.Insert(0, new ListItem("Select", "0"));
         }
-        ddlCaseYear.Items.Insert(0, new ListItem("Select", "0"));
-
+        catch (Exception ex)
+        {
+            ErrorLogCls.SendErrorToText(ex);
+        }
     }
-    #endregion
+
+    protected void FillCaseNo( )
+    {
+        try
+        {
+            ddlCaseNo.Items.Clear();
+            DataTable dtCN = new DataTable();
+            Helper CaseNo = new Helper();
+            if (Session["Role_ID"].ToString() == "4")
+            {
+                dtCN = CaseNo.GetDistrictWiseCaseNo(Session["District_Id"].ToString()) as DataTable;
+            }
+            else if (Session["Role_ID"].ToString() == "2")
+            {
+                string Division_Id = Session["Division_Id"].ToString();
+                dtCN = CaseNo.GetDvisionWiseCaseNo(Division_Id) as DataTable;
+            }
+            else if (Session["Role_ID"].ToString() == "5")
+            {
+                string District_Id = Session["District_Id"].ToString();
+                dtCN = CaseNo.GetCourtWiseCaseNo(District_Id) as DataTable;
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(Session["OICMaster_ID"].ToString()))
+                {
+                    dtCN = CaseNo.GetOICWiseCaseNo(Session["OICMaster_ID"].ToString()) as DataTable;
+                }
+                else
+                {
+                    string CourtType_Id = ddlCourtName.SelectedValue;
+                    dtCN = CaseNo.GetCaseNoByCourt(CourtType_Id) as DataTable;
+
+                }
+            }
+
+            if (dtCN != null && dtCN.Rows.Count > 0)
+            {
+                ddlCaseNo.DataValueField = "Case_ID";
+                ddlCaseNo.DataTextField = "CaseNo";
+                ddlCaseNo.DataSource = dtCN;
+                ddlCaseNo.DataBind();
+            }
+            ddlCaseNo.Items.Insert(0, new ListItem("Select", "0"));
+        }
+        catch (Exception ex)
+        {
+            ErrorLogCls.SendErrorToText(ex);
+        }
+    }
     #region Fill Case type
     protected void FillCasetype()
     {
@@ -84,27 +173,27 @@ public partial class mis_Legal_PendingWPReport : System.Web.UI.Page
                 if (Session["Role_ID"].ToString() == "4")
                 {
                     string District_Id = Session["District_Id"].ToString();
-                    ds = obj.ByProcedure("USP_GetWPPendingRpt", new string[] { "CaseYear", "Casetype_ID", "District_Id","flag" }
-                        , new string[] { ddlCaseYear.SelectedValue, ddlCasetype.SelectedValue, District_Id,"2" }, "dataset");
+                    ds = obj.ByProcedure("USP_GetWPPendingRpt", new string[] { "CaseYear", "Casetype_ID", "District_Id", "flag", "Court_Id", "CaseNo" }
+                        , new string[] { ddlCaseYear.SelectedValue, ddlCasetype.SelectedValue, District_Id, "2", ddlCourtName.SelectedValue, ddlCaseNo.SelectedItem.Text }, "dataset");
                 }
                 else if (Session["Role_ID"].ToString() == "2")
                 {
                      string Division_Id = Session["Division_Id"].ToString();
-                     ds = obj.ByProcedure("USP_GetWPPendingRpt", new string[] { "CaseYear", "Casetype_ID", "Division_Id", "flag" }
-                        , new string[] { ddlCaseYear.SelectedValue, ddlCasetype.SelectedValue, Division_Id, "3" }, "dataset");
+                     ds = obj.ByProcedure("USP_GetWPPendingRpt", new string[] { "CaseYear", "Casetype_ID", "Division_Id", "flag", "Court_Id", "CaseNo" }
+                        , new string[] { ddlCaseYear.SelectedValue, ddlCasetype.SelectedValue, Division_Id, "3", ddlCourtName.SelectedValue, ddlCaseNo.SelectedItem.Text }, "dataset");
                 }
                 else if (Session["Role_ID"].ToString() == "5")
                 {
                     string District_Id = Session["District_Id"].ToString();
-                    ds = obj.ByProcedure("USP_GetWPPendingRpt", new string[] { "CaseYear", "Casetype_ID", "CourtLocation_Id", "flag" }
-                       , new string[] { ddlCaseYear.SelectedValue, ddlCasetype.SelectedValue, District_Id, "4" }, "dataset");
+                    ds = obj.ByProcedure("USP_GetWPPendingRpt", new string[] { "CaseYear", "Casetype_ID", "CourtLocation_Id", "flag", "Court_Id", "CaseNo" }
+                       , new string[] { ddlCaseYear.SelectedValue, ddlCasetype.SelectedValue, District_Id, "4", ddlCourtName.SelectedValue, ddlCaseNo.SelectedItem.Text }, "dataset");
                 }
                 else
                 {
                     if (Session["OICMaster_ID"] != "" && Session["OICMaster_ID"] != null)
                         OIC = Session["OICMaster_ID"].ToString();
-                    ds = obj.ByProcedure("USP_GetWPPendingRpt", new string[] { "CaseYear", "Casetype_ID", "OICMaster_Id","flag" }
-                        , new string[] { ddlCaseYear.SelectedValue, ddlCasetype.SelectedValue, OIC ,"1"}, "dataset");
+                    ds = obj.ByProcedure("USP_GetWPPendingRpt", new string[] { "CaseYear", "Casetype_ID", "OICMaster_Id", "flag", "Court_Id", "CaseNo" }
+                        , new string[] { ddlCaseYear.SelectedValue, ddlCasetype.SelectedValue, OIC, "1", ddlCourtName.SelectedValue, ddlCaseNo.SelectedItem.Text }, "dataset");
                 }
               
                 if (ds != null )
@@ -175,5 +264,17 @@ public partial class mis_Legal_PendingWPReport : System.Web.UI.Page
             }
         }
         return clearText;
+    }
+    protected void ddlCourtName_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            FillCaseNo();
+        }
+        catch (Exception ex)
+        {
+            
+            throw;
+        }
     }
 }

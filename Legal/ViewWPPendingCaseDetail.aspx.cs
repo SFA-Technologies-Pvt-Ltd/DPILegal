@@ -71,23 +71,23 @@ public partial class Legal_ViewWPPendingCaseDetail : System.Web.UI.Page
                 , new string[] { ViewState["CaseID"].ToString() }, "dataset");
             if (ds != null && ds.Tables[0].Rows.Count > 0)
             {
-                if (ds.Tables[0].Rows[0]["CaseNo"].ToString() != "") lblCaseNo.Text = ds.Tables[0].Rows[0]["CaseNo"].ToString(); else lblCaseNo.Text = "NA";
-                if (ds.Tables[0].Rows[0]["CaseYear"].ToString() != "") txtCaseYear.Text = ds.Tables[0].Rows[0]["CaseYear"].ToString(); else txtCaseYear.Text = "NA";
-                if (ds.Tables[0].Rows[0]["CourtTypeName"].ToString() != "") txtCourtType.Text = ds.Tables[0].Rows[0]["CourtTypeName"].ToString(); else txtCourtType.Text = "NA";
-                if (ds.Tables[0].Rows[0]["District_Name"].ToString() != "") txtCourtLocation.Text = ds.Tables[0].Rows[0]["District_Name"].ToString(); else txtCourtLocation.Text = "NA";
-                if (ds.Tables[0].Rows[0]["PartyName"].ToString() != "") txtParty.Text = ds.Tables[0].Rows[0]["PartyName"].ToString(); else txtParty.Text = "NA";
-                if (ds.Tables[0].Rows[0]["Casetype_Name"].ToString() != "") txtCasetype.Text = ds.Tables[0].Rows[0]["Casetype_Name"].ToString(); else txtCasetype.Text = "NA";
-                if (ds.Tables[0].Rows[0]["CaseSubject"].ToString() != "") txtCaseSubject.Text = ds.Tables[0].Rows[0]["CaseSubject"].ToString(); else txtCaseSubject.Text = "NA";
-                if (ds.Tables[0].Rows[0]["CaseSubSubject"].ToString() != "") txtCaseSubSubject.Text = ds.Tables[0].Rows[0]["CaseSubSubject"].ToString(); else txtCaseSubSubject.Text = "NA";
-                if (ds.Tables[0].Rows[0]["OICNAME"].ToString() != "") txtOicName.Text = ds.Tables[0].Rows[0]["OICNAME"].ToString(); else txtOicName.Text = "NA";
-                if (ds.Tables[0].Rows[0]["OICMobileNO"].ToString() != "") txtOicMobileNo.Text = ds.Tables[0].Rows[0]["OICMobileNO"].ToString(); else txtOicMobileNo.Text = "NA";
-                if (ds.Tables[0].Rows[0]["OICEmailID"].ToString() != "") txtOicEmailId.Text = ds.Tables[0].Rows[0]["OICEmailID"].ToString(); else txtOicEmailId.Text = "NA";
-                if (ds.Tables[0].Rows[0]["HighPriorityCase_Status"].ToString() != "") txtHighprioritycase.Text = ds.Tables[0].Rows[0]["HighPriorityCase_Status"].ToString(); else txtHighprioritycase.Text = "NA";
-                if (ds.Tables[0].Rows[0]["CaseDetail"].ToString() != "") txtCaseDetail.Text = ds.Tables[0].Rows[0]["CaseDetail"].ToString(); else txtCaseDetail.Text = "NA";
-                if (ds.Tables[0].Rows[0]["CaseDisposeType"].ToString() != "") txtcasedisposaltype.Text = ds.Tables[0].Rows[0]["CaseDisposeType"].ToString(); else txtcasedisposaltype.Text = "NA";
-                if (ds.Tables[0].Rows[0]["OrderSummary"].ToString() != "") txtOrderSummary.Text = ds.Tables[0].Rows[0]["OrderSummary"].ToString(); else txtOrderSummary.Text = "NA";
-                if (ds.Tables[0].Rows[0]["Compliance_Status"].ToString() != "") txtComplianceStatus.Text = ds.Tables[0].Rows[0]["Compliance_Status"].ToString(); else txtComplianceStatus.Text = "NA";
-                if (ds.Tables[0].Rows[0]["CaseStatus"].ToString() != "") txtCaseStatus.Text = ds.Tables[0].Rows[0]["CaseStatus"].ToString(); else txtCaseStatus.Text = "NA";
+                if (ds.Tables[0].Rows[0]["CaseNo"].ToString() != "") lblCaseNo.Text = ds.Tables[0].Rows[0]["CaseNo"].ToString(); //else lblCaseNo.Text = "NA";
+                if (ds.Tables[0].Rows[0]["CaseYear"].ToString() != "") txtCaseYear.Text = ds.Tables[0].Rows[0]["CaseYear"].ToString(); //else txtCaseYear.Text = "NA";
+                if (ds.Tables[0].Rows[0]["CourtTypeName"].ToString() != "") txtCourtType.Text = ds.Tables[0].Rows[0]["CourtTypeName"].ToString();// else txtCourtType.Text = "NA";
+                if (ds.Tables[0].Rows[0]["District_Name"].ToString() != "") txtCourtLocation.Text = ds.Tables[0].Rows[0]["District_Name"].ToString(); //else txtCourtLocation.Text = "NA";
+                if (ds.Tables[0].Rows[0]["PartyName"].ToString() != "") txtParty.Text = ds.Tables[0].Rows[0]["PartyName"].ToString(); //else txtParty.Text = "NA";
+                if (ds.Tables[0].Rows[0]["Casetype_Name"].ToString() != "") txtCasetype.Text = ds.Tables[0].Rows[0]["Casetype_Name"].ToString();// else txtCasetype.Text = "NA";
+                if (ds.Tables[0].Rows[0]["CaseSubject"].ToString() != "") txtCaseSubject.Text = ds.Tables[0].Rows[0]["CaseSubject"].ToString();// else txtCaseSubject.Text = "NA";
+                if (ds.Tables[0].Rows[0]["CaseSubSubject"].ToString() != "") txtCaseSubSubject.Text = ds.Tables[0].Rows[0]["CaseSubSubject"].ToString();// else txtCaseSubSubject.Text = "NA";
+                if (ds.Tables[0].Rows[0]["OICNAME"].ToString() != "") txtOicName.Text = ds.Tables[0].Rows[0]["OICNAME"].ToString(); //else txtOicName.Text = "NA";
+                if (ds.Tables[0].Rows[0]["OICMobileNO"].ToString() != "") txtOicMobileNo.Text = ds.Tables[0].Rows[0]["OICMobileNO"].ToString(); //else txtOicMobileNo.Text = "NA";
+                if (ds.Tables[0].Rows[0]["OICEmailID"].ToString() != "") txtOicEmailId.Text = ds.Tables[0].Rows[0]["OICEmailID"].ToString(); //else txtOicEmailId.Text = "NA";
+                if (ds.Tables[0].Rows[0]["HighPriorityCase_Status"].ToString() != "") txtHighprioritycase.Text = ds.Tables[0].Rows[0]["HighPriorityCase_Status"].ToString(); //else txtHighprioritycase.Text = "NA";
+                if (ds.Tables[0].Rows[0]["CaseDetail"].ToString() != "") txtCaseDetail.Text = ds.Tables[0].Rows[0]["CaseDetail"].ToString(); ///else txtCaseDetail.Text = "NA";
+                if (ds.Tables[0].Rows[0]["CaseDisposeType"].ToString() != "") txtcasedisposaltype.Text = ds.Tables[0].Rows[0]["CaseDisposeType"].ToString(); ///else txtcasedisposaltype.Text = "NA";
+                if (ds.Tables[0].Rows[0]["OrderSummary"].ToString() != "") txtOrderSummary.Text = ds.Tables[0].Rows[0]["OrderSummary"].ToString(); ///else txtOrderSummary.Text = "NA";
+                if (ds.Tables[0].Rows[0]["Compliance_Status"].ToString() != "") txtComplianceStatus.Text = ds.Tables[0].Rows[0]["Compliance_Status"].ToString();// else txtComplianceStatus.Text = "NA";
+                if (ds.Tables[0].Rows[0]["CaseStatus"].ToString() != "") txtCaseStatus.Text = ds.Tables[0].Rows[0]["CaseStatus"].ToString();// else txtCaseStatus.Text = "NA";
                 if (ds.Tables[0].Rows[0]["OICOrderDate"].ToString() != "")
                 {
                     txtOICDate.Text = ds.Tables[0].Rows[0]["OICOrderDate"].ToString();

@@ -25,7 +25,7 @@ public partial class Legal_MonthlyHearingDtl : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("/Login.aspx", false);
+            Response.Redirect("~/Login.aspx", false);
         }
     }
 
@@ -46,13 +46,12 @@ public partial class Legal_MonthlyHearingDtl : System.Web.UI.Page
     }
     #endregion
 
-
     private void GetCaseType()
     {
         try
         {
             ds = new DataSet();
-            ds = obj.ByDataSet("select * from tbl_Legal_Casetype");
+            ds = obj.ByDataSet("select Casetype_Name,Casetype_ID from tbl_Legal_Casetype");
             if (ds.Tables[0].Rows.Count > 0)
             {
                 ddlCaseType.DataSource = ds.Tables[0];
@@ -103,8 +102,6 @@ public partial class Legal_MonthlyHearingDtl : System.Web.UI.Page
             {
                 // OIC & Admin login.
                 string OICID = Session["OICMaster_ID"] != null ? Session["OICMaster_ID"].ToString() : null;
-                //ds = obj.ByProcedure("USP_Legal_CaseRpt", new string[] { "flag", "Casetype_ID", "CaseYear", "C_Month", "OICMaster_Id" },
-                //   new string[] { "6", ddlCaseType.SelectedItem.Value, ddlYear.SelectedItem.Text, ddlMonth.SelectedItem.Text, OICID }, "dataset");
                 ds = obj.ByProcedure("USP_MonthlyHearingRpt", new string[] { "flag", "Casetype_ID", "CaseYear", "C_Month", "OICMaster_Id" },
                     new string[] { "1", ddlCaseType.SelectedItem.Value, ddlYear.SelectedItem.Text, ddlMonth.SelectedItem.Text, OICID }, "dataset");
             }

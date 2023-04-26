@@ -22,9 +22,8 @@
     <asp:ValidationSummary ID="ValidationSummary3" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Docs" />
     <asp:ValidationSummary ID="ValidationSummary4" runat="server" ValidationGroup="Hearing" ShowMessageBox="true" ShowSummary="false" />
     <asp:ValidationSummary ID="ValidationSummary5" runat="server" ValidationGroup="PetiAdv" ShowMessageBox="true" ShowSummary="false" />
-    <asp:ValidationSummary ID="ValidationSummary6" runat="server" ValidationGroup="OldCase" ShowMessageBox="true" ShowSummary="false" /> 
-   <asp:ValidationSummary ID="ValidationSummary7" runat="server" ValidationGroup="IntrimOd" ShowMessageBox="true" ShowSummary="false" />
-     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <asp:ValidationSummary ID="ValidationSummary6" runat="server" ValidationGroup="OldCase" ShowMessageBox="true" ShowSummary="false" />
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div style="display: table; height: 100%; width: 100%;">
             <div class="modal-dialog" style="width: 340px; display: table-cell; vertical-align: middle;">
                 <div class="modal-content" style="width: inherit; height: inherit; margin: 0 auto;">
@@ -406,12 +405,6 @@
                                                                 <asp:Label ID="lblUniqNO" runat="server" Text='<%# Eval("UniqueNo") %>' Visible="false"></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
-                                                         <asp:TemplateField HeaderText="Department">
-                                                            <ItemTemplate>
-                                                                <asp:Label ID="lblDepartment" runat="server" Text='<%# Eval("Department") %>'></asp:Label>
-                                                                <%--<asp:Label ID="lblDepartment" runat="server" Text='<%# Eval("Department_Id") %>' Visible="false"></asp:Label>--%>
-                                                            </ItemTemplate>
-                                                        </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Office type">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblOfficetype" runat="server" Text='<%# Eval("OfficeType_Name") %>'></asp:Label>
@@ -440,7 +433,12 @@
                                                                 <asp:Label ID="lblRespondentNo" runat="server" Text='<%# Eval("RespondentMobileNo") %>'></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
-                                                       
+                                                        <asp:TemplateField HeaderText="Department">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblDepartment" runat="server" Text='<%# Eval("Department") %>'></asp:Label>
+                                                                <%--<asp:Label ID="lblDepartment" runat="server" Text='<%# Eval("Department_Id") %>' Visible="false"></asp:Label>--%>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Address">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblAddress" runat="server" Text='<%# Eval("Address") %>'></asp:Label>
@@ -533,8 +531,9 @@
                                     </div>
                                 </fieldset>
                                 <%--End Here DeptAdv Detail --%>
-                                    <fieldset>
-                                    <legend>Case Details</legend>
+                                <fieldset>
+
+                                    <hr />
                                     <p style="text-align: justify; color: red"><span>Note :- </span>In the "Case Belongs To" option, if "District Location" is selected, then the case will be handled by respective districts DM/DEO. OIC will also be appointed by the respective districts DM/DEO.</p>
                                     <div class="row">
                                         <div class="col-md-3" runat="server" id="divRealtion">
@@ -585,6 +584,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <legend>Case Details</legend>
                                     <div class="row">
                                         <div class="col-md-5">
                                             <div class="form-group">
@@ -624,28 +624,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                     <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label>
-                                                    Case Matter Detail/Remark</label><span style="color: red;"><b> *</b></span><br />
-                                                <asp:RequiredFieldValidator ID="RFVActionByDistrict" ValidationGroup="CaseDtl"
-                                                    ErrorMessage="Enter Case Detail." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
-                                                    ControlToValidate="txtCaseDetail" Display="Dynamic" runat="server">
-                                                </asp:RequiredFieldValidator>
-                                                <asp:TextBox ID="txtCaseDetail" runat="server" TextMode="MultiLine" onkeyup="javascript:capFirst(this);" CssClass="form-control" AutoComplete="off" MaxLength="250"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                    </div>
-                                        <div class="row">
-                                            <div class="col-md-2">
-                                                <asp:Button ID="btnUpdateCaseDtl" runat="server" CssClass="btn btn-primary" Text="Update" OnClick="btnUpdateCaseDtl_Click"/>
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                <%--- OIC Field Hide on only Admin Login. --%>
-                                <%--- OIC Detail Fieldset. --%>
-                                <fieldset id="FieldOicDeteail" runat="server"><legend>OIC Details</legend>
                                     <div runat="server" id="divOIC" class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
@@ -713,7 +691,11 @@
                                                 <asp:FileUpload runat="server" ID="fuOICDocument" CssClass="form-control"></asp:FileUpload>
                                             </div>
                                         </div>
-                                        <%--start here case action detail by bhanu 11-04-2023--%>
+
+
+
+                                        <%--start here case action detail by raghav 02-03-2023--%>
+
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Case Reply</label>
@@ -724,29 +706,50 @@
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
-                                        <div class="col-md-3" id="divReplyDate" runat="server" visible="false">
+                                        <div class="col-md-3" id="divReplyDate" runat="server">
                                             <div class="form-group">
                                                 <label>Reply Date</label>
                                                 <asp:TextBox ID="txtReplyDate" runat="server" data-provide="datepicker" placeholder="DD/MM/YYYY" CssClass="form-control disableFuturedate" data-date-format="dd/mm/yyyy" data-date-autoclose="true" AutoComplete="off"></asp:TextBox>
                                             </div>
                                         </div>
-                                        <div class="col-md-6" id="divReplyRemark" runat="server" visible="false">
+                                        <div class="col-md-5">
                                             <div class="form-group">
                                                 <label>Reply Remark</label>
                                                 <asp:TextBox runat="server" ID="txtReplyCaseRemark" CssClass="form-control" placeholder="Case Reply Remark" TextMode="MultiLine" MaxLength="500"></asp:TextBox>
                                             </div>
                                         </div>
-                                          <div class="col-md-3" style="margin-top: 2rem!important;">
+
+                                    </div>
+
+                                    <%--End here case action detail by raghav 02-03-2023--%>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>
+                                                    Case Matter Detail/Remark</label><span style="color: red;"><b> *</b></span><br />
+                                                <asp:RequiredFieldValidator ID="RFVActionByDistrict" ValidationGroup="CaseDtl"
+                                                    ErrorMessage="Enter Case Detail." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                    ControlToValidate="txtCaseDetail" Display="Dynamic" runat="server">
+                                                </asp:RequiredFieldValidator>
+                                                <asp:TextBox ID="txtCaseDetail" runat="server" TextMode="MultiLine" onkeyup="javascript:capFirst(this);" CssClass="form-control" AutoComplete="off" MaxLength="250"></asp:TextBox>
+                                                <%-- <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator9" Display="Dynamic" ControlToValidate="txtCaseDetail"
+                                                    ValidationExpression="^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$" ValidationGroup="CaseDtl" ForeColor="Red" ErrorMessage="Please Enter Valid Text">
+                                                </asp:RegularExpressionValidator>--%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5"></div>
+                                        <div class="col-md-3 mt-1">
                                             <div class="row">
                                                 <div class="col-md-6 mt-1">
                                                     <asp:Button ID="btnUpdate" runat="server" CssClass="btn btn-primary btn-block" ValidationGroup="CaseDtl" Text="Update" OnClick="btnUpdate_Click" />
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
-                                    <%--End here case action detail by bhanu 11-04-2023--%>
                                 </fieldset>
-                                <%--- OIC Detail Fieldset. --%>
                                 <%--Start Here Hearing Detail --%>
                                 <fieldset id="FieldViewHearingDtl" runat="server" visible="true">
                                     <legend>Hearing Details</legend>
@@ -894,83 +897,7 @@
                                     </div>
                                 </fieldset>
                                 <%-- End Here Bind Document Detail --%>
-                                <%-- Start Here Intirm Order Detail --%>
-                                <fieldset>
-                              <legend>Did this case have any Intrim Order</legend>      
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <asp:DropDownList ID="ddlIntrimOrder" CssClass="form-control" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlIntrimOrder_SelectedIndexChanged">
-                                                <asp:ListItem Value="0">Select</asp:ListItem>
-                                                <asp:ListItem Value="1">Yes</asp:ListItem>
-                                                <asp:ListItem Value="2">No</asp:ListItem>
-                                            </asp:DropDownList>
-                                        </div>
-                                    </div>
-                                </div>
-                                    <div id="Div_IntrimOrderYesNO" runat="server" visible="false">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Order Start Date</label><span style="color:red;"><b>*</b></span>
-                                                 <asp:RequiredFieldValidator ID="rfvIntrimODate" ValidationGroup="IntrimOd"
-                                                    ErrorMessage="Enter Intrim Order Date" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
-                                                    ControlToValidate="txtIntirmOrderDate" Display="Dynamic" runat="server">
-                                                </asp:RequiredFieldValidator>
-                                                <asp:TextBox ID="txtIntirmOrderDate" runat="server" data-provide="datepicker" placeholder="DD/MM/YYYY" CssClass="form-control disableFuturedate" data-date-format="dd/mm/yyyy" data-date-autoclose="true" AutoComplete="off"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                         <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Timeline (In Days)</label><span style="color:red;"><b>*</b></span>
-                                                 <asp:RequiredFieldValidator ID="rfvOTimeline" ValidationGroup="IntrimOd"
-                                                    ErrorMessage="Enter Order Timeline" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
-                                                    ControlToValidate="txtIntrimTimeline" Display="Dynamic" runat="server">
-                                                </asp:RequiredFieldValidator>
-                                                <asp:TextBox ID="txtIntrimTimeline" runat="server" MaxLength="3" placeholder="Timeline In Days" CssClass="form-control" onkeypress="return NumberOnly();" AutoComplete="off"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                         <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Any PP</label><span style="color:red;"><b>*</b></span>
-                                                  <asp:RequiredFieldValidator ID="rfvintrimPP" ValidationGroup="IntrimOd"
-                                                    ErrorMessage="Enter PP Detail" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
-                                                    ControlToValidate="txtIntrimPrevPP" Display="Dynamic" runat="server">
-                                                </asp:RequiredFieldValidator>
-                                                <asp:TextBox ID="txtIntrimPrevPP" runat="server" placeholder="Enter PP" CssClass="form-control" AutoComplete="off"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Order End Date</label><span style="color:red;"><b>*</b></span>
-                                                  <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="IntrimOd"
-                                                    ErrorMessage="Enter PP Detail" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
-                                                    ControlToValidate="txtIntrimPrevPP" Display="Dynamic" runat="server">
-                                                </asp:RequiredFieldValidator>
-                                                <asp:TextBox ID="txtIntrimOrderEnddate" runat="server" data-provide="datepicker" placeholder="DD/MM/YYYY" CssClass="form-control disableFuturedate" data-date-format="dd/mm/yyyy" data-date-autoclose="true" AutoComplete="off"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label>Order Summary</label><span style="color:red;"><b>*</b></span>
-                                                  <asp:RequiredFieldValidator ID="rfvIOS" ValidationGroup="IntrimOd"
-                                                    ErrorMessage="Enter Intrim Order Summary" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
-                                                    ControlToValidate="txtIntrimOrderSummary" Display="Dynamic" runat="server">
-                                                </asp:RequiredFieldValidator>
-                                                <asp:TextBox ID="txtIntrimOrderSummary" MaxLength="300" TextMode="MultiLine" runat="server" placeholder="Order Summary" CssClass="form-control" AutoComplete="off"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-1">
-                                            <asp:Button ID="btnIntrimOrder" runat="server" Text="Save" ValidationGroup="IntrimOd" CssClass="btn btn-primary btn-block" OnClick="btnIntrimOrder_Click" />
-                                        </div>
-                                    </div>
-                                    </div>
-                                    </fieldset>
-                                <%-- End Here Intirm Order Detail --%>
+
                                 <%-- Start Here Case Dispose Detail --%>
                                 <fieldset id="Fieldset_CaseDispose" runat="server" visible="true">
                                     <legend>Disposal Status</legend>
@@ -1196,10 +1123,18 @@
                                             </div>
                                             <div class="col-md-3" id="Div_Doc2" runat="server">
                                                 <label>Description Of Proceedings</label>
+                                                <%--<asp:RequiredFieldValidator ID="RfvFU2" ValidationGroup="OldCase"
+                                                    ErrorMessage="कार्यवाही का विवरण चुने!" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                    ControlToValidate="FU2" Display="Dynamic" runat="server">
+                                                </asp:RequiredFieldValidator>--%>
                                                 <asp:FileUpload ID="FU2" runat="server" CssClass="form-control" />
                                             </div>
                                             <div class="col-md-3" id="Div_Doc3" runat="server">
                                                 <label>Decision</label>
+                                                <%--<asp:RequiredFieldValidator ID="RfvFU3" ValidationGroup="OldCase"
+                                                    ErrorMessage="निर्णय चुने!" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                    ControlToValidate="FU3" Display="Dynamic" runat="server">
+                                                </asp:RequiredFieldValidator>--%>
                                                 <asp:FileUpload ID="FU3" runat="server" CssClass="form-control" />
                                             </div>
                                             <div class="col-md-3" id="Div_Doc4" runat="server">

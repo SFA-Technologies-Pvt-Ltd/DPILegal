@@ -82,6 +82,12 @@ public partial class Legal_DepartmentWiseMasterReport : System.Web.UI.Page
                     ddlDistrict.DataSource = dsDept;
                     ddlDistrict.DataBind();
                     ddlDistrict.Items.Insert(0, new ListItem("Select", "0"));
+                    if (Session["Role_ID"].ToString() == "4")
+                    {
+                        ddlDistrict.ClearSelection();
+                        ddlDistrict.Items.FindByValue(Session["District_Id"].ToString()).Selected = true;
+                        ddlDistrict.Enabled = false;
+                    }
                 }
             }
         }
@@ -106,8 +112,17 @@ public partial class Legal_DepartmentWiseMasterReport : System.Web.UI.Page
                 lblMsg.Text = "";
                 if (btnSearch.Text == "Export")
                 {
-                    ds = obj.ByProcedure("USP_GetDepartmentWiseRpt", new string[] { "District_Id", "CaseYear", "Department_Id" },
-                      new string[] { ddlDistrict.SelectedValue, ddlCaseYear.SelectedItem.Text.Trim(), ddlDepartment.SelectedValue }, "dataset");
+                    if (Session["Role_ID"].ToString() == "1")// Admin
+                    {
+                        ds = obj.ByProcedure("USP_GetDepartmentWiseRpt", new string[] { "District_Id", "CaseYear", "Department_Id", "flag" },
+                          new string[] { ddlDistrict.SelectedValue, ddlCaseYear.SelectedItem.Text.Trim(), ddlDepartment.SelectedValue,"1" }, "dataset");
+                    }
+                    else if (Session["Role_ID"].ToString() == "4")//District 
+                    {
+                        string District_Id = Session["District_Id"].ToString() != "" ? Session["District_Id"].ToString() : null;
+                        ds = obj.ByProcedure("USP_GetDepartmentWiseRpt", new string[] { "District_Id", "CaseYear", "Department_Id", "flag" },
+                          new string[] { ddlDistrict.SelectedValue, ddlCaseYear.SelectedItem.Text.Trim(), ddlDepartment.SelectedValue,"1" }, "dataset");
+                    }
                 }
                 if (ds.Tables.Count > 0)
                 {
@@ -229,10 +244,10 @@ public partial class Legal_DepartmentWiseMasterReport : System.Web.UI.Page
                             var ws = wb.Worksheets.Add(ds.Tables[0], "DPiLegal");
                             //Add DataTable in worksheet  
                             wb.Worksheets.Add(ds.Tables[0]);
-                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                            {
-                                ws.Cell(i + 1, 32).Hyperlink = new XLHyperlink(@" " + ds.Tables[0].Rows[i]["Doc_Path"].ToString() + " ");
-                            }
+                            //for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                            //{
+                            //    ws.Cell(i + 1, 32).Hyperlink = new XLHyperlink(@" " + ds.Tables[0].Rows[i]["Doc_Path"].ToString() + " ");
+                            //}
                             //wb.SaveAs(folderPath + "DataGridViewExport.xlsx");
                             string myName = Server.UrlEncode("MasterRptDeptWise" + "_" + DateTime.Now.ToString("dd/MM/yyyy") + ".xlsx");
                             MemoryStream stream = GetStream(wb);// The method is defined below

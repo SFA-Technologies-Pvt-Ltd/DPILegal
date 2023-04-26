@@ -205,7 +205,7 @@
                         <fieldset>
                             <legend>Advocate Details</legend>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-6" id="DivHide_Petitioner" runat="server" visible="false">
                                     <fieldset>
                                         <legend>Petitioner Advocate Detail</legend>
                                         <div class="row">
@@ -290,7 +290,7 @@
                                                                 <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
-                                                        <asp:BoundField HeaderText="Hearing Date" DataField="NextDate" />
+                                                        <asp:BoundField HeaderText="Next Hearing Date" DataField="NextDate" />
                                                         <asp:TemplateField HeaderText="View" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                             <ItemTemplate>
                                                                 <asp:HyperLink ID="lnkHearingDoc" runat="server" Target="_blank" CssClass="fa fa-eye" Enabled='<%# Eval("HearingDoc").ToString() == "" ? false:true %>' NavigateUrl='<%# "../Legal/HearingDoc/" + Eval("HearingDoc") %>'></asp:HyperLink>

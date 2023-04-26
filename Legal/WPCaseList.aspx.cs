@@ -43,35 +43,26 @@ public partial class Legal_WPCaseList : System.Web.UI.Page
             ddlCourt.Items.Clear();
             Helper court = new Helper();
             DataTable dtCourt = new DataTable();
-            if (Session["Role_ID"].ToString() == "5")
+            if (Session["Role_ID"].ToString() == "5")// JD Legal.
             {
                 string District_Id = Session["District_Id"].ToString();
                 dtCourt = court.GetCourtForCourt(District_Id) as DataTable;
-                ddlCourt.Enabled = false;
-                if (dtCourt != null && dtCourt.Rows.Count > 0)
-                {
-                    ddlCourt.DataValueField = "CourtType_ID";
-                    ddlCourt.DataTextField = "CourtTypeName";
-                    ddlCourt.DataSource = dtCourt;
-                    ddlCourt.DataBind();
-                }
             }
-            else
+            else if (Session["Role_ID"].ToString() == "4")// District Office.
             {
-                dtCourt = court.GetCourt() as DataTable;
-
-                ddlCourt.Enabled = true;
-                if (dtCourt != null && dtCourt.Rows.Count > 0)
-                {
-                    ddlCourt.DataValueField = "CourtType_ID";
-                    ddlCourt.DataTextField = "CourtTypeName";
-                    ddlCourt.DataSource = dtCourt;
-                    ddlCourt.DataBind();
-                }
+                string District_Id = Session["District_Id"].ToString();
+                dtCourt = court.GetCourtForCourt(District_Id) as DataTable;
+                
+            }
+            else dtCourt = court.GetCourt() as DataTable;
+            if (dtCourt.Rows.Count > 0)
+            {
+                ddlCourt.DataValueField = "CourtType_ID";
+                ddlCourt.DataTextField = "CourtTypeName";
+                ddlCourt.DataSource = dtCourt;
+                ddlCourt.DataBind();
                 ddlCourt.Items.Insert(0, new ListItem("Select", "0"));
             }
-
-
         }
         catch (Exception ex)
         {

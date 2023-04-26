@@ -30,7 +30,7 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                 string[] multiArray = multiCharString.Split(new Char[] { '=', '&' });
                 string CaseID = Decrypt(HttpUtility.UrlDecode(multiArray[1]));
                 string Uniqueno = Decrypt(HttpUtility.UrlDecode(multiArray[3]));
-                // divReplyDate.Visible = false; divReplyRemark.Visible = false;
+                divReplyDate.Visible = false;
                 ViewState["ID"] = CaseID;
                 ViewState["UniqueNO"] = Uniqueno;
                 ViewState["Emp_Id"] = Session["Emp_Id"].ToString();
@@ -51,7 +51,7 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                 //FieldViewOldCaseDtl.Visible = false;
                 BindDetails(sender, e);
                 ManagVisiblity();
-                //  FillDitrict();
+              //  FillDitrict();
             }
         }
         else
@@ -66,8 +66,8 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
         try
         {
             ddlDistrict.Items.Clear();
-            DataSet dsd = obj.ByDataSet("select DM.District_ID, District_Name from  Mst_District DM inner join tbl_DistrictCourtMaping_Mst CMM on DM.District_ID=CMM.District_ID " +
-             "where CMM.CourtName_ID=" + ddlCourtType.SelectedValue);
+           DataSet dsd = obj.ByDataSet("select DM.District_ID, District_Name from  Mst_District DM inner join tbl_DistrictCourtMaping_Mst CMM on DM.District_ID=CMM.District_ID " +
+            "where CMM.CourtName_ID=" + ddlCourtType.SelectedValue);
             if (dsd != null && dsd.Tables[0].Rows.Count > 0)
             {
                 ddlDistrict.DataTextField = "District_Name";
@@ -81,7 +81,7 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
         {
             lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
         }
-
+        
     }
     #endregion
     private void ManagVisiblity()
@@ -526,7 +526,6 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                 if (ds.Tables[0].Rows[0]["CaseReplyRemark"].ToString() != "")
                 {
                     txtReplyCaseRemark.Text = ds.Tables[0].Rows[0]["CaseReplyRemark"].ToString();
-                    divReplyRemark.Visible = true;
                 }
                 ddlCaseYear.ClearSelection();
                 if (ddlCaseYear.Items.Count > 0) ddlCaseYear.Items.FindByText(ds.Tables[0].Rows[0]["CaseYear"].ToString().Trim()).Selected = true; ddlCaseYear.Enabled = false;
@@ -539,7 +538,6 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                 //if (ds.Tables[6].Rows.Count > 0) GrdCaseDispose.DataSource = ds.Tables[6]; GrdCaseDispose.DataBind(); DisposalStatus.Visible = false;
                 if (ds.Tables[7].Rows.Count > 0)
                 {
-                    ddlAskForOldCase.ClearSelection();
                     ddlAskForOldCase.SelectedValue = "1";
                     ddlAskForOldCase_SelectedIndexChanged(this, EventArgs.Empty);
                     GrdOldCaseDtl.DataSource = ds.Tables[7];
@@ -547,7 +545,6 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                 }
                 else
                 {
-                    ddlAskForOldCase.ClearSelection();
                     ddlAskForOldCase.SelectedValue = "0";
                     ddlAskForOldCase_SelectedIndexChanged(this, EventArgs.Empty);
                     GrdOldCaseDtl.DataSource = ds.Tables[7];
@@ -565,7 +562,7 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                     OrderSummary_Div.Visible = false;
                     OrderBy2.Visible = false;
                 }
-                FillDitrict();
+               FillDitrict();
                 if (ds.Tables[0].Rows[0]["District_ID"].ToString() != "")
                 {
 
@@ -605,19 +602,6 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                     hyperlinkOICdoc.Visible = false;
                 }
 
-                // Intirm Order DiV
-                if (ds.Tables[0].Rows[0]["IntrimOrderDate"].ToString() != "")
-                {
-                    ddlIntrimOrder.ClearSelection();
-                    ddlIntrimOrder.Items.FindByValue("1").Selected = true;
-                    Div_IntrimOrderYesNO.Visible = true;
-                    txtIntirmOrderDate.Text = ds.Tables[0].Rows[0]["IntrimOrderDate"].ToString();
-                    btnIntrimOrder.Text = "Update";
-                    txtIntrimOrderEnddate.Text = ds.Tables[0].Rows[0]["IntrimOrderEndDate"].ToString();
-                }
-                if (ds.Tables[0].Rows[0]["IntrimOrderSummary"].ToString() != "") txtIntrimOrderSummary.Text = ds.Tables[0].Rows[0]["IntrimOrderSummary"].ToString();
-                if (ds.Tables[0].Rows[0]["IntrimOrderTimeline"].ToString() != "") txtIntrimTimeline.Text = ds.Tables[0].Rows[0]["IntrimOrderTimeline"].ToString();
-                if (ds.Tables[0].Rows[0]["IntrimOrderAnyPrevPP"].ToString() != "") txtIntrimPrevPP.Text = ds.Tables[0].Rows[0]["IntrimOrderAnyPrevPP"].ToString();
             }
         }
         catch (Exception ex)
@@ -653,7 +637,7 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                         {
                             DocFailedCntExt += 1;
                         }
-                        else if (fuOICDocument.PostedFile.ContentLength > 5120) // 5 MB = 1024 * 5
+                        else if (fuOICDocument.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
                         {
                             DocFailedCntSize += 1;
                         }
@@ -682,19 +666,23 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                     }
                     string errormsg = "";
                     if (DocFailedCntExt > 0) { errormsg += "Only upload Document in( PDF) Formate.\\n"; }
-                    if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 5 MB \\n"; }
+                    if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 200 KB \\n"; }
 
                     if (errormsg == "")
                     {
                         string OICDate = txtOICDate.Text != "" ? Convert.ToDateTime(txtOICDate.Text, cult).ToString("yyyy/MM/dd") : "";
                         string ReplyDate = txtReplyDate.Text != "" ? Convert.ToDateTime(txtReplyDate.Text, cult).ToString("yyyy/MM/dd") : "";
                         ds = obj.ByProcedure("USP_Update_CaseRegisDtl",
-                             new string[] { "flag",
-                                      "OICMaster_Id","OICOrderNumber","OICOrderDate","OICOrderDoc",
-                                       "Case_ID","CaseReplyStatus","CaseReplyDate","CaseReplyRemark","UniqueNo", "LastupdatedBy", "LastupdatedByIP" }
-                           , new string[] { "1", ddlOicName.SelectedValue,txtOICcaseNumber.Text.Trim(),OICDate,OICDocument,
-                            ViewState["ID"].ToString(),ddlCaseReply.SelectedValue,ReplyDate,txtReplyCaseRemark.Text.Trim(),
-                            ViewState["UniqueNO"].ToString(),ViewState["Emp_Id"].ToString(),obj.GetLocalIPAddress() }, "dataset");
+                              new string[] { "flag", "CaseSubject_Id", "CaseSubSubj_Id",
+                                      "OICMaster_Id","OICOrderNumber","OICOrderDate","OICOrderDoc","Department_Id","District_ID" ,"Party_Id",
+                                      "HighPriorityCase_Status", "CaseDetail", "Case_ID",
+                                      "CaseReplyStatus","CaseReplyDate","CaseReplyRemark",
+                                      "UniqueNo", "LastupdatedBy", "LastupdatedByIP" }
+                            , new string[] { "1", ddlCaseSubject.SelectedValue, ddlCaseSubSubject.SelectedValue,
+                            ddlOicName.SelectedValue,txtOICcaseNumber.Text.Trim(),OICDate,OICDocument, ddlDepartment.SelectedValue,ddlDistrict.SelectedValue,ddlParty.SelectedValue,
+                            ddlHighprioritycase.SelectedItem.Text.Trim(), txtCaseDetail.Text.Trim(), ViewState["ID"].ToString(),
+                            ddlCaseReply.SelectedValue,ReplyDate,txtReplyCaseRemark.Text.Trim(),
+                            ViewState["UniqueNO"].ToString(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress() }, "dataset");
                     }
                     else
                     {
@@ -854,7 +842,7 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
             {
                 txtOicMobileNo.Text = dsOic.Tables[0].Rows[0]["OICMobileNo"].ToString();
                 txtOicEmailId.Text = dsOic.Tables[0].Rows[0]["OICEmailID"].ToString();
-                txtOICDesignation.Text = dsOic.Tables[0].Rows[0]["Designation_Name"].ToString();
+                txtOICDesignation.Text= dsOic.Tables[0].Rows[0]["Designation_Name"].ToString();
             }
             else
             {
@@ -1207,33 +1195,32 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                     {
                         DocFailedCntExt += 1;
                     }
-                    // Ye Code Baad m Chalu krna H
-                    // else if (FileCaseDoc.PostedFile.ContentLength > 512000) // 5 MB = 1024 * 5
-                    // {
-                    // DocFailedCntSize += 1;
-                    // }
-                    //else
-                    //{
-                    strFileName = FileCaseDoc.FileName.ToString();
-                    strExtension = Path.GetExtension(strFileName);
-                    strTimeStamp = DateTime.Now.ToString();
-                    strTimeStamp = strTimeStamp.Replace("/", "-");
-                    strTimeStamp = strTimeStamp.Replace(" ", "-");
-                    strTimeStamp = strTimeStamp.Replace(":", "-");
-                    string strName = Path.GetFileNameWithoutExtension(strFileName);
-                    strFileName = strName + "NewCase-" + strTimeStamp + strExtension;
-                    string path = Path.Combine(Server.MapPath("../Legal/AddNewCaseCourtDoc/"), strFileName);
-                    FileCaseDoc.SaveAs(path);
+                    else if (FileCaseDoc.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
+                    {
+                        DocFailedCntSize += 1;
+                    }
+                    else
+                    {
+                        strFileName = FileCaseDoc.FileName.ToString();
+                        strExtension = Path.GetExtension(strFileName);
+                        strTimeStamp = DateTime.Now.ToString();
+                        strTimeStamp = strTimeStamp.Replace("/", "-");
+                        strTimeStamp = strTimeStamp.Replace(" ", "-");
+                        strTimeStamp = strTimeStamp.Replace(":", "-");
+                        string strName = Path.GetFileNameWithoutExtension(strFileName);
+                        strFileName = strName + "NewCase-" + strTimeStamp + strExtension;
+                        string path = Path.Combine(Server.MapPath("../Legal/AddNewCaseCourtDoc/"), strFileName);
+                        FileCaseDoc.SaveAs(path);
 
-                    ViewState["AddNewCaseDoc"] = strFileName;
-                    path = "";
-                    strFileName = "";
-                    strName = "";
-                    //}
+                        ViewState["AddNewCaseDoc"] = strFileName;
+                        path = "";
+                        strFileName = "";
+                        strName = "";
+                    }
                 }
                 string errormsg = "";
                 if (DocFailedCntExt > 0) { errormsg += "Only upload Document in( PDF) Formate.\\n"; }
-                if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 5 MB \\n"; }
+                if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 200 KB \\n"; }
 
                 if (errormsg == "")
                 {
@@ -1356,28 +1343,28 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                     {
                         DocFailedCntExt += 1;
                     }
-                    //else if (FileHearingDoc.PostedFile.ContentLength > 5120) // 5 KB = 1024 * 5
-                    //{
-                    //    DocFailedCntSize += 1;
-                    //}
-                    //else
-                    //{
-                    strFileName = FileHearingDoc.FileName.ToString();
-                    strExtension = Path.GetExtension(strFileName);
-                    strTimeStamp = DateTime.Now.ToString();
-                    strTimeStamp = strTimeStamp.Replace("/", "-");
-                    strTimeStamp = strTimeStamp.Replace(" ", "-");
-                    strTimeStamp = strTimeStamp.Replace(":", "-");
-                    string strName = Path.GetFileNameWithoutExtension(strFileName);
-                    strFileName = strName + "Hearing-" + strTimeStamp + strExtension;
-                    string path = Path.Combine(Server.MapPath("../Legal/HearingDoc/"), strFileName);
-                    FileHearingDoc.SaveAs(path);
+                    else if (FileHearingDoc.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
+                    {
+                        DocFailedCntSize += 1;
+                    }
+                    else
+                    {
+                        strFileName = FileHearingDoc.FileName.ToString();
+                        strExtension = Path.GetExtension(strFileName);
+                        strTimeStamp = DateTime.Now.ToString();
+                        strTimeStamp = strTimeStamp.Replace("/", "-");
+                        strTimeStamp = strTimeStamp.Replace(" ", "-");
+                        strTimeStamp = strTimeStamp.Replace(":", "-");
+                        string strName = Path.GetFileNameWithoutExtension(strFileName);
+                        strFileName = strName + "Hearing-" + strTimeStamp + strExtension;
+                        string path = Path.Combine(Server.MapPath("../Legal/HearingDoc/"), strFileName);
+                        FileHearingDoc.SaveAs(path);
 
-                    ViewState["HearingDoc"] = strFileName;
-                    path = "";
-                    strFileName = "";
-                    strName = "";
-                    // }
+                        ViewState["HearingDoc"] = strFileName;
+                        path = "";
+                        strFileName = "";
+                        strName = "";
+                    }
                 }
                 string errormsg = "";
                 if (DocFailedCntExt > 0) { errormsg += "Only upload Document in( PDF) Formate.\\n"; }
@@ -1570,7 +1557,7 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                     {
                         DocFailedCntExt += 1;
                     }
-                    else if (FielUpcaseDisposeOrderDoc.PostedFile.ContentLength > 5120) // 5 MB = 1024 * 5
+                    else if (FielUpcaseDisposeOrderDoc.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
                     {
                         DocFailedCntSize += 1;
                     }
@@ -1596,7 +1583,7 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                 }
                 string errormsg = "";
                 if (DocFailedCntExt > 0) { errormsg += "Only upload Document in( PDF) Formate.\\n"; }
-                if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 5 MB \\n"; }
+                if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 200 KB \\n"; }
 
                 if (errormsg == "")
                 {
@@ -1677,28 +1664,28 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                     {
                         DocFailedCntExt += 1;
                     }
-                    // else if (FU1.PostedFile.ContentLength > 512000) // 5 MB = 1024 * 5
-                    // {
-                    //     DocFailedCntSize += 1;
-                    // }
-                    // else
-                    // {
-                    strFileName = FU1.FileName.ToString();
-                    strExtension = Path.GetExtension(strFileName);
-                    strTimeStamp = DateTime.Now.ToString();
-                    strTimeStamp = strTimeStamp.Replace("/", "-");
-                    strTimeStamp = strTimeStamp.Replace(" ", "-");
-                    strTimeStamp = strTimeStamp.Replace(":", "-");
-                    string strName = Path.GetFileNameWithoutExtension(strFileName);
-                    strFileName = strName + "OldCaseDoc-" + strTimeStamp + strExtension;
-                    string path = Path.Combine(Server.MapPath("~/Legal/OldCaseDocument"), strFileName);
-                    FU1.SaveAs(path);
+                    else if (FU1.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
+                    {
+                        DocFailedCntSize += 1;
+                    }
+                    else
+                    {
+                        strFileName = FU1.FileName.ToString();
+                        strExtension = Path.GetExtension(strFileName);
+                        strTimeStamp = DateTime.Now.ToString();
+                        strTimeStamp = strTimeStamp.Replace("/", "-");
+                        strTimeStamp = strTimeStamp.Replace(" ", "-");
+                        strTimeStamp = strTimeStamp.Replace(":", "-");
+                        string strName = Path.GetFileNameWithoutExtension(strFileName);
+                        strFileName = strName + "OldCaseDoc-" + strTimeStamp + strExtension;
+                        string path = Path.Combine(Server.MapPath("~/Legal/OldCaseDocument"), strFileName);
+                        FU1.SaveAs(path);
 
-                    ViewState["FU1"] = strFileName;
-                    path = "";
-                    strFileName = "";
-                    strName = "";
-                    // }
+                        ViewState["FU1"] = strFileName;
+                        path = "";
+                        strFileName = "";
+                        strName = "";
+                    }
                 }
                 if (FU2.HasFile)
                 {
@@ -1708,28 +1695,28 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                     {
                         DocFailedCntExt += 1;
                     }
-                    // else if (FU2.PostedFile.ContentLength > 512000) // 5 MB = 1024 * 5
-                    // {
-                    //     DocFailedCntSize += 1;
-                    // }
-                    // else
-                    // {
-                    strFileName = FU2.FileName.ToString();
-                    strExtension = Path.GetExtension(strFileName);
-                    strTimeStamp = DateTime.Now.ToString();
-                    strTimeStamp = strTimeStamp.Replace("/", "-");
-                    strTimeStamp = strTimeStamp.Replace(" ", "-");
-                    strTimeStamp = strTimeStamp.Replace(":", "-");
-                    string strName = Path.GetFileNameWithoutExtension(strFileName);
-                    strFileName = strName + "OldCaseDoc-" + strTimeStamp + strExtension;
-                    string path = Path.Combine(Server.MapPath("~/Legal/OldCaseDocument"), strFileName);
-                    FU2.SaveAs(path);
+                    else if (FU2.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
+                    {
+                        DocFailedCntSize += 1;
+                    }
+                    else
+                    {
+                        strFileName = FU2.FileName.ToString();
+                        strExtension = Path.GetExtension(strFileName);
+                        strTimeStamp = DateTime.Now.ToString();
+                        strTimeStamp = strTimeStamp.Replace("/", "-");
+                        strTimeStamp = strTimeStamp.Replace(" ", "-");
+                        strTimeStamp = strTimeStamp.Replace(":", "-");
+                        string strName = Path.GetFileNameWithoutExtension(strFileName);
+                        strFileName = strName + "OldCaseDoc-" + strTimeStamp + strExtension;
+                        string path = Path.Combine(Server.MapPath("~/Legal/OldCaseDocument"), strFileName);
+                        FU2.SaveAs(path);
 
-                    ViewState["FU2"] = strFileName;
-                    path = "";
-                    strFileName = "";
-                    strName = "";
-                    // }
+                        ViewState["FU2"] = strFileName;
+                        path = "";
+                        strFileName = "";
+                        strName = "";
+                    }
                 }
                 if (FU3.HasFile)
                 {
@@ -1739,28 +1726,28 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                     {
                         DocFailedCntExt += 1;
                     }
-                    // else if (FU3.PostedFile.ContentLength > 512000) // 5 MB = 1024 * 5
-                    // {
-                    //     DocFailedCntSize += 1;
-                    // }
-                    // else
-                    // {
-                    strFileName = FU3.FileName.ToString();
-                    strExtension = Path.GetExtension(strFileName);
-                    strTimeStamp = DateTime.Now.ToString();
-                    strTimeStamp = strTimeStamp.Replace("/", "-");
-                    strTimeStamp = strTimeStamp.Replace(" ", "-");
-                    strTimeStamp = strTimeStamp.Replace(":", "-");
-                    string strName = Path.GetFileNameWithoutExtension(strFileName);
-                    strFileName = strName + "OldCaseDoc-" + strTimeStamp + strExtension;
-                    string path = Path.Combine(Server.MapPath("~/Legal/OldCaseDocument"), strFileName);
-                    FU3.SaveAs(path);
+                    else if (FU3.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
+                    {
+                        DocFailedCntSize += 1;
+                    }
+                    else
+                    {
+                        strFileName = FU3.FileName.ToString();
+                        strExtension = Path.GetExtension(strFileName);
+                        strTimeStamp = DateTime.Now.ToString();
+                        strTimeStamp = strTimeStamp.Replace("/", "-");
+                        strTimeStamp = strTimeStamp.Replace(" ", "-");
+                        strTimeStamp = strTimeStamp.Replace(":", "-");
+                        string strName = Path.GetFileNameWithoutExtension(strFileName);
+                        strFileName = strName + "OldCaseDoc-" + strTimeStamp + strExtension;
+                        string path = Path.Combine(Server.MapPath("~/Legal/OldCaseDocument"), strFileName);
+                        FU3.SaveAs(path);
 
-                    ViewState["FU3"] = strFileName;
-                    path = "";
-                    strFileName = "";
-                    strName = "";
-                    // }
+                        ViewState["FU3"] = strFileName;
+                        path = "";
+                        strFileName = "";
+                        strName = "";
+                    }
                 }
                 if (FU4.HasFile)
                 {
@@ -1770,32 +1757,32 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
                     {
                         DocFailedCntExt += 1;
                     }
-                    // else if (FU4.PostedFile.ContentLength > 512000) // 5 MB = 1024 * 5
-                    // {
-                    //     DocFailedCntSize += 1;
-                    // }
-                    // else
-                    // {
-                    strFileName = FU4.FileName.ToString();
-                    strExtension = Path.GetExtension(strFileName);
-                    strTimeStamp = DateTime.Now.ToString();
-                    strTimeStamp = strTimeStamp.Replace("/", "-");
-                    strTimeStamp = strTimeStamp.Replace(" ", "-");
-                    strTimeStamp = strTimeStamp.Replace(":", "-");
-                    string strName = Path.GetFileNameWithoutExtension(strFileName);
-                    strFileName = strName + "Hearing-" + strTimeStamp + strExtension;
-                    string path = Path.Combine(Server.MapPath("~/Legal/OldCaseDocument"), strFileName);
-                    FU4.SaveAs(path);
+                    else if (FU4.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
+                    {
+                        DocFailedCntSize += 1;
+                    }
+                    else
+                    {
+                        strFileName = FU4.FileName.ToString();
+                        strExtension = Path.GetExtension(strFileName);
+                        strTimeStamp = DateTime.Now.ToString();
+                        strTimeStamp = strTimeStamp.Replace("/", "-");
+                        strTimeStamp = strTimeStamp.Replace(" ", "-");
+                        strTimeStamp = strTimeStamp.Replace(":", "-");
+                        string strName = Path.GetFileNameWithoutExtension(strFileName);
+                        strFileName = strName + "Hearing-" + strTimeStamp + strExtension;
+                        string path = Path.Combine(Server.MapPath("~/Legal/OldCaseDocument"), strFileName);
+                        FU4.SaveAs(path);
 
-                    ViewState["FU4"] = strFileName;
-                    path = "";
-                    strFileName = "";
-                    strName = "";
-                    // }
+                        ViewState["FU4"] = strFileName;
+                        path = "";
+                        strFileName = "";
+                        strName = "";
+                    }
                 }
                 string errormsg = "";
                 if (DocFailedCntExt > 0) { errormsg += "Only upload Document in( PDF) Formate.\\n"; }
-                if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 5 MB \\n"; }
+                if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 200 KB \\n"; }
 
                 if (errormsg == "")
                 {
@@ -2060,11 +2047,9 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
             if (ddlCaseReply.SelectedValue == "1")
             {
                 divReplyDate.Visible = true;
-                divReplyRemark.Visible = true;
             }
             else
             {
-                divReplyRemark.Visible = false;
                 divReplyDate.Visible = false;
             }
         }
@@ -2182,83 +2167,5 @@ public partial class Legal_EditCaseDetail : System.Web.UI.Page
     protected void ddlDistrict_SelectedIndexChanged(object sender, EventArgs e)
     {
         FillOicName();
-    }
-    // Update Case Detatil Fieldset info.
-    protected void btnUpdateCaseDtl_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            lblMsg.Text = "";
-            DataSet Dsupdate = new DataSet();
-            if (btnUpdateCaseDtl.Text == "Update")
-            {
-                string HinghPriorityStatus = ddlHighprioritycase.SelectedIndex > 0 ? ddlHighprioritycase.SelectedItem.Text.Trim() : null;
-                Dsupdate = obj.ByProcedure("USP_Update_CaseRegisDtl", new string[] { "flag", "Department_Id", "District_ID", "CaseSubject_Id", "CaseSubSubj_Id",
-                "HighPriorityCase_Status", "LastupdatedBy", "LastupdatedByIP", "Case_ID", "UniqueNo","CaseDetail" },
-                    new string[] { "4", ddlDepartment.SelectedValue, ddlDistrict.SelectedValue, ddlCaseSubject.SelectedValue, 
-                    ddlCaseSubSubject.SelectedValue, HinghPriorityStatus,ViewState["Emp_Id"].ToString(),obj.GetLocalIPAddress(),ViewState["ID"].ToString(),ViewState["UniqueNO"].ToString(),txtCaseDetail.Text.Trim()}, "dataset");
-            }
-            if (Dsupdate.Tables.Count > 0)
-            {
-                if (Dsupdate.Tables[0].Rows.Count > 0)
-                {
-                    if (Dsupdate.Tables[0].Rows[0]["Msg"].ToString() == "OK")
-                    {
-                        lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", Dsupdate.Tables[0].Rows[0]["ErrMsg"].ToString());
-                        ddlDepartment.ClearSelection(); ddlDistrict.ClearSelection(); ddlCaseSubject.ClearSelection();
-                        ddlCaseSubSubject.ClearSelection(); ddlHighprioritycase.ClearSelection(); txtCaseDetail.Text = "";
-                        BindDetails(sender, e);
-                    }
-                    else lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", Dsupdate.Tables[0].Rows[0]["ErrMsg"].ToString());
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            ErrorLogCls.SendErrorToText(ex);
-        }
-    }
-    // Intirm Order
-    protected void btnIntrimOrder_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            lblMsg.Text = "";
-            DataSet dsintrim = new DataSet();
-            string IntrimOrderStartDate = txtIntirmOrderDate.Text.Trim() != "" ? Convert.ToDateTime(txtIntirmOrderDate.Text, cult).ToString("yyyy/MM/dd") : null;
-            string IntrimOrderEndDate = txtIntrimOrderEnddate.Text.Trim() != "" ? Convert.ToDateTime(txtIntrimOrderEnddate.Text, cult).ToString("yyyy/MM/dd") : null;
-            dsintrim = obj.ByProcedure("USP_InserUpdateIntrimOrder", new string[] { "IntrimOrderStartDate", "IntrimOrderEndDate", "IntrimOrderTimeline", "IntrimOrderSummary", "IntrimOrderAnyPrevPP", "CreatedBy", "CreatedByIP", "Case_ID" },
-                new string[] { IntrimOrderStartDate, IntrimOrderEndDate, txtIntrimTimeline.Text.Trim(), txtIntrimOrderSummary.Text.Trim(), txtIntrimPrevPP.Text.Trim(), ViewState["Emp_Id"].ToString(), obj.GetLocalIPAddress(), ViewState["ID"].ToString() }, "dataset");
-            if (dsintrim.Tables[0].Rows.Count > 0)
-            {
-                if (dsintrim.Tables[0].Rows[0]["Msg"].ToString() == "OK")
-                {
-                    lblMsg.Text = obj.Alert("fa-check", "alert-success", "Thanks !", dsintrim.Tables[0].Rows[0]["ErrMsg"].ToString());
-                    txtIntirmOrderDate.Text = ""; txtIntrimTimeline.Text = ""; txtIntrimOrderSummary.Text = ""; txtIntrimOrderEnddate.Text = "";
-                    btnIntrimOrder.Text = "Save";
-                    BindDetails(sender, e);
-                }
-                else lblMsg.Text = obj.Alert("fa-ban", "alert-warning", "Warning !", dsintrim.Tables[0].Rows[0]["ErrMsg"].ToString());
-            }
-            else lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", dsintrim.Tables[0].Rows[0]["ErrMsg"].ToString());
-        }
-        catch (Exception ex)
-        {
-            ErrorLogCls.SendErrorToText(ex);
-        }
-    }
-    protected void ddlIntrimOrder_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        try
-        {
-            lblMsg.Text = "";
-            if (ddlIntrimOrder.SelectedValue == "1") Div_IntrimOrderYesNO.Visible = true;
-            else Div_IntrimOrderYesNO.Visible = false;
-
-        }
-        catch (Exception ex)
-        {
-            ErrorLogCls.SendErrorToText(ex);
-        }
     }
 }

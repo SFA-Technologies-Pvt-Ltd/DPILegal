@@ -78,7 +78,7 @@ public partial class Legal_CabinetMeetingMaster : System.Web.UI.Page
                     {
                         DocFailedCntExt += 1;
                     }
-                    else if (RefrenceDocument.PostedFile.ContentLength > 512000) // 500 KB = 1024 * 500
+                    else if (RefrenceDocument.PostedFile.ContentLength > 5120) // 5 MB = 1024 * 5
                     {
                         DocFailedCntSize += 1;
                     }
@@ -102,7 +102,7 @@ public partial class Legal_CabinetMeetingMaster : System.Web.UI.Page
                 }
                 string errormsg = "";
                 if (DocFailedCntExt > 0) { errormsg += "Only upload Document in( PDF) Formate.\\n"; }
-                if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 500 KB \\n"; }
+                if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 5 MB \\n"; }
                 if (errormsg == "")
                 {
                     if (btnSave.Text == "Save")

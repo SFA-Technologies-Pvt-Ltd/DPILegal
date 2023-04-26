@@ -160,11 +160,11 @@ public partial class Legal_UploadExcel : System.Web.UI.Page
                                 }
                                 if (!System.Text.RegularExpressions.Regex.IsMatch(dt1.Rows[i]["CaseYear"].ToString().Trim(), @"^[0-9]+$"))
                                 {
-                                    ErrMsg += " Court Name, ";
+                                    ErrMsg += " Case Year, ";
                                 }
                                 if (!System.Text.RegularExpressions.Regex.IsMatch(dt1.Rows[i]["Court"].ToString().Trim(), @"^[a-zA-Z]+(([\s][a-zA-Z])?[a-zA-Z]*)*$"))
                                 {
-                                    ErrMsg += " Case Year, ";
+                                    ErrMsg += " Court Name, ";
                                 }
                             }
 

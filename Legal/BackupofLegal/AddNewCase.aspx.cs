@@ -705,7 +705,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                     {
                         DocFailedCntExt += 1;
                     }
-                    else if (FileHearingDoc.PostedFile.ContentLength > 5120) // 5 MB = 1024 * 5
+                    else if (FileHearingDoc.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
                     {
                         DocFailedCntSize += 1;
                     }
@@ -730,7 +730,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                 }
                 string errormsg = "";
                 if (DocFailedCntExt > 0) { errormsg += "Only upload Document in( PDF) Format.\\n"; }
-                if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 5 MB \\n"; }
+                if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 200 KB \\n"; }
 
                 if (errormsg == "")
                 {
@@ -807,7 +807,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                 {
                     DocFailedCntExt += 1;
                 }
-                else if (FileUpload10.PostedFile.ContentLength > 5120) // 5 MB = 1024 * 5
+                else if (FileUpload10.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
                 {
                     DocFailedCntSize += 1;
                 }
@@ -832,7 +832,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
             }
             string errormsg = "";
             if (DocFailedCntExt > 0) { errormsg += "Only upload Document in( PDF) Formate.\\n"; }
-            if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 5 MB \\n"; }
+            if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 200 KB \\n"; }
 
             if (errormsg == "")
             {
@@ -895,7 +895,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                     {
                         DocFailedCntExt += 1;
                     }
-                    else if (FU1.PostedFile.ContentLength > 5120) // 5 MB = 1024 * 5
+                    else if (FU1.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
                     {
                         DocFailedCntSize += 1;
                     }
@@ -926,7 +926,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                     {
                         DocFailedCntExt += 1;
                     }
-                    else if (FU2.PostedFile.ContentLength > 5120) // 5 MB = 1024 * 5
+                    else if (FU2.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
                     {
                         DocFailedCntSize += 1;
                     }
@@ -957,7 +957,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                     {
                         DocFailedCntExt += 1;
                     }
-                    else if (FU3.PostedFile.ContentLength > 5120) // 5 MB = 1024 * 5
+                    else if (FU3.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
                     {
                         DocFailedCntSize += 1;
                     }
@@ -988,7 +988,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                     {
                         DocFailedCntExt += 1;
                     }
-                    else if (FU4.PostedFile.ContentLength > 5120) // 5 MB = 1024 * 5
+                    else if (FU4.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
                     {
                         DocFailedCntSize += 1;
                     }
@@ -1013,7 +1013,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                 }
                 string errormsg = "";
                 if (DocFailedCntExt > 0) { errormsg += "Only upload Document in( PDF) Formate.\\n"; }
-                if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 5 MB \\n"; }
+                if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 200 KB \\n"; }
 
                 if (errormsg == "")
                 {
@@ -1129,7 +1129,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                                 {
                                     DocFailedCntExt += 1;
                                 }
-                                else if (fuOICDocument.PostedFile.ContentLength > 5120) // 5 MB = 1024 * 5
+                                else if (fuOICDocument.PostedFile.ContentLength > 204800) // 200 KB = 1024 * 200
                                 {
                                     DocFailedCntSize += 1;
                                 }
@@ -1154,7 +1154,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                             }
                             string errormsg = "";
                             if (DocFailedCntExt > 0) { errormsg += "Only upload Document in( PDF) Formate.\\n"; }
-                            if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 5 MB \\n"; }
+                            if (DocFailedCntSize > 0) { errormsg += "Uploaded Document size should be less than 200 KB \\n"; }
 
                             if (errormsg == "")
                             {
@@ -1332,12 +1332,7 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
                 ddlOicName.DataSource = dsOICbyDistrict;
                 ddlOicName.DataBind();
                 ddlOicName.Items.Insert(0, new ListItem("Select", "0"));
-            }
-            else
-            {
-                txtOICMobileNo.Text = "";
-                txtEmailID.Text = "";
-            }
+            }          
         }
         catch (Exception ex)
         {

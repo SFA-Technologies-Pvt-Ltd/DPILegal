@@ -288,11 +288,17 @@
 
                         <div class="card-body card-body-custom-Color">
                             <div class="row form-group">
-                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="col-lg-3 col-md-6 col-sm-6">
 
                                     <i class="fa-solid fa-magnifying-glass" style="font-size: x-large"></i>
                                     
                                      <a href="WPCaseList.aspx" class="Heading" target="_blank">Search Cases</a>
+                                </div>
+                                  <div class="col-lg-3 col-md-6 col-sm-6">
+
+                                    <i class="fa-solid fa-magnifying-glass" style="font-size: x-large"></i>
+                                    
+                                     <a href="PendingWPReport.aspx" class="Heading" target="_blank">Pending Cases</a>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <i class="fa-solid fa-star" style="font-size: x-large"></i>&nbsp;&nbsp;<span class="Heading">HIGH PRIORITY CASE :</span>
