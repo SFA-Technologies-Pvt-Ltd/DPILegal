@@ -136,6 +136,11 @@
         .wodrcolor {
             color: #906b31;
         }
+		/* this css use for Header icon*/
+		.navbar-light .navbar-nav .nav-link {
+    color: rgb(229 229 229);
+}
+		
     </style>
     <style>
         li.header {

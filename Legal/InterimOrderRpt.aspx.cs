@@ -10,7 +10,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class mis_Legal_PendingWPReport : System.Web.UI.Page
+public partial class Legal_InterimOrderRpt : System.Web.UI.Page
 {
     APIProcedure obj = new APIProcedure();
     DataSet ds = new DataSet();
@@ -88,7 +88,7 @@ public partial class mis_Legal_PendingWPReport : System.Web.UI.Page
         }
     }
 
-    protected void FillCaseNo( )
+    protected void FillCaseNo()
     {
         try
         {
@@ -170,34 +170,34 @@ public partial class mis_Legal_PendingWPReport : System.Web.UI.Page
                 lblMsg.Text = "";
                 GrdPendingReport.DataSource = null;
                 GrdPendingReport.DataBind();
-                string  FromDate = !string.IsNullOrEmpty(txtFromDate.Text) ? Convert.ToDateTime(txtFromDate.Text, cult).ToString("yyyy/MM/dd") : "";
+                string FromDate = !string.IsNullOrEmpty(txtFromDate.Text) ? Convert.ToDateTime(txtFromDate.Text, cult).ToString("yyyy/MM/dd") : "";
                 string Todate = !string.IsNullOrEmpty(txttodate.Text) ? Convert.ToDateTime(txttodate.Text, cult).ToString("yyyy/MM/dd") : "";
                 if (Session["Role_ID"].ToString() == "4")
                 {
                     string District_Id = Session["District_Id"].ToString();
-                    ds = obj.ByProcedure("USP_GetWPPendingRpt", new string[] { "Casetype_ID", "District_Id", "flag", "Court_Id", "CaseNo", "Fromdate", "Todate" }
-                        , new string[] { ddlCasetype.SelectedValue, District_Id, "2", ddlCourtName.SelectedValue, ddlCaseNo.SelectedItem.Text,FromDate,Todate }, "dataset");
+                    ds = obj.ByProcedure("USP_InterimOrderRpt", new string[] { "Casetype_ID", "District_Id", "flag", "Court_Id", "CaseNo", "Fromdate", "Todate" }
+                        , new string[] { ddlCasetype.SelectedValue, District_Id, "2", ddlCourtName.SelectedValue, ddlCaseNo.SelectedItem.Text, FromDate, Todate }, "dataset");
                 }
                 else if (Session["Role_ID"].ToString() == "2")
                 {
-                     string Division_Id = Session["Division_Id"].ToString();
-                     ds = obj.ByProcedure("USP_GetWPPendingRpt", new string[] { "Casetype_ID", "Division_Id", "flag", "Court_Id", "CaseNo","Fromdate", "Todate" }
-                        , new string[] {  ddlCasetype.SelectedValue, Division_Id, "3", ddlCourtName.SelectedValue, ddlCaseNo.SelectedItem.Text, FromDate, Todate }, "dataset");
+                    string Division_Id = Session["Division_Id"].ToString();
+                    ds = obj.ByProcedure("USP_InterimOrderRpt", new string[] { "Casetype_ID", "Division_Id", "flag", "Court_Id", "CaseNo", "Fromdate", "Todate" }
+                       , new string[] { ddlCasetype.SelectedValue, Division_Id, "3", ddlCourtName.SelectedValue, ddlCaseNo.SelectedItem.Text, FromDate, Todate }, "dataset");
                 }
                 else if (Session["Role_ID"].ToString() == "5")
                 {
                     string District_Id = Session["District_Id"].ToString();
-                    ds = obj.ByProcedure("USP_GetWPPendingRpt", new string[] { "Casetype_ID", "CourtLocation_Id", "flag", "Court_Id", "CaseNo", "Fromdate", "Todate" }
-                       , new string[] {ddlCasetype.SelectedValue, District_Id, "4", ddlCourtName.SelectedValue, ddlCaseNo.SelectedItem.Text, FromDate, Todate }, "dataset");
+                    ds = obj.ByProcedure("USP_InterimOrderRpt", new string[] { "Casetype_ID", "CourtLocation_Id", "flag", "Court_Id", "CaseNo", "Fromdate", "Todate" }
+                       , new string[] { ddlCasetype.SelectedValue, District_Id, "4", ddlCourtName.SelectedValue, ddlCaseNo.SelectedItem.Text, FromDate, Todate }, "dataset");
                 }
                 else
                 {
                     if (Session["OICMaster_ID"] != "" && Session["OICMaster_ID"] != null)
                         OIC = Session["OICMaster_ID"].ToString();
-                    ds = obj.ByProcedure("USP_GetWPPendingRpt", new string[] { "Casetype_ID", "OICMaster_Id", "flag", "Court_Id", "CaseNo", "Fromdate", "Todate" }
-                        , new string[] {  ddlCasetype.SelectedValue, OIC, "1", ddlCourtName.SelectedValue, ddlCaseNo.SelectedItem.Text, FromDate, Todate }, "dataset");
+                    ds = obj.ByProcedure("USP_InterimOrderRpt", new string[] { "Casetype_ID", "OICMaster_Id", "flag", "Court_Id", "CaseNo", "Fromdate", "Todate" }
+                        , new string[] { ddlCasetype.SelectedValue, OIC, "1", ddlCourtName.SelectedValue, ddlCaseNo.SelectedItem.Text, FromDate, Todate }, "dataset");
                 }
-                if (ds != null )
+                if (ds != null)
                 {
                     if (ds.Tables[0].Rows.Count > 0)
                     {
@@ -206,15 +206,15 @@ public partial class mis_Legal_PendingWPReport : System.Web.UI.Page
                         GrdPendingReport.HeaderRow.TableSection = TableRowSection.TableHeader;
                         GrdPendingReport.UseAccessibleHeader = true;
                     }
-                    
-                   
+
+
                 }
                 else
                 {
                     GrdPendingReport.DataSource = null;
                     GrdPendingReport.DataBind();
                 }
-               
+
             }
         }
         catch (Exception ex)
@@ -236,7 +236,7 @@ public partial class mis_Legal_PendingWPReport : System.Web.UI.Page
                 string page_ID = HttpUtility.UrlEncode(Encrypt("1"));
                 string CaseID = HttpUtility.UrlEncode(Encrypt("CaseID"));
                 string pageID = HttpUtility.UrlEncode(Encrypt("pageID"));
-                Response.Redirect("~/Legal/ViewWPPendingCaseDetail.aspx?"+CaseID+"=" + ID + "&"+pageID+"=" + page_ID, false);
+                Response.Redirect("~/Legal/ViewWPPendingCaseDetail.aspx?" + CaseID + "=" + ID + "&" + pageID + "=" + page_ID, false);
             }
         }
         catch (Exception ex)
@@ -274,7 +274,7 @@ public partial class mis_Legal_PendingWPReport : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            
+
             throw;
         }
     }

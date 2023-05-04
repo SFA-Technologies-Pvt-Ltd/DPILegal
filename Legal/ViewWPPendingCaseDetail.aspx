@@ -5,6 +5,7 @@
         label {
             font-size: 15px;
         }
+
         .docDetails {
             height: 260px;
             overflow: auto;
@@ -102,9 +103,11 @@
                                 <div class="col-md-3" id="div1" runat="server">
                                     <div class="form-group">
                                         <label>OIC Order Date</label>
-                                        <asp:TextBox ID="txtOICDate" runat="server" ReadOnly="true"  placeholder="DD/MM/YYYY" CssClass="form-control disableFuturedate" data-date-format="dd/mm/yyyy" data-date-autoclose="true" AutoComplete="off"></asp:TextBox>
+                                        <asp:TextBox ID="txtOICDate" runat="server" ReadOnly="true" placeholder="DD/MM/YYYY" CssClass="form-control disableFuturedate" data-date-format="dd/mm/yyyy" data-date-autoclose="true" AutoComplete="off"></asp:TextBox>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>High Priority Case</label>
@@ -112,23 +115,14 @@
                                         </asp:TextBox>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>
-                                            Case Detail/Remark</label>
-                                        <asp:TextBox ID="txtCaseDetail" runat="server" TextMode="MultiLine" ReadOnly="true" onkeyup="javascript:capFirst(this);" CssClass="form-control" AutoComplete="off" MaxLength="250"></asp:TextBox>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3" runat="server" id="dvCasestatus" visible="true">
+                                 <div class="col-md-3" runat="server" id="dvCasestatus" visible="true">
                                     <div class="form-group">
                                         <label>Case Status</label>
                                         <asp:TextBox runat="server" ID="txtCaseStatus" ReadOnly="true" CssClass="form-control"></asp:TextBox>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row"> 
                                 <div class="col-md-3" runat="server" id="dvCaseDisposalType" visible="false">
                                     <div class="form-group">
                                         <label>Case Disposal Type</label>
@@ -141,12 +135,58 @@
                                         <asp:TextBox runat="server" ID="txtComplianceStatus" CssClass="form-control" ReadOnly="true"></asp:TextBox>
                                     </div>
                                 </div>
-                            </div>
+                            </div>   
                             <div class="row">
                                 <div class="col-md-12" runat="server" id="dvOrderSummary" visible="false">
                                     <div class="form-group">
                                         <label>Order Summary</label>
                                         <asp:TextBox ID="txtOrderSummary" runat="server" CssClass="form-control" ReadOnly="true" TextMode="MultiLine"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div> 
+                             <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>
+                                            Case Detail/Remark</label>
+                                        <asp:TextBox ID="txtCaseDetail" runat="server" TextMode="MultiLine" ReadOnly="true" CssClass="form-control"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend>Interim Order</legend>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Order Start Date</label>
+                                        <asp:TextBox ID="txtIntirmOrderDate" ReadOnly="true" runat="server" placeholder="DD/MM/YYYY" CssClass="form-control"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Timeline (In Days)</label>
+                                        <asp:TextBox ID="txtIntrimTimeline" ReadOnly="true" runat="server" CssClass="form-control"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Order End Date</label>
+                                        <asp:TextBox ID="txtIntrimOrderEnddate" ReadOnly="true" runat="server" placeholder="DD/MM/YYYY" CssClass="form-control"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Any PP</label>
+                                        <asp:TextBox ID="txtIntrimPrevPP" ReadOnly="true" runat="server" CssClass="form-control" AutoComplete="off"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                              <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Order Summary</label>
+                                        <asp:TextBox ID="txtIntrimOrderSummary" ReadOnly="true" TextMode="MultiLine" runat="server" CssClass="form-control"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -173,9 +213,9 @@
                                 </div>
                             </div>
                         </fieldset>
-                          <fieldset>
+                        <fieldset>
                             <legend>Case Disposal Status</legend>
-                           <div class="row" id="divCsaeDisposal" runat="server" visible="false">
+                            <div class="row" id="divCsaeDisposal" runat="server" visible="false">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
                                         <asp:GridView ID="grdCaseDisposal" runat="server" CssClass="table table-bordered" AutoGenerateColumns="false" EmptyDataText="NO RECORD FOUND">
@@ -185,7 +225,7 @@
                                                         <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                      <asp:BoundField HeaderText="Case Status" DataField="CaseStatus" />
+                                                <asp:BoundField HeaderText="Case Status" DataField="CaseStatus" />
                                                 <asp:BoundField HeaderText="Case Disposal Type" DataField="CaseDisposeType" />
                                                 <asp:BoundField HeaderText="Compliance Status" DataField="Compliance_Status" />
                                                 <asp:BoundField HeaderText="Disposal Date" DataField="OICOrderDate" />
@@ -193,7 +233,7 @@
                                                 <asp:BoundField HeaderText="Order Summary" DataField="OrderSummary" />
                                                 <asp:TemplateField HeaderText="Disposal Document">
                                                     <ItemTemplate>
-                                                           <asp:HyperLink ID="hyperView" runat="server" CssClass="fa fa-eye" Target="_blank" NavigateUrl='<%# "DisposalDocs/" + Eval("CaseDisposal_Doc") %>'></asp:HyperLink>
+                                                        <asp:HyperLink ID="hyperView" runat="server" CssClass="fa fa-eye" Target="_blank" NavigateUrl='<%# "DisposalDocs/" + Eval("CaseDisposal_Doc") %>'></asp:HyperLink>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>
@@ -331,12 +371,10 @@
                                     </div>
                                 </fieldset>
                             </div>
+
                         </div>
-
-
                     </div>
                 </div>
-            </div>
         </section>
     </div>
 </asp:Content>

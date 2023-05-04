@@ -87,7 +87,12 @@ public partial class Legal_ViewWPPendingCaseDetail : System.Web.UI.Page
                 if (ds.Tables[0].Rows[0]["CaseDisposeType"].ToString() != "") txtcasedisposaltype.Text = ds.Tables[0].Rows[0]["CaseDisposeType"].ToString(); ///else txtcasedisposaltype.Text = "NA";
                 if (ds.Tables[0].Rows[0]["OrderSummary"].ToString() != "") txtOrderSummary.Text = ds.Tables[0].Rows[0]["OrderSummary"].ToString(); ///else txtOrderSummary.Text = "NA";
                 if (ds.Tables[0].Rows[0]["Compliance_Status"].ToString() != "") txtComplianceStatus.Text = ds.Tables[0].Rows[0]["Compliance_Status"].ToString();// else txtComplianceStatus.Text = "NA";
-                if (ds.Tables[0].Rows[0]["CaseStatus"].ToString() != "") txtCaseStatus.Text = ds.Tables[0].Rows[0]["CaseStatus"].ToString();// else txtCaseStatus.Text = "NA";
+                if (ds.Tables[0].Rows[0]["CaseStatus"].ToString() != "") txtCaseStatus.Text = ds.Tables[0].Rows[0]["CaseStatus"].ToString();
+                txtIntrimOrderEnddate.Text = !string.IsNullOrEmpty(ds.Tables[0].Rows[0]["IntrimOrderEndDate"].ToString()) ? ds.Tables[0].Rows[0]["IntrimOrderEndDate"].ToString() : "";
+                txtIntirmOrderDate.Text = !string.IsNullOrEmpty(ds.Tables[0].Rows[0]["IntrimOrderStartDate"].ToString()) ? ds.Tables[0].Rows[0]["IntrimOrderStartDate"].ToString() : "";
+                txtIntrimTimeline.Text = !string.IsNullOrEmpty(ds.Tables[0].Rows[0]["IntrimOrderTimeline"].ToString()) ? ds.Tables[0].Rows[0]["IntrimOrderTimeline"].ToString() : "";
+                txtIntrimPrevPP.Text = !string.IsNullOrEmpty(ds.Tables[0].Rows[0]["IntrimOrderAnyPrevPP"].ToString()) ? ds.Tables[0].Rows[0]["IntrimOrderAnyPrevPP"].ToString() : "";
+                txtIntrimOrderSummary.Text = !string.IsNullOrEmpty(ds.Tables[0].Rows[0]["IntrimOrderSummary"].ToString()) ? ds.Tables[0].Rows[0]["IntrimOrderSummary"].ToString() : "";
                 if (ds.Tables[0].Rows[0]["OICOrderDate"].ToString() != "")
                 {
                     txtOICDate.Text = ds.Tables[0].Rows[0]["OICOrderDate"].ToString();
