@@ -108,6 +108,12 @@
                                 </div>
                             </div>
                             <div class="row">
+                                 <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Policymeter Status</label>
+                                        <asp:TextBox runat="server" ID="txtPolicymetersts" ReadOnly="true" CssClass="form-control"></asp:TextBox>
+                                    </div>
+                                </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>High Priority Case</label>
@@ -115,14 +121,14 @@
                                         </asp:TextBox>
                                     </div>
                                 </div>
-                                 <div class="col-md-3" runat="server" id="dvCasestatus" visible="true">
+                                <div class="col-md-3" runat="server" id="dvCasestatus" visible="true">
                                     <div class="form-group">
                                         <label>Case Status</label>
                                         <asp:TextBox runat="server" ID="txtCaseStatus" ReadOnly="true" CssClass="form-control"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row"> 
+                            <div class="row">
                                 <div class="col-md-3" runat="server" id="dvCaseDisposalType" visible="false">
                                     <div class="form-group">
                                         <label>Case Disposal Type</label>
@@ -135,7 +141,7 @@
                                         <asp:TextBox runat="server" ID="txtComplianceStatus" CssClass="form-control" ReadOnly="true"></asp:TextBox>
                                     </div>
                                 </div>
-                            </div>   
+                            </div>
                             <div class="row">
                                 <div class="col-md-12" runat="server" id="dvOrderSummary" visible="false">
                                     <div class="form-group">
@@ -143,8 +149,8 @@
                                         <asp:TextBox ID="txtOrderSummary" runat="server" CssClass="form-control" ReadOnly="true" TextMode="MultiLine"></asp:TextBox>
                                     </div>
                                 </div>
-                            </div> 
-                             <div class="row">
+                            </div>
+                            <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>
@@ -182,7 +188,7 @@
                                     </div>
                                 </div>
                             </div>
-                              <div class="row">
+                            <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Order Summary</label>
@@ -207,6 +213,7 @@
                                                 <asp:BoundField HeaderText="Designation" DataField="Designation_Name" />
                                                 <asp:BoundField HeaderText="Mobile No." DataField="PetitionerMobileNo" />
                                                 <asp:BoundField HeaderText="Address" DataField="PetitionerAddress" />
+                                                <asp:BoundField HeaderText="Remark" DataField="PetitionerRemark" />
                                             </Columns>
                                         </asp:GridView>
                                     </div>
@@ -303,12 +310,13 @@
                                                         <asp:Label ID="lblSrno" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
+                                                <asp:BoundField HeaderText="Department" DataField="Dept_Name" />
+                                                <asp:BoundField HeaderText="HOD" DataField="HodName" />
                                                 <asp:BoundField HeaderText="Office type" DataField="OfficeType_Name" />
                                                 <asp:BoundField HeaderText="Office Name" DataField="OfficeName" />
                                                 <asp:BoundField HeaderText="Responder Name" DataField="RespondentName" />
                                                 <asp:BoundField HeaderText="Designation" DataField="Designation_Name" />
                                                 <asp:BoundField HeaderText="Mobile No." DataField="RespondentMobileNo" />
-                                                <asp:BoundField HeaderText="Department" DataField="Department" />
                                                 <asp:BoundField HeaderText="Address" DataField="Address" />
                                             </Columns>
                                         </asp:GridView>
@@ -371,7 +379,72 @@
                                     </div>
                                 </fieldset>
                             </div>
-
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <fieldset>
+                                        <legend>Old Case Detail</legend>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="table-responsive">
+                                                    <asp:GridView ID="GrdOldCaseDtl" runat="server" CssClass="table table-bordered text-center" AutoGenerateColumns="false" EmptyDataText="NO RECORD FOUND">
+                                                        <Columns>
+                                                            <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblId" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Old Case No.">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblOldCaseNo" runat="server" Text='<%# Eval("CaseNo") %>'></asp:Label>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Case Year">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblOldCaseYear" runat="server" Text='<%# Eval("Year") %>'></asp:Label>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Case type">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblOldCasetype" runat="server" Text='<%# Eval("CaseType") %>'></asp:Label>
+                                                                    <asp:Label ID="lblOldCasetype_Id" runat="server" Text='<%# Eval("Casetype_Id") %>' Visible="false"></asp:Label>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Court">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblOldCourt" runat="server" Text='<%# Eval("Court") %>'></asp:Label>
+                                                                    <asp:Label ID="lblOldCourt_Id" runat="server" Text='<%# Eval("CourtType_Id") %>' Visible="false"></asp:Label>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Court Location">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblOldCourtLoca" runat="server" Text='<%# Eval("District_Name") %>'></asp:Label>
+                                                                    <asp:Label ID="lblOldCourtLoca_Id" runat="server" Text='<%# Eval("CourtDistLoca_Id") %>' Visible="false"></asp:Label>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Order Date">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblOrderDate" runat="server" Text='<%# Eval("OrderDate") %>'></asp:Label>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Doc Name">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblOldDocName" runat="server" Text='<%# Eval("DocName") %>'></asp:Label>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="View">
+                                                                <ItemTemplate>
+                                                                    <asp:HyperLink ID="hypOldCaseDtl" runat="server" Enabled='<%# Eval("DocLink").ToString() == "" ? false : true %>' Target="_blank" NavigateUrl='<%# "~/Legal/OldCaseDocument/" +  Eval("DocLink") %>' CssClass="fa fa-eye"></asp:HyperLink>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                        </Columns>
+                                                    </asp:GridView>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

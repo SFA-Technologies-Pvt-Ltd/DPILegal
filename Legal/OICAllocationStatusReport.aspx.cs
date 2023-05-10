@@ -78,7 +78,7 @@ public partial class Legal_OICAllocationStatusReport : System.Web.UI.Page
         try
         {
             ddlCaseYear.Items.Clear();
-            DataSet dsCase = obj.ByDataSet("with yearlist as (select 1950 as year union all select yl.year + 1 as year from yearlist yl where yl.year + 1 <= YEAR(GetDate())) select year from yearlist order by year desc");
+            DataSet dsCase = obj.ByDataSet("with yearlist as (select 2000 as year union all select yl.year + 1 as year from yearlist yl where yl.year + 1 <= YEAR(GetDate())) select year from yearlist order by year asc");
             if (dsCase.Tables.Count > 0 && dsCase.Tables[0].Rows.Count > 0)
             {
                 ddlCaseYear.DataSource = dsCase.Tables[0];

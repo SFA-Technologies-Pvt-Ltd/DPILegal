@@ -234,31 +234,23 @@ public partial class Legal_AddNewCase : System.Web.UI.Page
     protected void FillYear()
     {
         ddlCaseYear.Items.Clear();
-        for (int i = 1950; i <= DateTime.Now.Year; i++)
+        for (int i = 2000; i <= DateTime.Now.Year; i++)
         {
-            ddlCaseYear.Items.Add(i.ToString());
+            ddlCaseYear.Items.Add(i.ToString());           
         }
         ddlCaseYear.Items.Insert(0, new ListItem("Select", "0"));
-
     }
-
     protected void FillOldCaseYear()
     {
         try
         {
-            ddloldCaseYear.Items.Clear();
-            DataSet dsCase = objdb.ByDataSet("with yearlist as (select 1950 as year union all select yl.year + 1 as year from yearlist yl where yl.year + 1 <= YEAR(GetDate())) select year from yearlist order by year");
+            ddloldCaseYear.Items.Clear(); 
+            DataSet dsCase = objdb.ByDataSet("with yearlist as (select 2000 as year union all select yl.year + 1 as year from yearlist yl where yl.year + 1 <= YEAR(GetDate())) select year from yearlist order by year asc");
             if (dsCase.Tables.Count > 0 && dsCase.Tables[0].Rows.Count > 0)
             {
                 ddloldCaseYear.DataSource = dsCase.Tables[0];
                 ddloldCaseYear.DataTextField = "year";
                 ddloldCaseYear.DataValueField = "year";
-                ddloldCaseYear.DataBind();
-                ddloldCaseYear.Items.Insert(0, new ListItem("Select", "0"));
-            }
-            else
-            {
-                ddloldCaseYear.DataSource = null;
                 ddloldCaseYear.DataBind();
                 ddloldCaseYear.Items.Insert(0, new ListItem("Select", "0"));
             }

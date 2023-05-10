@@ -828,7 +828,7 @@
                                                     ErrorMessage="Select Case Year" ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                                     ControlToValidate="ddloldCaseYear" Display="Dynamic" runat="server" InitialValue="0">
                                                 </asp:RequiredFieldValidator>
-                                                <asp:DropDownList ID="ddloldCaseYear" runat="server" CssClass="form-control">
+                                                <asp:DropDownList ID="ddloldCaseYear" runat="server" CssClass="form-control select2">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>

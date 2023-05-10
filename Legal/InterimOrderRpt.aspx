@@ -139,7 +139,7 @@
                 <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
                 <div class="card">
                     <div class="card-header">
-                        Pending Case Report
+                       Interim Case Report
                     </div>
                     <div class="card-body">
                         <fieldset>
@@ -195,7 +195,8 @@
                                                 ControlToValidate="txtFromDate" Display="Dynamic" runat="server">
                                             </asp:RequiredFieldValidator><br />
                                         </label>
-                                        <asp:TextBox ID="txtFromDate" runat="server" date-provide="datepicker" AutoComplete="off" data-date-end-date="0d" placeholder="DD/MM/YYYY" class="form-control DateAdd" ClientIDMode="Static"></asp:TextBox>
+                                        <%--<asp:TextBox ID="txtFromDate" runat="server" date-provide="datepicker" AutoComplete="off" data-date-end-date="0d" placeholder="DD/MM/YYYY" class="form-control DateAdd" ClientIDMode="Static"></asp:TextBox>--%>
+                                        <asp:TextBox ID="txtFromDate" runat="server" date-provide="datepicker" AutoComplete="off" data-date-end-date="0d" placeholder="DD/MM/YYYY" class="form-control" ClientIDMode="Static"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -284,6 +285,11 @@
                                             <asp:TemplateField HeaderText="Any PP">
                                                 <ItemTemplate>
                                                     <asp:Label ID="lblOicName" runat="server" Text='<%# Eval("IntrimOrderAnyPrevPP") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Order Summary">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblSummary" runat="server" Text='<%# Eval("IntrimOrderSummary") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="View" ItemStyle-Width="5%">

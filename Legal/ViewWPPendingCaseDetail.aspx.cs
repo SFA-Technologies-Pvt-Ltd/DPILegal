@@ -84,15 +84,17 @@ public partial class Legal_ViewWPPendingCaseDetail : System.Web.UI.Page
                 if (ds.Tables[0].Rows[0]["OICEmailID"].ToString() != "") txtOicEmailId.Text = ds.Tables[0].Rows[0]["OICEmailID"].ToString(); //else txtOicEmailId.Text = "NA";
                 if (ds.Tables[0].Rows[0]["HighPriorityCase_Status"].ToString() != "") txtHighprioritycase.Text = ds.Tables[0].Rows[0]["HighPriorityCase_Status"].ToString(); //else txtHighprioritycase.Text = "NA";
                 if (ds.Tables[0].Rows[0]["CaseDetail"].ToString() != "") txtCaseDetail.Text = ds.Tables[0].Rows[0]["CaseDetail"].ToString(); ///else txtCaseDetail.Text = "NA";
-                if (ds.Tables[0].Rows[0]["CaseDisposeType"].ToString() != "") txtcasedisposaltype.Text = ds.Tables[0].Rows[0]["CaseDisposeType"].ToString(); ///else txtcasedisposaltype.Text = "NA";
-                if (ds.Tables[0].Rows[0]["OrderSummary"].ToString() != "") txtOrderSummary.Text = ds.Tables[0].Rows[0]["OrderSummary"].ToString(); ///else txtOrderSummary.Text = "NA";
-                if (ds.Tables[0].Rows[0]["Compliance_Status"].ToString() != "") txtComplianceStatus.Text = ds.Tables[0].Rows[0]["Compliance_Status"].ToString();// else txtComplianceStatus.Text = "NA";
+                if (ds.Tables[0].Rows[0]["CaseDisposeType"].ToString() != "") {txtcasedisposaltype.Text = ds.Tables[0].Rows[0]["CaseDisposeType"].ToString(); dvCaseDisposalType.Visible = true;} ///else txtcasedisposaltype.Text = "NA";
+                if (ds.Tables[0].Rows[0]["OrderSummary"].ToString() != "") { txtOrderSummary.Text = ds.Tables[0].Rows[0]["OrderSummary"].ToString(); dvOrderSummary.Visible = true; }///else txtOrderSummary.Text = "NA";
+                if (ds.Tables[0].Rows[0]["Compliance_Status"].ToString() != "") { txtComplianceStatus.Text = ds.Tables[0].Rows[0]["Compliance_Status"].ToString(); Compilance_Div.Visible = true; }// else txtComplianceStatus.Text = "NA";
                 if (ds.Tables[0].Rows[0]["CaseStatus"].ToString() != "") txtCaseStatus.Text = ds.Tables[0].Rows[0]["CaseStatus"].ToString();
                 txtIntrimOrderEnddate.Text = !string.IsNullOrEmpty(ds.Tables[0].Rows[0]["IntrimOrderEndDate"].ToString()) ? ds.Tables[0].Rows[0]["IntrimOrderEndDate"].ToString() : "";
                 txtIntirmOrderDate.Text = !string.IsNullOrEmpty(ds.Tables[0].Rows[0]["IntrimOrderStartDate"].ToString()) ? ds.Tables[0].Rows[0]["IntrimOrderStartDate"].ToString() : "";
                 txtIntrimTimeline.Text = !string.IsNullOrEmpty(ds.Tables[0].Rows[0]["IntrimOrderTimeline"].ToString()) ? ds.Tables[0].Rows[0]["IntrimOrderTimeline"].ToString() : "";
                 txtIntrimPrevPP.Text = !string.IsNullOrEmpty(ds.Tables[0].Rows[0]["IntrimOrderAnyPrevPP"].ToString()) ? ds.Tables[0].Rows[0]["IntrimOrderAnyPrevPP"].ToString() : "";
                 txtIntrimOrderSummary.Text = !string.IsNullOrEmpty(ds.Tables[0].Rows[0]["IntrimOrderSummary"].ToString()) ? ds.Tables[0].Rows[0]["IntrimOrderSummary"].ToString() : "";
+                string PolicyMeter = ds.Tables[0].Rows[0]["PolicyMeterStatus"].ToString();
+                txtPolicymetersts.Text = !string.IsNullOrEmpty(PolicyMeter) ? PolicyMeter : null;
                 if (ds.Tables[0].Rows[0]["OICOrderDate"].ToString() != "")
                 {
                     txtOICDate.Text = ds.Tables[0].Rows[0]["OICOrderDate"].ToString();
@@ -105,16 +107,16 @@ public partial class Legal_ViewWPPendingCaseDetail : System.Web.UI.Page
                         grdCaseDisposal.DataSource = ds.Tables[0]; grdCaseDisposal.DataBind();
                     }
                 }
-                if (ds.Tables[1].Rows.Count > 0) GrdPetitioner.DataSource = ds.Tables[1]; GrdPetitioner.DataBind();
-                if (ds.Tables[2].Rows.Count > 0) GrdPetiAdv.DataSource = ds.Tables[2]; GrdPetiAdv.DataBind();
-                if (ds.Tables[3].Rows.Count > 0) GrdDeptAdv.DataSource = ds.Tables[3]; GrdDeptAdv.DataBind();
-                if (ds.Tables[4].Rows.Count > 0) GrdResponderDtl.DataSource = ds.Tables[4]; GrdResponderDtl.DataBind();
-                if (ds.Tables[5].Rows[0]["CaseDoc_ID"].ToString() != "") GrdDocument.DataSource = ds.Tables[5]; GrdDocument.DataBind();
+                if (ds.Tables[1].Rows.Count > 0) {GrdPetitioner.DataSource = ds.Tables[1]; GrdPetitioner.DataBind();}
+                if (ds.Tables[2].Rows.Count > 0) {GrdPetiAdv.DataSource = ds.Tables[2]; GrdPetiAdv.DataBind();}
+                if (ds.Tables[3].Rows.Count > 0) {GrdDeptAdv.DataSource = ds.Tables[3]; GrdDeptAdv.DataBind();}
+                if (ds.Tables[4].Rows.Count > 0) {GrdResponderDtl.DataSource = ds.Tables[4]; GrdResponderDtl.DataBind();}
+                if (!string.IsNullOrEmpty(ds.Tables[5].Rows[0]["CaseDoc_ID"].ToString())) { GrdDocument.DataSource = ds.Tables[5]; GrdDocument.DataBind(); }
                 if (ds.Tables[6].Rows.Count > 0)
                 {
-                    if (ds.Tables[6].Rows[0]["NextHearing_ID"].ToString() != "") GrdHearingDtl.DataSource = ds.Tables[6]; GrdHearingDtl.DataBind();
-
+                    if (!string.IsNullOrEmpty(ds.Tables[6].Rows[0]["NextHearing_ID"].ToString())) { GrdHearingDtl.DataSource = ds.Tables[6]; GrdHearingDtl.DataBind(); }
                 }
+                if (ds.Tables[7].Rows.Count > 0){GrdOldCaseDtl.DataSource = ds.Tables[7]; GrdOldCaseDtl.DataBind();} //Add New Grid On Date  09/05/2023 By Bhanu 
             }
             else
             {
