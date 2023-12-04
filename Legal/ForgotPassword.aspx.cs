@@ -27,6 +27,32 @@ public partial class Legal_ForgotPassword : System.Web.UI.Page
     {
         return obj.SHA512_HASH(Text);
     }
+	protected void SendWhatsappOTP(string strMobileNo, string strMessage)
+    {
+        try
+        {
+            strMobileNo = "91" + strMobileNo.Replace(",", "|91");
+            strMobileNo = strMobileNo.Replace(" ", "");
+            //string strMessage = strOTP + " is your OTP For Reset Password!";
+            string strSignature = " \nकानूनी मामले प्रबंधन पोर्टल,\nस्कूल शिक्षा विभाग, म.प्र. शासन";
+            string strUrl = "http://20.193.139.227/msg/public/send-message?api_key=naf7swVOp5t7wsreLQEwhayKQa9TNb&sender=919516879109&number=" + strMobileNo + "&message=" + strMessage + "\n" + strSignature;
+            // Create a request object
+            WebRequest request = HttpWebRequest.Create(strUrl);
+            // Get the response back
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            Stream s = (Stream)response.GetResponseStream();
+            StreamReader readStream = new StreamReader(s);
+            string dataString = readStream.ReadToEnd();
+            response.Close();
+            s.Close();
+            readStream.Close();
+        }
+        catch (Exception ex)
+        {
+            ErrorLogCls.SendErrorToText(ex);
+        }
+
+    }
     protected void btnForgotPassword_Click(object sender, EventArgs e)
     {
         try
@@ -45,7 +71,7 @@ public partial class Legal_ForgotPassword : System.Web.UI.Page
                 if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     string url = HttpContext.Current.Request.Url.AbsoluteUri;
-                    string RPurl = (url.Contains("localhost") ? "http://localhost:54327/" : "https://dpilegal.deptapp.in/") + "ResetPassword.aspx?" + ConvertText_SHA512_And_Salt("num=" + ds.Tables[0].Rows[0]["userid"].ToString());
+                    string RPurl = (url.Contains("localhost") ? "http://localhost:54327/" : "https://dpi.legalmonitoring.in/") + "ResetPassword.aspx?" + ConvertText_SHA512_And_Salt("num=" + ds.Tables[0].Rows[0]["userid"].ToString());
 
                     content = content
                        .Replace("{{ResetPasswordLink}}", RPurl)
@@ -68,9 +94,18 @@ public partial class Legal_ForgotPassword : System.Web.UI.Page
                         smtp.Credentials = networkCred;
                         smtp.Port = smtpSection.Network.Port;
                         smtp.Send(mm);
+						
+						 // Send OTP on  Whatsapp
+
+                        string strMobNo = ds.Tables[0].Rows[0]["MobileNo"].ToString();
+                        string strWMBody = "Dear " + ds.Tables[0].Rows[0]["Empname"].ToString() + " (" + ds.Tables[0].Rows[0]["UserName"].ToString() + ")\n \nअपना पासवर्ड रीसेट करने के लिए कृपया नीचे दिए गए लिंक पर क्लिक करें। सुरक्षा कारणों से लिंक को किसी अन्य के साथ साझा न करें। \n \n " + RPurl;
+                        if (strMobNo != string.Empty || strMobNo != "")
+                        {
+                            SendWhatsappOTP(strMobNo, strWMBody);
+                        }
 
                         obj.ByTextQuery("insert into tblManageResetPassword(UserId, UserEmail, Isactive,ResetPasswordLink) values(" + ds.Tables[0].Rows[0]["userid"].ToString() + ",'" + ds.Tables[0].Rows[0]["UserEmail"].ToString() + "',1, '" + RPurl.ToString() + "')");
-                        Page.ClientScript.RegisterStartupScript(this.GetType(), "alertMessage", "alert('Email sent Please Check your mail');", true);
+                        Page.ClientScript.RegisterStartupScript(this.GetType(), "alertMessage", "alert('Forget Password Link Successfully Sent on your Registerd Email ID. Do Not Share the link with Others.');", true);
                     }
                 }
                 //else

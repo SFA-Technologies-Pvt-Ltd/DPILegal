@@ -78,6 +78,12 @@
                         <div class="d-grid pt-3">
                             <a href="Legal/ForgotPassword.aspx"  style="text-align: center; color:#0c59e7; font-size: 18px; font-family: 'Calibri';text-decoration:none;">Forget Password</a>
                         </div>
+						<div class="d-grid pt-3">
+                            <a href="District_Court/MP.html"  style="text-align: center; color:#0c59e7; font-size: 18px; font-family: 'Calibri';text-decoration:none;">District Court</a>
+                        </div>
+
+							
+						
                     </div>
                 </div>
             </div>

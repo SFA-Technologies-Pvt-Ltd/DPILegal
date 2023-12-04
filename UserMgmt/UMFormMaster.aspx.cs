@@ -160,7 +160,8 @@ public partial class UserMgmt_UMFormMaster : System.Web.UI.Page
                         new string[] { "flag", "Form_IsActive", "Form_Name", "Form_Name_H", "Module_ID", "Form_Path", "OrderBy", "Form_UpdatedBy", "CreatedByIP" },
                         new string[] { "0", Form_IsActive, txtForm_Name.Text.Trim(), txtForm_Name_Hi.Text.Trim(), ddlModule_Name.SelectedValue, txtForm_Path.Text.Trim(), txtOrderBy.Text.Trim(), ViewState["Emp_ID"].ToString(), IPAddress }, "dataset");
 
-                        lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thank You!", "Operation Successfully Completed");
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', 'Operation Successfully Completed', 'success')", true);
+                        //lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thank You!", "Operation Successfully Completed");
 
                     }
 
@@ -170,7 +171,7 @@ public partial class UserMgmt_UMFormMaster : System.Web.UI.Page
                         new string[] { "flag", "Form_ID", "Form_Name", "Form_Name_H", "Module_ID", "Form_Path", "OrderBy", "Form_UpdatedBy", "CreatedByIP" },
                         new string[] { "7", ViewState["Form_ID"].ToString(), txtForm_Name.Text.Trim(), txtForm_Name_Hi.Text.Trim(), ddlModule_Name.SelectedValue, txtForm_Path.Text.Trim(), txtOrderBy.Text.Trim(), ViewState["Emp_ID"].ToString(), IPAddress }, "dataset");
 
-                        lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thank You!", "Operation Successfully Completed");
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', 'Operation Successfully Completed', 'success')", true);
                         ViewState["Form_ID"] = 0;
                     }
                     else

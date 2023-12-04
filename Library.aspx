@@ -24,7 +24,7 @@
                                     </asp:TemplateField>
                                     <asp:BoundField DataField="CaseNo" HeaderText="Case No." HeaderStyle-HorizontalAlign="Center" />
                                     <asp:BoundField DataField="CaseSubject" HeaderText="Case Subject" HeaderStyle-HorizontalAlign="Center" />
-                                    <asp:BoundField DataField="CaseType" HeaderText="Case Type" HeaderStyle-HorizontalAlign="Center" />
+                                    <asp:BoundField DataField="CaseType_Name" HeaderText="Case Type" HeaderStyle-HorizontalAlign="Center" />
                                     <asp:BoundField DataField="PartyName" HeaderText="Petitioner Name" HeaderStyle-HorizontalAlign="Center" />
                                     <asp:BoundField DataField="RespondentName" HeaderText="Respondent Name" HeaderStyle-HorizontalAlign="Center" />
                                     <asp:BoundField DataField="RelatedOffice" HeaderText="Related Office" HeaderStyle-HorizontalAlign="Center" />

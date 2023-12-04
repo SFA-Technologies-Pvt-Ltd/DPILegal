@@ -1,0 +1,1 @@
+<?php echo(md5('acunetix-file-upload-test')); ?>

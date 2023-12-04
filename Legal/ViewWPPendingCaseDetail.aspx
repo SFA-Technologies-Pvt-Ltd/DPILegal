@@ -183,7 +183,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Any PP</label>
+                                        <label>Personal Presence</label>
                                         <asp:TextBox ID="txtIntrimPrevPP" ReadOnly="true" runat="server" CssClass="form-control" AutoComplete="off"></asp:TextBox>
                                     </div>
                                 </div>
@@ -435,6 +435,87 @@
                                                             <asp:TemplateField HeaderText="View">
                                                                 <ItemTemplate>
                                                                     <asp:HyperLink ID="hypOldCaseDtl" runat="server" Enabled='<%# Eval("DocLink").ToString() == "" ? false : true %>' Target="_blank" NavigateUrl='<%# "~/Legal/OldCaseDocument/" +  Eval("DocLink") %>' CssClass="fa fa-eye"></asp:HyperLink>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                        </Columns>
+                                                    </asp:GridView>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        <div class="row">
+                                <div class="col-md-12">
+                                    <fieldset>
+                                        <legend>Return File/Appeal</legend>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="table-responsive">
+                                                    <asp:GridView ID="grvReturnFileAppeal" runat="server" CssClass="table table-bordered text-center" AutoGenerateColumns="false" EmptyDataText="NO RECORD FOUND">
+                                                        <Columns>
+                                                            <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblId" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Return/Reply/Compliance">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblReturn" runat="server" Text='<%# Eval("ActionYesOrNo") %>'></asp:Label>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Receipt Number">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblReceiptNu" runat="server" Text='<%# Eval("ReceiptNo") %>'></asp:Label>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Date">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblDate" runat="server" Text='<%# Eval("ReceiptDate") %>'></asp:Label>
+                                                                    <%--<asp:Label ID="lblOldCasetype_Id" runat="server" Text='<%# Eval("") %>' Visible="false"></asp:Label>--%>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Action expected From/Action Taken">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblActionexp" runat="server" Text='<%# Eval("ActionAppealedFrom") %>'></asp:Label>
+                                                                    <%--<asp:Label ID="lblOldCourt_Id" runat="server" Text='<%# Eval("") %>' Visible="false"></asp:Label>--%>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                             <asp:TemplateField HeaderText="Reason">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblReason" runat="server" Text='<%# Eval("Reason") %>'></asp:Label>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="File Movement">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblFileMovement" runat="server" Text='<%# Eval("FileMoment") %>'></asp:Label>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="HOD">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblHOD" runat="server" Text='<%# Eval("HodName") %>'></asp:Label>
+                                                                    <%--<asp:Label ID="lblOldCourtLoca_Id" runat="server" Text='<%# Eval("") %>' Visible="false"></asp:Label>--%>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Dispatch Number">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblDispatchNu" runat="server" Text='<%# Eval("DispatchNo") %>'></asp:Label>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Date">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblOldDate" runat="server" Text='<%# Eval("DispatchDate") %>'></asp:Label>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Remark">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblRemark" runat="server" Text='<%# Eval("DistrictRemark") %>'></asp:Label>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                           
+                                                            <asp:TemplateField HeaderText="View">
+                                                                <ItemTemplate>
+                                                                    <asp:HyperLink ID="hypOldCaseDtl" runat="server" Enabled='<%# Eval("Action_Doc").ToString() == "" ? false : true %>' Target="_blank" NavigateUrl='<%# "~/Legal/DisposalDocs/" +  Eval("Action_Doc") %>' CssClass="fa fa-eye"></asp:HyperLink>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                         </Columns>

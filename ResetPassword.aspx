@@ -5,12 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 
-    <title>PHE Legal</title>
+    <title>School Edu Legal</title>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous" />
+    <script src="Main_plugins/custom_css/sweetalert.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
         crossorigin="anonymous"></script>
@@ -59,7 +60,7 @@
                     <div class="col-lg-12 p-5 shadow-sm border rounded-5 border-primary bg-white" style="border: none !important">
                         <h2 class="text-center mb-4 text-primary" style="margin-top: -12px;">
                             <img runat="server" src="../image/logo/ssmsLogo.png" alt="" style="width: 80px;" /></h2>
-                        <h5 style="text-align: center; color: #59afd9; font-size: 25px; font-family: 'Times New Roman';">Public Health Engineering Department</h5>
+                        <h5 style="text-align: center; color: #59afd9; font-size: 25px; font-family: 'Times New Roman';">School Education Department</h5>
                         <h5 style="text-align: center; color: #f98023; font-size: 21px;">Legal Cases Monitoring System</h5>
                         <div class="mb-5">
                             <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>

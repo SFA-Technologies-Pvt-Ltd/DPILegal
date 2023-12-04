@@ -121,7 +121,8 @@ public partial class UserMgmt_UMRoleFormMap : System.Web.UI.Page
                                 new string[] { "0", FormID.Value, RoleID, ViewState["Emp_ID"].ToString(), IPAddress }, "dataset");
                             RowNo++;
                             divGrid.Visible = true;
-                            lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thank You!", "Operation Successfully Completed");
+                           
+                            ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', 'Operation Successfully Completed', 'success')", true);
                         }
                         else
                         {
@@ -133,7 +134,7 @@ public partial class UserMgmt_UMRoleFormMap : System.Web.UI.Page
                 }
                 else
                 {
-                    lblMsg.Text = objdb.Alert("fa-warning", "alert-warning", "Warning!", " Enter Role Name");
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','Enter Role Name' , 'warning')", true);
                 }
                 Session["PageTokan"] = Server.UrlEncode(System.DateTime.Now.ToString());
             }

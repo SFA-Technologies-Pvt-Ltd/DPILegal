@@ -33,7 +33,8 @@ public partial class Legal_ViewWPPendingCaseDetail : System.Web.UI.Page
                     ViewState["Page"] = PageID.ToString();
                     if (!string.IsNullOrEmpty(CaseID))
                     {
-                        ViewState["CaseID"] = CaseID;
+                        //ViewState["CaseID"] = CaseID;
+                        ViewState["ID"] = CaseID;
                         BindCaseDetail();
                         txtOICDate.Attributes.Add("readonly", "readonly");
                         if (PageID == "2" || PageID == "4")
@@ -68,7 +69,7 @@ public partial class Legal_ViewWPPendingCaseDetail : System.Web.UI.Page
             GrdHearingDtl.DataBind();
 
             ds = obj.ByProcedure("USP_ViewWPPendingCaseFullDtlRpt", new string[] { "Case_ID" }
-                , new string[] { ViewState["CaseID"].ToString() }, "dataset");
+                , new string[] { ViewState["ID"].ToString() }, "dataset");
             if (ds != null && ds.Tables[0].Rows.Count > 0)
             {
                 if (ds.Tables[0].Rows[0]["CaseNo"].ToString() != "") lblCaseNo.Text = ds.Tables[0].Rows[0]["CaseNo"].ToString(); //else lblCaseNo.Text = "NA";
@@ -111,12 +112,13 @@ public partial class Legal_ViewWPPendingCaseDetail : System.Web.UI.Page
                 if (ds.Tables[2].Rows.Count > 0) {GrdPetiAdv.DataSource = ds.Tables[2]; GrdPetiAdv.DataBind();}
                 if (ds.Tables[3].Rows.Count > 0) {GrdDeptAdv.DataSource = ds.Tables[3]; GrdDeptAdv.DataBind();}
                 if (ds.Tables[4].Rows.Count > 0) {GrdResponderDtl.DataSource = ds.Tables[4]; GrdResponderDtl.DataBind();}
-                if (!string.IsNullOrEmpty(ds.Tables[5].Rows[0]["CaseDoc_ID"].ToString())) { GrdDocument.DataSource = ds.Tables[5]; GrdDocument.DataBind(); }
+                if (ds.Tables[5].Rows.Count > 0) { GrdDocument.DataSource = ds.Tables[5]; GrdDocument.DataBind(); }
                 if (ds.Tables[6].Rows.Count > 0)
                 {
                     if (!string.IsNullOrEmpty(ds.Tables[6].Rows[0]["NextHearing_ID"].ToString())) { GrdHearingDtl.DataSource = ds.Tables[6]; GrdHearingDtl.DataBind(); }
                 }
-                if (ds.Tables[7].Rows.Count > 0){GrdOldCaseDtl.DataSource = ds.Tables[7]; GrdOldCaseDtl.DataBind();} //Add New Grid On Date  09/05/2023 By Bhanu 
+                if (ds.Tables[7].Rows.Count > 0){GrdOldCaseDtl.DataSource = ds.Tables[7]; GrdOldCaseDtl.DataBind();}
+                if (ds.Tables[8].Rows.Count > 0){ grvReturnFileAppeal.DataSource = ds.Tables[8]; grvReturnFileAppeal.DataBind();} //Add New Grid On Date  09/05/2023 By Bhanu 
             }
             else
             {
@@ -170,7 +172,8 @@ public partial class Legal_ViewWPPendingCaseDetail : System.Web.UI.Page
             if (ViewState["Page"].ToString() == "5") Response.Redirect("../Legal/MonthlyHearingDtl.aspx", false);// Monthly Hearing Case Rpt
             if (ViewState["Page"].ToString() == "6") Response.Redirect("../Legal/WeekelyHearingCaseRpt.aspx", false);// Weekely Hearing Case Rpt
             if (ViewState["Page"].ToString() == "7") Response.Redirect("../Legal/LongPendingCaseRpt.aspx", false);// Long Pendinh Case Rpt
-            if (ViewState["Page"].ToString() == "8") Response.Redirect("../Legal/respondentwisecaserpt.aspx", false);
+            if (ViewState["Page"].ToString() == "8") Response.Redirect("../Legal/respondentwisecaserpt.aspx", false); // respondent wise case rpt
+            if (ViewState["Page"].ToString() == "9") Response.Redirect("../Legal/InterimOrderRpt.aspx", false);//Interim Order Rpt
         }
         catch (Exception ex)
         {

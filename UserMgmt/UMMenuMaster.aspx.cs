@@ -156,7 +156,7 @@ public partial class mis_UserMgmt_UMMenuMaster : System.Web.UI.Page
                         new string[] { "flag", "Menu_IsActive", "Menu_Name", "Menu_Name_H", "Module_ID", "Menu_Icon", "OrderBy", "Menu_UpdatedBy", "CreatedByIP" },
                         new string[] { "0", Menu_IsActive, txtMenu_Name.Text.Trim(), txtMenu_Name_H.Text.Trim(), ddlModule_Name.SelectedValue, Menu_Icon, txtOrderBy.Text.Trim(), ViewState["Emp_ID"].ToString(), IPAddress }, "dataset");
 
-                        lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thank You!", "Operation Successfully Completed");
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', 'Operation Successfully Completed', 'success')", true);
                         ClearField();
                         btnSave.Text = "Save";
                     }
@@ -167,7 +167,7 @@ public partial class mis_UserMgmt_UMMenuMaster : System.Web.UI.Page
                         new string[] { "flag", "Menu_ID", "Menu_Name", "Menu_Name_H", "Module_ID", "Menu_Icon", "OrderBy", "Menu_UpdatedBy", "CreatedByIP" },
                         new string[] { "7", ViewState["Menu_ID"].ToString(), txtMenu_Name.Text.Trim(), txtMenu_Name_H.Text.Trim(), ddlModule_Name.SelectedValue, Menu_Icon, txtOrderBy.Text.Trim(), ViewState["Emp_ID"].ToString(),IPAddress }, "dataset");
 
-                        lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thank You!", "Operation Successfully Completed");
+                         ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', 'Operation Successfully Completed', 'success')", true);
                         ViewState["Menu_ID"] = 0;
                         ClearField();
                         btnSave.Text = "Save";
@@ -191,7 +191,7 @@ public partial class mis_UserMgmt_UMMenuMaster : System.Web.UI.Page
                 }
                 else
                 {
-                    lblMsg.Text = objdb.Alert("fa-warning", "alert-warning", "Warning!", " Enter Menu Name");
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','Enter Menu Name' , 'warning')", true);
                 }
                 Session["PageTokan"] = Server.UrlEncode(System.DateTime.Now.ToString());
                 FG_AfterInsertion();

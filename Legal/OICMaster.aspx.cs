@@ -21,6 +21,8 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
             {
                 ViewState["Emp_Id"] = Session["Emp_Id"].ToString();
                 ViewState["Office_Id"] = Session["Office_Id"].ToString();
+                ViewState["Role_ID"] = Session["Role_ID"].ToString();
+                ViewState["District_Id"] = Session["District_Id"].ToString();
                 FillGrid();
                 FillZone();
                 FillDesignation();
@@ -30,7 +32,7 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("../Login.aspx",false);
+            Response.Redirect("../Login.aspx", false);
         }
     }
     #region Fill Grid
@@ -39,23 +41,24 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
         try
         {
             ds = obj.ByProcedure("USP_Select_OICMaster", new string[] { "usertype_id", "Division_ID", "District_Id" }
-                    , new string[] { Session["OfficeType_Id"].ToString(), Session["Division_Id"].ToString(), Session["District_Id"].ToString()}, "dataset");
+                    , new string[] { Session["OfficeType_Id"].ToString(), Session["Division_Id"].ToString(), Session["District_Id"].ToString() }, "dataset");
             if (ds != null && ds.Tables[0].Rows.Count > 0)
             {
                 gridoicmaster.DataSource = ds;
                 gridoicmaster.DataBind();
+                gridoicmaster.HeaderRow.TableSection = TableRowSection.TableHeader;
+                gridoicmaster.UseAccessibleHeader = true;
             }
             else
             {
                 gridoicmaster.DataSource = null;
                 gridoicmaster.DataBind();
             }
-            gridoicmaster.HeaderRow.TableSection = TableRowSection.TableHeader;
-            gridoicmaster.UseAccessibleHeader = true;
+
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "Alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
     #endregion
@@ -110,7 +113,16 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
         try
         {
             ddldivision.Items.Clear();
-            ds = obj.ByDataSet("select District_ID, District_Name from  Mst_District");
+            if (Session["Role_ID"].ToString() == "4")//District Login
+            {
+                ds = obj.ByProcedure("Usp_OICDistrict", new string[] { "flag", "District_Id" }
+                , new string[] { "1", ViewState["District_Id"].ToString() }, "dataset");
+            }
+            else
+            {
+                ds = obj.ByProcedure("Usp_OICDistrict", new string[] { "flag" }
+                                        , new string[] { "2" }, "dataset");
+            }
             if (ds != null && ds.Tables[0].Rows.Count > 0)
             {
                 ddldivision.DataTextField = "District_Name";
@@ -246,7 +258,7 @@ public partial class Legal_Oicmaster : System.Web.UI.Page
                 Label lblEmailID = (Label)row.FindControl("lblEmailID");
                 Label lblDepartmentId = (Label)row.FindControl("lblDepartmentId");
 
-               
+
                 txtoicnme.Text = lblOICName.Text;
                 txtEmailID.Text = lblEmailID.Text;
                 txtmobileno.Text = lblMobileNo.Text;

@@ -28,7 +28,7 @@ public partial class Legal_MainMaster : System.Web.UI.MasterPage
                 ////Response.Write(baseUrl.ToString());
                 //// Navigation.InnerHtml = "<div class='user-panel'><div class='pull-left info'><p style='font-size:12px;'>" + Session["UserName"].ToString() + "</p><a href='#'><i class='fa fa-circle text-success'></i> Online</a></div></div>";
                 ////Navigation.InnerHtml = "<div class='user-panel'><div class='pull-left image'><img src='" + baseUrl + "mis/HR/" + Session["Emp_ProfileImage"].ToString() + "' class='img-circle' alt='User Image'></div><div class='pull-left info'><p>" + Session["Designation_Name"].ToString() + "</p><a href='#'><i class='fa fa-circle text-success'></i> Online</a></div></div>";
-                //Navigation.InnerHtml += "<ul class='nav  nav-sidebar flex-column' data-widget='treeview' role='menu' data-accordion='false'>";
+                //Navigation.InnerHtml += "<ul class='nav nav-pills nav-sidebar flex-column' data-widget='treeview' role='menu' data-accordion='false'>";
                 //// Navigation.InnerHtml += "<li class='header' style='font-weight: 600;text-transform: uppercase;letter-spacing: 2px;'>" + Session["Office_Name"].ToString() + "</li>";
                 //// Navigation.InnerHtml += "<li><hr style='margin: 0' /></li>";
                 //Navigation.InnerHtml += "<li class='nav-item'><a href='../Legal/LegalDashboard.aspx?IsMainPage=1' class='nav-link'><i class='nav-icon fas fa-list-ul text-light'></i><p class='text-light'><span style='color: #e5e5e5; font-size: 16px;'>Main Page</span><i class='fas fa-angle-left right'></i></p></a></li>";
@@ -118,7 +118,7 @@ public partial class Legal_MainMaster : System.Web.UI.MasterPage
 
                 #region Rebind Menues
                 if (Session["Role_ID"].ToString() == "3")
-                    Navigation.InnerHtml = "<ul class='nav  nav-sidebar flex-column' data-widget='treeview' role='menu' data-accordion='false'>"
+                    Navigation.InnerHtml = "<ul class='nav nav-pills nav-sidebar flex-column' data-widget='treeview' role='menu' data-accordion='false'>"
                                 + "<li class='nav-item'>"
                                     + "<a href='../Legal/OICWiseOldCaseDashBoard.aspx' class='nav-link'>"
                                         + "<i class='nav-icon fas fa-list-ul text-light'></i>"
@@ -127,16 +127,23 @@ public partial class Legal_MainMaster : System.Web.UI.MasterPage
                                             //  + "<i class='fas fa-angle-left right'></i>" 
                                             + "</p></a></li>'";
                 else if (Session["Role_ID"].ToString() == "1")
-                    Navigation.InnerHtml = "<ul class='nav  nav-sidebar flex-column' data-widget='treeview' role='menu' data-accordion='false'>"
+                    Navigation.InnerHtml = "<ul class='nav nav-pills nav-sidebar flex-column' data-widget='treeview' role='menu' data-accordion='false'>"
                                     + "<li class='nav-item'>"
                                         + "<a href='../Legal/OldCaseDashBoard.aspx' class='nav-link'>"
                                             + "<i class='nav-icon fas fa-list-ul text-light'></i>"
                                             + "<p class='text-light'>"
                                                 + "<span style='color: #e5e5e5; font-size: 16px;'>Dashboard</span>"
                                                 //  + "<i class='fas fa-angle-left right'></i>" 
+                                                + "</p></a></li>"
+												+ "<li class='nav-item'>"
+                                        + "<a href='../Legal/NewDashbord.aspx' class='nav-link'>"
+                                            + "<i class='nav-icon fas fa-list-ul text-light'></i>"
+                                            + "<p class='text-light'>"
+                                                + "<span style='color: #e5e5e5; font-size: 16px;'>Dynamic Graph</span>"
+                                                //  + "<i class='fas fa-angle-left right'></i>" 
                                                 + "</p></a></li>'";
                 else if (Session["Role_ID"].ToString() == "4")
-                    Navigation.InnerHtml = "<ul class='nav  nav-sidebar flex-column' data-widget='treeview' role='menu' data-accordion='false'>"
+                    Navigation.InnerHtml = "<ul class='nav nav-pills nav-sidebar flex-column' data-widget='treeview' role='menu' data-accordion='false'>"
                                     + "<li class='nav-item'>"
                                         + "<a href='../Legal/DistricAdminDashBoard.aspx' class='nav-link'>"
                                             + "<i class='nav-icon fas fa-list-ul text-light'></i>"
@@ -145,7 +152,7 @@ public partial class Legal_MainMaster : System.Web.UI.MasterPage
                         //  + "<i class='fas fa-angle-left right'></i>" 
                                                 + "</p></a></li>'";
                 else if (Session["Role_ID"].ToString() == "2")
-                    Navigation.InnerHtml = "<ul class='nav  nav-sidebar flex-column' data-widget='treeview' role='menu' data-accordion='false'>"
+                    Navigation.InnerHtml = "<ul class='nav nav-pills nav-sidebar flex-column' data-widget='treeview' role='menu' data-accordion='false'>"
                                     + "<li class='nav-item'>"
                                         + "<a href='../Legal/DivisionDashBoard.aspx' class='nav-link'>"
                                             + "<i class='nav-icon fas fa-list-ul text-light'></i>"
@@ -154,7 +161,7 @@ public partial class Legal_MainMaster : System.Web.UI.MasterPage
                         //  + "<i class='fas fa-angle-left right'></i>" 
                                                 + "</p></a></li>'";
                 else 
-                    Navigation.InnerHtml = "<ul class='nav  nav-sidebar flex-column' data-widget='treeview' role='menu' data-accordion='false'>"
+                    Navigation.InnerHtml = "<ul class='nav nav-pills nav-sidebar flex-column' data-widget='treeview' role='menu' data-accordion='false'>"
                                     + "<li class='nav-item'>"
                                         + "<a href='../Legal/JDLegalDashBoard.aspx' class='nav-link'>"
                                             + "<i class='nav-icon fas fa-list-ul text-light'></i>"

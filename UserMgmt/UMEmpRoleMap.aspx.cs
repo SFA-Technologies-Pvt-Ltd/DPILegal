@@ -129,7 +129,8 @@ public partial class mis_UserMgmt_UMEmpRoleMap : System.Web.UI.Page
                                 new string[] { "2", EmployeeID, RoleID, ddlUserType.SelectedValue, ViewState["Emp_ID"].ToString(), IPAddress }, "dataset");
                             RowNo++;
                             divGrid.Visible = true;
-                            lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thank You!", "Operation Successfully Completed");
+                            ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', 'Operation Successfully Completed', 'success')", true);
+                            //lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thank You!", "Operation Successfully Completed");
                         }
                         else
                         {
@@ -141,7 +142,8 @@ public partial class mis_UserMgmt_UMEmpRoleMap : System.Web.UI.Page
                 }
                 else
                 {
-                    lblMsg.Text = objdb.Alert("fa-warning", "alert-warning", "Warning!", " Select Employee Name");
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','Select Employee Name' , 'warning')", true);
+                    //lblMsg.Text = objdb.Alert("fa-warning", "alert-warning", "Warning!", " Select Employee Name");
                 }
                 Session["PageTokan"] = Server.UrlEncode(System.DateTime.Now.ToString());
             }

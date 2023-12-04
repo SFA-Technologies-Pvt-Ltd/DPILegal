@@ -5,7 +5,7 @@
     <link href="../DataTable_CssJs/buttons.dataTables.min.css" rel="stylesheet" />
     <link href="../DataTable_CssJs/jquery.dataTables.min.css" rel="stylesheet" />
     <style>
-        /*.datepicker tbody {
+    /*.datepicker tbody {
             background-color: #ecfce6 !important;
             color: black;
         }
@@ -14,130 +14,133 @@
             background-color: #608640 !important;
         }*/
 
-        .label-orange {
-            background-color: #f5ac45;
+    .label-orange {
+        background-color: #f5ac45;
+    }
+
+    .label {
+        display: inline;
+        padding: 0.2em 0.6em 0.3em;
+        font-size: 80%;
+        font-weight: 700;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 0.25em;
+    }
+
+    a.btn.btn-default.buttons-excel.buttons-html5 {
+        background: #066205;
+        color: white;
+        border-radius: unset;
+        box-shadow: 2px 2px 2px #808080;
+        margin-left: 6px;
+        border: none;
+        margin-top: 4%;
+    }
+
+    a.btn.btn-default.buttons-print {
+        background: #1e79e9;
+        color: white;
+        border-radius: unset;
+        box-shadow: 2px 2px 2px #808080;
+        border: none;
+        margin-top: 4%;
+    }
+
+    th.sorting, th.sorting_asc, th.sorting_desc {
+        background: teal !important;
+        color: white !important;
+    }
+
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        padding: 8px 5px;
+    }
+
+    a.btn.btn-default.buttons-excel.buttons-html5 {
+        background: #ff5722c2;
+        color: white;
+        border-radius: unset;
+        box-shadow: 2px 2px 2px #808080;
+        margin-left: 6px;
+        border: none;
+    }
+
+    a.btn.btn-default.buttons-pdf.buttons-html5 {
+        background: #009688c9;
+        color: white;
+        border-radius: unset;
+        box-shadow: 2px 2px 2px #808080;
+        margin-left: 6px;
+        border: none;
+    }
+
+    a.btn.btn-default.buttons-print {
+        background: #e91e639e;
+        color: white;
+        border-radius: unset;
+        box-shadow: 2px 2px 2px #808080;
+        border: none;
+    }
+
+        a.btn.btn-default.buttons-print:hover, a.btn.btn-default.buttons-pdf.buttons-html5:hover, a.btn.btn-default.buttons-excel.buttons-html5:hover {
+            box-shadow: 1px 1px 1px #808080;
         }
 
-        .label {
-            display: inline;
-            padding: 0.2em 0.6em 0.3em;
-            font-size: 80%;
-            font-weight: 700;
-            line-height: 1;
-            color: #fff;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: baseline;
-            border-radius: 0.25em;
+        a.btn.btn-default.buttons-print:active, a.btn.btn-default.buttons-pdf.buttons-html5:active, a.btn.btn-default.buttons-excel.buttons-html5:active {
+            box-shadow: 1px 1px 1px #808080;
         }
 
-        a.btn.btn-default.buttons-excel.buttons-html5 {
-            background: #066205;
-            color: white;
-            border-radius: unset;
-            box-shadow: 2px 2px 2px #808080;
-            margin-left: 6px;
-            border: none;
-            margin-top: 4%;
-        }
+    .box.box-pramod {
+        border-top-color: #1ca79a;
+    }
 
-        a.btn.btn-default.buttons-print {
-            background: #1e79e9;
-            color: white;
-            border-radius: unset;
-            box-shadow: 2px 2px 2px #808080;
-            border: none;
-            margin-top: 4%;
-        }
+    .box {
+        min-height: auto;
+    }
 
-        th.sorting, th.sorting_asc, th.sorting_desc {
-            background: teal !important;
-            color: white !important;
-        }
+    .sorting,
+    .sorting_asc,
+    .sorting_desc,
+    .sorting_asc_disabled,
+    .sorting_desc_disabled {
+        cursor: pointer;
+        position: relative;
+        &:after
 
-        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
-            padding: 8px 5px;
-        }
+    {
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        display: block;
+        font-family: 'Glyphicons Halflings';
+        opacity: 0.5;
+    }
 
-        a.btn.btn-default.buttons-excel.buttons-html5 {
-            background: #ff5722c2;
-            color: white;
-            border-radius: unset;
-            box-shadow: 2px 2px 2px #808080;
-            margin-left: 6px;
-            border: none;
-        }
+    }
 
-        a.btn.btn-default.buttons-pdf.buttons-html5 {
-            background: #009688c9;
-            color: white;
-            border-radius: unset;
-            box-shadow: 2px 2px 2px #808080;
-            margin-left: 6px;
-            border: none;
-        }
+    .sorting:after {
+        opacity: 0.2;
+        content: "⏭" !important; /* sort */
+    }
 
-        a.btn.btn-default.buttons-print {
-            background: #e91e639e;
-            color: white;
-            border-radius: unset;
-            box-shadow: 2px 2px 2px #808080;
-            border: none;
-        }
+    .sorting_asc:after {
+        content: "⏬" !important; /* sort-by-attributes */
+    }
 
-            a.btn.btn-default.buttons-print:hover, a.btn.btn-default.buttons-pdf.buttons-html5:hover, a.btn.btn-default.buttons-excel.buttons-html5:hover {
-                box-shadow: 1px 1px 1px #808080;
-            }
+    .sorting_desc:after {
+        content: "⏫" !important; /* sort-by-attributes-alt */
+    }
 
-            a.btn.btn-default.buttons-print:active, a.btn.btn-default.buttons-pdf.buttons-html5:active, a.btn.btn-default.buttons-excel.buttons-html5:active {
-                box-shadow: 1px 1px 1px #808080;
-            }
-
-        .box.box-pramod {
-            border-top-color: #1ca79a;
-        }
-
-        .box {
-            min-height: auto;
-        }
-          .sorting,
-        .sorting_asc,
-        .sorting_desc,
-        .sorting_asc_disabled,
-        .sorting_desc_disabled {
-            cursor: pointer;
-            position: relative;
-            &:after
-
-        {
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
-            display: block;
-            font-family: 'Glyphicons Halflings';
-            opacity: 0.5;
-        }
-
-        }
-
-        .sorting:after {
-            opacity: 0.2;
-            content: "⏭" !important; /* sort */
-        }
-
-        .sorting_asc:after {
-            content: "⏬" !important; /* sort-by-attributes */
-        }
-
-        .sorting_desc:after {
-            content: "⏫" !important; /* sort-by-attributes-alt */
-        }
-    </style>
+  </style>
     <style>
-        label {
-            font-size: 15px;
-        }
-    </style>
+    label {
+        font-size: 15px;
+    }
+
+  </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
     <asp:ValidationSummary ID="VDS" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Save" />
@@ -165,7 +168,7 @@
                                         <asp:TextBox ID="txtFromDate" runat="server" data-provide="datepicker" placeholder="DD/MM/YYYY" CssClass="form-control disableFuturedate" data-date-format="dd/mm/yyyy" data-date-autoclose="true" AutoComplete="off"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-sm" style="display: none;">
+                                <div class="col-md-3 col-sm" style="        display: none;">
                                     <div class="form-group">
                                         <label>
                                             To Date</label>
@@ -180,8 +183,8 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Court</label>
-                                          <span style="color: red;"><b> *</b></span>                                        
-                                           <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="Save" CssClass="fa fa-pull-right"
+                                        <span style="        color: red;"><b>*</b></span>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="Save" CssClass="fa fa-pull-right"
                                             ErrorMessage="Select Court Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="ddlCourt" Display="Dynamic" runat="server" InitialValue="0">
                                         </asp:RequiredFieldValidator>
@@ -199,7 +202,7 @@
                                         <asp:DropDownList ID="ddlCaseType" runat="server" CssClass="form-control select2"></asp:DropDownList>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Case No.</label>
@@ -209,7 +212,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Year</label>
-                                        <asp:DropDownList ID="ddlCaseYear" runat="server" CssClass="form-control select2"></asp:DropDownList>
+                                        <asp:DropDownList ID="ddlCaseYear" runat="server" CssClass="form-control"></asp:DropDownList>
                                     </div>
                                 </div>
                             </div>
@@ -217,7 +220,7 @@
                                 <div class="col-md-3 col-sm">
                                     <div class="form-group">
                                         <label>Case Status </label>
-                                        <span style="color: red;"><b>*</b></span>
+                                        <span style="        color: red;"><b>*</b></span>
                                         <asp:RequiredFieldValidator ID="rfvcasetype" ValidationGroup="Save" CssClass="fa fa-pull-right"
                                             ErrorMessage="Select Case Status." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="ddlCaseStatus" Display="Dynamic" runat="server" InitialValue="0">
@@ -226,6 +229,7 @@
                                             <asp:ListItem Value="0">Select</asp:ListItem>
                                             <asp:ListItem Value="1">Pending</asp:ListItem>
                                             <asp:ListItem Value="2">Disposed</asp:ListItem>
+                                            <asp:ListItem Value="3">BOTH</asp:ListItem>
                                         </asp:DropDownList>
                                     </div>
                                 </div>
@@ -246,18 +250,19 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
-                                        <asp:GridView ID="GrdCaseDetails" runat="server" EmptyDataText="NO RECORD FOUND" AutoGenerateColumns="false" DataKeyNames="Case_ID" CssClass="datatable table table-bordered text-center" OnRowCommand="GrdCaseDetails_RowCommand" >
+                                        <asp:GridView ID="GrdCaseDetails" runat="server" EmptyDataText="NO RECORD FOUND" AutoGenerateColumns="false" DataKeyNames="Case_ID" CssClass="datatable table table-bordered text-center" OnRowCommand="GrdCaseDetails_RowCommand">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="Sr#" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblId" runat="server" Text='<%# Container.DataItemIndex + 1 %>'></asp:Label>
                                                         <asp:Label ID="lblCaseID" runat="server" Text='<%# Eval("Case_ID") %>' Visible="false"></asp:Label>
                                                         <asp:Label ID="lblUniqueNo" runat="server" Text='<%# Eval("UniqueNo") %>' Visible="false"></asp:Label>
+                                                        <asp:Label ID="lblCasetype" runat="server" Text='<%# Eval("Casetype_ID") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Case No.">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblFilingNo" runat="server" Text='<%# Eval("FilingNo") %>' Font-Bold='<%# Eval("CaseSubject_Id").ToString() != "" ? true : false %>' BackColor='<%# Eval("CaseSubject_Id").ToString() != "" ? System.Drawing.Color.LawnGreen : System.Drawing.Color.White  %>'>'></asp:Label>/                                                       
+                                                        <asp:Label ID="lblFilingNo" runat="server" Text='<%# Eval("FilingNo") %>' Font-Bold='<%# Eval("CaseSubject_Id").ToString() != "" ? true : false %>' BackColor='<%# Eval("CaseSubject_Id").ToString() != "" ? System.Drawing.Color.LawnGreen : System.Drawing.Color.White  %>'>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Petitioner Name">
@@ -270,17 +275,24 @@
                                                         <asp:Label ID="lblRespondentName" runat="server" Text='<%# Eval("RespondentName") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="District">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblDistrict" runat="server" Text='<%# Eval("District_Name") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Case Status">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblStatus" runat="server" Text='<%# Eval("CaseStatus") %>' ForeColor='<%# Eval("CaseStatus").ToString() == "Pending" ?  System.Drawing.Color.Red :System.Drawing.Color.Green %>' Font-Bold="true"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Action" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
+                                                <asp:TemplateField HeaderText="Edit" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
-                                                        <asp:LinkButton ID="lnkEditView" runat="server" CommandArgument='<%# Eval("Case_ID") %>' CommandName="EditView" ToolTip="Edit/View" CssClass=""><i class="fa fa-edit"</asp:LinkButton>
+                                                        <asp:LinkButton ID="lnkEditView" runat="server" CommandArgument='<%# Eval("Case_ID") %>' CommandName="EditView" OnClientClick="aspnetForm.target ='_blank';" ToolTip="Edit/View" CssClass=""><i class="fa fa-edit"></i></asp:LinkButton>
+                                                        <%--<asp:HyperLink runat="server" ID="lnkEditView" NavigateUrl="~/Legal/EditCaseDetail.aspx?CaseID=<%# Eval("Case_ID") %>,ID=<%# Eval("Case_ID") %>,PageID=<%# Eval("pageID") %>,UniqueNo=<%# Eval("UniqueNo") %> " Target="_blank" CommandArgument='<%# Eval("Case_ID") %>' CommandName="EditView" ToolTip="Edit/View" CssClass=""><i class="fa fa-edit"></i></asp:HyperLink>--%>
+                                                        <%--<asp:HyperLink runat="server" ID="lnkEditView" NavigateUrl='<%#"~/Legal/EditCaseDetail.aspx?CaseID="+ Eval("Case_ID")+",ID="+ Eval("Case_ID") +",UniqueNo="+ Eval("UniqueNo") %>'  Target="_blank" CommandArgument='<%# Eval("Case_ID") %>' CommandName="EditView" ToolTip="Edit/View" CssClass=""><i class="fa fa-edit"></i></asp:HyperLink>--%>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                
+
                                             </Columns>
                                             <EmptyDataTemplate>No record found</EmptyDataTemplate>
                                         </asp:GridView>

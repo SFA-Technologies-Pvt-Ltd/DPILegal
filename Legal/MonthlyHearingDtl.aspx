@@ -202,6 +202,18 @@
                                         </asp:RadioButtonList>--%>
                                     </div>
                                 </div>
+                                    <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            Court Name <span style="color: red;"><b>*</b></span>
+                                            <asp:RequiredFieldValidator ID="rfvCaseyear" ValidationGroup="Save"
+                                                ErrorMessage="Select Court Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                ControlToValidate="ddlCourtName" Display="Dynamic" runat="server" InitialValue="0">
+                                            </asp:RequiredFieldValidator><br />
+                                        </label>
+                                        <asp:DropDownList ID="ddlCourtName" runat="server" CssClass="form-control select2" ></asp:DropDownList>
+                                    </div>
+                                </div>
                                 <div class="col-md-3 mt-4">
                                     <div class="row">
                                         <div class="col-md-6 mt-2">
@@ -211,7 +223,6 @@
                                             <a href="MonthlyHearingDtl.aspx" class="btn btn-block btn-default">Clear</a>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </fieldset>
@@ -257,11 +268,16 @@
                                                         <asp:Label ID="lblHearingDate" runat="server" Text='<%# Eval("NextHearingDate") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Case Status">
+                                                <asp:TemplateField HeaderText="Return File/Appeal">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblReplyCompliance" runat="server" Text='<%# Eval("ActionYesOrNo") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                                <%--<asp:TemplateField HeaderText="Case Status">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblCasestatus" runat="server" ForeColor='<%# Eval("CaseStatus").ToString() == "Pending" ? System.Drawing.Color.Red : System.Drawing.Color.Green  %>' Font-Bold="true" Text='<%# Eval("CaseStatus") %>'></asp:Label>
                                                     </ItemTemplate>
-                                                </asp:TemplateField>
+                                                </asp:TemplateField>--%>
                                                 <asp:TemplateField HeaderText="Action" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
                                                         <asp:LinkButton ID="btnView" runat="server" CommandName="ViewDtl" CommandArgument='<%# Eval("Case_ID") %>' ToolTip="View"><i class="fa fa-eye"></i></asp:LinkButton>
@@ -311,7 +327,7 @@
                     text: '<i class="fa fa-print"></i> Print',
                     title: $('h3').text(),
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
                     },
                     footer: true,
                     autoPrint: true
@@ -320,7 +336,7 @@
                     text: '<i class="fa fa-file-excel-o"></i> Excel',
                     title: $('h3').text(),
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
                     },
                     footer: true
                 }],

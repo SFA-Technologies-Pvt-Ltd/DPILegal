@@ -153,7 +153,7 @@ public partial class mis_Legal_ConcludedwpReport : System.Web.UI.Page
                 GrdConcludeReport.UseAccessibleHeader = true;
                 string ID = HttpUtility.UrlEncode(Encrypt(e.CommandArgument.ToString()));
                 string pageID = HttpUtility.UrlEncode(Encrypt("pageID"));
-                string page_ID = HttpUtility.UrlEncode(Encrypt("1"));
+                string page_ID = HttpUtility.UrlEncode(Encrypt("2"));
                 string CaseID = HttpUtility.UrlEncode(Encrypt("CaseID"));
                 Response.Redirect("../Legal/ViewWPPendingCaseDetail.aspx?"+CaseID+"=" + ID + "&"+pageID+"=" + page_ID, false);
 

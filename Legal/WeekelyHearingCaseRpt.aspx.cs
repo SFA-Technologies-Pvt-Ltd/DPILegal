@@ -21,11 +21,54 @@ public partial class Legal_WeekelyHearingCaseRpt : System.Web.UI.Page
             if (!IsPostBack)
             {
                 GetCaseType();
+                FillCourt();
             }
         }
         else
+        { Response.Redirect("/Login.aspx", false); }
+    }
+    protected void FillCourt()
+    {
+        try
         {
-            Response.Redirect("/Login.aspx", false);
+            ddlCourtName.Items.Clear();
+            Helper court = new Helper();
+            DataTable dtCourt = new DataTable();
+            if (Session["Role_ID"].ToString() == "5")// Court.
+            {
+                string District_Id = Session["District_Id"].ToString();
+                dtCourt = court.GetCourtForCourt(District_Id) as DataTable;
+            }
+            else if (Session["Role_ID"].ToString() == "4")// District Office.
+            {
+                string District_Id = Session["District_Id"].ToString();
+                dtCourt = court.GetCourtForCourt(District_Id) as DataTable;
+
+            }
+            else if (Session["Role_ID"].ToString() == "3")// OIC Login
+            {
+                string District_Id = Session["District_Id"].ToString();
+                dtCourt = court.GetCourtForCourt(District_Id) as DataTable;
+            }
+            else if (Session["Role_ID"].ToString() == "2")// Division Office.
+            {
+                string Division_Id = Session["Division_Id"].ToString();
+                dtCourt = court.GetCourtByDivision(Division_Id) as DataTable;
+
+            }
+            else dtCourt = court.GetCourt() as DataTable;
+            if (dtCourt.Rows.Count > 0)
+            {
+                ddlCourtName.DataValueField = "CourtType_ID";
+                ddlCourtName.DataTextField = "CourtTypeName";
+                ddlCourtName.DataSource = dtCourt;
+                ddlCourtName.DataBind();
+                ddlCourtName.Items.Insert(0, new ListItem("Select", "0"));
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
 
@@ -67,14 +110,14 @@ public partial class Legal_WeekelyHearingCaseRpt : System.Web.UI.Page
             if (ddlWeek.SelectedItem.Value == "1")
             {
                 string OIC_ID = Session["OICMaster_ID"] != null ? Session["OICMaster_ID"].ToString() : null;
-                ds = obj.ByProcedure("USP_Legal_CaseRpt", new string[] { "flag", "Casetype_ID", "Curr_Week", "OICMaster_Id" },
-                    new string[] { "7", ddlCaseType.SelectedItem.Value, Curr_Week, OIC_ID }, "dataset");
+                ds = obj.ByProcedure("USP_Legal_CaseRpt", new string[] { "flag", "Casetype_ID", "CourtType_Id", "Curr_Week", "OICMaster_Id" },
+                    new string[] { "7", ddlCaseType.SelectedItem.Value, ddlCourtName.SelectedItem.Value, Curr_Week, OIC_ID }, "dataset");
             }
             else
             {
                 string OIC_ID = Session["OICMaster_ID"] != null ? Session["OICMaster_ID"].ToString() : null;
-                ds = obj.ByProcedure("USP_Legal_CaseRpt", new string[] { "flag", "Casetype_ID", "Curr_Week", "OICMaster_Id" },
-                    new string[] { "8", ddlCaseType.SelectedItem.Value, Curr_Week, OIC_ID }, "dataset");
+                ds = obj.ByProcedure("USP_Legal_CaseRpt", new string[] { "flag", "Casetype_ID", "CourtType_Id", "Curr_Week", "OICMaster_Id" },
+                    new string[] { "8", ddlCaseType.SelectedItem.Value,ddlCourtName.SelectedItem.Value, Curr_Week, OIC_ID }, "dataset");
             }
             if (ds.Tables[0].Rows.Count > 0)
             {

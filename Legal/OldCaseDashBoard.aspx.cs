@@ -586,20 +586,21 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
                 // thise is old Query
                 //ds = objdb.ByDataSet("select distinct UniqueNo, FilingNo, Court, Petitioner, Respondent, HearingDate,(Select CaseSubject from tbl_LegalMstCaseSubject b where b.CaseSubjectID = a.CaseSubjectId) CaseSubject,(select OICName from tblOICMaster c where c.OICMaster_ID = a.OICId) OICName from tbl_OldCaseDetail a where a.CaseType = 'CONC'");
                 //This is New Query
-                Response.Redirect("HighPriCase_ForOldDashb.aspx");
-                ds = objdb.ByProcedure("USP_GetHighPriCase_ForOldDashb", new string[]{}, new string[]{},"dataset");
-                if (ds != null && ds.Tables[0].Rows.Count > 0)
-                {
-                    ViewState["dt"] = ds.Tables[0];
-                    GrdHighpriorityCase.DataSource = ds;
-                    GrdHighpriorityCase.DataBind();
-                    Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "myModal()", true);
-                }
-                else
-                {
-                    GrdHighpriorityCase.DataSource = null;
-                    GrdHighpriorityCase.DataBind();
-                }
+                Response.Redirect("HighPriCase_ForOldDashb.aspx",false);
+				// on date 24/05/23 Comment by bhanu due to unused lines.
+                //ds = objdb.ByProcedure("USP_GetHighPriCase_ForOldDashb", new string[]{}, new string[]{},"dataset");
+                //if (ds != null && ds.Tables[0].Rows.Count > 0)
+                //{
+                //    ViewState["dt"] = ds.Tables[0];
+                //    GrdHighpriorityCase.DataSource = ds;
+                //    GrdHighpriorityCase.DataBind();
+                //    Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "myModal()", true);
+                //}
+                //else
+                //{
+                //    GrdHighpriorityCase.DataSource = null;
+                //    GrdHighpriorityCase.DataBind();
+                //}
             }
         }
         catch (Exception ex)
@@ -622,5 +623,29 @@ public partial class mis_Legal_OldCaseDashBoard : System.Web.UI.Page
     protected void btnOrderByDirectionPendingCases_Click(object sender, EventArgs e)
     {
 
+    }
+
+    protected void btnCourtWise_Click(object sender, EventArgs e)
+    {
+        try
+        { 
+            Response.Redirect("OrderByDirectionCase_ForOldDashb.aspx", false);
+        }
+        catch (Exception ex)
+        {
+            ErrorLogCls.SendErrorToText(ex);
+        }
+    }
+
+    protected void btnComplainces_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            Response.Redirect("OrderByDirectionComplainesCase_ForOldDashb.aspx", false);
+        }
+        catch (Exception ex)
+        {
+            ErrorLogCls.SendErrorToText(ex);
+        }
     }
 }

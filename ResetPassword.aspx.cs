@@ -72,11 +72,10 @@ public partial class ResetPassword : System.Web.UI.Page
                 string email = Convert.ToString(ViewState["UserEmail"]);
                 DataSet ds = obj.ByProcedure("Sp_UpdatePassword", new string[] { "userpassword", "userid", "UserEmail" }
                             , new string[] { ConvertText_SHA512_And_Salt(txtUserPassword.Text), userid, email }, "dataset");
-                if (ds == null)
+                if (ds != null)
                 {
-                    Page.ClientScript.RegisterStartupScript(this.GetType(), "alertMessage", "alert('Password Successfully Reset. Click to login');", true);
-                    //lblMsg.Text = "Password Successfully Reset";
-                    // Page.ClientScript.RegisterStartupScript(this.GetType(), "alertMessage", "alert('Email sent.');", true);
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', '" + "Password Changed Successfully" + "', 'success')", true);
+                    Response.Redirect("Login.aspx");
                 }
             }
             else

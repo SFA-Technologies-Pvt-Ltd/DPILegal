@@ -156,6 +156,18 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
+                                        <label>
+                                            Court Name <span style="color: red;"><b>*</b></span>
+                                            <asp:RequiredFieldValidator ID="rfvCaseyear" ValidationGroup="Save"
+                                                ErrorMessage="Select Court Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                ControlToValidate="ddlCourtName" Display="Dynamic" runat="server" InitialValue="0">
+                                            </asp:RequiredFieldValidator><br />
+                                        </label>
+                                        <asp:DropDownList ID="ddlCourtName" runat="server" CssClass="form-control"></asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
                                         <label>Week List</label><span style="color: red;"><b> *</b></span>
                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="Save"
                                             ErrorMessage="Select Week." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
@@ -222,6 +234,16 @@
                                                         <asp:Label ID="lblRespondentName" runat="server" Text='<%# Eval("RespondentName") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Hearing Next" ItemStyle-HorizontalAlign="Left">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblHearingNext" runat="server" Text='<%# Eval("NextHearing") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+												<asp:TemplateField HeaderText="Return File/Appeal" ItemStyle-HorizontalAlign="Left">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblReturnFileAppeal" runat="server" Text='<%# Eval("ActionYesOrNo") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Case Status" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblCaseStatus" runat="server" Font-Bold="true" ForeColor='<%# Eval("CaseStatus").ToString() == "Pending" ? System.Drawing.Color.Red : System.Drawing.Color.Green %>' Text='<%# Eval("CaseStatus") %>'></asp:Label>
@@ -265,8 +287,8 @@
                 orderable: false
             }],
             dom: '<"row"<"col-sm-6"Bl><"col-sm-6"f>>' +
-              '<"row"<"col-sm-12"<"table-responsive"tr>>>' +
-              '<"row"<"col-sm-5"i><"col-sm-7"p>>',
+                '<"row"<"col-sm-12"<"table-responsive"tr>>>' +
+                '<"row"<"col-sm-5"i><"col-sm-7"p>>',
             fixedHeader: {
                 header: true
             },

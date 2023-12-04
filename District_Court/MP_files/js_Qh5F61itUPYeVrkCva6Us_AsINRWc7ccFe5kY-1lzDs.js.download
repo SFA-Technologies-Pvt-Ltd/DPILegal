@@ -1,0 +1,12 @@
+
+function burstCache() {
+var url = window.location.href;
+var base_url='';
+if(base_url != url && base_url+"/" != url){
+if (!navigator.onLine) {
+document.body.innerHTML = "Loading...";
+window.location = "/";
+}
+}
+}
+window.onload = burstCache;;

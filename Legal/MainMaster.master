@@ -136,10 +136,11 @@
         .wodrcolor {
             color: #906b31;
         }
-        /* this css use for Header icon*/
-        .navbar-light .navbar-nav .nav-link {
-            color: rgb(229 229 229);
-        }
+		/* this css use for Header icon*/
+		.navbar-light .navbar-nav .nav-link {
+    color: rgb(229 229 229);
+}
+		
     </style>
     <style>
         li.header {
@@ -180,14 +181,14 @@
             -ms-flex-align: center;
             align-items: center;
         }
-
-        #load {
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            z-index: 9999;
-            background: url(../image/logo/Preloaderunscreen.gif) no-repeat center center rgba(0,0,0,0.25);
-        }
+        #load{
+    width:100%;
+    height:100%;
+    position:fixed;
+    z-index:9999;
+    background:url(../image/logo/Preloaderunscreen.gif) no-repeat center center rgba(0,0,0,0.25)
+}
+        
     </style>
     <script type="text/javascript">
         document.onreadystatechange = function () {
@@ -203,7 +204,6 @@
             }
         }
     </script>
-    
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>

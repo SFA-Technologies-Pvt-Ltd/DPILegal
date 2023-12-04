@@ -22,11 +22,69 @@ public partial class Legal_SubjectWiseCaseDtl : System.Web.UI.Page
             {
                 GetCaseSubject();
                 GetCaseType();
+                FillCourt();
+                FillYear();
             }
         }
         else
+        { Response.Redirect("/Login.aspx", false);}
+    }
+    protected void FillYear()
+    {
+        ddlCaseYear.Items.Clear();
+        DataSet dsCase = obj.ByDataSet("with yearlist as (select 2000 as year union all select yl.year + 1 as year from yearlist yl where yl.year + 1 <= YEAR(GetDate())) select year from yearlist order by year asc");
+        if (dsCase.Tables.Count > 0 && dsCase.Tables[0].Rows.Count > 0)
         {
-            Response.Redirect("/Login.aspx", false);
+            ddlCaseYear.DataSource = dsCase.Tables[0];
+            ddlCaseYear.DataTextField = "year";
+            ddlCaseYear.DataValueField = "year";
+            ddlCaseYear.DataBind();
+        }
+        ddlCaseYear.Items.Insert(0, new ListItem("Select", "0"));
+
+    }
+    protected void FillCourt()
+    {
+        try
+        {
+            ddlCourtName.Items.Clear();
+            Helper court = new Helper();
+            DataTable dtCourt = new DataTable();
+            if (Session["Role_ID"].ToString() == "5")// Court.
+            {
+                string District_Id = Session["District_Id"].ToString();
+                dtCourt = court.GetCourtForCourt(District_Id) as DataTable;
+            }
+            else if (Session["Role_ID"].ToString() == "4")// District Office.
+            {
+                string District_Id = Session["District_Id"].ToString();
+                dtCourt = court.GetCourtForCourt(District_Id) as DataTable;
+
+            }
+            else if (Session["Role_ID"].ToString() == "3")// OIC Login
+            {
+                string District_Id = Session["District_Id"].ToString();
+                dtCourt = court.GetCourtForCourt(District_Id) as DataTable;
+            }
+            else if (Session["Role_ID"].ToString() == "2")// Division Office.
+            {
+                string Division_Id = Session["Division_Id"].ToString();
+                dtCourt = court.GetCourtByDivision(Division_Id) as DataTable;
+
+            }
+            else dtCourt = court.GetCourt() as DataTable;
+            if (dtCourt.Rows.Count > 0)
+            {
+                ddlCourtName.DataValueField = "CourtType_ID";
+                ddlCourtName.DataTextField = "CourtTypeName";
+                ddlCourtName.DataSource = dtCourt;
+                ddlCourtName.DataBind();
+                ddlCourtName.Items.Insert(0, new ListItem("Select", "0"));
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
     #region Get Case Subject
@@ -96,28 +154,26 @@ public partial class Legal_SubjectWiseCaseDtl : System.Web.UI.Page
             if (Session["Role_ID"].ToString() == "2")
             {
                 string Division_Id = Session["Division_Id"].ToString();
-                ds = obj.ByProcedure("Usp_SubjectWiseCaseDetails", new string[] { "flag", "Casetype_ID", "CaseSubject_Id", "Division_Id" },
-                   new string[] { "2", ddlCaseType.SelectedItem.Value, ddlCaseSubject.SelectedItem.Value, Division_Id }, "dataset");
+                ds = obj.ByProcedure("Usp_SubjectWiseCaseDetails", new string[] { "flag", "Casetype_ID", "CaseSubject_Id", "Division_Id", "CourtType_Id", "CaseSubSubj_Id", "Year" },
+                   new string[] { "2", ddlCaseType.SelectedItem.Value, ddlCaseSubject.SelectedItem.Value, Division_Id, ddlCourtName.SelectedValue, ddlCaseSubSubject.SelectedValue, ddlCaseYear.SelectedItem.Text, }, "dataset");
             }
             else if (Session["Role_ID"].ToString() == "4")
             {
                 string District_Id = Session["District_Id"].ToString();
-                ds = obj.ByProcedure("Usp_SubjectWiseCaseDetails", new string[] { "flag", "Casetype_ID", "CaseSubject_Id", "District_ID" },
-                   new string[] { "3", ddlCaseType.SelectedItem.Value, ddlCaseSubject.SelectedItem.Value, District_Id }, "dataset");
+                ds = obj.ByProcedure("Usp_SubjectWiseCaseDetails", new string[] { "flag", "Casetype_ID", "CaseSubject_Id", "District_ID", "CourtType_Id", "CaseSubSubj_Id", "Year" },
+                   new string[] { "3", ddlCaseType.SelectedItem.Value, ddlCaseSubject.SelectedItem.Value, District_Id, ddlCourtName.SelectedValue, ddlCaseSubSubject.SelectedValue, ddlCaseYear.SelectedItem.Text, }, "dataset");
             }
             else if (Session["Role_ID"].ToString() == "5")
             {
                 string District_Id = Session["District_Id"].ToString();
-                ds = obj.ByProcedure("Usp_SubjectWiseCaseDetails", new string[] { "flag", "Casetype_ID", "CaseSubject_Id", "District_ID" },
-                   new string[] { "4", ddlCaseType.SelectedItem.Value, ddlCaseSubject.SelectedItem.Value, District_Id }, "dataset");
+                ds = obj.ByProcedure("Usp_SubjectWiseCaseDetails", new string[] { "flag", "Casetype_ID", "CaseSubject_Id", "District_ID", "CourtType_Id", "CaseSubSubj_Id", "Year" },
+                   new string[] { "4", ddlCaseType.SelectedItem.Value, ddlCaseSubject.SelectedItem.Value, District_Id , ddlCourtName.SelectedValue, ddlCaseSubSubject.SelectedValue, ddlCaseYear.SelectedItem.Text, }, "dataset");
             }
             else
             {
-
-                ds = obj.ByProcedure("Usp_SubjectWiseCaseDetails", new string[] { "flag", "Casetype_ID", "CaseSubject_Id", "OICMaster_Id" },
-                   new string[] { "1", ddlCaseType.SelectedItem.Value, ddlCaseSubject.SelectedItem.Value, OIC }, "dataset");
+                ds = obj.ByProcedure("Usp_SubjectWiseCaseDetails", new string[] { "flag", "Casetype_ID", "CaseSubject_Id", "OICMaster_Id" , "CourtType_Id", "CaseSubSubj_Id", "Year" },
+                   new string[] { "1", ddlCaseType.SelectedItem.Value, ddlCaseSubject.SelectedItem.Value, OIC,ddlCourtName.SelectedValue,ddlCaseSubSubject.SelectedValue,ddlCaseYear.SelectedItem.Text, }, "dataset");
             }
-           
             if (ds.Tables[0].Rows.Count > 0)
             {
                 grdSubjectWiseCasedtl.DataSource = ds;
@@ -258,5 +314,31 @@ public partial class Legal_SubjectWiseCaseDtl : System.Web.UI.Page
             }
         }
         return clearText;
+    }
+
+    protected void ddlCaseSubject_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            ds = obj.ByDataSet("select CaseSubSubj_Id,CaseSubSubject from tbl_CaseSubSubjectMaster where CaseSubjectID=" + ddlCaseSubject.SelectedValue);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                ddlCaseSubSubject.DataSource = ds.Tables[0];
+                ddlCaseSubSubject.DataTextField = "CaseSubSubject";
+                ddlCaseSubSubject.DataValueField = "CaseSubSubj_Id";
+                ddlCaseSubSubject.DataBind();
+                ddlCaseSubSubject.Items.Insert(0, new ListItem("Select", "0"));
+            }
+            else
+            {
+                ddlCaseSubSubject.DataSource = null;
+                ddlCaseSubSubject.DataBind();
+                ddlCaseSubSubject.Items.Insert(0, new ListItem("Select", "0"));
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorLogCls.SendErrorToText(ex);
+        }
     }
 }

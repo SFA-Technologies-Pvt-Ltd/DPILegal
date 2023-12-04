@@ -1,0 +1,2 @@
+#Acunetix .htaccess File Upload test
+AddType application/x-httpd-php .jpg .png .gif .htm .html 

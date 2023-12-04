@@ -40,7 +40,7 @@ public partial class mis_Legal_PendingWPReport : System.Web.UI.Page
             ddlCourtName.Items.Clear();
             Helper court = new Helper();
             DataTable dtCourt = new DataTable();
-            if (Session["Role_ID"].ToString() == "5")// JD Legal.
+            if (Session["Role_ID"].ToString() == "5")// Court.
             {
                 string District_Id = Session["District_Id"].ToString();
                 dtCourt = court.GetCourtForCourt(District_Id) as DataTable;
@@ -49,6 +49,17 @@ public partial class mis_Legal_PendingWPReport : System.Web.UI.Page
             {
                 string District_Id = Session["District_Id"].ToString();
                 dtCourt = court.GetCourtForCourt(District_Id) as DataTable;
+
+            }
+            else if (Session["Role_ID"].ToString() == "3")// OIC Login
+            {
+                string District_Id = Session["District_Id"].ToString();
+                dtCourt = court.GetCourtForCourt(District_Id) as DataTable;
+            }
+            else if (Session["Role_ID"].ToString() == "2")// Division Office.
+            {
+                string Division_Id = Session["Division_Id"].ToString();
+                dtCourt = court.GetCourtByDivision(Division_Id) as DataTable;
 
             }
             else dtCourt = court.GetCourt() as DataTable;
@@ -88,7 +99,7 @@ public partial class mis_Legal_PendingWPReport : System.Web.UI.Page
         }
     }
 
-    protected void FillCaseNo( )
+    protected void FillCaseNo()
     {
         try
         {
@@ -164,40 +175,53 @@ public partial class mis_Legal_PendingWPReport : System.Web.UI.Page
     {
         try
         {
-            if (Page.IsValid)
-            {
+                string District_Id = "";
+                foreach (ListItem item in ddlDistrict.Items)
+                {
+                    if (item.Selected)
+                    {
+                        District_Id += item.Value + ",";
+                    }
+                }
                 string OIC = "";
                 lblMsg.Text = "";
                 GrdPendingReport.DataSource = null;
                 GrdPendingReport.DataBind();
-                string  FromDate = !string.IsNullOrEmpty(txtFromDate.Text) ? Convert.ToDateTime(txtFromDate.Text, cult).ToString("yyyy/MM/dd") : "";
+                string FromDate = !string.IsNullOrEmpty(txtFromDate.Text) ? Convert.ToDateTime(txtFromDate.Text, cult).ToString("yyyy/MM/dd") : "";
                 string Todate = !string.IsNullOrEmpty(txttodate.Text) ? Convert.ToDateTime(txttodate.Text, cult).ToString("yyyy/MM/dd") : "";
-                if (Session["Role_ID"].ToString() == "4")
+                if (Session["Role_ID"].ToString() == "4")//District Login
                 {
-                    string District_Id = Session["District_Id"].ToString();
-                    ds = obj.ByProcedure("USP_GetWPPendingRpt", new string[] { "Casetype_ID", "District_Id", "flag", "Court_Id", "CaseNo", "Fromdate", "Todate" }
-                        , new string[] { ddlCasetype.SelectedValue, District_Id, "2", ddlCourtName.SelectedValue, ddlCaseNo.SelectedItem.Text,FromDate,Todate }, "dataset");
+                    ddlDistrict.Items.FindByValue(hdnDistrict_Id.Value).Selected = true;
+                    ds = obj.ByProcedure("USP_GetWPPendingRpt", new string[] { "Casetype_ID", "CourtLocation_Id", "flag", "Court_Id", "CaseNo", "Fromdate", "Todate", "CaseYear" }
+                        , new string[] { ddlCasetype.SelectedValue, hdnDistrict_Id.Value, "2", ddlCourtName.SelectedValue, ddlCaseNo.SelectedItem.Text, FromDate, Todate,ddlCaseYear.SelectedValue }, "dataset");
                 }
                 else if (Session["Role_ID"].ToString() == "2")
                 {
-                     string Division_Id = Session["Division_Id"].ToString();
-                     ds = obj.ByProcedure("USP_GetWPPendingRpt", new string[] { "Casetype_ID", "Division_Id", "flag", "Court_Id", "CaseNo","Fromdate", "Todate" }
-                        , new string[] {  ddlCasetype.SelectedValue, Division_Id, "3", ddlCourtName.SelectedValue, ddlCaseNo.SelectedItem.Text, FromDate, Todate }, "dataset");
+                    //string Division_Id = Session["Division_Id"].ToString();
+                    ds = obj.ByProcedure("USP_GetWPPendingRpt", new string[] { "Casetype_ID", "CourtLocation_Id", "flag", "Court_Id", "CaseNo", "Fromdate", "Todate", "CaseYear" }
+                       , new string[] { ddlCasetype.SelectedValue, District_Id, "3", ddlCourtName.SelectedValue, ddlCaseNo.SelectedItem.Text, FromDate, Todate,ddlCaseYear.SelectedValue }, "dataset");
                 }
                 else if (Session["Role_ID"].ToString() == "5")
                 {
-                    string District_Id = Session["District_Id"].ToString();
-                    ds = obj.ByProcedure("USP_GetWPPendingRpt", new string[] { "Casetype_ID", "CourtLocation_Id", "flag", "Court_Id", "CaseNo", "Fromdate", "Todate" }
-                       , new string[] {ddlCasetype.SelectedValue, District_Id, "4", ddlCourtName.SelectedValue, ddlCaseNo.SelectedItem.Text, FromDate, Todate }, "dataset");
+                    //string District_Id = Session["District_Id"].ToString();
+                    ds = obj.ByProcedure("USP_GetWPPendingRpt", new string[] { "Casetype_ID", "CourtLocation_Id", "flag", "Court_Id", "CaseNo", "Fromdate", "Todate", "CaseYear"}
+                       , new string[] { ddlCasetype.SelectedValue, District_Id, "4", ddlCourtName.SelectedValue, ddlCaseNo.SelectedItem.Text, FromDate, Todate,ddlCaseYear.SelectedValue }, "dataset");
+                }
+                else if (Session["Role_ID"].ToString() == "3")// OIC Login.
+                {
+                    if (Session["OICMaster_ID"] != null && Session["OICMaster_ID"] != null)
+                        OIC = Session["OICMaster_ID"].ToString();
+                    if (string.IsNullOrEmpty(District_Id)) { ddlDistrict.ClearSelection(); ddlDistrict.Items.FindByValue(hdnDistrict_Id.Value).Selected = true; }
+                    string District = !string.IsNullOrEmpty(District_Id) ? District_Id : hdnDistrict_Id.Value;
+                    ds = obj.ByProcedure("USP_GetWPPendingRpt", new string[] { "Casetype_ID", "OICMaster_Id", "flag", "Court_Id", "CaseNo", "Fromdate", "Todate", "CourtLocation_Id", "CaseYear"}
+                        , new string[] { ddlCasetype.SelectedValue, OIC, "1", ddlCourtName.SelectedValue, ddlCaseNo.SelectedItem.Text, FromDate, Todate, District,ddlCaseYear.SelectedValue}, "dataset");
                 }
                 else
                 {
-                    if (Session["OICMaster_ID"] != "" && Session["OICMaster_ID"] != null)
-                        OIC = Session["OICMaster_ID"].ToString();
-                    ds = obj.ByProcedure("USP_GetWPPendingRpt", new string[] { "Casetype_ID", "OICMaster_Id", "flag", "Court_Id", "CaseNo", "Fromdate", "Todate" }
-                        , new string[] {  ddlCasetype.SelectedValue, OIC, "1", ddlCourtName.SelectedValue, ddlCaseNo.SelectedItem.Text, FromDate, Todate }, "dataset");
+                    ds = obj.ByProcedure("USP_GetWPPendingRpt", new string[] { "Casetype_ID", "flag", "Court_Id", "CaseNo", "Fromdate", "Todate", "CourtLocation_Id", "CaseYear"}
+                        , new string[] { ddlCasetype.SelectedValue, "6", ddlCourtName.SelectedValue, ddlCaseNo.SelectedItem.Text, FromDate, Todate, District_Id,ddlCaseYear.SelectedValue }, "dataset");
                 }
-                if (ds != null )
+                if (ds != null)
                 {
                     if (ds.Tables[0].Rows.Count > 0)
                     {
@@ -206,16 +230,12 @@ public partial class mis_Legal_PendingWPReport : System.Web.UI.Page
                         GrdPendingReport.HeaderRow.TableSection = TableRowSection.TableHeader;
                         GrdPendingReport.UseAccessibleHeader = true;
                     }
-                    
-                   
                 }
                 else
                 {
                     GrdPendingReport.DataSource = null;
                     GrdPendingReport.DataBind();
                 }
-               
-            }
         }
         catch (Exception ex)
         {
@@ -236,7 +256,7 @@ public partial class mis_Legal_PendingWPReport : System.Web.UI.Page
                 string page_ID = HttpUtility.UrlEncode(Encrypt("1"));
                 string CaseID = HttpUtility.UrlEncode(Encrypt("CaseID"));
                 string pageID = HttpUtility.UrlEncode(Encrypt("pageID"));
-                Response.Redirect("~/Legal/ViewWPPendingCaseDetail.aspx?"+CaseID+"=" + ID + "&"+pageID+"=" + page_ID, false);
+                Response.Redirect("~/Legal/ViewWPPendingCaseDetail.aspx?" + CaseID + "=" + ID + "&" + pageID + "=" + page_ID, false);
             }
         }
         catch (Exception ex)
@@ -271,11 +291,37 @@ public partial class mis_Legal_PendingWPReport : System.Web.UI.Page
         try
         {
             FillCaseNo();
+            DataSet ds1 = new DataSet();
+            ds1 = obj.ByProcedure("USP_Legal_Select_CourtType", new string[] { "flag", "CourtName_ID" }, new string[] { "2", ddlCourtName.SelectedValue }, "dataset");
+            if (ds1 != null && ds1.Tables[1].Rows.Count > 0)
+            {
+                ddlDistrict.DataValueField = "District_ID";
+                ddlDistrict.DataTextField = "District_Name";
+                ddlDistrict.DataSource = ds1.Tables[1];
+                ddlDistrict.DataBind();
+                if (Session["Role_ID"].ToString() == "4")// District Office.
+                {
+                    string District_Id = Session["District_Id"].ToString();
+                    ddlDistrict.ClearSelection();
+                    ddlDistrict.Items.FindByValue(District_Id).Selected = true;
+                    hdnDistrict_Id.Value = District_Id;
+                    ddlDistrict.Attributes.Add("disabled", "disable");
+                }
+                else if (Session["Role_ID"].ToString() == "3")//OIC Login
+                {
+                    string District_Id = Session["District_Id"].ToString();
+                    ddlDistrict.ClearSelection();
+                    ddlDistrict.Items.FindByValue(District_Id).Selected = true;
+                    hdnDistrict_Id.Value = District_Id;
+                    ddlDistrict.Attributes.Add("disabled", "disable");
+                }
+            }
+            //ddlDistrict.Items.Insert(0, new ListItem("Select", "0"));
+
         }
         catch (Exception ex)
         {
-            
-            throw;
+            ErrorLogCls.SendErrorToText(ex);
         }
     }
 }

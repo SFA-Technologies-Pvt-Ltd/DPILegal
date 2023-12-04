@@ -123,6 +123,18 @@ public class Helper
         else
             return null;
     }
+	
+	public DataTable GetCourtByDivision(string Division)
+    {
+        obj = new APIProcedure();
+        DataSet DsCourt = obj.ByProcedure("USP_Legal_Select_CourtType", new string[] { "Division_ID", "flag" }, new string[] { Division, "5" }, "datatset");
+        if (DsCourt != null && DsCourt.Tables[1].Rows.Count > 0)
+            return DsCourt.Tables[1];
+
+        else
+            return null;
+    }
+	
     public DataTable GetCourt()
     {
         obj = new APIProcedure();
@@ -133,10 +145,6 @@ public class Helper
         else
             return null;
     }
-
-   
-
-
     public DataTable GetCourtForCourt(string District_Id)
     {
         obj = new APIProcedure();

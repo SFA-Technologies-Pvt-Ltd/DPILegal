@@ -78,7 +78,7 @@ public partial class UserMgmt_UMRoleMaster : System.Web.UI.Page
                         new string[] { "flag", "Role_IsActive", "Role_Name", "Role_Name_H", "Role_UpdatedBy", "CreatedByIP" },
                         new string[] { "0", Role_IsActive, txtRole_Name.Text.Trim(),txtRole_Name_H.Text.Trim(), ViewState["Emp_ID"].ToString(), IPAddress }, "dataset");
 
-                        lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thank You!", "Operation Successfully Completed");
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', 'Operation Successfully Completed', 'success')", true);
                     }
                     else if (btnSave.Text == "Edit" && ViewState["Role_ID"].ToString() != "0" && ds.Tables[0].Rows.Count == 0)
                     {
@@ -86,12 +86,13 @@ public partial class UserMgmt_UMRoleMaster : System.Web.UI.Page
                         new string[] { "flag", "Role_ID", "Role_Name", "Role_Name_H", "Role_UpdatedBy", "CreatedByIP" },
                         new string[] { "5", ViewState["Role_ID"].ToString(), txtRole_Name.Text.Trim(), txtRole_Name_H.Text.Trim(), ViewState["Emp_ID"].ToString(), IPAddress }, "dataset");
 
-                        lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thank You!", "Operation Successfully Completed");
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', 'Operation Successfully Completed', 'success')", true);
+
                         ViewState["Role_ID"] = "0";
                     }
                     else
                     {
-                        lblMsg.Text = objdb.Alert("fa-ban", "alert-danger", "Alert !", "This Role Is Already Exist.");
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','This Role Is Already Exist.' , 'warning')", true);
                     }
 
                     txtRole_Name.Text = "";

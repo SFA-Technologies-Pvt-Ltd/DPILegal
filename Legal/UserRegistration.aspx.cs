@@ -48,7 +48,7 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
         try
         {
             ddlOICList.Items.Clear();
-            ds = obj.ByDataSet("select OICMaster_ID, OICName from tblOICMaster");
+            ds = obj.ByDataSet("select OICMaster_ID, OICName from tblOICMaster where District_Id =" + Session["District_Id"].ToString());
             if (ds != null && ds.Tables[0].Rows.Count > 0)
             {
                 ddlOICList.DataTextField = "OICName";
@@ -266,8 +266,7 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
             }
             ddlUsertype.Items.Insert(0, new ListItem("Select", "0"));
             ddlOfficeName.Items.Insert(0, new ListItem("Select", "0"));
-            grdUserDetails.HeaderRow.TableSection = TableRowSection.TableHeader;
-            grdUserDetails.UseAccessibleHeader = true;
+            
         }
         catch (Exception ex)
         {
@@ -419,8 +418,7 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
             {
                 EmpName_Div.Visible = false;
                 OICName_Div.Visible = true;
-                grdUserDetails.HeaderRow.TableSection = TableRowSection.TableHeader;
-                grdUserDetails.UseAccessibleHeader = true;
+
             }
             else
             {
@@ -429,8 +427,6 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
                 //txtMobileNo.Text = "";
                 txtMobileNo.ReadOnly = false;
                 ddlOICList.SelectedIndex = 0;
-                grdUserDetails.HeaderRow.TableSection = TableRowSection.TableHeader;
-                grdUserDetails.UseAccessibleHeader = true;
             }
         }
         catch (Exception ex)
@@ -573,8 +569,7 @@ public partial class Legal_UserRegistration : System.Web.UI.Page
                 txtMobileNo.ReadOnly = true;
                 txtUserEmail.ReadOnly = true;
             }
-            grdUserDetails.HeaderRow.TableSection = TableRowSection.TableHeader;
-            grdUserDetails.UseAccessibleHeader = true;
+           
         }
         catch (Exception ex)
         {

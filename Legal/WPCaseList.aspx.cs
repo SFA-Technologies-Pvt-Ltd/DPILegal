@@ -28,6 +28,32 @@ public partial class Legal_WPCaseList : System.Web.UI.Page
 
                 FillCourt();
                 FillYear();
+                if (Request.QueryString["CourtId"] != null)
+                {
+                    ddlCourt.SelectedValue = obj.Decrypt(Request.QueryString["CourtId"]);
+                    ddlCourt_SelectedIndexChanged(sender, e);
+                    ddlCaseYear.ClearSelection();
+                    if (Request.QueryString["Caseyear"] != null)
+                    {
+                        ddlCaseYear.SelectedItem.Text = obj.Decrypt(Request.QueryString["Caseyear"]);
+                    }
+                    ddlCaseType.ClearSelection();
+                    if (Request.QueryString["CaseType"] != null)
+                    {
+                        ddlCaseType.SelectedValue = obj.Decrypt(Request.QueryString["CaseType"]);
+                    }
+                    ddlCaseStatus.ClearSelection();
+                    if (Request.QueryString["CaseStatus"] != null)
+                    {
+                        ddlCaseStatus.SelectedItem.Text = obj.Decrypt(Request.QueryString["CaseStatus"]);
+                    }
+                    ddlCaseNo.ClearSelection();
+                    if (Request.QueryString["CaseNo"] != null)
+                    {
+                        ddlCaseNo.SelectedItem.Text = obj.Decrypt(Request.QueryString["CaseNo"]);
+                    }
+                    btnSearch_Click(sender, e);
+                }
             }
         }
         else
@@ -52,7 +78,12 @@ public partial class Legal_WPCaseList : System.Web.UI.Page
             {
                 string District_Id = Session["District_Id"].ToString();
                 dtCourt = court.GetCourtForCourt(District_Id) as DataTable;
-                
+
+            }
+            else if (Session["Role_ID"].ToString() == "3")// District Office.
+            {
+                string District_Id = Session["District_Id"].ToString();
+                dtCourt = court.GetCourtForCourt(District_Id) as DataTable;
             }
             else dtCourt = court.GetCourt() as DataTable;
             if (dtCourt.Rows.Count > 0)
@@ -222,7 +253,8 @@ public partial class Legal_WPCaseList : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
+            ErrorLogCls.SendErrorToText(ex);
+            //lblMsg.Text = obj.Alert("fa-ban", "alert-danger", "Sorry !", ex.Message.ToString());
         }
         finally { ds.Clear(); }
     }
@@ -230,21 +262,36 @@ public partial class Legal_WPCaseList : System.Web.UI.Page
     {
         try
         {
+
             lblMsg.Text = "";
             GridViewRow row = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
             Label lblUniqueNo = (Label)row.FindControl("lblUniqueNo");
             Label lblStatus = (Label)row.FindControl("lblStatus");
-            string ID = HttpUtility.UrlEncode(Encrypt(e.CommandArgument.ToString()));
-            string UniqueNO = HttpUtility.UrlEncode(Encrypt(lblUniqueNo.Text));
-            string CaseID = HttpUtility.UrlEncode(Encrypt("CaseID"));
-            string pageID = HttpUtility.UrlEncode(Encrypt("pageID"));
+            Label lblCasetype = (Label)row.FindControl("lblCasetype");
+            string ID = obj.Encrypt(e.CommandArgument.ToString());
+            string UniqueNO = obj.Encrypt(lblUniqueNo.Text);
+            string CourtId = obj.Encrypt(ddlCourt.SelectedValue);
+            string Caseyear = obj.Encrypt(ddlCaseYear.SelectedItem.Text);
+            //string CaseType = obj.Encrypt(ddlCaseType.SelectedValue);
+            string CaseNo = obj.Encrypt(ddlCaseNo.SelectedItem.Text);
+            string CaseStatus = obj.Encrypt(ddlCaseStatus.SelectedItem.Text);
+            string CaseType = obj.Encrypt(lblCasetype.Text);
             if (lblStatus.Text == "Pending")
             {
-                Response.Redirect("~/Legal/EditCaseDetail.aspx?" + CaseID + "=" + ID + "&" + pageID + "=" + UniqueNO, false);
+                if (lblCasetype.Text == "1")
+                {
+                    Response.Redirect("~/Legal/EditCaseDetail_WP.aspx?CaseID=" + ID + "&UniqueNO=" + UniqueNO + "&CourtId=" + CourtId + "&Caseyear=" + Caseyear + "&CaseType=" + CaseType + "&CaseNo=" + CaseNo + "&CaseStatus=" + CaseStatus, false);
+                }
+                else
+                {
+                    Response.Redirect("~/Legal/EditCaseDetail.aspx?CaseID=" + ID + "&UniqueNO=" + UniqueNO + "&CourtId=" + CourtId + "&Caseyear=" + Caseyear + "&CaseType=" + CaseType + "&CaseNo=" + CaseNo + "&CaseStatus=" + CaseStatus, false);
+
+                }
+
             }
-            else if (lblStatus.Text == "Dispose")
+            else if (lblStatus.Text == "Disposed")
             {
-                Response.Redirect("~/Legal/EditDisposeCase.aspx?" + CaseID + "=" + ID + "&" + pageID + "=" + UniqueNO, false);
+                Response.Redirect("~/Legal/EditDisposeCase.aspx?CaseID=" + ID + "&UniqueNO=" + UniqueNO + "&CourtId=" + CourtId + "&Caseyear=" + Caseyear + "&CaseType=" + CaseType + "&CaseNo=" + CaseNo + "&CaseStatus=" + CaseStatus, false);
             }
         }
         catch (Exception ex)

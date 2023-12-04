@@ -151,12 +151,36 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
+                                        <label>
+                                            Court Name <span style="color: red;"><b>*</b></span>
+                                            <asp:RequiredFieldValidator ID="rfvCaseyear" ValidationGroup="Save"
+                                                ErrorMessage="Select Court Name." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                                ControlToValidate="ddlCourtName" Display="Dynamic" runat="server" InitialValue="0">
+                                            </asp:RequiredFieldValidator><br />
+                                        </label>
+                                        <asp:DropDownList ID="ddlCourtName" runat="server" CssClass="form-control select2"></asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
                                         <label>Case Disposal Type</label><span style="color: red;"><b> *</b></span>
                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="Save"
                                             ErrorMessage="Select Case Dispose type." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
                                             ControlToValidate="ddlDisposetype" Display="Dynamic" runat="server" InitialValue="0">
                                         </asp:RequiredFieldValidator>
                                         <asp:DropDownList ID="ddlDisposetype" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlDisposetype_SelectedIndexChanged">
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" id="OrderWithDir_Div" runat="server" visible="false">
+                                    <div class="form-group">
+                                        <label>Order With Direction Post</label>
+                                        <span style="color: red;"><b>*</b></span>
+                                        <asp:RequiredFieldValidator ID="rfvOrderWith" ValidationGroup="Save"
+                                            ErrorMessage="Select Order With Direction Post." ForeColor="Red" Text="<i class='fa fa-exclamation-circle' title='Required !'></i>"
+                                            ControlToValidate="ddlOrderWith" Display="Dynamic" runat="server" InitialValue="0">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:DropDownList runat="server" ID="ddlOrderWith" CssClass="form-control">
                                         </asp:DropDownList>
                                     </div>
                                 </div>
@@ -188,6 +212,22 @@
                                         <asp:DropDownList ID="ddlCaseType" runat="server" CssClass="form-control"></asp:DropDownList>
                                     </div>
                                 </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>
+                                            From Date
+                                        </label>
+                                        <asp:TextBox ID="txtFromDate" runat="server" date-provide="datepicker" AutoComplete="off" data-date-end-date="0d" placeholder="DD/MM/YYYY" class="form-control DateAdd" ClientIDMode="Static"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>
+                                            To Date
+                                        </label>
+                                        <asp:TextBox ID="txttodate" runat="server" date-provide="datepicker" AutoComplete="off" data-date-end-date="0d" placeholder="DD/MM/YYYY" class="form-control DateAdd" ClientIDMode="Static"></asp:TextBox>
+                                    </div>
+                                </div>
                                 <div class="col-md-3 mt-4">
                                     <div class="row">
                                         <div class="col-md-4 mt-2">
@@ -205,7 +245,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
-                                        <asp:GridView ID="grdSubjectWiseCasedtl" runat="server" CssClass="datatable table table-bordered" AutoGenerateColumns="false" OnRowCommand="grdSubjectWiseCasedtl_RowCommand" DataKeyNames="Case_ID" EmptyDataText="NO RECORD FOUND" OnPageIndexChanging="grdSubjectWiseCasedtl_PageIndexChanging" AllowPaging="true" PageSize="10">
+                                        <asp:GridView ID="grdSubjectWiseCasedtl" runat="server" CssClass="datatable table table-bordered" AutoGenerateColumns="false"
+                                            OnRowCommand="grdSubjectWiseCasedtl_RowCommand" DataKeyNames="Case_ID" EmptyDataText="NO RECORD FOUND" OnPageIndexChanging="grdSubjectWiseCasedtl_PageIndexChanging" AllowPaging="true" PageSize="10">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="S.No." ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
@@ -227,7 +268,6 @@
                                                         <asp:Label ID="lblCaseSubject" runat="server" Text='<%# Eval("CaseSubject") %>' Visible="false"></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-
                                                 <asp:TemplateField HeaderText="Petitioner Name" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblPetitionerName" runat="server" Text='<%# Eval("PetitonerName") %>'></asp:Label>
@@ -245,7 +285,7 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="View" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%">
                                                     <ItemTemplate>
-                                                        <asp:LinkButton ID="btnView" runat="server" CssClass="" CommandName="ViewDtl" CommandArgument='<%# Eval("Case_ID") %>' ToolTip="View"><i class="fa fa-eye"></i></asp:LinkButton>
+                                                        <asp:LinkButton ID="btnView" runat="server" CommandName="ViewDtl" CommandArgument='<%# Eval("Case_ID") %>' ToolTip="View"><i class="fa fa-eye"></i></asp:LinkButton>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>
@@ -281,8 +321,8 @@
                 orderable: false
             }],
             dom: '<"row"<"col-sm-6"Bl><"col-sm-6"f>>' +
-              '<"row"<"col-sm-12"<"table-responsive"tr>>>' +
-              '<"row"<"col-sm-5"i><"col-sm-7"p>>',
+                '<"row"<"col-sm-12"<"table-responsive"tr>>>' +
+                '<"row"<"col-sm-5"i><"col-sm-7"p>>',
             fixedHeader: {
                 header: true
             },
@@ -292,7 +332,7 @@
                     text: '<i class="fa fa-print"></i> Print',
                     title: $('h3').text(),
                     exportOptions: {
-                        columns: [0, 1, 2, 3]
+                        columns: [0, 1, 2, 3, 4, 5]
                     },
                     footer: true,
                     autoPrint: true
@@ -301,7 +341,7 @@
                     text: '<i class="fa fa-file-excel-o"></i> Excel',
                     title: $('h3').text(),
                     exportOptions: {
-                        columns: [0, 1, 2, 3]
+                        columns: [0, 1, 2, 3, 4, 5]
                     },
                     footer: true
                 }],

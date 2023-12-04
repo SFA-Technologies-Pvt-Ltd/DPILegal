@@ -25,7 +25,7 @@ public partial class BulkUploadData : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            LoadExcel("DPI_Legal-2018-closed.xls");  //"ExcelsheetNew_Close.xls""phe-cc-2000-2023_New_17_Jan_2023.xls"
+            LoadExcel("phe-2018-23-closedCC_new2.xls");  //"phe-cc-2000-2023_New_17_Jan_2023.xls"
         }
     }
 
@@ -52,10 +52,9 @@ public partial class BulkUploadData : System.Web.UI.Page
         objbulk.ColumnMappings.Add("P/R-No", "P_R_No");
         objbulk.ColumnMappings.Add("Party Name", "PartyName");
         objbulk.ColumnMappings.Add("Address", "Address");
-		objbulk.ColumnMappings.Add("Department", "Department");
         objbulk.ColumnMappings.Add("Status", "Status");
-        objbulk.ColumnMappings.Add("PDF", "PDF");
-        objbulk.ColumnMappings.Add("PDFLink", "PDFLink");
+        //objbulk.ColumnMappings.Add("PDF", "PDF");
+        //objbulk.ColumnMappings.Add("Link", "PDFLink");
 
         //inserting bulk Records into DataBase   
         objbulk.WriteToServer(dtcase);

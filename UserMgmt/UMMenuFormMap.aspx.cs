@@ -122,7 +122,8 @@ public partial class UserMgmt_UMMenuFormMap : System.Web.UI.Page
                                 new string[] { "0", MenuID, FormID.Value, ModuleID, FormPath, ViewState["Emp_ID"].ToString(), IPAddress }, "dataset");
                             RowNo++;
                             divGrid.Visible = true;
-                            lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thank You!", "Operation Successfully Completed");
+                            ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', 'Operation Successfully Completed', 'success')", true);
+                            //lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thank You!", "Operation Successfully Completed");
                         }
                         else
                         {

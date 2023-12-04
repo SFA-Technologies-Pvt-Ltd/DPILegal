@@ -196,7 +196,7 @@
                                             </asp:RequiredFieldValidator><br />
                                         </label>
                                         <%--<asp:TextBox ID="txtFromDate" runat="server" date-provide="datepicker" AutoComplete="off" data-date-end-date="0d" placeholder="DD/MM/YYYY" class="form-control DateAdd" ClientIDMode="Static"></asp:TextBox>--%>
-                                        <asp:TextBox ID="txtFromDate" runat="server" date-provide="datepicker" AutoComplete="off" data-date-end-date="0d" placeholder="DD/MM/YYYY" class="form-control" ClientIDMode="Static"></asp:TextBox>
+                                        <asp:TextBox ID="txtFromDate" runat="server" date-provide="datepicker" AutoComplete="off"  placeholder="DD/MM/YYYY" class="form-control DateAdd" ClientIDMode="Static"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -208,7 +208,7 @@
                                                 ControlToValidate="txttodate" Display="Dynamic" runat="server">
                                             </asp:RequiredFieldValidator><br />
                                         </label>
-                                        <asp:TextBox ID="txttodate" runat="server" date-provide="datepicker" AutoComplete="off" data-date-start-date="0d" data-date-end-date="0d" placeholder="DD/MM/YYYY" class="form-control DateAdd" ClientIDMode="Static"></asp:TextBox>
+                                        <asp:TextBox ID="txttodate" runat="server" date-provide="datepicker" AutoComplete="off" placeholder="DD/MM/YYYY" class="form-control DateAdd" ClientIDMode="Static"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -282,7 +282,7 @@
                                                         <asp:Label ID="lbltimeline" runat="server" Text='<%# Eval("IntrimOrderTimeline") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Any PP">
+                                            <asp:TemplateField HeaderText="Personal Presence">
                                                 <ItemTemplate>
                                                     <asp:Label ID="lblOicName" runat="server" Text='<%# Eval("IntrimOrderAnyPrevPP") %>'></asp:Label>
                                                 </ItemTemplate>
@@ -341,7 +341,7 @@
                     text: '<i class="fa fa-print"></i> Print',
                     title: $('h3').text(),
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
                     },
                     footer: true,
                     autoPrint: true
@@ -350,7 +350,7 @@
                     text: '<i class="fa fa-file-excel-o"></i> Excel',
                     title: $('h3').text(),
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
                     },
                     footer: true
                 }],

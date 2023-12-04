@@ -88,7 +88,7 @@ public partial class UserMgmt_UMModuleMaster : System.Web.UI.Page
                         new string[] { "flag", "Module_IsActive", "Module_Name", "Module_Name_H", "Module_UpdatedBy", "CreatedByIP" },
                         new string[] { "0", Module_IsActive, txtModule_Name.Text.Trim(), txtModule_Name_Hi.Text.Trim(), ViewState["Emp_ID"].ToString(), IPAddress }, "dataset");
 
-                        lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thank You!", "Operation Successfully Completed");
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', 'Operation Successfully Completed', 'success')", true);
                     }
 
 
@@ -99,7 +99,7 @@ public partial class UserMgmt_UMModuleMaster : System.Web.UI.Page
                         new string[] { "5", ViewState["Module_ID"].ToString(), txtModule_Name.Text.Trim(),txtModule_Name_Hi.Text.Trim()
                             , ViewState["Emp_ID"].ToString(), IPAddress}, "dataset");
 
-                        lblMsg.Text = objdb.Alert("fa-check", "alert-success", "Thank You!", "Operation Successfully Completed");
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Alert!', 'Operation Successfully Completed', 'success')", true);
                     }
                     else
                     {
@@ -114,7 +114,7 @@ public partial class UserMgmt_UMModuleMaster : System.Web.UI.Page
                 }
                 else
                 {
-                    lblMsg.Text = objdb.Alert("fa-warning", "alert-warning", "Warning!", " Enter Module Name");
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Warning!','Enter Module Name' , 'warning')", true);
                 }
                 Session["PageTokan"] = Server.UrlEncode(System.DateTime.Now.ToString());
 

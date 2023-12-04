@@ -185,7 +185,7 @@
     </style>
 
 
- 
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
     <asp:ScriptManager runat="server" />
@@ -259,17 +259,17 @@
                         <div class="card-body card-body-custom-Color">
 
                             <div class="row form-group">
-                                 <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="col-lg-3 col-md-6 col-sm-6">
 
                                     <i class="fa-solid fa-magnifying-glass" style="font-size: x-large"></i>
-                                    
-                                     <a href="WPCaseList.aspx" class="Heading" target="_blank">SEARCH CASES</a>
+
+                                    <a href="WPCaseList.aspx" class="Heading" target="_blank">SEARCH CASES</a>
                                 </div>
-                                  <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="col-lg-3 col-md-6 col-sm-6">
 
                                     <i class="fa-solid fa-magnifying-glass" style="font-size: x-large"></i>
-                                    
-                                     <a href="PendingWPReport.aspx" class="Heading" target="_blank">PENDING CASES</a>
+
+                                    <a href="PendingWPReport.aspx" class="Heading" target="_blank">PENDING CASES</a>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
 
@@ -298,9 +298,10 @@
                                 <div class="col-lg-6 col-md-12 col-sm-12" style="font-size: x-large">
                                     <i class="fa-solid fa-arrows-turn-to-dots"></i>
                                     <%--<img src="../image/Legal%201.png" style="height: 25px;" />--%>&nbsp;&nbsp;<span class="Heading">COURT WISE ORDER BY DIRECTION :
-                                    <asp:Label ID="lblCaseCount1" runat="server" CssClass="Heading" Style="color: #201f1e;" />
+                                   <asp:LinkButton runat="server" ID="btnCourtWise" CssClass="btn-sm label label-warning" OnClick="btnCourtWise_Click">
+                                       <asp:Label ID="lblCaseCount1" runat="server" CssClass="Heading" Style="color: white;" />
+                                   </asp:LinkButton>
                                     </span>
-
                                     <div id="sbid1" runat="server" class="dvpading"></div>
 
                                 </div>
@@ -316,18 +317,18 @@
 
                                 <div class="col-lg-6 col-md-12 col-sm-12" style="font-size: larger">
                                     <i class="fa-solid fa-gavel" style="font-size: x-large"></i>
-                                    <%--<img src="../image/Legal%201.png" style="height: 30px;" />--%>&nbsp;&nbsp;<span class="Heading">COURT WISE CONTEMPT CASES:
+                                    <%--<img src="../image/Legal%201.png" style="height: 30px;" />--%>&nbsp;&nbsp;<span class="Heading">BENCH WISE CONTEMPT CASES:
                                     <asp:Label ID="lblConcCount" runat="server" CssClass="Heading" Style="color: #201f1e;" />
                                     </span>
                                     <div id="cwcc" runat="server" class="dvpading"></div>
                                 </div>
-
-
-
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <i class="fa-solid fa-thumbs-up" style="font-size: x-large"></i>
-                                    <%--<img src="../image/Legal%201.png" style="height: 25px;" />--%>&nbsp;&nbsp;<span class="Heading">ORDER BY DIRECTION COMPLAINES :
-                                    <asp:Label ID="lblCaseCount3" runat="server" CssClass="Heading" Style="color: #201f1e;" />
+                                    <%--<img src="../image/Legal%201.png" style="height: 25px;" />--%>&nbsp;&nbsp;<span class="Heading">ORDER BY DIRECTION COMPLIANCES :
+                                    
+                                        <asp:LinkButton runat="server" id="btnComplainces" CssClass="btn-sm label label-warning" OnClick="btnComplainces_Click">
+                                        <asp:Label ID="lblCaseCount3" runat="server" CssClass="Heading" Style="color: white;" />
+                                        </asp:LinkButton>
                                     </span>
                                     <div id="sbid3" runat="server" class="dvpading"></div>
                                 </div>
